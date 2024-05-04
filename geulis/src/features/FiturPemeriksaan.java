@@ -8,8 +8,8 @@ import action.ActionPagination;
 import action.TableAction;
 import control.FieldsPemeriksaan;
 import control.ParamPemeriksaan;
-import control.ProductPemeriksaan;
-import control.ReportPemeriksaan;
+import control.Pemeriksaan;
+import control.Report;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
@@ -63,6 +63,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
     private TableRowSorter<DefaultTableModel> rowSorter;
     private ServicePemeriksaan servicPemeriksaan = new ServicePemeriksaan();
     private ServiceDetailPemeriksaan serviceDetail = new ServiceDetailPemeriksaan();
+    private final DecimalFormat df = new DecimalFormat("#,##0.##");
     public FiturPemeriksaan(ModelPengguna modelPengguna) {
         initComponents();
         this.modelPengguna = modelPengguna;
@@ -123,7 +124,6 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         double kembalian = 0;
         String jenisPembayaran = (String) cbx_jenisPembayaran.getSelectedItem();
         String strKembalian = lbKembalian.getText();
-        DecimalFormat df = new DecimalFormat("#,##0.00");
         try {
             Number formatNumber = df.parse(strKembalian);
             kembalian = Double.parseDouble(formatNumber.toString());
@@ -189,8 +189,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
          } 
          
          int totalHarga = harga - potongan;
-         tabmodel2.addRow(new ProductPemeriksaan(kodeTindakan, namaTindaan, harga, potongan, totalHarga).toTableRow());
-         DecimalFormat df = new DecimalFormat("#,##0.##");
+         tabmodel2.addRow(new Pemeriksaan(kodeTindakan, namaTindaan, harga, potongan, totalHarga).toTableRow());
          lbTotal.setText(df.format(total()));
     }
     
@@ -230,7 +229,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
 //      Instance report
     private void instanceReport() {
         try {
-            ReportPemeriksaan.getInstance().compileReport();
+            Report.getInstance().compileReport("Pemeriksaan");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -241,8 +240,8 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         try {
         List<FieldsPemeriksaan> fields = new ArrayList<>();
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
-            ProductPemeriksaan product = (ProductPemeriksaan) tableDetail.getValueAt(a, 0);
-            fields.add(new FieldsPemeriksaan(product.getNamaTindakan(), product.getHarga(), product.getPotongan(), product.getTotalHarga()));
+            Pemeriksaan pemeriksaan = (Pemeriksaan) tableDetail.getValueAt(a, 0);
+            fields.add(new FieldsPemeriksaan(pemeriksaan.getNamaTindakan(), pemeriksaan.getHarga(), pemeriksaan.getPotongan(), pemeriksaan.getTotalHarga()));
         }
             String noPemeriksaan = lbNoPemeriksaan.getText();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -255,11 +254,11 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             String karyawan = lbIdKaryawan.getText();
             String admin = modelPengguna.getIdpengguna();
             String total = lbTotal.getText();
-            String bayar = new DecimalFormat("#,#00").format(Double.parseDouble(txtBayar.getText()));
+            String bayar = df.format(Double.parseDouble(txtBayar.getText()));
             String kembalian = lbKembalian.getText();
             String jenisPembayaran = (String) cbx_jenisPembayaran.getSelectedItem();
             ParamPemeriksaan payment = new ParamPemeriksaan(noPemeriksaan, tglPemeriksaan, jamPemeriksaan, pasien, karyawan, admin, total, bayar, kembalian, jenisPembayaran, fields);
-            ReportPemeriksaan.getInstance().printReport(payment);
+            Report.getInstance().printReportPemeriksaan(payment);
 
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -306,7 +305,6 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
                     tableDetail.getCellEditor().stopCellEditing();
                 }
                 tabmodel2.removeRow(row);
-                DecimalFormat df = new DecimalFormat("#,##0.##");
                 lbTotal.setText(df.format(total()));
                 double kembali = Double.parseDouble(txtBayar.getText()) - total();
                 lbKembalian.setText(df.format(kembali));
@@ -1223,7 +1221,6 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             if(bayar.length() > 0) {
                 kembalian = Double.parseDouble(bayar) - total();
             }
-            DecimalFormat df = new DecimalFormat("#,##0.##");
             lbKembalian.setText(df.format(kembalian));    
         }
     }//GEN-LAST:event_btnTambahSementaraActionPerformed
@@ -1325,7 +1322,6 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             bayar = Double.parseDouble(strBayar);
         }
         kembalian = bayar - total;
-        DecimalFormat df = new DecimalFormat("#,##0");
         lbKembalian.setText(df.format(kembalian));        
     }//GEN-LAST:event_txtBayarKeyReleased
 

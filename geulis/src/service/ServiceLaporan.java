@@ -27,6 +27,10 @@ public class ServiceLaporan {
         + "INNER JOIN karyawan krn ON pmn.ID_Karyawan=krn.ID_Karyawan "
         + "INNER JOIN pengguna pgn ON pmn.ID_Pengguna=pgn.ID_Pengguna ";
     
+    private final String queryPenjualan = "SELECT pjl.No_Penjualan, DATE_FORMAT(pjl.Tanggal, '%d - %M - %Y') AS Tanggal_Penjualan, "
+                + "pjl.Total_Penjualan, pjl.Bayar, pjl.Kembali, pjl.Jenis_Pembayaran, pjl.ID_Pengguna, "
+                + "pgn.Nama FROM penjualan pjl INNER JOIN pengguna pgn ON pjl.ID_Pengguna=pgn.ID_Pengguna ";
+    
     private final String queryPemesanan = "SELECT pmsn.No_Pemesanan, DATE_FORMAT(pmsn.Tanggal_Pemesanan, '%d - %M - %Y') AS Tanggal_Pemesanan, "
         + "pmsn.Status_Pemesanan, pmsn.Total_Pemesanan, pmsn.Bayar, pmsn.Kembali, pmsn.Jenis_Pembayaran, "
         + "pmsn.ID_Supplier, slr.Nama, pmsn.ID_Pengguna, pgn.Nama FROM pemesanan pmsn "
@@ -63,6 +67,19 @@ public class ServiceLaporan {
         jenisPembayaran, idPengguna, namaPengguna});
     }
     
+//  Penjualan
+    private void addRowTablePenjualan(ResultSet rst, DefaultTableModel tabmodel) throws Exception{
+        String noPenjualan = rst.getString("No_Penjualan");
+        String idPengguna = rst.getString("ID_Pengguna");
+        String namaPengguna = rst.getString("pgn.Nama");
+        String tglPenjualan = rst.getString("Tanggal_Penjualan");
+        int total = rst.getInt("Total_Penjualan");
+        double bayar = rst.getDouble("Bayar");
+        double kembali = rst.getDouble("Kembali");
+        String jenisPembayaran = rst.getString("Jenis_Pembayaran");
+        tabmodel.addRow(new Object[]{noPenjualan, idPengguna, namaPengguna, tglPenjualan, total, bayar, kembali, jenisPembayaran});
+    }
+    
     //    Pemesanan
     private void addRowTablePemesanan(ModelPengguna modelPengguna, ModelSupplier modelSupplier, ResultSet rst, DefaultTableModel tabmodel) throws Exception{
         String noPemeriksaan = rst.getString("No_Pemesanan");
@@ -93,7 +110,7 @@ public class ServiceLaporan {
     }
     
 //    Pengeluaran
-    private void addRow(ResultSet rst, DefaultTableModel tabmodel) throws Exception{
+    private void addRowTablePengeluaran(ResultSet rst, DefaultTableModel tabmodel) throws Exception{
         String noPengeluaran = rst.getString("No_Pengeluaran");
         String idPengguna = rst.getString("ID_Pengguna");
         String namaPengguna = rst.getString("Nama");
@@ -107,6 +124,7 @@ public class ServiceLaporan {
         String query = queryPemeriksaan.concat("WHERE YEAR(Tanggal_Pemeriksaan)="+date.getYear()+" AND MONTH(Tanggal_Pemeriksaan)="+date.getMonthValue()+" ORDER BY No_Pemeriksaan DESC");
         switch(slide) {
             case "Penjualan":
+                query = queryPenjualan.concat("WHERE YEAR(Tanggal)="+date.getYear()+" AND MONTH(Tanggal)="+date.getMonthValue()+" ORDER BY No_Penjualan DESC");
                 break;
             case "Pemesanan":
                 query = queryPemesanan.concat("WHERE YEAR(Tanggal_Pemesanan)="+date.getYear()+" AND MONTH(Tanggal_Pemesanan)="+date.getMonthValue()+" ORDER BY No_Pemesanan DESC");
@@ -124,6 +142,7 @@ public class ServiceLaporan {
                     addRowTablePemeriksaan(rst, tabmodel);  
                     break;
                 case "Penjualan":
+                    addRowTablePenjualan(rst, tabmodel);
                     break;
                 case "Pemesanan":
                     ModelSupplier modelSupplier = new ModelSupplier();
@@ -131,7 +150,7 @@ public class ServiceLaporan {
                     addRowTablePemesanan(modelPengguna, modelSupplier, rst, tabmodel);
                     break;
                 case "Pengeluaran":
-                    addRow(rst, tabmodel);
+                    addRowTablePengeluaran(rst, tabmodel);
                     break;
                 }
             
@@ -145,6 +164,7 @@ public class ServiceLaporan {
         String query = queryPemeriksaan.concat("WHERE Tanggal_Pemeriksaan BETWEEN '"+fromDate+"' AND '"+toDate+"' ORDER BY No_Pemeriksaan DESC");
         switch(slide) {
                 case "Penjualan":
+                    query = queryPenjualan.concat("WHERE Tanggal BETWEEN '"+fromDate+"' AND '"+toDate+"' ORDER BY No_Penjualan DESC");
                     break;
                 case "Pemesanan":
                     query = queryPemesanan.concat("WHERE Tanggal_Pemesanan BETWEEN '"+fromDate+"' AND '"+toDate+"' ORDER BY No_Pemesanan DESC");
@@ -162,6 +182,7 @@ public class ServiceLaporan {
                     addRowTablePemeriksaan(rst, tabmodel);  
                     break;
                 case "Penjualan":
+                    addRowTablePenjualan(rst, tabmodel);
                     break;
                 case "Pemesanan":
                     ModelSupplier modelSupplier = new ModelSupplier();
@@ -169,7 +190,7 @@ public class ServiceLaporan {
                     addRowTablePemesanan(modelPengguna, modelSupplier, rst, tabmodel);
                     break;
                 case "Pengeluaran":
-                    addRow(rst, tabmodel);
+                    addRowTablePengeluaran(rst, tabmodel);
                     break;
                 }
             }

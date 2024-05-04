@@ -24,13 +24,9 @@ public class ParamPemeriksaan {
         this.fields = fields;
     }
     
-    
-
     public ParamPemeriksaan() {
     }
-    
-    
-    
+
     private String noPemeriksaan;
     private String tglPemeriksaan;
     private String jamPemeriksaan;

@@ -28,6 +28,7 @@ import javax.swing.table.TableRowSorter;
 import model.ModelDetailPemeriksaan;
 import model.ModelDetailPemesanan;
 import model.ModelDetailPengeluaran;
+import model.ModelDetailPenjualan;
 import model.ModelHeader;
 import model.ModelHeaderTable;
 import model.ModelKaryawan;
@@ -36,6 +37,7 @@ import model.ModelPemeriksaan;
 import model.ModelPemesanan;
 import model.ModelPengeluaran;
 import model.ModelPengguna;
+import model.ModelPenjualan;
 import model.ModelRenderTable;
 import model.ModelReservasi;
 import model.ModelSupplier;
@@ -66,12 +68,12 @@ public class FiturLaporan extends javax.swing.JPanel {
         initation();
         txtTgl.setText(dateNow.format(formatter));
         styleTable(scrollPemeriksaan, tablePemeriksaan, 13);
-        styleTable(scrollPenjualan, tablePenjualan, 4);
+        styleTable(scrollPenjualan, tablePenjualan, 8);
         styleTable(scrollPengeluaran, tablePengeluaran, 6);
         tablePemesanan.scrollPane(scrollPemesanan);
         tablePemesanan.getTableHeader().setDefaultRenderer(new ModelHeader());
         actionRenderTable(tablePemeriksaan, 13);
-        actionRenderTable(tablePenjualan, 4);
+        actionRenderTable(tablePenjualan, 8);
         actionRenderTable(tablePemesanan, 12);
         actionRenderTable(tablePengeluaran, 6);
         model = (DefaultTableModel) tablePengeluaran.getModel();
@@ -115,6 +117,7 @@ public class FiturLaporan extends javax.swing.JPanel {
                     detailPemeriksaan(row);
                     break;
                 case 1:
+                    detailPenjualan(row);
                     break;
                 case 2:
                     detailPemesanan(row);
@@ -160,6 +163,25 @@ public class FiturLaporan extends javax.swing.JPanel {
 
         DialogDetail dialog = new DialogDetail(null, true, "Slide-1", modelDetail, null, null, null);
         dialog.setVisible(true);
+    }
+    
+    private void detailPenjualan(int row) {
+        ModelPengguna modelPengguna = new ModelPengguna();
+        String noPenjualan = (String) tablePenjualan.getValueAt(row, 0);
+        String idPengguna = (String) tablePenjualan.getValueAt(row, 1);
+        String namaPengguna = (String) tablePenjualan.getValueAt(row, 2);
+        modelPengguna.setIdpengguna(idPengguna);
+        modelPengguna.setNama(namaPengguna);
+        String tglPenjualan = (String) tablePenjualan.getValueAt(row, 3);
+        int totalPenjualan = (int) tablePenjualan.getValueAt(row, 4);
+        double bayar = (double) tablePenjualan.getValueAt(row, 5);
+        double kembali = (double) tablePenjualan.getValueAt(row, 6);
+        String jenisPembayaran = (String) tablePenjualan.getValueAt(row, 7);
+        ModelPenjualan modelPenjualan = new ModelPenjualan(noPenjualan, tglPenjualan, totalPenjualan, bayar, kembali, jenisPembayaran, modelPengguna);
+        ModelDetailPenjualan modelDetail = new ModelDetailPenjualan();
+        modelDetail.setModelPenjualan(modelPenjualan);
+        DialogDetail detail = new DialogDetail(null, true, "Slide-6", null, modelDetail, null, null);
+        detail.setVisible(true);
     }
     
     //    Detail Pemesanan
@@ -211,7 +233,7 @@ public class FiturLaporan extends javax.swing.JPanel {
                 rowSorter.setRowFilter(null);
             } else if(text.equals("Cari Berdasarkan No Pemeriksaan atau Nama Pasien")) {
                 rowSorter.setRowFilter(null);
-            } else if(text.equals("Cari Berdasarkan No Penjualan")){
+            } else if(text.equals("Cari Berdasarkan No Penjualan atau Kasir")){
                 rowSorter.setRowFilter(null);                 
             } else if(text.equals("Cari Berdasarkan No Pemesanan atau Nama Supplier")) {
                 rowSorter.setRowFilter(null);
@@ -224,7 +246,7 @@ public class FiturLaporan extends javax.swing.JPanel {
                       rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 0 ,3));   
                       break;
                   case 1:
-
+                      rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 0, 2));
                       break;
                   case 2:
                       rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 0, 2));   
@@ -302,6 +324,8 @@ public class FiturLaporan extends javax.swing.JPanel {
                         lbTotal.setText(total(tablePemeriksaan, 6));
                         break;
                     case 1:
+                        serviceLaporan.loadBetween(fromDate, toDate, tabmodel, "Penjualan");
+                        lbTotal.setText(total(tablePenjualan, 4));
                         break;
                     case 2:
                         serviceLaporan.loadBetween(fromDate, toDate, tabmodel, "Pemesanan");
@@ -349,13 +373,14 @@ public class FiturLaporan extends javax.swing.JPanel {
                changePanelTable(panelPenjualan);
                tabmodel = (DefaultTableModel) tablePenjualan.getModel();
                tabmodel.setRowCount(0);
-               lbTotal.setText(total(tablePenjualan, 3));
+               serviceLaporan.loadAll(tabmodel, "Penjualan");
+               lbTotal.setText(total(tablePenjualan, 4));
                txtTgl.setText(dateNow.format(formatter));
                rowSorter = new TableRowSorter<>(tabmodel);
                tablePenjualan.setRowSorter(rowSorter);
                txtCari.setForeground(new Color(185,185,185));
                txtCari.setFont(new Font("sansserif",Font.ITALIC,14));
-               txtCari.setText("Cari Berdasarkan No Penjualan");
+               txtCari.setText("Cari Berdasarkan No Penjualan atau Kasir");
                break;
            case 2:
                changePanelTable(panelPemesanan);
@@ -638,11 +663,11 @@ public class FiturLaporan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "No Penjualan", "Pengguna", "Tanggal", "Total", "Detail"
+                "No Penjualan", "ID Pengguna", "Kasir", "Tanggal", "Total", "Bayar", "Kembali", "Jenis Pembayaran", "Detail"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
+                false, false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -653,14 +678,28 @@ public class FiturLaporan extends javax.swing.JPanel {
         tablePenjualan.setOpaque(false);
         tablePenjualan.setSelectionBackground(new java.awt.Color(255, 255, 255));
         scrollPenjualan.setViewportView(tablePenjualan);
+        if (tablePenjualan.getColumnModel().getColumnCount() > 0) {
+            tablePenjualan.getColumnModel().getColumn(1).setMinWidth(0);
+            tablePenjualan.getColumnModel().getColumn(1).setPreferredWidth(0);
+            tablePenjualan.getColumnModel().getColumn(1).setMaxWidth(0);
+            tablePenjualan.getColumnModel().getColumn(5).setMinWidth(0);
+            tablePenjualan.getColumnModel().getColumn(5).setPreferredWidth(0);
+            tablePenjualan.getColumnModel().getColumn(5).setMaxWidth(0);
+            tablePenjualan.getColumnModel().getColumn(6).setMinWidth(0);
+            tablePenjualan.getColumnModel().getColumn(6).setPreferredWidth(0);
+            tablePenjualan.getColumnModel().getColumn(6).setMaxWidth(0);
+            tablePenjualan.getColumnModel().getColumn(7).setMinWidth(0);
+            tablePenjualan.getColumnModel().getColumn(7).setPreferredWidth(0);
+            tablePenjualan.getColumnModel().getColumn(7).setMaxWidth(0);
+        }
 
         javax.swing.GroupLayout panelPenjualanLayout = new javax.swing.GroupLayout(panelPenjualan);
         panelPenjualan.setLayout(panelPenjualanLayout);
         panelPenjualanLayout.setHorizontalGroup(
             panelPenjualanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 795, Short.MAX_VALUE)
+            .addGap(0, 793, Short.MAX_VALUE)
             .addGroup(panelPenjualanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(scrollPenjualan, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE))
+                .addComponent(scrollPenjualan, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE))
         );
         panelPenjualanLayout.setVerticalGroup(
             panelPenjualanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

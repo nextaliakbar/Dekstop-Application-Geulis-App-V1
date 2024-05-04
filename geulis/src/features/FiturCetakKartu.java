@@ -12,7 +12,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import control.FieldsCard;
 import control.Parameter;
-import control.Card;
+import control.Report;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -43,7 +43,7 @@ public class FiturCetakKartu extends javax.swing.JPanel {
         initComponents();
         style();
         changeType();
-        instance(0);
+        instance("Kartu Karyawan");
     }
     
     private void style() {
@@ -58,16 +58,12 @@ public class FiturCetakKartu extends javax.swing.JPanel {
         }
     }
     
-    private void type(String lbId, String lbNama, String lbJabatan, int index) {
+    private void type(String lbId, String lbNama, String lbJabatan, String slide) {
         lb_id.setText(lbId);
         lb_nama.setText(lbNama);
         lb_jabatan.setText(lbJabatan);
         clearField();
-        try {
-            instance(index);
-        } catch(Exception ex) {
-            ex.printStackTrace();
-        }
+        instance(slide);
     }
     
     private void changeType() {
@@ -77,11 +73,11 @@ public class FiturCetakKartu extends javax.swing.JPanel {
                 int index = cbxJenisKartu.getSelectedIndex();
                 switch(index) {
                     case 0: 
-                        type("ID Karyawan", "Nama", "Jabatan", 0);
+                        type("ID Karyawan", "Nama", "Jabatan", "Kartu Karyawan");
                     break;
                     
                     case 1:
-                        type("ID Pasien", "Nama", "Level", 1);                        
+                        type("ID Pasien", "Nama", "Level", "Kartu Membership");                        
                     break;
                         
                 }
@@ -90,9 +86,9 @@ public class FiturCetakKartu extends javax.swing.JPanel {
     }
     
 //    Instance
-    private void instance(int index) {
+    private void instance(String slide) {
         try {
-            Card.getInstance().compileCard(index);
+            Report.getInstance().compileReport(slide);
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -109,7 +105,7 @@ public class FiturCetakKartu extends javax.swing.JPanel {
        
         fields.add(new FieldsCard(id, name, postion));
         Parameter dataPrint = new Parameter(fields, generateQRCode());
-        Card.getInstance().printCard(dataPrint);  
+        Report.getInstance().printCard(dataPrint);
         } catch(Exception ex) {
             ex.printStackTrace();
         }

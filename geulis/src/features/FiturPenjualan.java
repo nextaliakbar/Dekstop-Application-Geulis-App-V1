@@ -6,6 +6,10 @@ package features;
 
 import action.ActionPagination;
 import action.TableAction;
+import control.FieldsPenjualan;
+import control.ParamPenjualan;
+import control.Penjualan;
+import control.Report;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
@@ -13,7 +17,9 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -27,6 +33,7 @@ import model.ModelPengguna;
 import model.ModelPenjualan;
 import model.ModelRenderTable;
 import model.Sementara;
+import net.sf.jasperreports.engine.JRException;
 import service.ServiceDetailPenjualan;
 import service.ServicePenjualan;
 import swing.TableCellActionRender;
@@ -47,14 +54,16 @@ public class FiturPenjualan extends javax.swing.JPanel {
     private ModelPengguna modelPengguna;
     private ServicePenjualan servicePenjualan = new ServicePenjualan();
     private ServiceDetailPenjualan serviceDetail = new ServiceDetailPenjualan();
+    private final DecimalFormat df = new DecimalFormat("#,##0.##");
     public FiturPenjualan(ModelPengguna modelPengguna) {
         initComponents();
         this.modelPengguna = modelPengguna;
         styleTable(scrollPane, table, 8);
         tabmodel1 = (DefaultTableModel) table.getModel();
         tampilData();
-        styleTable(scrollPanePasien, tableDetail, 6);
+        styleTable(scrollPanePasien, tableDetail, 7);
         tabmodel2 = (DefaultTableModel) tableDetail.getModel();
+        instanceReport();
         actionTableMain();    
     }
     
@@ -119,7 +128,6 @@ public class FiturPenjualan extends javax.swing.JPanel {
                 tableDetail.getCellEditor().stopCellEditing();
             }
             tabmodel2.removeRow(row);
-            DecimalFormat df = new DecimalFormat("#,##0.##");
             lbTotal.setText(df.format(total()));
             double kembali = Double.parseDouble(txtBayar.getText()) - total();
             lbKembalian.setText(df.format(kembali));
@@ -130,8 +138,41 @@ public class FiturPenjualan extends javax.swing.JPanel {
             
         }
     };        
-        tableDetail.getColumnModel().getColumn(6).setCellRenderer(new TableCellActionRender(false, true, false));
-        tableDetail.getColumnModel().getColumn(6).setCellEditor(new TableCellEditor(action, false, true, false));
+        tableDetail.getColumnModel().getColumn(7).setCellRenderer(new TableCellActionRender(false, true, false));
+        tableDetail.getColumnModel().getColumn(7).setCellEditor(new TableCellEditor(action, false, true, false));
+    }
+    
+//    Instance Report Penjualan
+    private void instanceReport() {
+        try {
+            Report.getInstance().compileReport("Penjualan");
+        } catch(JRException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+//    Print Penjualan
+    private void printPenjualan() {
+        try {
+            List<FieldsPenjualan> fields = new ArrayList<>();
+            for(int a = 0; a < tableDetail.getRowCount(); a++) {
+                Penjualan penjualan = (Penjualan) tableDetail.getValueAt(a, 0);
+                fields.add(new FieldsPenjualan(penjualan.getNamaBrg(), penjualan.getHargaJual(), penjualan.getJumlah(), penjualan.getSubtotal()));
+            }
+            String noPenjualan = lbNoPenjualan.getText();
+            Date dateNow = new Date();
+            String tglPenjualan = new SimpleDateFormat("dd-MM-yyyy").format(dateNow);
+            String jamPenjualan = new SimpleDateFormat("HH:mm").format(dateNow) + " WIB";
+            String admin = modelPengguna.getIdpengguna();
+            String total = lbTotal.getText();
+            String bayar = df.format(Double.parseDouble(txtBayar.getText()));
+            String kembali = lbKembalian.getText();
+            String jenisPembayaran = (String) cbx_jenisPembayaran.getSelectedItem();
+            ParamPenjualan paramater = new ParamPenjualan(tglPenjualan+","+jamPenjualan, noPenjualan, admin, total, bayar, kembali, jenisPembayaran, fields);
+            Report.getInstance().printReportPenjualan(paramater);
+        } catch(JRException ex) {
+            ex.printStackTrace();
+        }
     }
     
     private void tampilDetail(int row) {
@@ -164,7 +205,6 @@ public class FiturPenjualan extends javax.swing.JPanel {
         double kembalian = 0;
         String jenisPembayaran = (String) cbx_jenisPembayaran.getSelectedItem();
         String strKembalian = lbKembalian.getText();
-        DecimalFormat df = new DecimalFormat("#,##0.00");
         try {
             Number formatNumber = df.parse(strKembalian);
             kembalian = Double.parseDouble(formatNumber.toString());
@@ -176,9 +216,9 @@ public class FiturPenjualan extends javax.swing.JPanel {
         
 //        Tambah Detail Penjualan
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
-            String kodeBrg = (String) tableDetail.getValueAt(a, 0);
-            int jumlah = (int) tableDetail.getValueAt(a, 4);
-            double subtotal = (double) tableDetail.getValueAt(a, 5);
+            String kodeBrg = (String) tableDetail.getValueAt(a, 1);
+            int jumlah = (int) tableDetail.getValueAt(a, 5);
+            double subtotal = (double) tableDetail.getValueAt(a, 6);
             Sementara ps = new Sementara(new String[]{kodeBrg}, new int[]{jumlah}, new double[]{subtotal});
             detail.setModelPenjualan(modelPenjualan);
             serviceDetail.addData(detail, ps);
@@ -192,14 +232,14 @@ public class FiturPenjualan extends javax.swing.JPanel {
         double hrgJual = Double.parseDouble(lbHrgJual.getText());
         int jumlah = (int) spnJumlah.getValue();
         double subtotal = Double.parseDouble(lbSubtotal.getText());
-        tabmodel2.addRow(new Object[]{kodeBrg, namaBrg, satuan, hrgJual, jumlah, subtotal});
-        lbTotal.setText(new DecimalFormat("#,##0.##").format(total()));
+        tabmodel2.addRow(new Penjualan(kodeBrg, namaBrg, satuan, hrgJual, jumlah, subtotal).toRowTable());
+        lbTotal.setText(df.format(total()));
     }
     
     private double total() {
         double total = 0;
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
-            double subtotal = (double) tableDetail.getValueAt(a, 5);
+            double subtotal = (double) tableDetail.getValueAt(a, 6);
             total += subtotal;
         }
         return total;
@@ -218,7 +258,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(null, "Silahkan Masukkan Jumlah Penjualan");
             } else {
              for(int a = 0; a < rowCount; a++) {
-                String kodeBrgInTable = (String) tableDetail.getValueAt(a, 0);
+                String kodeBrgInTable = (String) tableDetail.getValueAt(a, 1);
                 String kodeBrg = lbKodeBrg.getText();            
                     if(kodeBrg.equals(kodeBrgInTable)) {
                         valid = false;
@@ -499,11 +539,11 @@ public class FiturPenjualan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Kode Barang", "Nama Barang", "Satuan", "Harga Jual", "Jumlah", "Subtotal", "Aksi"
+                "Data", "Kode Barang", "Nama Barang", "Satuan", "Harga Jual", "Jumlah", "Subtotal", "Aksi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -512,6 +552,11 @@ public class FiturPenjualan extends javax.swing.JPanel {
         });
         tableDetail.setOpaque(false);
         scrollPanePasien.setViewportView(tableDetail);
+        if (tableDetail.getColumnModel().getColumnCount() > 0) {
+            tableDetail.getColumnModel().getColumn(0).setMinWidth(0);
+            tableDetail.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tableDetail.getColumnModel().getColumn(0).setMaxWidth(0);
+        }
 
         jPanel2.setBackground(new java.awt.Color(135, 15, 50));
 
@@ -998,7 +1043,6 @@ public class FiturPenjualan extends javax.swing.JPanel {
             bayar = Double.parseDouble(strBayar);
         }
         kembalian = bayar - total;
-        DecimalFormat df = new DecimalFormat("#,##0");
         lbKembalian.setText(df.format(kembalian));
     }//GEN-LAST:event_txtBayarKeyReleased
 
@@ -1007,9 +1051,9 @@ public class FiturPenjualan extends javax.swing.JPanel {
     }//GEN-LAST:event_txtBayarKeyTyped
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-//        if(validation()) {
-//            printPemeriksaan();
-//        }
+        if(validation()) {
+            printPenjualan();
+        }
     }//GEN-LAST:event_btnPrintActionPerformed
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed

@@ -8,9 +8,9 @@ package control;
  *
  * @author usER
  */
-public class ProductPemeriksaan {
+public class Pemeriksaan {
 
-    public ProductPemeriksaan(String kodeTindakan, String namaTindakan, int harga, int potongan, int totalHarga) {
+    public Pemeriksaan(String kodeTindakan, String namaTindakan, int harga, int potongan, int totalHarga) {
         this.kodeTindakan = kodeTindakan;
         this.namaTindakan = namaTindakan;
         this.harga = harga;
@@ -18,7 +18,7 @@ public class ProductPemeriksaan {
         this.totalHarga = totalHarga;
     }
 
-    public ProductPemeriksaan() {
+    public Pemeriksaan() {
     }
     
     
@@ -32,40 +32,20 @@ public class ProductPemeriksaan {
         return kodeTindakan;
     }
 
-    public void setKodeTindakan(String kodeTindakan) {
-        this.kodeTindakan = kodeTindakan;
-    }
-
     public String getNamaTindakan() {
         return namaTindakan;
-    }
-
-    public void setNamaTindakan(String namaTindakan) {
-        this.namaTindakan = namaTindakan;
     }
 
     public int getHarga() {
         return harga;
     }
 
-    public void setHarga(int harga) {
-        this.harga = harga;
-    }
-
     public int getPotongan() {
         return potongan;
     }
 
-    public void setPotongan(int potongan) {
-        this.potongan = potongan;
-    }
-
     public int getTotalHarga() {
         return totalHarga;
-    }
-
-    public void setTotalHarga(int totalHarga) {
-        this.totalHarga = totalHarga;
     }
     
     public Object[] toTableRow() {
