@@ -121,8 +121,14 @@ public class ModelPemesanan {
         this.modelPengguna = modelPengguna;
     }
     
-    public Object[] toRowTable() {
+    public Object[] toRowTable1() {
         return new Object[]{noPemesanan, modelSupplier.getIdSupplier(), modelSupplier.getNamaSupplier(), 
+            tglPemesanan, totalPemesanan, bayar, kembali, jenisPembayaran, type, statusPemesanan, 
+            modelPengguna.getIdpengguna(), modelPengguna.getNama()};
+    }
+    
+    public Object[] toRowTable2() {
+        return new Object[]{this, noPemesanan, modelSupplier.getIdSupplier(), modelSupplier.getNamaSupplier(), 
             tglPemesanan, totalPemesanan, bayar, kembali, jenisPembayaran, type, statusPemesanan, 
             modelPengguna.getIdpengguna(), modelPengguna.getNama()};
     }

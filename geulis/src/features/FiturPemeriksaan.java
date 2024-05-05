@@ -1228,6 +1228,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         if(validation()) {
         tambahData();
+        tabmodel1.setRowCount(0);
         clearField();
         changePanel(panelData);
         tampilData();

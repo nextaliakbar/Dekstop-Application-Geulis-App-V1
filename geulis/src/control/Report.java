@@ -22,6 +22,7 @@ public class Report {
     
     private static Report instance;
     private JasperReport report;
+    private JasperReport reportDetail;
     
     public static Report getInstance() {
         if(instance == null) {
@@ -52,6 +53,21 @@ public class Report {
                     report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/KartuMember.jrxml"));
                     break;
             }
+        }
+        switch (slide) {
+            case "Pemeriksaan":
+                reportDetail = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/LaporanPemeriksaan.jrxml"));
+                break;
+            case "Penjualan":
+                reportDetail = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/LaporanPenjualan.jrxml"));
+                break;
+            case "Pemesanan":
+                reportDetail = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/LaporanPemesanan.jrxml"));
+                break;
+            default:
+                reportDetail = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/LaporanPengeluaran.jrxml"));
+                System.out.println("Yes");
+                
         }
     }
     
@@ -94,11 +110,50 @@ public class Report {
         viewReport(print);
     }
     
+    public void printLaporanPemeriksaan(ParamLaporan data) throws JRException{
+        Map paramater = new HashMap();
+        paramater.put("rentang", data.getRentang());
+        paramater.put("total", data.getTotalKeseluruhan());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data.getFieldsPemeriksaan());
+        JasperPrint print = JasperFillManager.fillReport(reportDetail, paramater, dataSource);
+        viewReport(print);
+    }
+    
+    public void printLaporanPenjualan(ParamLaporan data) throws JRException{
+        Map paramater = new HashMap();
+        paramater.put("rentang", data.getRentang());
+        paramater.put("totalQty", data.getTotalQty());
+        paramater.put("total", data.getTotalKeseluruhan());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data.getFieldsPenjualan());
+        JasperPrint print = JasperFillManager.fillReport(reportDetail, paramater, dataSource);
+        viewReport(print);
+    }
+    
+    public void printLaporanPemesanan(ParamLaporan data) throws JRException {
+        Map paramater = new HashMap();
+        paramater.put("rentang", data.getRentang());
+        paramater.put("totalQty", data.getTotalQty());
+        paramater.put("total", data.getTotalKeseluruhan());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data.getFieldsPemesanan());
+        JasperPrint print = JasperFillManager.fillReport(reportDetail, paramater, dataSource);
+        viewReport(print);
+    }
+    
+    public void printLaporanPengeluaran(ParamLaporan data) throws JRException {
+        Map paramater = new HashMap();
+        paramater.put("rentang", data.getRentang());
+        paramater.put("totalQty", data.getTotalQty());
+        paramater.put("total", data.getTotalKeseluruhan());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data.getFieldsPengeluaran());
+        JasperPrint print = JasperFillManager.fillReport(reportDetail, paramater, dataSource);
+        viewReport(print);
+    }
+    
     private void viewReport(JasperPrint print) throws JRException {
-    JasperViewer viewer = new JasperViewer(print, false);
-    viewer.setTitle("Geulis App");
-    viewer.setIconImage(null);
-    viewer.setAlwaysOnTop(true);
-    viewer.setVisible(true);
+        JasperViewer viewer = new JasperViewer(print, false);
+        viewer.setTitle("Geulis App");
+        viewer.setIconImage(null);
+        viewer.setAlwaysOnTop(true);
+        viewer.setVisible(true);
     }
 }

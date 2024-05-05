@@ -9,6 +9,7 @@ import com.raven.datechooser.DateBetween;
 import com.raven.datechooser.DateChooser;
 import com.raven.datechooser.listener.DateChooserAction;
 import com.raven.datechooser.listener.DateChooserAdapter;
+import control.Report;
 import java.awt.Color;
 import java.awt.Font;
 import java.text.DecimalFormat;
@@ -16,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -41,6 +43,7 @@ import model.ModelPenjualan;
 import model.ModelRenderTable;
 import model.ModelReservasi;
 import model.ModelSupplier;
+import net.sf.jasperreports.engine.JRException;
 import service.ServiceLaporan;
 import swing.TableCellActionRender;
 import swing.TableCellEditor;
@@ -63,23 +66,32 @@ public class FiturLaporan extends javax.swing.JPanel {
     private final LocalDate dateNow = LocalDate.now();
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
     private ServiceLaporan serviceLaporan = new ServiceLaporan();
+    
     public FiturLaporan() {
         initComponents();
         initation();
         txtTgl.setText(dateNow.format(formatter));
-        styleTable(scrollPemeriksaan, tablePemeriksaan, 13);
-        styleTable(scrollPenjualan, tablePenjualan, 8);
-        styleTable(scrollPengeluaran, tablePengeluaran, 6);
+        styleTable(scrollPemeriksaan, tablePemeriksaan, 14);
+        styleTable(scrollPenjualan, tablePenjualan, 9);
+        styleTable(scrollPengeluaran, tablePengeluaran, 7);
         tablePemesanan.scrollPane(scrollPemesanan);
         tablePemesanan.getTableHeader().setDefaultRenderer(new ModelHeader());
-        actionRenderTable(tablePemeriksaan, 13);
-        actionRenderTable(tablePenjualan, 8);
-        actionRenderTable(tablePemesanan, 12);
-        actionRenderTable(tablePengeluaran, 6);
+        actionRenderTable(tablePemeriksaan, 14);
+        actionRenderTable(tablePenjualan, 9);
+        actionRenderTable(tablePemesanan, 13);
+        actionRenderTable(tablePengeluaran, 7);
         model = (DefaultTableModel) tablePengeluaran.getModel();
         sorter = new TableRowSorter<>(model);
         tablePengeluaran.setRowSorter(sorter);
         cariData();
+    }
+    
+    private void instanceReport(String slide) {
+        try {
+            Report.getInstance().compileReport(slide);
+        } catch(JRException ex) {
+            ex.printStackTrace();
+        }
     }
     
 //  Style Table
@@ -140,22 +152,22 @@ public class FiturLaporan extends javax.swing.JPanel {
         ModelReservasi modelReservasi = new ModelReservasi();
         ModelPengguna modelPengguna = new ModelPengguna();
         
-        modelPemeriksaan.setNoPemeriksaan((String) tablePemeriksaan.getValueAt(row, 0));
-        modelReservasi.setNoReservasi((String) tablePemeriksaan.getValueAt(row, 1));
+        modelPemeriksaan.setNoPemeriksaan((String) tablePemeriksaan.getValueAt(row, 1));
+        modelReservasi.setNoReservasi((String) tablePemeriksaan.getValueAt(row, 2));
         modelPemeriksaan.setModelReservasi(modelReservasi);
-        modelPasien.setIdPasien((String) tablePemeriksaan.getValueAt(row, 2));
-        modelPasien.setNama((String) tablePemeriksaan.getValueAt(row, 3));
+        modelPasien.setIdPasien((String) tablePemeriksaan.getValueAt(row, 3));
+        modelPasien.setNama((String) tablePemeriksaan.getValueAt(row, 4));
         modelPemeriksaan.setModelPasien(modelPasien);
-        modelKaryawan.setIdKaryawan((String) tablePemeriksaan.getValueAt(row, 4));
+        modelKaryawan.setIdKaryawan((String) tablePemeriksaan.getValueAt(row, 5));
         modelPemeriksaan.setModelKaryawan(modelKaryawan);
-        modelPemeriksaan.setTglPemeriksaan((String) tablePemeriksaan.getValueAt(row, 5));
-        modelPemeriksaan.setTotal((int) tablePemeriksaan.getValueAt(row, 6));
-        modelPemeriksaan.setDeskripsi((String) tablePemeriksaan.getValueAt(row, 7));
-        modelPemeriksaan.setBayar((double) tablePemeriksaan.getValueAt(row, 8));
-        modelPemeriksaan.setKembalian((double) tablePemeriksaan.getValueAt(row, 9));
-        modelPemeriksaan.setJenisPembayaran((String) tablePemeriksaan.getValueAt(row, 10));
-        modelPengguna.setIdpengguna((String) tablePemeriksaan.getValueAt(row, 11));
-        modelPengguna.setNama((String) tablePemeriksaan.getValueAt(row, 12));
+        modelPemeriksaan.setTglPemeriksaan((String) tablePemeriksaan.getValueAt(row, 6));
+        modelPemeriksaan.setTotal((int) tablePemeriksaan.getValueAt(row, 7));
+        modelPemeriksaan.setDeskripsi((String) tablePemeriksaan.getValueAt(row, 8));
+        modelPemeriksaan.setBayar((double) tablePemeriksaan.getValueAt(row, 9));
+        modelPemeriksaan.setKembalian((double) tablePemeriksaan.getValueAt(row, 10));
+        modelPemeriksaan.setJenisPembayaran((String) tablePemeriksaan.getValueAt(row, 11));
+        modelPengguna.setIdpengguna((String) tablePemeriksaan.getValueAt(row, 12));
+        modelPengguna.setNama((String) tablePemeriksaan.getValueAt(row, 13));
         modelPemeriksaan.setModelPengguna(modelPengguna);
         
         ModelDetailPemeriksaan modelDetail = new ModelDetailPemeriksaan();
@@ -165,18 +177,19 @@ public class FiturLaporan extends javax.swing.JPanel {
         dialog.setVisible(true);
     }
     
+    //  Detail Penjualan
     private void detailPenjualan(int row) {
         ModelPengguna modelPengguna = new ModelPengguna();
-        String noPenjualan = (String) tablePenjualan.getValueAt(row, 0);
-        String idPengguna = (String) tablePenjualan.getValueAt(row, 1);
-        String namaPengguna = (String) tablePenjualan.getValueAt(row, 2);
+        String noPenjualan = (String) tablePenjualan.getValueAt(row, 1);
+        String idPengguna = (String) tablePenjualan.getValueAt(row, 2);
+        String namaPengguna = (String) tablePenjualan.getValueAt(row, 3);
         modelPengguna.setIdpengguna(idPengguna);
         modelPengguna.setNama(namaPengguna);
-        String tglPenjualan = (String) tablePenjualan.getValueAt(row, 3);
-        int totalPenjualan = (int) tablePenjualan.getValueAt(row, 4);
-        double bayar = (double) tablePenjualan.getValueAt(row, 5);
-        double kembali = (double) tablePenjualan.getValueAt(row, 6);
-        String jenisPembayaran = (String) tablePenjualan.getValueAt(row, 7);
+        String tglPenjualan = (String) tablePenjualan.getValueAt(row, 4);
+        int totalPenjualan = (int) tablePenjualan.getValueAt(row, 5);
+        double bayar = (double) tablePenjualan.getValueAt(row, 6);
+        double kembali = (double) tablePenjualan.getValueAt(row, 7);
+        String jenisPembayaran = (String) tablePenjualan.getValueAt(row, 8);
         ModelPenjualan modelPenjualan = new ModelPenjualan(noPenjualan, tglPenjualan, totalPenjualan, bayar, kembali, jenisPembayaran, modelPengguna);
         ModelDetailPenjualan modelDetail = new ModelDetailPenjualan();
         modelDetail.setModelPenjualan(modelPenjualan);
@@ -191,18 +204,18 @@ public class FiturLaporan extends javax.swing.JPanel {
         ModelSupplier modelSupplier = new ModelSupplier();
         ModelPengguna modelPengguna = new ModelPengguna();
 
-        modelPemesanan.setNoPemesanan((String) tablePemesanan.getValueAt(row, 0));
-        modelSupplier.setIdSupplier((String) tablePemesanan.getValueAt(row, 1));
-        modelSupplier.setNamaSupplier((String) tablePemesanan.getValueAt(row, 2));
+        modelPemesanan.setNoPemesanan((String) tablePemesanan.getValueAt(row, 1));
+        modelSupplier.setIdSupplier((String) tablePemesanan.getValueAt(row, 2));
+        modelSupplier.setNamaSupplier((String) tablePemesanan.getValueAt(row, 3));
         modelPemesanan.setModelSupplier(modelSupplier);
-        modelPemesanan.setTglPemesanan((String) tablePemesanan.getValueAt(row, 3));
-        modelPemesanan.setTotalPemesanan((int) tablePemesanan.getValueAt(row, 4));
-        modelPemesanan.setBayar((double) tablePemesanan.getValueAt(row, 5));
-        modelPemesanan.setKembali((double) tablePemesanan.getValueAt(row, 6));
-        modelPemesanan.setJenisPembayaran((String) tablePemesanan.getValueAt(row, 7));
-        modelPemesanan.setStatusPemesanan((String) tablePemesanan.getValueAt(row, 9));
-        modelPengguna.setIdpengguna((String) tablePemesanan.getValueAt(row, 10));
-        modelPengguna.setNama((String) tablePemesanan.getValueAt(row, 11));
+        modelPemesanan.setTglPemesanan((String) tablePemesanan.getValueAt(row, 4));
+        modelPemesanan.setTotalPemesanan((int) tablePemesanan.getValueAt(row, 5));
+        modelPemesanan.setBayar((double) tablePemesanan.getValueAt(row, 6));
+        modelPemesanan.setKembali((double) tablePemesanan.getValueAt(row, 7));
+        modelPemesanan.setJenisPembayaran((String) tablePemesanan.getValueAt(row, 8));
+        modelPemesanan.setStatusPemesanan((String) tablePemesanan.getValueAt(row, 10));
+        modelPengguna.setIdpengguna((String) tablePemesanan.getValueAt(row, 11));
+        modelPengguna.setNama((String) tablePemesanan.getValueAt(row, 12));
         modelPemesanan.setModelPengguna(modelPengguna);
         modelDetail.setModelPemesanan(modelPemesanan);
 
@@ -215,13 +228,13 @@ public class FiturLaporan extends javax.swing.JPanel {
         ModelDetailPengeluaran detailPengeluaran = new ModelDetailPengeluaran();
         ModelPengeluaran pengeluaran = new ModelPengeluaran();
         ModelPengguna modelPengguna = new ModelPengguna();
-        pengeluaran.setNoPengeluaran((String) tablePengeluaran.getValueAt(row, 0));
-        modelPengguna.setIdpengguna((String) tablePengeluaran.getValueAt(row, 1));
-        modelPengguna.setNama((String) tablePengeluaran.getValueAt(row, 2));
+        pengeluaran.setNoPengeluaran((String) tablePengeluaran.getValueAt(row, 1));
+        modelPengguna.setIdpengguna((String) tablePengeluaran.getValueAt(row, 2));
+        modelPengguna.setNama((String) tablePengeluaran.getValueAt(row, 3));
         pengeluaran.setModelPengguna(modelPengguna);
-        pengeluaran.setTglPengeluaran((String) tablePengeluaran.getValueAt(row, 3));
-        pengeluaran.setTotal((int) tablePengeluaran.getValueAt(row, 4));
-        pengeluaran.setDeskripsi((String) tablePengeluaran.getValueAt(row, 5));
+        pengeluaran.setTglPengeluaran((String) tablePengeluaran.getValueAt(row, 4));
+        pengeluaran.setTotal((int) tablePengeluaran.getValueAt(row, 5));
+        pengeluaran.setDeskripsi((String) tablePengeluaran.getValueAt(row, 6));
         detailPengeluaran.setModelPengeluaran(pengeluaran);
         DialogDetail dialog = new DialogDetail(null, true, "Slide-3", null, null, null,detailPengeluaran);
         dialog.setVisible(true);
@@ -243,16 +256,16 @@ public class FiturLaporan extends javax.swing.JPanel {
                 int orders = cbxJenisLaporan.getSelectedIndex();
                 switch(orders) {
                   case 0:
-                      rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 0 ,3));   
+                      rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 1 ,4));   
                       break;
                   case 1:
-                      rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 0, 2));
+                      rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 1, 3));
                       break;
                   case 2:
-                      rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 0, 2));   
+                      rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 1, 3));   
                       break;
                   case 3:
-                      sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 0, 3));
+                      sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 1, 4));
                       break;
               }
         }
@@ -321,19 +334,19 @@ public class FiturLaporan extends javax.swing.JPanel {
                 switch(index) {
                     case 0:
                         serviceLaporan.loadBetween(fromDate, toDate, tabmodel, "Pemeriksaan");
-                        lbTotal.setText(total(tablePemeriksaan, 6));
+                        lbTotal.setText(total(tablePemeriksaan, 7));
                         break;
                     case 1:
                         serviceLaporan.loadBetween(fromDate, toDate, tabmodel, "Penjualan");
-                        lbTotal.setText(total(tablePenjualan, 4));
+                        lbTotal.setText(total(tablePenjualan, 5));
                         break;
                     case 2:
                         serviceLaporan.loadBetween(fromDate, toDate, tabmodel, "Pemesanan");
-                        lbTotal.setText(total(tablePemesanan, 4));
+                        lbTotal.setText(total(tablePemesanan, 5));
                         break;
                     case 3:
                         serviceLaporan.loadBetween(fromDate, toDate, model,"Pengeluaran");
-                        lbTotal.setText(total(tablePengeluaran, 4));
+                        lbTotal.setText(total(tablePengeluaran, 5));
                         break;
                 }
             }
@@ -358,10 +371,11 @@ public class FiturLaporan extends javax.swing.JPanel {
        switch(index) {
            case 0:
                changePanelTable(panelPemeriksaan);
+               instanceReport("Pemeriksaan");
                tabmodel = (DefaultTableModel) tablePemeriksaan.getModel();
                tabmodel.setRowCount(0);
                serviceLaporan.loadAll(tabmodel, "Pemeriksaan");
-               lbTotal.setText(total(tablePemeriksaan, 6));
+               lbTotal.setText(total(tablePemeriksaan, 7));
                txtTgl.setText(dateNow.format(formatter));
                rowSorter = new TableRowSorter<>(tabmodel);
                tablePemeriksaan.setRowSorter(rowSorter);
@@ -371,10 +385,11 @@ public class FiturLaporan extends javax.swing.JPanel {
                break;
            case 1:
                changePanelTable(panelPenjualan);
+               instanceReport("Penjualan");
                tabmodel = (DefaultTableModel) tablePenjualan.getModel();
                tabmodel.setRowCount(0);
                serviceLaporan.loadAll(tabmodel, "Penjualan");
-               lbTotal.setText(total(tablePenjualan, 4));
+               lbTotal.setText(total(tablePenjualan, 5));
                txtTgl.setText(dateNow.format(formatter));
                rowSorter = new TableRowSorter<>(tabmodel);
                tablePenjualan.setRowSorter(rowSorter);
@@ -384,11 +399,12 @@ public class FiturLaporan extends javax.swing.JPanel {
                break;
            case 2:
                changePanelTable(panelPemesanan);
+               instanceReport("Pemesanan");
                tabmodel = (DefaultTableModel) tablePemesanan.getModel();
                tabmodel.setRowCount(0);
                serviceLaporan.loadAll(tabmodel, "Pemesanan");
                txtTgl.setText(dateNow.format(formatter));
-               lbTotal.setText(total(tablePemesanan, 4));
+               lbTotal.setText(total(tablePemesanan, 5));
                rowSorter = new TableRowSorter<>(tabmodel);
                tablePemesanan.setRowSorter(rowSorter);
                txtCari.setForeground(new Color(185,185,185));
@@ -397,10 +413,11 @@ public class FiturLaporan extends javax.swing.JPanel {
                break;
            case 3:
                changePanelTable(panelPengeluaran);
+               instanceReport("Pengeluaran");
                model.setRowCount(0);
                serviceLaporan.loadAll(model, "Pengeluaran");
                txtTgl.setText(dateNow.format(formatter));
-               lbTotal.setText(total(tablePengeluaran, 4));
+               lbTotal.setText(total(tablePengeluaran, 5));
                txtCari.setForeground(new Color(185,185,185));
                txtCari.setFont(new Font("sansserif",Font.ITALIC,14));
                txtCari.setText("Cari Berdasarkan No Pengeluaran atau Pengguna");
@@ -428,7 +445,7 @@ public class FiturLaporan extends javax.swing.JPanel {
         panel2 = new javax.swing.JPanel();
         txtCari = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnPrint = new javax.swing.JButton();
         lbRp = new javax.swing.JLabel();
         lbTotal = new javax.swing.JLabel();
         panel3 = new javax.swing.JPanel();
@@ -530,11 +547,16 @@ public class FiturLaporan extends javax.swing.JPanel {
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/search-2.png"))); // NOI18N
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/printer.png"))); // NOI18N
-        jButton1.setBorder(null);
-        jButton1.setOpaque(false);
+        btnPrint.setBackground(new java.awt.Color(255, 255, 255));
+        btnPrint.setForeground(new java.awt.Color(255, 255, 255));
+        btnPrint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/printer.png"))); // NOI18N
+        btnPrint.setBorder(null);
+        btnPrint.setOpaque(false);
+        btnPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintActionPerformed(evt);
+            }
+        });
 
         lbRp.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
         lbRp.setForeground(new java.awt.Color(135, 15, 50));
@@ -554,7 +576,7 @@ public class FiturLaporan extends javax.swing.JPanel {
                 .addGap(3, 3, 3)
                 .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addComponent(lbRp)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -571,7 +593,7 @@ public class FiturLaporan extends javax.swing.JPanel {
                         .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lbRp)
                         .addComponent(lbTotal))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnPrint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -591,11 +613,11 @@ public class FiturLaporan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "No Pemeriksaan", "No Reservasi", "ID Pasien", "Nama Pasien", "ID Karyawan", "Tanggal Pemeriksaan", "Total", "Deskripsi", "Bayar", "Kembalian", "Jenis Pembayaran", "ID Pengguna", "Nama Pengguna", "Detail"
+                "Data", "No Pemeriksaan", "No Reservasi", "ID Pasien", "Nama Pasien", "ID Karyawan", "Tanggal Pemeriksaan", "Total", "Deskripsi", "Bayar", "Kembalian", "Jenis Pembayaran", "ID Pengguna", "Nama Pengguna", "Detail"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -607,15 +629,15 @@ public class FiturLaporan extends javax.swing.JPanel {
         tablePemeriksaan.setSelectionBackground(new java.awt.Color(255, 255, 255));
         scrollPemeriksaan.setViewportView(tablePemeriksaan);
         if (tablePemeriksaan.getColumnModel().getColumnCount() > 0) {
-            tablePemeriksaan.getColumnModel().getColumn(2).setMinWidth(0);
-            tablePemeriksaan.getColumnModel().getColumn(2).setPreferredWidth(0);
-            tablePemeriksaan.getColumnModel().getColumn(2).setMaxWidth(0);
-            tablePemeriksaan.getColumnModel().getColumn(4).setMinWidth(0);
-            tablePemeriksaan.getColumnModel().getColumn(4).setPreferredWidth(0);
-            tablePemeriksaan.getColumnModel().getColumn(4).setMaxWidth(0);
-            tablePemeriksaan.getColumnModel().getColumn(7).setMinWidth(0);
-            tablePemeriksaan.getColumnModel().getColumn(7).setPreferredWidth(0);
-            tablePemeriksaan.getColumnModel().getColumn(7).setMaxWidth(0);
+            tablePemeriksaan.getColumnModel().getColumn(0).setMinWidth(0);
+            tablePemeriksaan.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tablePemeriksaan.getColumnModel().getColumn(0).setMaxWidth(0);
+            tablePemeriksaan.getColumnModel().getColumn(3).setMinWidth(0);
+            tablePemeriksaan.getColumnModel().getColumn(3).setPreferredWidth(0);
+            tablePemeriksaan.getColumnModel().getColumn(3).setMaxWidth(0);
+            tablePemeriksaan.getColumnModel().getColumn(5).setMinWidth(0);
+            tablePemeriksaan.getColumnModel().getColumn(5).setPreferredWidth(0);
+            tablePemeriksaan.getColumnModel().getColumn(5).setMaxWidth(0);
             tablePemeriksaan.getColumnModel().getColumn(8).setMinWidth(0);
             tablePemeriksaan.getColumnModel().getColumn(8).setPreferredWidth(0);
             tablePemeriksaan.getColumnModel().getColumn(8).setMaxWidth(0);
@@ -631,6 +653,9 @@ public class FiturLaporan extends javax.swing.JPanel {
             tablePemeriksaan.getColumnModel().getColumn(12).setMinWidth(0);
             tablePemeriksaan.getColumnModel().getColumn(12).setPreferredWidth(0);
             tablePemeriksaan.getColumnModel().getColumn(12).setMaxWidth(0);
+            tablePemeriksaan.getColumnModel().getColumn(13).setMinWidth(0);
+            tablePemeriksaan.getColumnModel().getColumn(13).setPreferredWidth(0);
+            tablePemeriksaan.getColumnModel().getColumn(13).setMaxWidth(0);
         }
 
         javax.swing.GroupLayout panelPemeriksaanLayout = new javax.swing.GroupLayout(panelPemeriksaan);
@@ -663,11 +688,11 @@ public class FiturLaporan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "No Penjualan", "ID Pengguna", "Kasir", "Tanggal", "Total", "Bayar", "Kembali", "Jenis Pembayaran", "Detail"
+                "Data", "No Penjualan", "ID Pengguna", "Kasir", "Tanggal", "Total", "Bayar", "Kembali", "Jenis Pembayaran", "Detail"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -679,27 +704,30 @@ public class FiturLaporan extends javax.swing.JPanel {
         tablePenjualan.setSelectionBackground(new java.awt.Color(255, 255, 255));
         scrollPenjualan.setViewportView(tablePenjualan);
         if (tablePenjualan.getColumnModel().getColumnCount() > 0) {
-            tablePenjualan.getColumnModel().getColumn(1).setMinWidth(0);
-            tablePenjualan.getColumnModel().getColumn(1).setPreferredWidth(0);
-            tablePenjualan.getColumnModel().getColumn(1).setMaxWidth(0);
-            tablePenjualan.getColumnModel().getColumn(5).setMinWidth(0);
-            tablePenjualan.getColumnModel().getColumn(5).setPreferredWidth(0);
-            tablePenjualan.getColumnModel().getColumn(5).setMaxWidth(0);
+            tablePenjualan.getColumnModel().getColumn(0).setMinWidth(0);
+            tablePenjualan.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tablePenjualan.getColumnModel().getColumn(0).setMaxWidth(0);
+            tablePenjualan.getColumnModel().getColumn(2).setMinWidth(0);
+            tablePenjualan.getColumnModel().getColumn(2).setPreferredWidth(0);
+            tablePenjualan.getColumnModel().getColumn(2).setMaxWidth(0);
             tablePenjualan.getColumnModel().getColumn(6).setMinWidth(0);
             tablePenjualan.getColumnModel().getColumn(6).setPreferredWidth(0);
             tablePenjualan.getColumnModel().getColumn(6).setMaxWidth(0);
             tablePenjualan.getColumnModel().getColumn(7).setMinWidth(0);
             tablePenjualan.getColumnModel().getColumn(7).setPreferredWidth(0);
             tablePenjualan.getColumnModel().getColumn(7).setMaxWidth(0);
+            tablePenjualan.getColumnModel().getColumn(8).setMinWidth(0);
+            tablePenjualan.getColumnModel().getColumn(8).setPreferredWidth(0);
+            tablePenjualan.getColumnModel().getColumn(8).setMaxWidth(0);
         }
 
         javax.swing.GroupLayout panelPenjualanLayout = new javax.swing.GroupLayout(panelPenjualan);
         panelPenjualan.setLayout(panelPenjualanLayout);
         panelPenjualanLayout.setHorizontalGroup(
             panelPenjualanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 793, Short.MAX_VALUE)
+            .addGap(0, 795, Short.MAX_VALUE)
             .addGroup(panelPenjualanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(scrollPenjualan, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE))
+                .addComponent(scrollPenjualan, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE))
         );
         panelPenjualanLayout.setVerticalGroup(
             panelPenjualanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -717,11 +745,11 @@ public class FiturLaporan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "No Pemesanan", "ID Supplier", "Supplier", "Tanggal Pemesanan", "Total", "Bayar", "Kembali", "Jenis Pembayaran", "Status", "", "ID Pengguna", "Pengguna", "      Detail"
+                "Data", "No Pemesanan", "ID Supplier", "Supplier", "Tanggal Pemesanan", "Total", "Bayar", "Kembali", "Jenis Pembayaran", "Status", "", "ID Pengguna", "Pengguna", "      Detail"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -732,33 +760,36 @@ public class FiturLaporan extends javax.swing.JPanel {
         tablePemesanan.setSelectionForeground(new java.awt.Color(0, 0, 0));
         scrollPemesanan.setViewportView(tablePemesanan);
         if (tablePemesanan.getColumnModel().getColumnCount() > 0) {
-            tablePemesanan.getColumnModel().getColumn(1).setMinWidth(0);
-            tablePemesanan.getColumnModel().getColumn(1).setPreferredWidth(0);
-            tablePemesanan.getColumnModel().getColumn(1).setMaxWidth(0);
-            tablePemesanan.getColumnModel().getColumn(5).setMinWidth(0);
-            tablePemesanan.getColumnModel().getColumn(5).setPreferredWidth(0);
-            tablePemesanan.getColumnModel().getColumn(5).setMaxWidth(0);
+            tablePemesanan.getColumnModel().getColumn(0).setMinWidth(0);
+            tablePemesanan.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tablePemesanan.getColumnModel().getColumn(0).setMaxWidth(0);
+            tablePemesanan.getColumnModel().getColumn(2).setMinWidth(0);
+            tablePemesanan.getColumnModel().getColumn(2).setPreferredWidth(0);
+            tablePemesanan.getColumnModel().getColumn(2).setMaxWidth(0);
             tablePemesanan.getColumnModel().getColumn(6).setMinWidth(0);
             tablePemesanan.getColumnModel().getColumn(6).setPreferredWidth(0);
             tablePemesanan.getColumnModel().getColumn(6).setMaxWidth(0);
             tablePemesanan.getColumnModel().getColumn(7).setMinWidth(0);
             tablePemesanan.getColumnModel().getColumn(7).setPreferredWidth(0);
             tablePemesanan.getColumnModel().getColumn(7).setMaxWidth(0);
-            tablePemesanan.getColumnModel().getColumn(8).setMinWidth(100);
-            tablePemesanan.getColumnModel().getColumn(8).setPreferredWidth(100);
-            tablePemesanan.getColumnModel().getColumn(8).setMaxWidth(100);
-            tablePemesanan.getColumnModel().getColumn(9).setMinWidth(0);
-            tablePemesanan.getColumnModel().getColumn(9).setPreferredWidth(0);
-            tablePemesanan.getColumnModel().getColumn(9).setMaxWidth(0);
+            tablePemesanan.getColumnModel().getColumn(8).setMinWidth(0);
+            tablePemesanan.getColumnModel().getColumn(8).setPreferredWidth(0);
+            tablePemesanan.getColumnModel().getColumn(8).setMaxWidth(0);
+            tablePemesanan.getColumnModel().getColumn(9).setMinWidth(100);
+            tablePemesanan.getColumnModel().getColumn(9).setPreferredWidth(100);
+            tablePemesanan.getColumnModel().getColumn(9).setMaxWidth(100);
             tablePemesanan.getColumnModel().getColumn(10).setMinWidth(0);
             tablePemesanan.getColumnModel().getColumn(10).setPreferredWidth(0);
             tablePemesanan.getColumnModel().getColumn(10).setMaxWidth(0);
             tablePemesanan.getColumnModel().getColumn(11).setMinWidth(0);
             tablePemesanan.getColumnModel().getColumn(11).setPreferredWidth(0);
             tablePemesanan.getColumnModel().getColumn(11).setMaxWidth(0);
-            tablePemesanan.getColumnModel().getColumn(12).setMinWidth(100);
-            tablePemesanan.getColumnModel().getColumn(12).setPreferredWidth(100);
-            tablePemesanan.getColumnModel().getColumn(12).setMaxWidth(100);
+            tablePemesanan.getColumnModel().getColumn(12).setMinWidth(0);
+            tablePemesanan.getColumnModel().getColumn(12).setPreferredWidth(0);
+            tablePemesanan.getColumnModel().getColumn(12).setMaxWidth(0);
+            tablePemesanan.getColumnModel().getColumn(13).setMinWidth(100);
+            tablePemesanan.getColumnModel().getColumn(13).setPreferredWidth(100);
+            tablePemesanan.getColumnModel().getColumn(13).setMaxWidth(100);
         }
 
         javax.swing.GroupLayout panelPemesananLayout = new javax.swing.GroupLayout(panelPemesanan);
@@ -791,11 +822,11 @@ public class FiturLaporan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "No Pengeluaran", "ID Pengguna", "Pengguna", "Tanggal Pengeluaran", "Total Pengeluaran", "Deskripsi", "Detail"
+                "Data", "No Pengeluaran", "ID Pengguna", "Pengguna", "Tanggal Pengeluaran", "Total Pengeluaran", "Deskripsi", "Detail"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -807,21 +838,24 @@ public class FiturLaporan extends javax.swing.JPanel {
         tablePengeluaran.setSelectionBackground(new java.awt.Color(255, 255, 255));
         scrollPengeluaran.setViewportView(tablePengeluaran);
         if (tablePengeluaran.getColumnModel().getColumnCount() > 0) {
-            tablePengeluaran.getColumnModel().getColumn(1).setMinWidth(0);
-            tablePengeluaran.getColumnModel().getColumn(1).setPreferredWidth(0);
-            tablePengeluaran.getColumnModel().getColumn(1).setMaxWidth(0);
-            tablePengeluaran.getColumnModel().getColumn(5).setMinWidth(0);
-            tablePengeluaran.getColumnModel().getColumn(5).setPreferredWidth(0);
-            tablePengeluaran.getColumnModel().getColumn(5).setMaxWidth(0);
+            tablePengeluaran.getColumnModel().getColumn(0).setMinWidth(0);
+            tablePengeluaran.getColumnModel().getColumn(0).setPreferredWidth(0);
+            tablePengeluaran.getColumnModel().getColumn(0).setMaxWidth(0);
+            tablePengeluaran.getColumnModel().getColumn(2).setMinWidth(0);
+            tablePengeluaran.getColumnModel().getColumn(2).setPreferredWidth(0);
+            tablePengeluaran.getColumnModel().getColumn(2).setMaxWidth(0);
+            tablePengeluaran.getColumnModel().getColumn(6).setMinWidth(0);
+            tablePengeluaran.getColumnModel().getColumn(6).setPreferredWidth(0);
+            tablePengeluaran.getColumnModel().getColumn(6).setMaxWidth(0);
         }
 
         javax.swing.GroupLayout panelPengeluaranLayout = new javax.swing.GroupLayout(panelPengeluaran);
         panelPengeluaran.setLayout(panelPengeluaranLayout);
         panelPengeluaranLayout.setHorizontalGroup(
             panelPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 793, Short.MAX_VALUE)
+            .addGap(0, 795, Short.MAX_VALUE)
             .addGroup(panelPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(scrollPengeluaran, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE))
+                .addComponent(scrollPengeluaran, javax.swing.GroupLayout.DEFAULT_SIZE, 795, Short.MAX_VALUE))
         );
         panelPengeluaranLayout.setVerticalGroup(
             panelPengeluaranLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -894,12 +928,34 @@ public class FiturLaporan extends javax.swing.JPanel {
     private void cbxJenisLaporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxJenisLaporanActionPerformed
        changeType();
     }//GEN-LAST:event_cbxJenisLaporanActionPerformed
+
+    private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
+        if(tabmodel.getRowCount() != 0 || model.getRowCount() != 0) {
+            switch (cbxJenisLaporan.getSelectedIndex()) {
+                case 0:
+                    serviceLaporan.printReportPemeriksaan(tablePemeriksaan, txtTgl, lbTotal);
+                    break;
+                case 1:
+                    serviceLaporan.printReportPenjualan(tablePenjualan, txtTgl, lbTotal);
+                    break;
+                case 2:
+                    serviceLaporan.printReportPemesanan(tablePemesanan, txtTgl, lbTotal);
+                    break;
+                default:
+                    serviceLaporan.printReportPengeluaran(tablePengeluaran, txtTgl, lbTotal);
+                    System.out.println("Ok");
+                    
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Tidak Ada Transaksi Di Rentang\n Ini Silahkan Pilih Rentang Lain");
+        }
+    }//GEN-LAST:event_btnPrintActionPerformed
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPrint;
     private javax.swing.JComboBox<String> cbxJenisLaporan;
     private javax.swing.JComboBox<String> cbxUrutan;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel label;

@@ -242,6 +242,15 @@ public class Main extends javax.swing.JFrame {
         
 //    action settings
     private void actionSettings(ModelPengguna modelPengguna) {
+        
+        navbar.settings.info(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                content.showContent(new FiturPengaturan("Slide-Info", modelPengguna));
+                navbar.settings.dispose();
+            }
+        });
+        
         navbar.settings.account(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -77,7 +77,7 @@ public class ServicePemesanan {
                 tabmodel.addRow(new ModelPemesanan(
                         noPemeriksaan, tgl, type, status, 
                         total, bayar, kembali, jenisPembayaran, modelSupplier, 
-                        modelPengguna).toRowTable());
+                        modelPengguna).toRowTable1());
             }
             pst.close();
             rst.close();
@@ -125,7 +125,7 @@ public class ServicePemesanan {
                 tabmodel.addRow(new ModelPemesanan(
                         noPemeriksaan, tgl, type, status, 
                         total, bayar, kembali, jenisPembayaran, modelSupplier, 
-                        modelPengguna).toRowTable());
+                        modelPengguna).toRowTable1());
             }
         } catch(Exception ex) {
             ex.printStackTrace();
