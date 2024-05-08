@@ -47,12 +47,12 @@ public class FiturPengguna extends javax.swing.JPanel {
         scrollPane.setBorder(new EmptyBorder(5,10,5,10));
         table.setRowHeight(40);        
         table.getTableHeader().setDefaultRenderer(new ModelHeaderTable());
-        table.setDefaultRenderer(Object.class, new ModelRenderTable(5));
+        table.setDefaultRenderer(Object.class, new ModelRenderTable(6));
         tabmodel = (DefaultTableModel) table.getModel();
         rowSorter = new TableRowSorter<>(tabmodel);
         table.setRowSorter(rowSorter);
         tampilData();
-        tampilLevel();
+        tampilLevel_Status();
         actionRenderTable();
         cariData();
     }
@@ -69,13 +69,7 @@ public class FiturPengguna extends javax.swing.JPanel {
 
         @Override
         public void delete(int row) {
-            if(table.isEditing()) {
-                table.getCellEditor().stopCellEditing();
-            }
-            if(JOptionPane.showConfirmDialog(null, "Apakah Anda Ingin Menghapusnya", "Konfirmasi", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             hapusData(row);  
-            tabmodel.removeRow(row);
-            }
         }
 
         @Override
@@ -83,8 +77,8 @@ public class FiturPengguna extends javax.swing.JPanel {
 
         }
     };        
-        table.getColumnModel().getColumn(5).setCellRenderer(new TableCellActionRender(true, true, false));
-        table.getColumnModel().getColumn(5).setCellEditor(new TableCellEditor(action, true, true, false));
+        table.getColumnModel().getColumn(6).setCellRenderer(new TableCellActionRender(true, true, false));
+        table.getColumnModel().getColumn(6).setCellEditor(new TableCellEditor(action, true, true, false));
     }
     
     private void tambahData(){
@@ -94,8 +88,9 @@ public class FiturPengguna extends javax.swing.JPanel {
     String PasswordPengguna = TFPasswordPengguna.getText();
     String EmailPengguna = TFEmailPengguna.getText();
     String LevelPengguna = (String)cbxLevelPengguna.getSelectedItem();
-    
-    ModelPengguna modelPengguna = new ModelPengguna(IdPengguna, NamaPengguna, UsernamePengguna, PasswordPengguna, EmailPengguna, LevelPengguna);
+    String StatusPengguna = (String) cbxStatusPengguna.getSelectedItem();
+    ModelPengguna modelPengguna = new ModelPengguna(IdPengguna, NamaPengguna, UsernamePengguna, 
+    PasswordPengguna, EmailPengguna, LevelPengguna, StatusPengguna);
     servicePengguna.addData(modelPengguna);
      }
      
@@ -107,6 +102,7 @@ public class FiturPengguna extends javax.swing.JPanel {
         TFPasswordPengguna.setVisible(false);
         TFEmailPengguna.setText((String) table.getValueAt(row, 3));
         cbxLevelPengguna.setSelectedItem((String)table.getValueAt(row, 4));
+        cbxStatusPengguna.setSelectedItem((String) table.getValueAt(row, 5));
     }
     
       private void perbaruiData(){
@@ -116,7 +112,9 @@ public class FiturPengguna extends javax.swing.JPanel {
         String PasswordPengguna = TFPasswordPengguna.getText();
         String EmailPengguna = TFEmailPengguna.getText();
         String LevelPengguna = (String)cbxLevelPengguna.getSelectedItem();
-        ModelPengguna modelPengguna =new ModelPengguna(IdPengguna, NamaPengguna, UsernamePengguna, PasswordPengguna, EmailPengguna, LevelPengguna);
+        String StatusPengguna = (String) cbxStatusPengguna.getSelectedItem();
+        ModelPengguna modelPengguna =new ModelPengguna(IdPengguna, NamaPengguna, UsernamePengguna, 
+        PasswordPengguna, EmailPengguna, LevelPengguna, StatusPengguna);
         servicePengguna.updateData(modelPengguna);
       } 
     
@@ -125,9 +123,17 @@ public class FiturPengguna extends javax.swing.JPanel {
           String IdPengguna = (String) table.getValueAt(row, 0);
           ModelPengguna modelPengguna = new ModelPengguna ();
           modelPengguna.setIdpengguna(IdPengguna);
-          servicePengguna.deleteData(modelPengguna);
-          
-        
+          if(servicePengguna.validationDelete(modelPengguna)) {
+            int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus pengguna ini?", 
+        "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                if(confirm == JOptionPane.YES_OPTION) {
+                if(table.isEditing()) {
+                    table.getCellEditor().stopCellEditing();
+                }
+                servicePengguna.deleteData(modelPengguna);
+                tabmodel.removeRow(row);   
+                }
+        }    
     }
       
       private boolean validationAddData(){
@@ -212,10 +218,12 @@ public class FiturPengguna extends javax.swing.JPanel {
         });
     }
     
-    private void tampilLevel() {
+    private void tampilLevel_Status() {
         String[] levels = new String[]{"Owner", "Admin"};
-        for(String level : levels) {
-            cbxLevelPengguna.addItem(level);
+        String[] statuss = new String[]{"Aktif","Nonaktif"};
+        for(int a = 0; a < 2; a++) {
+            cbxLevelPengguna.addItem(levels[a]);
+            cbxStatusPengguna.addItem(statuss[a]);
         }
     }
    
@@ -253,6 +261,8 @@ public class FiturPengguna extends javax.swing.JPanel {
         TFUsernamePengguna = new javax.swing.JTextField();
         cbxLevelPengguna = new javax.swing.JComboBox<>();
         TFEmailPengguna = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        cbxStatusPengguna = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         label1 = new javax.swing.JLabel();
 
@@ -275,11 +285,11 @@ public class FiturPengguna extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID Pengguna", "Nama Pengguna", "Username", "Email", "Level", "Aksi"
+                "ID Pengguna", "Nama Pengguna", "Username", "Email", "Level", "Status", "Aksi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -464,6 +474,14 @@ public class FiturPengguna extends javax.swing.JPanel {
         TFEmailPengguna.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         TFEmailPengguna.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
 
+        jLabel7.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel7.setText("Status");
+
+        cbxStatusPengguna.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        cbxStatusPengguna.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
+
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
         panel2Layout.setHorizontalGroup(
@@ -480,7 +498,7 @@ public class FiturPengguna extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 445, Short.MAX_VALUE)
                         .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -488,10 +506,13 @@ public class FiturPengguna extends javax.swing.JPanel {
                     .addComponent(TFPasswordPengguna)
                     .addComponent(TFNamaPengguna)
                     .addComponent(TFUsernamePengguna)
+                    .addComponent(TFEmailPengguna)
                     .addGroup(panel2Layout.createSequentialGroup()
-                        .addComponent(cbxLevelPengguna, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 289, Short.MAX_VALUE))
-                    .addComponent(TFEmailPengguna))
+                        .addComponent(cbxLevelPengguna, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbxStatusPengguna, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         panel2Layout.setVerticalGroup(
@@ -519,7 +540,10 @@ public class FiturPengguna extends javax.swing.JPanel {
                     .addComponent(TFEmailPengguna, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbxLevelPengguna)
+                    .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cbxLevelPengguna)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbxStatusPengguna))
                     .addGroup(panel2Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -647,11 +671,13 @@ public class FiturPengguna extends javax.swing.JPanel {
     private swing.Button btnSimpan;
     private swing.Button btnTambah;
     private javax.swing.JComboBox<String> cbxLevelPengguna;
+    private javax.swing.JComboBox<String> cbxStatusPengguna;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel label;

@@ -40,17 +40,23 @@ public class ServiceLogin {
                         PreparedStatement pst = connection.prepareStatement(query);
                         ResultSet rst = pst.executeQuery();
                         if(rst.next()) {
-                        String idPenguna = rst.getString("ID_Pengguna");
-                        String namaPengguna = rst.getString("Nama");
-                        String username = rst.getString("Username");
-                        String email = rst.getString("Email");
-                        String level = rst.getString("Level");
-                        String password = rst.getString("Password");
-                        ModelPengguna pengguna = new ModelPengguna(idPenguna, namaPengguna, username, password, email, level);
-                        Main main = new Main(pengguna);
-                        panelLoading.setVisible(false);
-                        main.setVisible(true);
-                        frameLogin.dispose();
+                            String idPenguna = rst.getString("ID_Pengguna");
+                            String namaPengguna = rst.getString("Nama");
+                            String username = rst.getString("Username");
+                            String email = rst.getString("Email");
+                            String level = rst.getString("Level");
+                            String password = rst.getString("Password");
+                            String status = rst.getString("Status_Pengguna");
+                            if(status.equals("Aktif")) {
+                                ModelPengguna pengguna = new ModelPengguna(idPenguna, namaPengguna, username, password, email, level,"");
+                                Main main = new Main(pengguna);
+                                panelLoading.setVisible(false);
+                                main.setVisible(true);
+                                frameLogin.dispose();   
+                            } else {
+                                panelLoading.setVisible(false);
+                                JOptionPane.showMessageDialog(null, "Pengguna ini sudah tidak aktif");
+                            }
                         } else {
                             panelLoading.setVisible(false);
                             JOptionPane.showMessageDialog(null, "Username atau Email\ndan Password Salah");

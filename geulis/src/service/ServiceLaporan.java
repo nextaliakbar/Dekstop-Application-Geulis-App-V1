@@ -259,7 +259,7 @@ public class ServiceLaporan {
             String query = "SELECT brg.Nama_Barang, brg.Harga_Jual, "
                 + "dtl.Jumlah, dtl.Subtotal FROM detail_penjualan dtl JOIN barang brg "
                 + "ON dtl.Kode_Barang=brg.Kode_Barang WHERE No_Penjualan=?";
-            String totalCount = "SELECT COUNT(Jumlah) AS Jumlah FROM detail_penjualan "
+            String totalCount = "SELECT SUM(Jumlah) AS Jumlah FROM detail_penjualan "
                     + "WHERE No_Penjualan=?";
             
             int totalQty = 0;
@@ -308,7 +308,7 @@ public class ServiceLaporan {
             String query = "SELECT brg.Nama_Barang, brg.Satuan, brg.Harga_Beli, dtl.Jumlah, dtl.Subtotal "
                     + "FROM detail_pemesanan dtl INNER JOIN barang brg ON dtl.Kode_Barang=brg.Kode_Barang "
                     + "WHERE No_Pemesanan=?";
-            String totalCount = "SELECT COUNT(Jumlah) AS Jumlah FROM detail_pemesanan WHERE No_Pemesanan=?";
+            String totalCount = "SELECT SUM(Jumlah) AS Jumlah FROM detail_pemesanan WHERE No_Pemesanan=?";
             PreparedStatement pst = connection.prepareStatement(query);
             PreparedStatement pstCount = connection.prepareStatement(totalCount);
             int totalQty = 0;

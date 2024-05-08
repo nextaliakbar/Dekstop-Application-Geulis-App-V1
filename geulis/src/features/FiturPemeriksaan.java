@@ -167,29 +167,43 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         return total; 
     }
     
+    private int totalPotongan() {
+        int totalPotongan = 0;
+        int rowCount = tableDetail.getRowCount();
+        for(int a = 0; a < rowCount; a++) {
+            int subtotalPotongan = (int) tableDetail.getValueAt(a, 4);
+            totalPotongan += subtotalPotongan;
+        }
+        return totalPotongan;
+    }
+    
+    private int potongan() {
+        int harga = Integer.parseInt(lbHarga.getText());
+        String disc = txtPotongan.getText();
+        int potongan = 0;
+        int percent = 0;
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(disc);
+
+        if(matcher.find()) {
+            percent = Integer.parseInt(matcher.group());
+            if(percent <= 100) {
+                float decimal = (float) percent / 100;
+                potongan = (int) (harga * decimal);
+            } else {
+                potongan = percent;
+            }
+        }
+        return potongan;
+    }
+    
 //  Tambah Sementara
     private void tambahDataSementara() {
          String kodeTindakan = lbKodeTindakan.getText();
          String namaTindaan = lbNamaTindakan.getText();
-         int harga = Integer.parseInt(lbHarga.getText());
-         String disc = txtPotongan.getText();
-         int potongan = 0;
-         int percent = 0;
-         Pattern pattern = Pattern.compile("\\d+");
-         Matcher matcher = pattern.matcher(disc);
-         
-         if(matcher.find()) {
-             percent = Integer.parseInt(matcher.group());
-             if(percent <= 100) {
-                 float decimal = (float) percent / 100;
-                 potongan = (int) (harga * decimal);
-             } else {
-                 potongan = percent;
-             }
-         } 
-         
-         int totalHarga = harga - potongan;
-         tabmodel2.addRow(new Pemeriksaan(kodeTindakan, namaTindaan, harga, potongan, totalHarga).toTableRow());
+         int harga = Integer.parseInt(lbHarga.getText());         
+         int totalHarga = harga - potongan();
+         tabmodel2.addRow(new Pemeriksaan(kodeTindakan, namaTindaan, harga, potongan(), totalHarga).toTableRow());
          lbTotal.setText(df.format(total()));
     }
     
@@ -254,10 +268,12 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             String karyawan = lbIdKaryawan.getText();
             String admin = modelPengguna.getIdpengguna();
             String total = lbTotal.getText();
+            String totalPotongan = String.valueOf(totalPotongan());
             String bayar = df.format(Double.parseDouble(txtBayar.getText()));
             String kembalian = lbKembalian.getText();
             String jenisPembayaran = (String) cbx_jenisPembayaran.getSelectedItem();
-            ParamPemeriksaan payment = new ParamPemeriksaan(noPemeriksaan, tglPemeriksaan, jamPemeriksaan, pasien, karyawan, admin, total, bayar, kembalian, jenisPembayaran, fields);
+            ParamPemeriksaan payment = new ParamPemeriksaan(noPemeriksaan, tglPemeriksaan, jamPemeriksaan, pasien, karyawan, admin, 
+            total, totalPotongan, bayar, kembalian, jenisPembayaran, fields);
             Report.getInstance().printReportPemeriksaan(payment);
 
         } catch(Exception ex) {
@@ -300,7 +316,6 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
 
             @Override
             public void delete(int row) {
-                String actionCode = (String) tabmodel2.getValueAt(row, 1);
                 if(tableDetail.isEditing()) {
                     tableDetail.getCellEditor().stopCellEditing();
                 }
@@ -323,6 +338,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
     private void viewCheck(String text, JTextField field, int size) {
         field.setText(text);
         field.setFont(new Font("sansserif", Font.ITALIC, size));
+        field.setHorizontalAlignment(JTextField.CENTER);
         field.setForeground(new Color(185, 185, 185));
     }
     
@@ -1385,7 +1401,9 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
     
     private boolean validationAddTemporary() {
         boolean valid = true;
+        String kodeTdkn = lbKodeTindakan.getText();
         int rowCount = tableDetail.getRowCount();
+        String disc = txtPotongan.getText();
         try {
             if(lbKodeTindakan.getText().length() == 0) {
                 valid = false;
@@ -1393,13 +1411,22 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             } else {
                 for(int a = 0; a < rowCount; a++) {
                     String kodeTdknSmntr = (String) tableDetail.getValueAt(a, 1);
-                    String kodeTdkn = lbKodeTindakan.getText();
                     if(kodeTdkn.equals(kodeTdknSmntr)) {
                         valid = false;
                         JOptionPane.showMessageDialog(null, "Tindakan ini sudah di tambahkan");
                         break;
+                    } else if(!disc.equals("Klik disini dan Scan Kartu Member")) {
+                        if(potongan() == 0 || totalPotongan() == 0) {
+                            valid = true;
+                            break;
+                        } else if(potongan() <= totalPotongan() || potongan() >= totalPotongan()) {
+                            valid = false;
+                            JOptionPane.showMessageDialog(null, "Potongan hanya berlaku 1x");
+                            break;
+                        }
                     } else {
                         valid = true;
+                        break;
                     }
                 }
             }

@@ -99,10 +99,6 @@ public class FiturPasien extends javax.swing.JPanel {
         @Override
         public void delete(int row) {
             hapusData(row);
-            if(table.isEditing()) {
-                table.getCellEditor().stopCellEditing();
-            }
-            tabmodel.removeRow(row);
         }
 
         @Override
@@ -627,7 +623,17 @@ public class FiturPasien extends javax.swing.JPanel {
         String idPasien = (String) table.getValueAt(row, 0);
         ModelPasien modelPasien = new ModelPasien();
         modelPasien.setIdPasien(idPasien);
-        servicePasien.deleteData(modelPasien);
+        if(servicePasien.validationDelete(modelPasien)) {
+            int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus pasien ini?", 
+        "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                if(confirm == JOptionPane.YES_OPTION) {
+                if(table.isEditing()) {
+                    table.getCellEditor().stopCellEditing();
+                }
+                servicePasien.deleteData(modelPasien);
+                tabmodel.removeRow(row);   
+                }
+        }
     }
     
     private void cariData() {

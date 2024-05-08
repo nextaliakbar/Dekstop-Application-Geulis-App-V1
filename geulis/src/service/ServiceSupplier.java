@@ -119,6 +119,26 @@ public class ServiceSupplier {
         }
         return idSupplier;
     }
+    
+    public boolean validationDelete(ModelSupplier modelSupplier) {
+        boolean valid = false;
+        String query = "SELECT ID_Supplier FROM pemesanan WHERE ID_Supplier='"+modelSupplier.getIdSupplier()+"' ";
+        try {
+            PreparedStatement pst = connection.prepareStatement(query);
+            ResultSet rst = pst.executeQuery();
+            if(rst.next()) {
+                JOptionPane.showMessageDialog(null, "Tidak dapat menghapus supplier ini\n"
+               + "Toko pernah melakukan transaksi\n"
+               + "Pemesanan dengan supplier ini", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            } else {
+                valid = true;
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        return valid;
+    }
 }
 
 

@@ -107,11 +107,6 @@ public class FiturBarang extends javax.swing.JPanel {
         @Override
         public void delete(int row) {
             hapusData(row);
-            if(table.isEditing()) {
-                table.getCellEditor().stopCellEditing();
-            }
-            hapusData(row);
-            tabmodel.removeRow(row);
         }
 
         @Override
@@ -804,7 +799,18 @@ public class FiturBarang extends javax.swing.JPanel {
         String kodeBarang = (String) table.getValueAt(row, 0);
         ModelBarang modelBarang = new ModelBarang();
         modelBarang.setKode_Barang(kodeBarang);
-        serviceBarang.deleteData(modelBarang);
+        if(serviceBarang.validationDelete(modelBarang)) {
+            int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus barang ini?", 
+            "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                    if(confirm == JOptionPane.YES_OPTION) {
+                    
+                    if(table.isEditing()) {
+                        table.getCellEditor().stopCellEditing();
+                    }
+                    serviceBarang.deleteData(modelBarang);   
+                    tabmodel.removeRow(row);   
+            }
+        }
     }
     
     private void tambahJenisBarang() {

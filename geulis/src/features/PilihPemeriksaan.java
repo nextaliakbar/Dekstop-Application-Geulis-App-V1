@@ -87,7 +87,7 @@ public class PilihPemeriksaan extends java.awt.Dialog {
     
 //  Tampil Data Karyawan
     private void tampilData1() {
-        String query = "SELECT ID_Karyawan, Nama FROM karyawan WHERE Jabatan='Terapis'";
+        String query = "SELECT ID_Karyawan, Nama FROM karyawan WHERE Jabatan='Terapis' AND Status_Karyawan='Aktif'";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();

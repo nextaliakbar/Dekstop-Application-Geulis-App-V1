@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportPemeriksaan" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0a185fa4-375d-4b81-95e3-6ddfe2d8b6fa">
-	<property name="ireport.zoom" value="2.8531167061100566"/>
+	<property name="ireport.zoom" value="2.1435888100000424"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
@@ -36,7 +36,7 @@
 	<field name="kembali" class="java.lang.String"/>
 	<field name="detail" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<title>
-		<band height="14" splitType="Stretch">
+		<band height="34" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="555" height="13" uuid="d18b4d04-b7d2-4478-a139-3453707121b7"/>
 				<textElement textAlignment="Center">
@@ -50,42 +50,38 @@
 					<pen lineStyle="Solid"/>
 				</graphicElement>
 			</line>
-		</band>
-	</title>
-	<pageHeader>
-		<band height="21">
 			<staticText>
-				<reportElement x="358" y="1" width="97" height="20" uuid="a5a8e12c-9080-45aa-9c3d-2d08de4d0cc3"/>
-				<textElement verticalAlignment="Middle"/>
+				<reportElement x="362" y="14" width="87" height="20" uuid="8e5318a7-d94e-4f2d-8a68-a81fc9087b2e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<text><![CDATA[Total Keseluruhan :]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="50" y="1" width="136" height="20" uuid="0e22927d-5d5e-4a20-b73e-57af9ff1214f"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$P{rentang}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="-1" y="1" width="51" height="20" uuid="87792633-836e-4bb2-b693-cca713daadff"/>
+				<reportElement x="0" y="14" width="51" height="20" uuid="e87a366c-2e97-493b-a572-811504900c2e"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Rentang :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="455" y="1" width="100" height="20" uuid="141b1be2-8135-45fe-b076-1fe9d086a719"/>
+				<reportElement x="51" y="14" width="159" height="20" uuid="a138751b-30d3-4ec9-8dcb-7c6be8ebe6d3"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{rentang}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="449" y="14" width="106" height="20" uuid="1d8a3e4f-3f0d-4409-ba09-45fca416ce94"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="186" y="1" width="98" height="20" uuid="9e098eea-99e8-47f9-bc58-716a7b84805f"/>
+				<reportElement x="210" y="14" width="98" height="20" uuid="c33774c5-3adb-454a-bcf9-957adbca9535"/>
 				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Total Barang Terjual:]]></text>
+				<text><![CDATA[Total Barang Terjual :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="284" y="1" width="74" height="20" uuid="f03ee2af-bd5e-46c7-9219-2adbc5b0986f"/>
+				<reportElement x="308" y="14" width="54" height="20" uuid="ed4e7235-32af-4ad9-9673-3c73500c722f"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{totalQty}]]></textFieldExpression>
 			</textField>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band height="13" splitType="Stretch">
 			<staticText>

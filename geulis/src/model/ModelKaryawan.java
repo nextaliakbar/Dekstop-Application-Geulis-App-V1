@@ -16,13 +16,14 @@ public class ModelKaryawan {
     
     }
 
-    public ModelKaryawan(String idKaryawan, String nama, String noTelp, String email, String alamat, String jabatan) {
+    public ModelKaryawan(String idKaryawan, String nama, String noTelp, String email, String alamat, String jabatan, String status) {
         this.idKaryawan = idKaryawan;
         this.nama = nama;
         this.noTelp = noTelp;
         this.email = email;
         this.alamat = alamat;
         this.jabatan = jabatan;
+        this.status = status;
     }
 
     
@@ -32,7 +33,8 @@ public class ModelKaryawan {
     private String email;
     private String alamat;
     private String jabatan;
-
+    private String status;
+    
     public String getIdKaryawan() {
         return idKaryawan;
     }
@@ -79,5 +81,13 @@ public class ModelKaryawan {
 
     public void setAlamat(String alamat) {
         this.alamat = alamat;
+    }
+    
+        public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

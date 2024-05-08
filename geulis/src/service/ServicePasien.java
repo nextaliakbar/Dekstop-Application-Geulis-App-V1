@@ -126,4 +126,25 @@ public class ServicePasien {
         }
         return idPasien;
     }
+    
+    public boolean validationDelete(ModelPasien modelPasien) {
+        boolean valid = false;
+        String query1 = "SELECT ID_Pasien FROM reservasi WHERE ID_Pasien='"+modelPasien.getIdPasien()+"' ";
+        String query2 = "SELECT ID_Pasien FROM pemeriksaan WHERE ID_Pasien='"+modelPasien.getIdPasien()+"' ";
+        try {
+            PreparedStatement pst1 = connection.prepareStatement(query1);
+            ResultSet rst1 = pst1.executeQuery();
+            PreparedStatement pst2 = connection.prepareStatement(query2);
+            ResultSet rst2 = pst2.executeQuery();
+            if(rst1.next() || rst2.next()) {
+                JOptionPane.showMessageDialog(null, "Tidak dapat menghapus pasien ini\n"
+               + "Pasien ini pernah melakukan transaksi", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            } else {
+                valid = true;
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return valid;
+    }
 }

@@ -9,13 +9,14 @@ package model;
  * @author Alfito Dwi
  */
 public class ModelPengguna {
-    public ModelPengguna(String idpengguna, String nama, String username, String password, String email, String level){
+    public ModelPengguna(String idpengguna, String nama, String username, String password, String email, String level, String status){
          this.idpengguna = idpengguna;
          this.nama = nama;
          this.username = username;
          this.password = password;
          this.email = email;
          this.level = level;
+         this.status = status;
     }
     public ModelPengguna (){
         
@@ -28,6 +29,7 @@ public class ModelPengguna {
     private String confirPass;
     private String email;
     private String level; 
+    private String status;
     private String kode_verifikasi; 
 
     public String getIdpengguna() {
@@ -84,6 +86,14 @@ public class ModelPengguna {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+    
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getKode_verifikasi() {

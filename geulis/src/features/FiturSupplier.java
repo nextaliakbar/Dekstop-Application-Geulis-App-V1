@@ -68,14 +68,7 @@ public class FiturSupplier extends javax.swing.JPanel {
 
         @Override
         public void delete(int row) {
-            if(table.isEditing()) {
-                table.getCellEditor().stopCellEditing();
-            }
-            if(JOptionPane.showConfirmDialog(null, "Apakah Anda Ingin Menghapusnya", "Konfirmasi", 
-            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             hapusData(row);  
-            tabmodel.removeRow(row);
-            }
         }
 
         @Override
@@ -121,7 +114,17 @@ public class FiturSupplier extends javax.swing.JPanel {
         String IdSupplier = (String) table.getValueAt(row, 0);
         ModelSupplier modelSupplier = new ModelSupplier();
         modelSupplier.setIdSupplier(IdSupplier);
-        serviceSupplier.deleteData(modelSupplier);
+        if(serviceSupplier.validationDelete(modelSupplier)) {
+            int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus pasien ini?", 
+        "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                if(confirm == JOptionPane.YES_OPTION) {
+                if(table.isEditing()) {
+                    table.getCellEditor().stopCellEditing();
+                }
+                serviceSupplier.deleteData(modelSupplier);
+                tabmodel.removeRow(row);   
+                }
+        }
         
     }
     

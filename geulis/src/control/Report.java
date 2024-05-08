@@ -80,6 +80,7 @@ public class Report {
         parameter.put("staff", data.getKaryawan());
         parameter.put("admin", data.getAdmin());
         parameter.put("total", data.getTotal());
+        parameter.put("potongan", data.getPotongan());
         parameter.put("bayar", data.getBayar());
         parameter.put("kembalian", data.getKembalian());
         parameter.put("jenis", data.getJenis());

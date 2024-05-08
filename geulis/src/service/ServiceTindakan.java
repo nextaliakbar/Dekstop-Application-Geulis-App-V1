@@ -114,5 +114,24 @@ public class ServiceTindakan {
         }
         return kodeTindakan;
     }
+    
+    public boolean validationDelete(ModelTindakan modelTindakan) {
+        boolean valid = false;
+        String query = "SELECT Kode_Tindakan FROM detail_pemeriksaan WHERE Kode_Tindakan='"+modelTindakan.getKodeTindakan()+"' ";
+        try {
+            PreparedStatement pst = connection.prepareStatement(query);
+            ResultSet rst = pst.executeQuery();
+            if(rst.next()) {
+                JOptionPane.showMessageDialog(null, "Tidak dapat menghapus tindakan ini\n"
+               + "Tindakan ini pernah digunakan di transaksi", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            } else {
+                System.out.println(valid);
+                valid = true;
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return valid;
+    }
 }
        

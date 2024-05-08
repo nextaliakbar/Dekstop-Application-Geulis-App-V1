@@ -219,4 +219,28 @@ public class ServiceBarang {
         }
         return valid;
     }
+    
+    public boolean validationDelete(ModelBarang modelBarang) {
+        boolean valid = false;
+        String query1 = "SELECT Kode_Barang FROM detail_penjualan WHERE Kode_Barang='"+modelBarang.getKode_Barang()+"' ";
+        String query2 = "SELECT Kode_Barang FROM detail_pemesanan WHERE Kode_Barang='"+modelBarang.getKode_Barang()+"' ";
+        String query3 = "SELECT Kode_Barang FROM detail_restok WHERE Kode_Barang='"+modelBarang.getKode_Barang()+"' ";
+        try {
+            PreparedStatement pst1 = connection.prepareStatement(query1);
+            ResultSet rst1 = pst1.executeQuery();         
+            PreparedStatement pst2 = connection.prepareStatement(query2);
+            ResultSet rst2 = pst2.executeQuery();
+            PreparedStatement pst3 = connection.prepareStatement(query3);
+            ResultSet rst3 = pst3.executeQuery();
+            if(rst3.next() || rst2.next() || rst1.next()) {
+                JOptionPane.showMessageDialog(null, "Tidak dapat menghapus barang ini\n"
+               + "Barang ini pernah digunakan di transaksi", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            } else {
+                valid = true;
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return valid;
+    }
 }

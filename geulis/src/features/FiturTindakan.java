@@ -87,10 +87,6 @@ public class FiturTindakan extends javax.swing.JPanel {
         @Override
         public void delete(int row) {
             hapusData(row);
-            if(table.isEditing()) {
-                table.getCellEditor().stopCellEditing();
-            }
-            tabmodel.removeRow(row);
         }
 
         @Override
@@ -512,7 +508,17 @@ public class FiturTindakan extends javax.swing.JPanel {
         String kodeTindakan = (String) table.getValueAt(row, 0);
         ModelTindakan modelTindakan = new ModelTindakan();
         modelTindakan.setKodeTindakan(kodeTindakan);
-        serviceTindakan.deletaData(modelTindakan);
+        if(serviceTindakan.validationDelete(modelTindakan)) {
+        int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus tindakan ini?", 
+    "Konfirmasi", JOptionPane.YES_NO_OPTION);
+            if(confirm == JOptionPane.YES_OPTION) {
+            if(table.isEditing()) {
+                table.getCellEditor().stopCellEditing();
+            }
+            serviceTindakan.deletaData(modelTindakan);
+            tabmodel.removeRow(row);   
+            }
+        }
     }
     
     private void cariData() {

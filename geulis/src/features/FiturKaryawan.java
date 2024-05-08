@@ -48,12 +48,12 @@ public class FiturKaryawan extends javax.swing.JPanel {
         scrollPane.setBorder(new EmptyBorder(5,10,5,10));
         table.setRowHeight(40);        
         table.getTableHeader().setDefaultRenderer(new ModelHeaderTable());
-        table.setDefaultRenderer(Object.class, new ModelRenderTable(6));
+        table.setDefaultRenderer(Object.class, new ModelRenderTable(7));
         tabmodel = (DefaultTableModel) table.getModel();
         rowSorter = new TableRowSorter<>(tabmodel);
         table.setRowSorter(rowSorter);
         tampilData();
-        tampilJabatan();
+        tampilJabatanStatus();
         actionRenderTable();
         cariData();
     }
@@ -70,13 +70,7 @@ public class FiturKaryawan extends javax.swing.JPanel {
 
         @Override
         public void delete(int row) {
-            if(table.isEditing()) {
-                table.getCellEditor().stopCellEditing();
-            }
-            if(JOptionPane.showConfirmDialog(null, "Apakah Anda Ingin Menghapusnya", "Konfirmasi", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             hapusData(row);  
-            tabmodel.removeRow(row);
-            }
         }
 
         @Override
@@ -84,8 +78,8 @@ public class FiturKaryawan extends javax.swing.JPanel {
             
         }
     };        
-        table.getColumnModel().getColumn(6).setCellRenderer(new TableCellActionRender(true, true, false));
-        table.getColumnModel().getColumn(6).setCellEditor(new TableCellEditor(action, true, true, false));
+        table.getColumnModel().getColumn(7).setCellRenderer(new TableCellActionRender(true, true, false));
+        table.getColumnModel().getColumn(7).setCellEditor(new TableCellEditor(action, true, true, false));
     }
     
     private void addData(){
@@ -94,8 +88,10 @@ public class FiturKaryawan extends javax.swing.JPanel {
     String TeleponKaryawan = TFTeleponKaryawan.getText();   
     String EmailKaryawan = TFEmailKaryawan.getText();   
     String AlamatKaryawan = TFAlamatKaryawan.getText();   
-    String JabatanKaryawan = (String) cbxJabatanKaryawan.getSelectedItem();   
-    ModelKaryawan modelKaryawan = new ModelKaryawan(IdKaryawan, NamaKaryawan, TeleponKaryawan, EmailKaryawan, AlamatKaryawan, JabatanKaryawan);
+    String JabatanKaryawan = (String) cbxJabatanKaryawan.getSelectedItem();
+    String StatusKaryawan = (String) cbxStatusKaryawan.getSelectedItem();
+    ModelKaryawan modelKaryawan = new ModelKaryawan(IdKaryawan, NamaKaryawan, TeleponKaryawan, 
+    EmailKaryawan, AlamatKaryawan, JabatanKaryawan, StatusKaryawan);
     serviceKaryawan.addData(modelKaryawan);
     
     }
@@ -107,6 +103,8 @@ public class FiturKaryawan extends javax.swing.JPanel {
     TFEmailKaryawan.setText((String) table.getValueAt(row, 3));
     TFAlamatKaryawan.setText((String) table.getValueAt(row, 4));
     cbxJabatanKaryawan.setSelectedItem((String)table.getValueAt(row, 5));
+    cbxStatusKaryawan.setSelectedItem((String) table.getValueAt(row, 6));
+    
    }
     
     private void perbaruiData(){
@@ -116,7 +114,9 @@ public class FiturKaryawan extends javax.swing.JPanel {
         String EmailKaryawan = TFEmailKaryawan.getText();
         String AlamatKaryawan = TFAlamatKaryawan.getText();
         String JabatanKaryawan = (String) cbxJabatanKaryawan.getSelectedItem();
-        ModelKaryawan modelKaryawan = new ModelKaryawan(IdKaryawan, NamaKaryawan, TeleponKaryawan, EmailKaryawan, AlamatKaryawan, JabatanKaryawan);
+        String StatusKaryawan = (String) cbxStatusKaryawan.getSelectedItem();
+        ModelKaryawan modelKaryawan = new ModelKaryawan(IdKaryawan, NamaKaryawan, TeleponKaryawan, 
+        EmailKaryawan, AlamatKaryawan, JabatanKaryawan, StatusKaryawan);
         serviceKaryawan.updateData(modelKaryawan);
         
     }
@@ -124,7 +124,17 @@ public class FiturKaryawan extends javax.swing.JPanel {
         String IdKaryawan = (String) table.getValueAt(row, 0);
         ModelKaryawan modelKaryawan = new ModelKaryawan();
         modelKaryawan.setIdKaryawan(IdKaryawan);
-        serviceKaryawan.deleteData(modelKaryawan);
+        if(serviceKaryawan.validationDelete(modelKaryawan)) {
+            int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus karyawan ini?", 
+        "Konfirmasi", JOptionPane.YES_NO_OPTION);
+                if(confirm == JOptionPane.YES_OPTION) {
+                if(table.isEditing()) {
+                    table.getCellEditor().stopCellEditing();
+                }
+                serviceKaryawan.deleteData(modelKaryawan);
+                tabmodel.removeRow(row);   
+                }
+        } 
     }
      private boolean validation(){
         boolean valid = false;
@@ -164,10 +174,12 @@ public class FiturKaryawan extends javax.swing.JPanel {
         });
     }
     
-    private void tampilJabatan() {
+    private void tampilJabatanStatus() {
         String[] positions = new String[]{"Admin","Terapis"};
-        for(String position : positions) {
-            cbxJabatanKaryawan.addItem(position);
+        String[] statuss = new String[]{"Aktif","Nonaktif"};
+        for(int a = 0; a < 2; a++) {
+            cbxJabatanKaryawan.addItem(positions[a]);
+            cbxStatusKaryawan.addItem(statuss[a]);
         }
     }
     
@@ -237,6 +249,8 @@ public class FiturKaryawan extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         TFAlamatKaryawan = new javax.swing.JTextArea();
         cbxJabatanKaryawan = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        cbxStatusKaryawan = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
         label1 = new javax.swing.JLabel();
 
@@ -259,11 +273,11 @@ public class FiturKaryawan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID Karyawan", "Nama", "No Telepon", "Email", "Alamat", "Jabatan", "Aksi"
+                "ID Karyawan", "Nama", "No Telepon", "Email", "Alamat", "Jabatan", "Status", "Aksi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -279,9 +293,9 @@ public class FiturKaryawan extends javax.swing.JPanel {
             table.getColumnModel().getColumn(0).setPreferredWidth(100);
             table.getColumnModel().getColumn(0).setMaxWidth(100);
             table.getColumnModel().getColumn(4).setPreferredWidth(300);
-            table.getColumnModel().getColumn(6).setMinWidth(100);
-            table.getColumnModel().getColumn(6).setPreferredWidth(100);
-            table.getColumnModel().getColumn(6).setMaxWidth(100);
+            table.getColumnModel().getColumn(7).setMinWidth(100);
+            table.getColumnModel().getColumn(7).setPreferredWidth(100);
+            table.getColumnModel().getColumn(7).setMaxWidth(100);
         }
 
         btnTambah.setBackground(new java.awt.Color(135, 15, 50));
@@ -421,8 +435,8 @@ public class FiturKaryawan extends javax.swing.JPanel {
 
         jLabel5.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel5.setText("Jabatan");
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel5.setText("Status");
 
         jLabel6.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
@@ -464,34 +478,49 @@ public class FiturKaryawan extends javax.swing.JPanel {
         cbxJabatanKaryawan.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         cbxJabatanKaryawan.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
 
+        jLabel7.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel7.setText("Jabatan");
+
+        cbxStatusKaryawan.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        cbxStatusKaryawan.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
+
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
         panel2Layout.setHorizontalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSimpan1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(TFIdKaryawan)
                     .addComponent(TFEmailKaryawan)
                     .addComponent(TFNamaKaryawan)
                     .addComponent(TFTeleponKaryawan)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
+                        .addGap(0, 0, 0)
+                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
+                                .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnSimpan1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cbxStatusKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(panel2Layout.createSequentialGroup()
-                        .addComponent(cbxJabatanKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 289, Short.MAX_VALUE)))
+                        .addComponent(cbxJabatanKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panel2Layout.setVerticalGroup(
@@ -518,11 +547,11 @@ public class FiturKaryawan extends javax.swing.JPanel {
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxJabatanKaryawan)
-                    .addGroup(panel2Layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxStatusKaryawan)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -649,12 +678,14 @@ public class FiturKaryawan extends javax.swing.JPanel {
     private swing.Button btnSimpan1;
     private swing.Button btnTambah;
     private javax.swing.JComboBox<String> cbxJabatanKaryawan;
+    private javax.swing.JComboBox<String> cbxStatusKaryawan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

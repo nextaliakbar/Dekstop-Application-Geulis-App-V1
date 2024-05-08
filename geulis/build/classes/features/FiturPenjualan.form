@@ -425,7 +425,7 @@
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="scrollPanePasien" pref="611" max="32767" attributes="0"/>
+                      <Component id="scrollPanePasien" pref="644" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -790,7 +790,11 @@
                               </Group>
                               <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="spnJumlah" min="-2" pref="88" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="spnJumlah" min="-2" pref="88" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="lbStok" min="-2" pref="50" max="-2" attributes="0"/>
+                                  </Group>
                                   <Component id="lbSatuan" max="32767" attributes="0"/>
                                   <Component id="lbHrgJual" alignment="1" pref="276" max="32767" attributes="0"/>
                               </Group>
@@ -802,8 +806,9 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="lbSubtotal" alignment="0" min="-2" pref="276" max="-2" attributes="0"/>
+                                  <Component id="lbSubtotal" alignment="0" pref="276" max="32767" attributes="0"/>
                                   <Component id="lbNamaBrg" alignment="0" min="-2" pref="275" max="-2" attributes="0"/>
+                                  <Component id="lbNotif" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
@@ -858,11 +863,14 @@
                           <Component id="lbHrgJual" min="-2" pref="40" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel14" min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="spnJumlah" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jLabel14" pref="40" max="32767" attributes="0"/>
+                          <Component id="spnJumlah" pref="40" max="32767" attributes="0"/>
+                          <Component id="lbStok" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lbNotif" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel16" min="-2" pref="40" max="-2" attributes="0"/>
                           <Component id="lbSubtotal" min="-2" pref="40" max="-2" attributes="0"/>
@@ -1160,6 +1168,26 @@
                     </MatteColorBorder>
                   </Border>
                 </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbStok">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="20" style="0"/>
+                </Property>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lbNotif">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="12" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="32" green="f" red="87" type="rgb"/>
+                </Property>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="text" type="java.lang.String" value="Jumlah penjualan melebihi stok yang tersedia"/>
               </Properties>
             </Component>
           </SubComponents>

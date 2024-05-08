@@ -10,7 +10,9 @@ import java.util.List;
  */
 public class ParamPemeriksaan {
 
-    public ParamPemeriksaan(String noPemeriksaan, String tglPemeriksaan, String jamPemeriksaan, String pasien, String karyawan, String admin, String total, String bayar, String kembalian, String jenis, List<FieldsPemeriksaan> fields) {
+    public ParamPemeriksaan(String noPemeriksaan, String tglPemeriksaan, String jamPemeriksaan, String pasien, 
+    String karyawan, String admin, String total, String potongan, String bayar, String kembalian, String jenis, 
+    List<FieldsPemeriksaan> fields) {
         this.noPemeriksaan = noPemeriksaan;
         this.tglPemeriksaan = tglPemeriksaan;
         this.jamPemeriksaan = jamPemeriksaan;
@@ -18,6 +20,7 @@ public class ParamPemeriksaan {
         this.karyawan = karyawan;
         this.admin = admin;
         this.total = total;
+        this.potongan = potongan;
         this.bayar = bayar;
         this.kembalian = kembalian;
         this.jenis = jenis;
@@ -34,6 +37,7 @@ public class ParamPemeriksaan {
     private String karyawan;
     private String admin;
     private String total;
+    private String potongan;
     private String bayar;
     private String kembalian;
     private String jenis;
@@ -93,6 +97,14 @@ public class ParamPemeriksaan {
 
     public void setTotal(String total) {
         this.total = total;
+    }
+    
+    public String getPotongan() {
+        return potongan;
+    }
+
+    public void setPotongan(String potongan) {
+        this.potongan = potongan;
     }
 
     public String getBayar() {

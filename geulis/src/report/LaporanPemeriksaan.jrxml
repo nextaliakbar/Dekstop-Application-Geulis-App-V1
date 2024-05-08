@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportPemeriksaan" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0a185fa4-375d-4b81-95e3-6ddfe2d8b6fa">
-	<property name="ireport.zoom" value="2.143588810000042"/>
+	<property name="ireport.zoom" value="1.9487171000000385"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
@@ -36,7 +36,7 @@
 	<field name="total" class="java.lang.String"/>
 	<field name="detail" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
 	<title>
-		<band height="14" splitType="Stretch">
+		<band height="34" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="555" height="13" uuid="d18b4d04-b7d2-4478-a139-3453707121b7"/>
 				<textElement textAlignment="Center">
@@ -50,32 +50,28 @@
 					<pen lineStyle="Solid"/>
 				</graphicElement>
 			</line>
-		</band>
-	</title>
-	<pageHeader>
-		<band height="21">
-			<staticText>
-				<reportElement x="328" y="1" width="87" height="20" uuid="a5a8e12c-9080-45aa-9c3d-2d08de4d0cc3"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Total Keseluruhan :]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="117" y="1" width="149" height="20" uuid="0e22927d-5d5e-4a20-b73e-57af9ff1214f"/>
+				<reportElement x="117" y="14" width="181" height="20" uuid="193db39f-0152-4079-bd20-f000843f0f94"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{rentang}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="66" y="1" width="51" height="20" uuid="87792633-836e-4bb2-b693-cca713daadff"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Rentang :]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="415" y="1" width="100" height="20" uuid="141b1be2-8135-45fe-b076-1fe9d086a719"/>
+				<reportElement x="394" y="14" width="100" height="20" uuid="72dfef5f-e1be-4a86-9abf-12816122e09b"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="66" y="14" width="51" height="20" uuid="b7402363-7b6e-4366-9ac9-926693de87d8"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Rentang :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="14" width="96" height="20" uuid="8320ed50-77e0-4aa3-8c56-7765bbfffc87"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<text><![CDATA[Total Keseluruhan :]]></text>
+			</staticText>
 		</band>
-	</pageHeader>
+	</title>
 	<columnHeader>
 		<band height="13" splitType="Stretch">
 			<staticText>

@@ -301,10 +301,13 @@ public class FiturPenjualan extends javax.swing.JPanel {
         txtBayar.setText("");
         lbKembalian.setText("0");
         tabmodel2.setRowCount(0);
+        clearField();
     }
     
     private void clearField() {
-        lbNoBarcode.setText("");
+        lbNoBarcode.setText("Klik disini dan Scan Barcode Barang atau Klik Pilih");
+        lbNoBarcode.setFont(new Font("sansserif", Font.ITALIC, 14));
+        lbNoBarcode.setForeground(new Color(185, 185, 185));
         lbKodeBrg.setText("");
         lbNamaBrg.setText("");
         lbSatuan.setText("");
@@ -368,6 +371,8 @@ public class FiturPenjualan extends javax.swing.JPanel {
         lbNoPenjualan = new javax.swing.JLabel();
         lbNoBarcode = new javax.swing.JTextField();
         lbKodeBrg = new javax.swing.JLabel();
+        lbStok = new javax.swing.JLabel();
+        lbNotif = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         label1 = new javax.swing.JLabel();
         btnBatal = new swing.Button();
@@ -718,7 +723,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollPanePasien, javax.swing.GroupLayout.DEFAULT_SIZE, 611, Short.MAX_VALUE)
+                .addComponent(scrollPanePasien, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -838,6 +843,14 @@ public class FiturPenjualan extends javax.swing.JPanel {
         lbKodeBrg.setForeground(new java.awt.Color(0, 0, 0));
         lbKodeBrg.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
 
+        lbStok.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
+        lbStok.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        lbNotif.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        lbNotif.setForeground(new java.awt.Color(135, 15, 50));
+        lbNotif.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbNotif.setText("Jumlah penjualan melebihi stok yang tersedia");
+
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
         panel2Layout.setHorizontalGroup(
@@ -862,7 +875,10 @@ public class FiturPenjualan extends javax.swing.JPanel {
                             .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(6, 6, 6)
                         .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(spnJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(panel2Layout.createSequentialGroup()
+                                .addComponent(spnJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbStok, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(lbSatuan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lbHrgJual, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)))
                     .addGroup(panel2Layout.createSequentialGroup()
@@ -871,8 +887,9 @@ public class FiturPenjualan extends javax.swing.JPanel {
                             .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lbSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lbNamaBrg, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lbSubtotal, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
+                            .addComponent(lbNamaBrg, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbNotif, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnTambahSementara, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -914,10 +931,13 @@ public class FiturPenjualan extends javax.swing.JPanel {
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbHrgJual, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spnJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(spnJumlah, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(lbStok, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbNotif)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1011,6 +1031,8 @@ public class FiturPenjualan extends javax.swing.JPanel {
         Date date = new Date();
         lbTgl.setText(new SimpleDateFormat("dd - MMMM - yyyy").format(date));
         lbKodeBrg.setVisible(false);
+        lbStok.setVisible(false);
+        lbNotif.setVisible(false);
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void txtCariFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCariFocusGained
@@ -1057,7 +1079,16 @@ public class FiturPenjualan extends javax.swing.JPanel {
     }//GEN-LAST:event_btnPrintActionPerformed
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
-        changePanel(panelData);
+        if(tableDetail.getRowCount() != 0) {
+            int confirm = JOptionPane.showConfirmDialog(null, "Data yang telah diinput akan dihapus", "Konfirmasi", JOptionPane.OK_OPTION);
+            if(confirm == 0) {
+            clearFieldAll();
+            changePanel(panelData);
+            }   
+        } else {
+            clearFieldAll();
+            changePanel(panelData); 
+        }
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void btnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihActionPerformed
@@ -1068,6 +1099,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
         lbNamaBrg.setText(pilihBrg.modelBarang.getNama_Barang());
         lbSatuan.setText(pilihBrg.modelBarang.getSatuan());
         lbHrgJual.setText(String.valueOf(pilihBrg.modelBarang.getHarga_Jual()));
+        lbStok.setText(String.valueOf(pilihBrg.modelBarang.getStok()));
         spnJumlah.setValue((int) 1);
         int jumlah = (int) spnJumlah.getValue();
         double hargaJual = Double.parseDouble(lbHrgJual.getText());
@@ -1076,24 +1108,6 @@ public class FiturPenjualan extends javax.swing.JPanel {
         lbNoBarcode.setForeground(new Color(0, 0, 0));
         lbSubtotal.setText(String.valueOf(subtotal));
     }//GEN-LAST:event_btnPilihActionPerformed
-
-    private void spnJumlahStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnJumlahStateChanged
-        int jumlah = (int) spnJumlah.getValue();
-        String hrgJual = lbHrgJual.getText();
-        double subtotal;
-        if(hrgJual.length() != 0) {
-            if(jumlah > 0) {
-                subtotal = Double.parseDouble(hrgJual) * jumlah;    
-            } else if(jumlah == 0) {
-                subtotal = Double.parseDouble(hrgJual) + jumlah;         
-            } else {
-                subtotal = Double.parseDouble(hrgJual) + 0;             
-            }
-        } else {
-            subtotal = 0;
-        }
-        lbSubtotal.setText(String.valueOf(subtotal));
-    }//GEN-LAST:event_spnJumlahStateChanged
 
     private void lbNoBarcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lbNoBarcodeActionPerformed
         String noBarcode = lbNoBarcode.getText();
@@ -1127,6 +1141,28 @@ public class FiturPenjualan extends javax.swing.JPanel {
             tampilData();
         }
     }//GEN-LAST:event_btnSimpanActionPerformed
+
+    private void spnJumlahStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnJumlahStateChanged
+        int jumlah = (int) spnJumlah.getValue();
+        int stok = Integer.parseInt(lbStok.getText());
+        if(jumlah > stok) {
+            lbNotif.setVisible(true);
+        } else {
+            String hrgJual = lbHrgJual.getText();
+            double subtotal = 0;
+            if(hrgJual.length() != 0) {
+                if(jumlah > 0) {
+                    subtotal = Double.parseDouble(hrgJual) * jumlah;    
+                } else if(jumlah == 0) {
+                    subtotal = Double.parseDouble(hrgJual) + jumlah;         
+                } else {
+                    subtotal = Double.parseDouble(hrgJual) + 0;             
+                }
+            }
+            lbNotif.setVisible(false);
+            lbSubtotal.setText(String.valueOf(subtotal));    
+        }
+    }//GEN-LAST:event_spnJumlahStateChanged
 
     private void changePanel(JPanel panel) {
         removeAll();
@@ -1178,7 +1214,9 @@ public class FiturPenjualan extends javax.swing.JPanel {
     private javax.swing.JLabel lbNamaBrg;
     private javax.swing.JTextField lbNoBarcode;
     private javax.swing.JLabel lbNoPenjualan;
+    private javax.swing.JLabel lbNotif;
     private javax.swing.JLabel lbSatuan;
+    private javax.swing.JLabel lbStok;
     private javax.swing.JLabel lbSubtotal;
     private javax.swing.JLabel lbTgl;
     private javax.swing.JLabel lbTotal;

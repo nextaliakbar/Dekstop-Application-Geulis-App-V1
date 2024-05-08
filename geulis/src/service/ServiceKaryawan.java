@@ -45,7 +45,9 @@ public class ServiceKaryawan {
                String EmailKaryawan = rst.getString("Email");
                String AlamatKaryawan = rst.getString("Alamat");
                String JabatanKaryawan = rst.getString("Jabatan");
-               tabmodel.addRow(new Object[]{IdKaryawan, NamaKaryawan, TeleponKaryawan, EmailKaryawan, AlamatKaryawan, JabatanKaryawan});
+               String StatusKaryawan = rst.getString("Status_Karyawan");
+               tabmodel.addRow(new Object[]{IdKaryawan, NamaKaryawan, TeleponKaryawan, 
+               EmailKaryawan, AlamatKaryawan, JabatanKaryawan, StatusKaryawan});
            }
            
            pst.close();
@@ -58,7 +60,7 @@ public class ServiceKaryawan {
         }
     }
     public void addData(ModelKaryawan modelKaryawan) {
-        String query = "INSERT INTO karyawan (ID_Karyawan, Nama, No_Telp, Email, Alamat, Jabatan) VALUES (?,?,?,?,?,?)";
+        String query = "INSERT INTO karyawan (ID_Karyawan, Nama, No_Telp, Email, Alamat, Jabatan, Status_Karyawan) VALUES (?,?,?,?,?,?,?)";
         try {
            PreparedStatement pst = connection.prepareStatement(query);
            pst.setString(1, modelKaryawan.getIdKaryawan());
@@ -67,6 +69,7 @@ public class ServiceKaryawan {
            pst.setString(4, modelKaryawan.getEmail());
            pst.setString(5, modelKaryawan.getAlamat());
            pst.setString(6, modelKaryawan.getJabatan());
+           pst.setString(7, modelKaryawan.getStatus());
            pst.executeUpdate();
            JOptionPane.showMessageDialog(null, "Karyawan Berhasil Ditambahkan");
            pst.close();
@@ -77,7 +80,7 @@ public class ServiceKaryawan {
     
     }
     public void updateData(ModelKaryawan modelKaryawan){
-     String query = "UPDATE karyawan SET Nama=?, No_Telp=?, Email=?, Jabatan=?, Alamat=? WHERE ID_Karyawan=?";
+     String query = "UPDATE karyawan SET Nama=?, No_Telp=?, Email=?, Jabatan=?, Alamat=?, Status_Karyawan=? WHERE ID_Karyawan=?";
      try {
           PreparedStatement pst = connection.prepareStatement(query);
            pst.setString(1, modelKaryawan.getNama());
@@ -85,7 +88,8 @@ public class ServiceKaryawan {
            pst.setString(3, modelKaryawan.getEmail());
            pst.setString(4, modelKaryawan.getJabatan());
            pst.setString(5, modelKaryawan.getAlamat());
-           pst.setString(6, modelKaryawan.getIdKaryawan());
+           pst.setString(6, modelKaryawan.getStatus());
+           pst.setString(7, modelKaryawan.getIdKaryawan());
            pst.executeUpdate();
            JOptionPane.showMessageDialog(null, "Data Karyawan  Berhasil Diperbarui");
            pst.close();
@@ -123,6 +127,26 @@ public class ServiceKaryawan {
             ex.printStackTrace();
         }
         return idPasien;
+    }
+    
+    public boolean validationDelete(ModelKaryawan modelKaryawan) {
+        boolean valid = false;
+        String query = "SELECT ID_Karyawan FROM pemeriksaan WHERE ID_Karyawan='"+modelKaryawan.getIdKaryawan()+"' ";
+        try {
+            PreparedStatement pst = connection.prepareStatement(query);
+            ResultSet rst = pst.executeQuery();
+            if(rst.next()) {
+                JOptionPane.showMessageDialog(null, "Tidak dapat menghapus karyawan ini\n"
+               + "Karyawan ini pernah melakukan\n"
+               + "Transaksi silahkan ubah status\n"
+               + "Karyawan ini menjadi nonaktif", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            } else {
+                valid = true;
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return valid;
     }
 }
                 

@@ -45,11 +45,11 @@ public class ServicePengguna {
                 String IdPengguna = rst.getString("ID_Pengguna");
                 String NamaPengguna= rst.getString("Nama");
                 String UsernamePengguna = rst.getString("Username");
-                String PasswordPengguna = rst.getString("Password");
                 String EmailPengguna = rst.getString("Email");
                 String LevelPengguna = rst.getString("Level");
+                String StatusPengguna = rst.getString("Status_Pengguna");
                
-                tabmodel.addRow(new Object[]{IdPengguna, NamaPengguna, UsernamePengguna, EmailPengguna, LevelPengguna});
+                tabmodel.addRow(new Object[]{IdPengguna, NamaPengguna, UsernamePengguna, EmailPengguna, LevelPengguna, StatusPengguna});
             }
             pst.close();
             rst.close();
@@ -62,7 +62,7 @@ public class ServicePengguna {
     }
                 
     public void addData(ModelPengguna modelPengguna) {
-        String query = "INSERT INTO pengguna (ID_Pengguna, Nama, Username, Password, Email, Level ) VALUES (?,?,?,?,?,?)";
+        String query = "INSERT INTO pengguna (ID_Pengguna, Nama, Username, Password, Email, Level, Status_Pengguna ) VALUES (?,?,?,?,?,?,?)";
         System.out.println(query);
         try {
            PreparedStatement pst = connection.prepareStatement(query);
@@ -70,9 +70,9 @@ public class ServicePengguna {
            pst.setString(2, modelPengguna.getNama());
            pst.setString(3, modelPengguna.getUsername());
            pst.setString(4, modelPengguna.getPassword());
-            System.out.println(modelPengguna.getPassword());
            pst.setString(5, modelPengguna.getEmail());
            pst.setString(6, modelPengguna.getLevel());
+           pst.setString(7, modelPengguna.getStatus());
            pst.executeUpdate();
            JOptionPane.showMessageDialog(null, "Data Berhasil Ditambahkan");
            pst.close();
@@ -83,7 +83,7 @@ public class ServicePengguna {
     
 }
     public void updateData(ModelPengguna modelPengguna){
-     String query = "UPDATE pengguna SET Nama=?, Username=?, Password=?, Email=?, Level=? WHERE ID_Pengguna=?"; 
+     String query = "UPDATE pengguna SET Nama=?, Username=?, Password=?, Email=?, Level=?, Status_Pengguna=? WHERE ID_Pengguna=?"; 
      try {
           PreparedStatement pst = connection.prepareStatement(query);
            pst.setString(1, modelPengguna.getNama());
@@ -91,7 +91,8 @@ public class ServicePengguna {
            pst.setString(3, modelPengguna.getPassword());
            pst.setString(4, modelPengguna.getEmail());
            pst.setString(5, modelPengguna.getLevel());
-           pst.setString(6, modelPengguna.getIdpengguna());
+           pst.setString(6, modelPengguna.getStatus());
+           pst.setString(7, modelPengguna.getIdpengguna());
            pst.executeUpdate();
            JOptionPane.showMessageDialog(null, "Data Pengguna Berhasil Diperbarui");
            pst.close();
@@ -129,5 +130,34 @@ public class ServicePengguna {
             ex.printStackTrace();
         }
         return idPasien;
+    }
+    
+    public boolean validationDelete(ModelPengguna modelPengguna) {
+        boolean valid = false;
+        String query1 = "SELECT ID_Pengguna FROM pemeriksaan WHERE ID_Pengguna='"+modelPengguna.getIdpengguna()+"' ";
+        String query2 = "SELECT ID_Pengguna FROM pemesanan WHERE ID_Pengguna='"+modelPengguna.getIdpengguna()+"' ";
+        String query3 = "SELECT ID_Pengguna FROM penjualan WHERE ID_Pengguna='"+modelPengguna.getIdpengguna()+"' ";
+        String query4 = "SELECT ID_Pengguna FROM restok WHERE ID_Pengguna='"+modelPengguna.getIdpengguna()+"' ";
+        try {
+            PreparedStatement pst1 = connection.prepareStatement(query1);
+            ResultSet rst1 = pst1.executeQuery();
+            PreparedStatement pst2 = connection.prepareStatement(query2);
+            ResultSet rst2 = pst2.executeQuery();
+            PreparedStatement pst3 = connection.prepareStatement(query3);
+            ResultSet rst3 = pst3.executeQuery();
+            PreparedStatement pst4 = connection.prepareStatement(query4);
+            ResultSet rst4 = pst4.executeQuery();
+            if(rst1.next() || rst2.next() || rst3.next() || rst4.next()) {
+                JOptionPane.showMessageDialog(null, "Tidak dapat menghapus pengguna ini\n"
+               + "Pengguna ini pernah melakukan\n"
+               + "Transaksi silahkan ubah status\n"
+               + "Pengguna ini menjadi nonaktif", "Peringatan", JOptionPane.WARNING_MESSAGE);
+            } else {
+                valid = true;
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return valid;
     }
 }
