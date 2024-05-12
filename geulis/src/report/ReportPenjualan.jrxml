@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportPemeriksaan" language="groovy" pageWidth="198" pageHeight="283" columnWidth="160" leftMargin="19" rightMargin="19" topMargin="19" bottomMargin="19" uuid="0a185fa4-375d-4b81-95e3-6ddfe2d8b6fa">
 	<property name="ireport.zoom" value="4.594972986357238"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="144"/>
+	<property name="ireport.y" value="298"/>
 	<parameter name="noPenjualan" class="java.lang.String"/>
 	<parameter name="tgljam" class="java.lang.String"/>
 	<parameter name="total" class="java.lang.String"/>

@@ -249,6 +249,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
         boolean valid = true;
         int jumlah = (int) spnJumlah.getValue();
         int rowCount = tableDetail.getRowCount();
+        String kodeBrg = lbKodeBrg.getText();            
         try {
             if(lbNoBarcode.getText().trim().length() == 0 ) {
                 valid = false;
@@ -259,7 +260,6 @@ public class FiturPenjualan extends javax.swing.JPanel {
             } else {
              for(int a = 0; a < rowCount; a++) {
                 String kodeBrgInTable = (String) tableDetail.getValueAt(a, 1);
-                String kodeBrg = lbKodeBrg.getText();            
                     if(kodeBrg.equals(kodeBrgInTable)) {
                         valid = false;
                         JOptionPane.showMessageDialog(null, "Barang ini sudah ditambahkan");

@@ -1401,13 +1401,20 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
     
     private boolean validationAddTemporary() {
         boolean valid = true;
-        String kodeTdkn = lbKodeTindakan.getText();
         int rowCount = tableDetail.getRowCount();
         String disc = txtPotongan.getText();
+        String kodeTdkn = lbKodeTindakan.getText();
         try {
             if(lbKodeTindakan.getText().length() == 0) {
                 valid = false;
                 JOptionPane.showMessageDialog(null, "Silahkan Pilih Tindakan");
+            } else if(!disc.equals("Klik disini dan Scan Kartu Member")) {
+                if(potongan() == 0 || totalPotongan() == 0) {
+                    valid = true;
+                } else if(potongan() <= totalPotongan() || potongan() >= totalPotongan()) {
+                    valid = false;
+                    JOptionPane.showMessageDialog(null, "Potongan hanya berlaku 1x");
+                }
             } else {
                 for(int a = 0; a < rowCount; a++) {
                     String kodeTdknSmntr = (String) tableDetail.getValueAt(a, 1);
@@ -1415,22 +1422,14 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
                         valid = false;
                         JOptionPane.showMessageDialog(null, "Tindakan ini sudah di tambahkan");
                         break;
-                    } else if(!disc.equals("Klik disini dan Scan Kartu Member")) {
-                        if(potongan() == 0 || totalPotongan() == 0) {
-                            valid = true;
-                            break;
-                        } else if(potongan() <= totalPotongan() || potongan() >= totalPotongan()) {
-                            valid = false;
-                            JOptionPane.showMessageDialog(null, "Potongan hanya berlaku 1x");
-                            break;
-                        }
                     } else {
                         valid = true;
-                        break;
+                        
                     }
                 }
             }
         } catch(NullPointerException ex) {
+            valid = false;
             JOptionPane.showMessageDialog(null, "Silahkan Pilih Tindakan");
         }
         
