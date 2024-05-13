@@ -131,4 +131,10 @@ public class ModelPemeriksaan {
     public void setModelPengguna(ModelPengguna modelPengguna) {
         this.modelPengguna = modelPengguna;
     }
+    
+    public Object[] toRowTable() {
+        return new Object[]{this, noPemeriksaan, modelReservasi.getNoReservasi(), modelPasien.getIdPasien(),
+        modelPasien.getNama(), modelKaryawan.getIdKaryawan(), tglPemeriksaan, total, deskripsi, bayar, 
+        kembalian, jenisPembayaran, modelPengguna.getIdpengguna(), modelPengguna.getNama()};
+    }
 }

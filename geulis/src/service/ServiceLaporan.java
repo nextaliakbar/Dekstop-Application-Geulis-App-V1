@@ -10,13 +10,12 @@ import control.FieldsLaporanganPengeluaran;
 import control.FieldsPemeriksaan;
 import control.FieldsPengeluaran;
 import control.FieldsPenjualan;
-import control.LaporanPemeriksaan;
-import control.LaporanPenjualan;
 import control.ParamLaporan;
 import control.Report;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +23,14 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import model.ModelKaryawan;
+import model.ModelPasien;
+import model.ModelPemeriksaan;
 import model.ModelPemesanan;
 import model.ModelPengeluaran;
 import model.ModelPengguna;
+import model.ModelPenjualan;
+import model.ModelReservasi;
 import model.ModelSupplier;
 import swing.StatusType;
 import swing.Table;
@@ -37,7 +41,7 @@ import swing.Table;
 public class ServiceLaporan {
     
     private final LocalDate date = LocalDate.now();
-    
+    private final DecimalFormat df = new DecimalFormat();
     private final String queryPemeriksaan = "SELECT pmn.No_Pemeriksaan,pmn.No_Reservasi ,DATE_FORMAT(pmn.Tanggal_Pemeriksaan, '%d - %M - %Y') AS Tanggal_Pemeriksaan, "
         + "pmn.Deskripsi, pmn.Total, pmn.Bayar, pmn.Kembalian, pmn.Jenis_Pembayaran, pmn.ID_Pasien, "
         + "psn.Nama, pmn.ID_Karyawan, krn.Nama, pmn.ID_Pengguna, pgn.Nama FROM pemeriksaan pmn "
@@ -66,11 +70,19 @@ public class ServiceLaporan {
     }
 //  Pemeriksaan
     private void addRowTablePemeriksaan(ResultSet rst, DefaultTableModel tabmodel) throws Exception{
+        ModelReservasi modelReservasi = new ModelReservasi();
+        ModelPasien modelPasien = new ModelPasien();
+        ModelKaryawan modelKaryawan = new ModelKaryawan();
+        ModelPengguna modelPengguna = new ModelPengguna();
         String noPemeriksaan = rst.getString("No_Pemeriksaan");
         String noReservasi = rst.getString("No_Reservasi");
+        modelReservasi.setNoReservasi(noReservasi);
         String idPasien = rst.getString("ID_Pasien");
         String namaPasien = rst.getString("psn.Nama");
+        modelPasien.setIdPasien(idPasien);
+        modelPasien.setNama(namaPasien);
         String idKaryawan = rst.getString("ID_Karyawan");
+        modelKaryawan.setIdKaryawan(idKaryawan);
         String tgl = rst.getString("Tanggal_Pemeriksaan");
         int total = rst.getInt("Total");
         String deskripsi = rst.getString("Deskripsi");
@@ -79,21 +91,26 @@ public class ServiceLaporan {
         String jenisPembayaran = rst.getString("Jenis_Pembayaran");
         String idPengguna = rst.getString("ID_Pengguna");
         String namaPengguna = rst.getString("pgn.Nama");
-        tabmodel.addRow(new LaporanPemeriksaan(noPemeriksaan, noReservasi, idPasien, namaPasien, idKaryawan, 
-        tgl, total, deskripsi, bayar, kembalian, jenisPembayaran, idPengguna, namaPengguna).toRowTable());
+        modelPengguna.setIdpengguna(idPengguna);
+        modelPengguna.setNama(namaPengguna);
+        tabmodel.addRow(new ModelPemeriksaan(noPemeriksaan, modelReservasi, tgl, 
+        deskripsi, total, bayar, kembalian, jenisPembayaran, modelPasien, modelKaryawan, modelPengguna).toRowTable());
     }
     
 //  Penjualan
     private void addRowTablePenjualan(ResultSet rst, DefaultTableModel tabmodel) throws Exception{
+        ModelPengguna modelPengguna = new ModelPengguna();
         String noPenjualan = rst.getString("No_Penjualan");
         String idPengguna = rst.getString("ID_Pengguna");
         String namaPengguna = rst.getString("pgn.Nama");
+        modelPengguna.setIdpengguna(idPengguna);
+        modelPengguna.setNama(namaPengguna);
         String tglPenjualan = rst.getString("Tanggal_Penjualan");
         int total = rst.getInt("Total_Penjualan");
         double bayar = rst.getDouble("Bayar");
         double kembali = rst.getDouble("Kembali");
         String jenisPembayaran = rst.getString("Jenis_Pembayaran");
-        tabmodel.addRow(new LaporanPenjualan(noPenjualan, idPengguna, namaPengguna, tglPenjualan, total, bayar, kembali, jenisPembayaran).toRowTable());
+        tabmodel.addRow(new ModelPenjualan(noPenjualan, tglPenjualan, total, bayar, kembali, jenisPembayaran, modelPengguna).toRowTable());
     }
     
     //    Pemesanan
@@ -226,7 +243,7 @@ public class ServiceLaporan {
                 + "tindakan tdk ON detPem.Kode_Tindakan=tdk.Kode_Tindakan WHERE No_Pemeriksaan=?";
             PreparedStatement pst = connection.prepareStatement(query);
             for(int a = 0 ; a < table.getRowCount(); a++) {
-                LaporanPemeriksaan pemeriksaan = (LaporanPemeriksaan) table.getValueAt(a, 0);
+                ModelPemeriksaan pemeriksaan = (ModelPemeriksaan) table.getValueAt(a, 0);
                 pst.setString(1, pemeriksaan.getNoPemeriksaan());
                 ResultSet rst = pst.executeQuery();
                 List<FieldsPemeriksaan> detail = new ArrayList<>();
@@ -238,9 +255,10 @@ public class ServiceLaporan {
                     detail.add(new FieldsPemeriksaan(nama, harga, potongan, totalHarga));
                 }
                 rst.close();
-                fields.add(new FieldsLaporanPemeriksaan(a+1, pemeriksaan.getNoPemeriksaan(), pemeriksaan.getNoReservasi(), 
-                        pemeriksaan.getNamaPasien(), pemeriksaan.getIdKaryawan(), pemeriksaan.getTglPemeriksaan(), 
-                        pemeriksaan.getTotal(), pemeriksaan.getBayar(), pemeriksaan.getKembali(), detail));
+                fields.add(new FieldsLaporanPemeriksaan(a+1, pemeriksaan.getNoPemeriksaan(), pemeriksaan.getModelReservasi().getNoReservasi(), 
+                pemeriksaan.getModelPasien().getNama(), pemeriksaan.getModelKaryawan().getIdKaryawan(), pemeriksaan.getTglPemeriksaan(), 
+                df.format(pemeriksaan.getTotal())+" / " +pemeriksaan.getJenisPembayaran(), df.format(pemeriksaan.getBayar()), 
+                df.format(pemeriksaan.getKembalian()), detail));
             }
             pst.close();
             ParamLaporan paramater = new ParamLaporan();
@@ -267,7 +285,7 @@ public class ServiceLaporan {
             PreparedStatement pst = connection.prepareStatement(query);
             PreparedStatement pstCount = connection.prepareStatement(totalCount);
             for(int a = 0; a < table.getRowCount(); a++) {
-                LaporanPenjualan penjualan = (LaporanPenjualan) table.getValueAt(a, 0);
+                ModelPenjualan penjualan = (ModelPenjualan) table.getValueAt(a, 0);
                 pst.setString(1, penjualan.getNoPenjualan());
                 ResultSet rst = pst.executeQuery();
                 List<FieldsPenjualan> detail = new ArrayList<>();
@@ -287,8 +305,9 @@ public class ServiceLaporan {
                 
                 rst.close();
                 rstCount.close();
-                fields.add(new FieldsLaporanPenjualan(a+1, penjualan.getNoPenjualan(), penjualan.getKasir(), penjualan.getTglPenjualan(), 
-                totalJumlah, penjualan.getTotal(), penjualan.getBayar(), penjualan.getKembali(), detail));
+                fields.add(new FieldsLaporanPenjualan(a+1, penjualan.getNoPenjualan(), penjualan.getModelPengguna().getNama(), 
+                penjualan.getTglPenjualan(), totalJumlah, df.format(penjualan.getTotalPenjualan())+" / "+penjualan.getJenisPembayaran(),                        
+                df.format( penjualan.getBayar()),  df.format(penjualan.getKembali()), detail));
             }
             pst.close();
             ParamLaporan paramater = new ParamLaporan();
@@ -334,9 +353,10 @@ public class ServiceLaporan {
                 rst.close();
                 rstCount.close();
                 fields.add(new FieldsLaporanPemesanan(a+1, pemesanan.getNoPemesanan()+" / "+pemesanan.getStatusPemesanan(), 
-                        pemesanan.getModelSupplier().getNamaSupplier(), 
-                        pemesanan.getTglPemesanan(), totalJumlah, pemesanan.getTotalPemesanan(), pemesanan.getBayar(), 
-                        pemesanan.getKembali(), detail));
+                pemesanan.getModelSupplier().getNamaSupplier(), pemesanan.getTglPemesanan(), totalJumlah, 
+                df.format(pemesanan.getTotalPemesanan())+" / "+pemesanan.getJenisPembayaran(),
+                df.format(pemesanan.getBayar()), df.format(pemesanan.getKembali()), detail));
+                
             }
                 pst.close();
                 ParamLaporan paramater = new ParamLaporan();
@@ -371,7 +391,7 @@ public class ServiceLaporan {
                 }
                 rst.close();
                 fields.add(new FieldsLaporanganPengeluaran(a+1, pengeluaran.getNoPengeluaran(), pengeluaran.getModelPengguna().getNama(), 
-                        pengeluaran.getTglPengeluaran(), pengeluaran.getTotal(), detail));
+                        pengeluaran.getTglPengeluaran(), df.format(pengeluaran.getTotal()), detail));
             }
             pst.close();
             ParamLaporan paramater = new ParamLaporan();

@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class FieldsLaporanganPengeluaran {
 
-    public FieldsLaporanganPengeluaran(int no, String noPengeluaran, String pengguna, String tgl, int totalPengeluaran, List<FieldsPengeluaran> detail) {
+    public FieldsLaporanganPengeluaran(int no, String noPengeluaran, String pengguna, String tgl, String totalPengeluaran, List<FieldsPengeluaran> detail) {
         this.no = no;
         this.noPengeluaran = noPengeluaran;
         this.pengguna = pengguna;
@@ -28,7 +28,7 @@ public class FieldsLaporanganPengeluaran {
     private String noPengeluaran;
     private String pengguna;
     private String tgl;
-    private int totalPengeluaran;
+    private String totalPengeluaran;
     private List<FieldsPengeluaran> detail;
 
     public int getNo() {
@@ -47,7 +47,7 @@ public class FieldsLaporanganPengeluaran {
         return tgl;
     }
 
-    public int getTotalPengeluaran() {
+    public String getTotalPengeluaran() {
         return totalPengeluaran;
     }
 

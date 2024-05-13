@@ -8,7 +8,6 @@ import action.ActionPagination;
 import action.TableAction;
 import control.FieldsPemeriksaan;
 import control.ParamPemeriksaan;
-import control.Pemeriksaan;
 import control.Report;
 import java.awt.Color;
 import java.awt.Font;
@@ -41,6 +40,7 @@ import model.ModelRenderTable;
 import model.ModelPasien;
 import model.ModelPengguna;
 import model.ModelReservasi;
+import model.ModelTindakan;
 import model.PemeriksaanSementara;
 import service.ServiceDetailPemeriksaan;
 import swing.TableCellActionRender;
@@ -200,10 +200,11 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
 //  Tambah Sementara
     private void tambahDataSementara() {
          String kodeTindakan = lbKodeTindakan.getText();
-         String namaTindaan = lbNamaTindakan.getText();
+         String namaTindakan = lbNamaTindakan.getText();
          int harga = Integer.parseInt(lbHarga.getText());         
+         ModelTindakan modelTindakan = new ModelTindakan(kodeTindakan, namaTindakan, harga);
          int totalHarga = harga - potongan();
-         tabmodel2.addRow(new Pemeriksaan(kodeTindakan, namaTindaan, harga, potongan(), totalHarga).toTableRow());
+         tabmodel2.addRow(new ModelDetailPemeriksaan(null, modelTindakan, totalHarga, potongan()).toRowTable());
          lbTotal.setText(df.format(total()));
     }
     
@@ -254,8 +255,9 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         try {
         List<FieldsPemeriksaan> fields = new ArrayList<>();
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
-            Pemeriksaan pemeriksaan = (Pemeriksaan) tableDetail.getValueAt(a, 0);
-            fields.add(new FieldsPemeriksaan(pemeriksaan.getNamaTindakan(), pemeriksaan.getHarga(), pemeriksaan.getPotongan(), pemeriksaan.getTotalHarga()));
+            ModelDetailPemeriksaan pemeriksaan = (ModelDetailPemeriksaan) tableDetail.getValueAt(a, 0);
+            fields.add(new FieldsPemeriksaan(pemeriksaan.getModelTindakan().getKodeTindakan(), pemeriksaan.getModelTindakan().getBiaya(), 
+            pemeriksaan.getPotongan(), pemeriksaan.getSubtotal()));
         }
             String noPemeriksaan = lbNoPemeriksaan.getText();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

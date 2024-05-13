@@ -58,4 +58,9 @@ public class ModelDetailPemeriksaan {
     public void setPotongan(int potongan) {
         this.potongan = potongan;
     }
+    
+    public Object[] toRowTable() {
+        return new Object[]{this, modelTindakan.getKodeTindakan(), modelTindakan.getNamaTindakan(), 
+        modelTindakan.getBiaya(), potongan, subtotal};
+    }
 }

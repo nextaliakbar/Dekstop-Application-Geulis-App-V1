@@ -11,14 +11,14 @@ import java.util.List;
  *
  * @author usER
  */
-public class Parameter {
+public class ParamCard {
 
-    public Parameter(List<FieldsCard> fields, InputStream qrcode) {
+    public ParamCard(List<FieldsCard> fields, InputStream qrcode) {
         this.fields = fields;
         this.qrcode = qrcode;
     }
 
-    public Parameter() {
+    public ParamCard() {
     }
     
     private List<FieldsCard> fields;

@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class FieldsLaporanPemesanan {
 
-    public FieldsLaporanPemesanan(int no, String noPemesanan, String supplier, String tgl, int totalJumlah, int totalPemesanan, double bayar, double kembali, List<FieldsPenjualan> detail) {
+    public FieldsLaporanPemesanan(int no, String noPemesanan, String supplier, String tgl, int totalJumlah, String totalPemesanan, String bayar, String kembali, List<FieldsPenjualan> detail) {
         this.no = no;
         this.noPemesanan = noPemesanan;
         this.supplier = supplier;
@@ -32,9 +32,9 @@ public class FieldsLaporanPemesanan {
     private String supplier;
     private String tgl;
     private int totalJumlah;
-    private int totalPemesanan;
-    private double bayar;
-    private double kembali;
+    private String totalPemesanan;
+    private String bayar;
+    private String kembali;
     private List<FieldsPenjualan> detail;
 
     public int getNo() {
@@ -57,15 +57,15 @@ public class FieldsLaporanPemesanan {
         return totalJumlah;
     }
 
-    public int getTotalPemesanan() {
+    public String getTotalPemesanan() {
         return totalPemesanan;
     }
 
-    public double getBayar() {
+    public String getBayar() {
         return bayar;
     }
 
-    public double getKembali() {
+    public String getKembali() {
         return kembali;
     }
 

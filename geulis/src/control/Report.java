@@ -21,8 +21,8 @@ import net.sf.jasperreports.view.JasperViewer;
 public class Report {
     
     private static Report instance;
-    private JasperReport report;
-    private JasperReport reportDetail;
+    private JasperReport report1;
+    private JasperReport report2;
     
     public static Report getInstance() {
         if(instance == null) {
@@ -39,35 +39,33 @@ public class Report {
     public void compileReport(String slide) throws JRException{
         switch (slide) {
             case "Pemeriksaan":
-                  report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/ReportPemeriksaan.jrxml"));
+                  report1 = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/ReportPemeriksaan.jrxml"));
                 break;
             case "Penjualan":
-                  report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/ReportPenjualan.jrxml"));       
+                  report1 = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/ReportPenjualan.jrxml"));       
                 break;
             default:
                 switch(slide) {
                 case "Kartu Karyawan": 
-                    report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/KartuKaryawan.jrxml"));
+                    report1 = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/KartuKaryawan.jrxml"));
                     break;
                 case "Kartu Membership": 
-                    report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/KartuMember.jrxml"));
+                    report1 = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/KartuMember.jrxml"));
                     break;
             }
         }
         switch (slide) {
             case "Pemeriksaan":
-                reportDetail = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/LaporanPemeriksaan.jrxml"));
+                report2 = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/LaporanPemeriksaan.jrxml"));
                 break;
             case "Penjualan":
-                reportDetail = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/LaporanPenjualan.jrxml"));
+                report2 = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/LaporanPenjualan.jrxml"));
                 break;
             case "Pemesanan":
-                reportDetail = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/LaporanPemesanan.jrxml"));
+                report2 = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/LaporanPemesanan.jrxml"));
                 break;
             default:
-                reportDetail = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/LaporanPengeluaran.jrxml"));
-                System.out.println("Yes");
-                
+                report2 = JasperCompileManager.compileReport(getClass().getResourceAsStream("/report/LaporanPengeluaran.jrxml"));
         }
     }
     
@@ -85,7 +83,7 @@ public class Report {
         parameter.put("kembalian", data.getKembalian());
         parameter.put("jenis", data.getJenis());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data.getFields());
-        JasperPrint print = JasperFillManager.fillReport(report, parameter,  dataSource);
+        JasperPrint print = JasperFillManager.fillReport(report1, parameter,  dataSource);
         viewReport(print);
     }
     
@@ -99,15 +97,15 @@ public class Report {
         parameter.put("kembalian", data.getKembalian());
         parameter.put("jenis", data.getJenis());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data.getFields());
-        JasperPrint print = JasperFillManager.fillReport(report, parameter, dataSource);
+        JasperPrint print = JasperFillManager.fillReport(report1, parameter, dataSource);
         viewReport(print);
     }
     
-    public void printCard(Parameter data) throws JRException{
+    public void printCard(ParamCard data) throws JRException{
         Map paramater = new HashMap();
         paramater.put("qrcode", data.getQrcode());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data.getFields());
-        JasperPrint print = JasperFillManager.fillReport(report, paramater, dataSource);
+        JasperPrint print = JasperFillManager.fillReport(report1, paramater, dataSource);
         viewReport(print);
     }
     
@@ -116,7 +114,7 @@ public class Report {
         paramater.put("rentang", data.getRentang());
         paramater.put("total", data.getTotalKeseluruhan());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data.getFieldsPemeriksaan());
-        JasperPrint print = JasperFillManager.fillReport(reportDetail, paramater, dataSource);
+        JasperPrint print = JasperFillManager.fillReport(report2, paramater, dataSource);
         viewReport(print);
     }
     
@@ -126,7 +124,7 @@ public class Report {
         paramater.put("totalQty", data.getTotalQty());
         paramater.put("total", data.getTotalKeseluruhan());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data.getFieldsPenjualan());
-        JasperPrint print = JasperFillManager.fillReport(reportDetail, paramater, dataSource);
+        JasperPrint print = JasperFillManager.fillReport(report2, paramater, dataSource);
         viewReport(print);
     }
     
@@ -136,7 +134,7 @@ public class Report {
         paramater.put("totalQty", data.getTotalQty());
         paramater.put("total", data.getTotalKeseluruhan());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data.getFieldsPemesanan());
-        JasperPrint print = JasperFillManager.fillReport(reportDetail, paramater, dataSource);
+        JasperPrint print = JasperFillManager.fillReport(report2, paramater, dataSource);
         viewReport(print);
     }
     
@@ -146,7 +144,7 @@ public class Report {
         paramater.put("totalQty", data.getTotalQty());
         paramater.put("total", data.getTotalKeseluruhan());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data.getFieldsPengeluaran());
-        JasperPrint print = JasperFillManager.fillReport(reportDetail, paramater, dataSource);
+        JasperPrint print = JasperFillManager.fillReport(report2, paramater, dataSource);
         viewReport(print);
     }
     

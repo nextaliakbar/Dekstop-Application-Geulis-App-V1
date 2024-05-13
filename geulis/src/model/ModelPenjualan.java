@@ -87,4 +87,9 @@ public class ModelPenjualan {
     public void setModelPengguna(ModelPengguna modelPengguna) {
         this.modelPengguna = modelPengguna;
     }
+    
+    public Object[] toRowTable() {
+        return new Object[]{this, noPenjualan, modelPengguna.getIdpengguna(), modelPengguna.getNama(), tglPenjualan, 
+        totalPenjualan, bayar, kembali, jenisPembayaran};
+    }
 }

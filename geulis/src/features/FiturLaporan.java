@@ -301,20 +301,10 @@ public class FiturLaporan extends javax.swing.JPanel {
         cbxJenisLaporan.setBackground(new Color(255,255,255));
         cbxJenisLaporan.setForeground(new Color(0,0,0));
         cbxJenisLaporan.setFont(new Font("sansserif",0,20));
-        cbxUrutan.setBackground(new Color(255,255,255));
-        cbxUrutan.setForeground(new Color(0,0,0));
-        cbxUrutan.setFont(new Font("sansserif",0,20));
-        String[] types = new String[]{"Laporan Pemeriksaan","Laporan Penjualan","Laporan Pemesanan","Laporan Pengeluaran"};
-        String[] orders = new String[]{"Terbaru","Terlama"};
-        
+        String[] types = new String[]{"Laporan Pemeriksaan","Laporan Penjualan","Laporan Pemesanan","Laporan Pengeluaran"};        
         for(String type : types) {
             cbxJenisLaporan.addItem(type);
-        }
-        
-        for(String order : orders) {
-            cbxUrutan.addItem(order);
-        }
-        
+        }        
         dateChooser = new DateChooser();
         dateChooser.setTextField(txtTgl);
         dateChooser.setBetweenCharacter(" Sampai ");
@@ -439,7 +429,6 @@ public class FiturLaporan extends javax.swing.JPanel {
         label = new javax.swing.JLabel();
         panel1 = new javax.swing.JPanel();
         cbxJenisLaporan = new javax.swing.JComboBox<>();
-        cbxUrutan = new javax.swing.JComboBox<>();
         txtTgl = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         panel2 = new javax.swing.JPanel();
@@ -489,8 +478,6 @@ public class FiturLaporan extends javax.swing.JPanel {
             }
         });
 
-        cbxUrutan.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
-
         txtTgl.setBackground(new java.awt.Color(255, 255, 255));
         txtTgl.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         txtTgl.setForeground(new java.awt.Color(0, 0, 0));
@@ -512,7 +499,6 @@ public class FiturLaporan extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cbxJenisLaporan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbxUrutan, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtTgl))
                 .addContainerGap())
             .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
@@ -523,8 +509,6 @@ public class FiturLaporan extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(cbxJenisLaporan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(cbxUrutan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtTgl, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -942,9 +926,7 @@ public class FiturLaporan extends javax.swing.JPanel {
                     serviceLaporan.printReportPemesanan(tablePemesanan, txtTgl, lbTotal);
                     break;
                 default:
-                    serviceLaporan.printReportPengeluaran(tablePengeluaran, txtTgl, lbTotal);
-                    System.out.println("Ok");
-                    
+                    serviceLaporan.printReportPengeluaran(tablePengeluaran, txtTgl, lbTotal);                    
             }
         } else {
             JOptionPane.showMessageDialog(null, "Tidak Ada Transaksi Di Rentang\n Ini Silahkan Pilih Rentang Lain");
@@ -955,7 +937,6 @@ public class FiturLaporan extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPrint;
     private javax.swing.JComboBox<String> cbxJenisLaporan;
-    private javax.swing.JComboBox<String> cbxUrutan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel label;

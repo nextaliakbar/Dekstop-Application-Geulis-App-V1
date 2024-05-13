@@ -57,4 +57,9 @@ public class ModelDetailPenjualan {
     public void setSubtotal(double subtotal) {
         this.subtotal = subtotal;
     }
+    
+    public Object[] toRowTable() {
+        return new Object[]{this, modelBarang.getKode_Barang(), modelBarang.getNama_Barang(), 
+        modelBarang.getSatuan(), modelBarang.getHarga_Jual(), jumlah, subtotal};
+    }
 }

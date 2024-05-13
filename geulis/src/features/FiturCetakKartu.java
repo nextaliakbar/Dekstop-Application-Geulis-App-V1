@@ -11,7 +11,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import control.FieldsCard;
-import control.Parameter;
+import control.ParamCard;
 import control.Report;
 import java.awt.Color;
 import java.awt.Font;
@@ -104,7 +104,7 @@ public class FiturCetakKartu extends javax.swing.JPanel {
         String postion = txtJabatan.getText();
        
         fields.add(new FieldsCard(id, name, postion));
-        Parameter dataPrint = new Parameter(fields, generateQRCode());
+        ParamCard dataPrint = new ParamCard(fields, generateQRCode());
         Report.getInstance().printCard(dataPrint);
         } catch(Exception ex) {
             ex.printStackTrace();

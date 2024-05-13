@@ -13,7 +13,7 @@ import java.util.List;
 public class FieldsLaporanPemeriksaan {
 
     public FieldsLaporanPemeriksaan(int no, String noPemeriksaan, String noReservasi, String pasien, String terapis, String tgl, 
-        int total, double bayar, double kembali, List<FieldsPemeriksaan> detail) {
+        String total, String bayar, String kembali, List<FieldsPemeriksaan> detail) {
         this.no = no;
         this.noPemeriksaan = noPemeriksaan;
         this.noReservasi = noReservasi;
@@ -35,9 +35,9 @@ public class FieldsLaporanPemeriksaan {
     private String pasien;
     private String terapis;
     private String tgl;
-    private int total;
-    private double bayar;
-    private double kembali;
+    private String total;
+    private String bayar;
+    private String kembali;
     private List<FieldsPemeriksaan> detail;
 
     public int getNo() {
@@ -64,15 +64,15 @@ public class FieldsLaporanPemeriksaan {
         return tgl;
     }
 
-    public int getTotal() {
+    public String getTotal() {
         return total;
     }
 
-    public double getBayar() {
+    public String getBayar() {
         return bayar;
     }
 
-    public double getKembali() {
+    public String getKembali() {
         return kembali;
     }
 
