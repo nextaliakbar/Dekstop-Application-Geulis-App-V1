@@ -589,10 +589,15 @@ public class FiturPengeluaran extends javax.swing.JPanel {
             }
         });
 
+        jScrollPane1.setBorder(null);
+
+        txtDesc.setBackground(new java.awt.Color(255, 255, 255));
         txtDesc.setColumns(20);
-        txtDesc.setFont(new java.awt.Font("Dialog", 2, 14)); // NOI18N
+        txtDesc.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        txtDesc.setForeground(new java.awt.Color(185, 185, 185));
         txtDesc.setRows(5);
         txtDesc.setText("Catatan(Opsional)");
+        txtDesc.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
         txtDesc.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtDescFocusGained(evt);
@@ -930,6 +935,7 @@ public class FiturPengeluaran extends javax.swing.JPanel {
         txtDetailJenis.setText(null);
         txtSubtotal.setText(null);
         txtDesc.setText("Catatan(Opsional)");
+        txtDesc.setForeground(new Color(185, 185, 185));
         lbTotal.setText("0");
     } 
 

@@ -19,6 +19,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -221,6 +222,9 @@ public class Dialog extends java.awt.Dialog {
         jLabel2 = new javax.swing.JLabel();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
@@ -523,6 +527,10 @@ public class Dialog extends java.awt.Dialog {
         dispose();
     }//GEN-LAST:event_formWindowClosing
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        
+    }//GEN-LAST:event_formWindowActivated
+
     private void characterDigit(KeyEvent evt) {
         char typed = evt.getKeyChar();
         if(!Character.isDigit(typed)) {
@@ -550,7 +558,6 @@ public class Dialog extends java.awt.Dialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.Button btnBatal;
     private swing.Button btnDaftar;
-    private swing.Button btnSimpan;
     private javax.swing.JComboBox<String> cbx_jenisKelamin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -566,7 +573,6 @@ public class Dialog extends java.awt.Dialog {
     private javax.swing.JPanel panel;
     private javax.swing.JPanel panel1;
     private javax.swing.JPanel panel2;
-    private javax.swing.JPanel panel3;
     private javax.swing.JPanel panel4;
     private javax.swing.JScrollPane scroll2;
     private javax.swing.JTextArea t_alamat;

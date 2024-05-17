@@ -6,32 +6,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import swing.Pagination;
 public class ServiceSupplier {
     private Connection connection;
 
     public ServiceSupplier() {
         connection = Koneksi.getConnection();
     }
-    public void loadData(int page, DefaultTableModel tabmodel, Pagination pagination) {
-        String sqlCount = "SELECT COUNT(ID_Supplier) AS Jumlah FROM supplier";
-        int limit = 15;
-        int count = 0;
-        
-        String query = "SELECT * FROM supplier LIMIT "+(page-1) * limit+","+limit+"";
+    public void loadData(DefaultTableModel tabmodel) {
+        String query = "SELECT * FROM supplier";
         
         try {
-            PreparedStatement pst = connection.prepareStatement(sqlCount);
+            PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
-            if(rst.next()) {
-                count = rst.getInt("Jumlah");
-            }
-            
-            pst.close();
-            rst.close();
-            
-            pst = connection.prepareStatement(query);
-            rst = pst.executeQuery();
             while(rst.next()) {
                 String IdSupplier = rst.getString("ID_Supplier");
                 String NamaSupplier= rst.getString("Nama");
@@ -41,11 +27,6 @@ public class ServiceSupplier {
                
                 tabmodel.addRow(new Object[]{IdSupplier, NamaSupplier, TeleponSupplier, EmailSupplier, AlamatSupplier});
             }
-            pst.close();
-            rst.close();
-            
-            int totalPage = (int) Math.ceil((double)count / limit);
-            pagination.setPagination(page, totalPage);
         } catch(Exception ex) {
             ex.printStackTrace();
         }    
@@ -62,7 +43,7 @@ public class ServiceSupplier {
            pst.setString(4, modelSupplier.getEmailSupplier());
            pst.setString(5, modelSupplier.getAlamatSupplier());
            pst.executeUpdate();
-           JOptionPane.showMessageDialog(null, "Supplier Berhasil Ditambahkan");
+           JOptionPane.showMessageDialog(null, "Data Supplier Berhasil Ditambahkan");
            pst.close();
            
         } catch(Exception ex) {
@@ -95,7 +76,7 @@ public class ServiceSupplier {
         PreparedStatement pst = connection.prepareCall(query);
         pst.setString(1, modelSupplier.getIdSupplier());
         pst.executeUpdate();
-         JOptionPane.showMessageDialog(null, "Supplier Berhasil Di Hapus");
+         JOptionPane.showMessageDialog(null, "Data Supplier Berhasil Di Hapus");
     } catch (Exception ex) {
             ex.printStackTrace();
         }

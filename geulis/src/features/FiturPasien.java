@@ -54,21 +54,11 @@ public class FiturPasien extends javax.swing.JPanel {
         table.setRowSorter(rowSorter);
         t_alamat.setWrapStyleWord(true);
         t_alamat.setLineWrap(true);
-        tampilData();
+        pagination.setVisible(false);
+        servicePasien.loadData(tabmodel);
         tampilDataComboBox();
         actionRenderTable();
         cariData();
-    }
-    
-    private void tampilData() {
-        servicePasien.loadData(1, pagination, tabmodel);
-        pagination.addActionPagination(new ActionPagination() {
-            @Override
-            public void pageChanged(int page) {
-                tabmodel.setRowCount(0);
-                servicePasien.loadData(page, pagination, tabmodel);
-            }
-    });
     }
     
 //  Update,Delete,Detail
@@ -522,9 +512,9 @@ public class FiturPasien extends javax.swing.JPanel {
             perbaruiData();
         }
         clearField();
-        tabmodel.setRowCount(0);
-        servicePasien.loadData(1, pagination, tabmodel);
         changePanel(panelData);
+        tabmodel.setRowCount(0);
+        servicePasien.loadData(tabmodel);
         }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
@@ -536,9 +526,9 @@ public class FiturPasien extends javax.swing.JPanel {
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
         clearField();
-        tabmodel.setRowCount(0);
-        tampilData();
         changePanel(panelData);
+        tabmodel.setRowCount(0);
+        servicePasien.loadData(tabmodel);
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void t_no_TelpKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_t_no_TelpKeyTyped

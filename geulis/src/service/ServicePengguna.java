@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelPengguna;
-import swing.Pagination;
 
 /**
  *
@@ -22,25 +21,11 @@ public class ServicePengguna {
         connection = Koneksi.getConnection();
     }
     
-     public void loadData(int page, DefaultTableModel tabmodel, Pagination pagination) {
-        String sqlCount = "SELECT COUNT(ID_Pengguna) AS Jumlah FROM pengguna";
-        int limit = 15;
-        int count = 0;
-        
-        String query = "SELECT * FROM pengguna LIMIT "+(page-1) * limit+","+limit+"";
-        
+     public void loadData(DefaultTableModel tabmodel) {
+        String query = "SELECT * FROM pengguna";
         try {
-            PreparedStatement pst = connection.prepareStatement(sqlCount);
+            PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
-            if(rst.next()) {
-                count = rst.getInt("Jumlah");
-            }
-            
-            pst.close();
-            rst.close();
-            
-            pst = connection.prepareStatement(query);
-            rst = pst.executeQuery();
             while(rst.next()) {
                 String IdPengguna = rst.getString("ID_Pengguna");
                 String NamaPengguna= rst.getString("Nama");
@@ -51,11 +36,6 @@ public class ServicePengguna {
                
                 tabmodel.addRow(new Object[]{IdPengguna, NamaPengguna, UsernamePengguna, EmailPengguna, LevelPengguna, StatusPengguna});
             }
-            pst.close();
-            rst.close();
-            
-            int totalPage = (int) Math.ceil((double)count / limit);
-            pagination.setPagination(page, totalPage);
         } catch(Exception ex) {
             ex.printStackTrace();
         }    
@@ -74,7 +54,7 @@ public class ServicePengguna {
            pst.setString(6, modelPengguna.getLevel());
            pst.setString(7, modelPengguna.getStatus());
            pst.executeUpdate();
-           JOptionPane.showMessageDialog(null, "Data Berhasil Ditambahkan");
+           JOptionPane.showMessageDialog(null, "Data Pengguna Berhasil Ditambahkan");
            pst.close();
            
         } catch(Exception ex) {
@@ -107,7 +87,7 @@ public class ServicePengguna {
         PreparedStatement pst = connection.prepareCall(query);
         pst.setString(1, modelPengguna.getIdpengguna());
         pst.executeUpdate();
-        JOptionPane.showMessageDialog(null, "Pengguna Berhasil Di Hapus");
+        JOptionPane.showMessageDialog(null, "Data Pengguna Berhasil Di Hapus");
     } catch (Exception ex) {
             ex.printStackTrace();
         }

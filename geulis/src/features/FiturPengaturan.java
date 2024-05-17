@@ -488,6 +488,7 @@ public class FiturPengaturan extends javax.swing.JPanel {
 
         cbxJenisPromo.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         cbxJenisPromo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Potongan harga langsung", "Diskon % dari harga jual" }));
+        cbxJenisPromo.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
         cbxJenisPromo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxJenisPromoActionPerformed(evt);
@@ -657,7 +658,7 @@ public class FiturPengaturan extends javax.swing.JPanel {
         txtPaneInfo.setBorder(null);
         txtPaneInfo.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
         txtPaneInfo.setForeground(new java.awt.Color(0, 0, 0));
-        txtPaneInfo.setText("\t\t\t\t\n\t\t\t      Released Version 1.0\n   Geulis App merupakan aplikasi sistem informasi yang membantu memudahkan\n   pelaku usaha dalam mengelola unit usahanya di bidang layanan kecantikan (Beauty Center) \n   dan juga penjualan produk atau barang seperti pehitungan (pendapatan, keuntungan, pengeluaran)\n   pencatatan, pengelolaan stok,pembuatan laporan serta juga memudahkan pelaku usaha \n   dalam mengambil keputusan untuk mengembangkan usahanya sehingga dapat bersaing di pasar global.\n\n   Kelebihan\n   1.Hak Akses User (Owner dan Admin)\n   2.Sistem Keamanan (Security) aplikasi dengan fitur verifikasi melalui G-Mail\n   3.Dilengkapi dengan Chart Bar yang dapat digunakan dalam menganalisis perkembangan usaha\n   4.Informasi pendapatan serta keuntungan dari transaksi dan juga pengeluaran biaya \n      operasioal atau non operasionalsecara real-time\n   5.Pemberian potongan atau diskon pada pelanggan dengan sistem Membership\n   6.Pembaharuan status pada layanan reservasi dan pemesanan barang\n   7.Penggunaan Scan Barcode dalam penjualan barang\n   8.Pemberitahuan untuk menindaklanjuti atau Follow Up kepada pelanggan\n   9.Pembuatan ID Card untuk karyawan dan Membership Card untuk pelanggan\n   10.Pengelolaan stok barang secara otomatis\n   11.Pemberitahuan pada stok barang dalam keadaan tertentu\n   12.Cetak struk atau bukti pembayaran\n   13.Absensi terhadap karyawan dengan scan ID Card\n   14.Pembuatan laporan secara otomatis");
+        txtPaneInfo.setText("\t\t\t\t\n\t\t\t      Released Version 1.0\n   Geulis App merupakan aplikasi sistem informasi yang membantu memudahkan\n   pelaku usaha dalam mengelola unit usahanya di bidang layanan kecantikan (Beauty Center) \n   dan juga penjualan produk atau barang seperti pehitungan (pendapatan, keuntungan, pengeluaran)\n   pencatatan, pengelolaan stok,pembuatan laporan serta juga memudahkan pelaku usaha \n   dalam mengambil keputusan untuk mengembangkan usahanya sehingga dapat bersaing di pasar global.\n\n   Kelebihan\n   1.Hak Akses User (Owner dan Admin)\n   2.Sistem Keamanan (Security) aplikasi dengan fitur verifikasi melalui G-Mail\n   3.Dilengkapi dengan Chart Bar yang dapat digunakan dalam menganalisis perkembangan usaha\n   4.Informasi pendapatan serta keuntungan dari transaksi dan juga pengeluaran biaya \n      operasioal atau non operasional secara real-time\n   5.Pemberian potongan atau diskon pada pelanggan dengan sistem Membership\n   6.Pembaharuan status pada layanan reservasi dan pemesanan barang\n   7.Penggunaan Scan Barcode dalam penjualan barang\n   8.Pemberitahuan untuk menindaklanjuti atau Follow Up kepada pelanggan\n   9.Pembuatan ID Card untuk karyawan dan Membership Card untuk pelanggan\n   10.Pengelolaan stok barang secara otomatis\n   11.Pemberitahuan pada stok barang dalam keadaan tertentu\n   12.Cetak struk atau bukti pembayaran\n   13.Absensi terhadap karyawan dengan scan ID Card\n   14.Pembuatan laporan secara otomatis");
         scrollInfo.setViewportView(txtPaneInfo);
 
         javax.swing.GroupLayout panel5Layout = new javax.swing.GroupLayout(panel5);
@@ -713,12 +714,13 @@ public class FiturPengaturan extends javax.swing.JPanel {
             panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelInfoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelInfoLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(panel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(panelInfoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelInfoLayout.setVerticalGroup(
             panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -745,10 +747,19 @@ public class FiturPengaturan extends javax.swing.JPanel {
         Date date = new Date();
         String dateNow = new SimpleDateFormat("yyyy-MM-dd").format(date);
         String strDate = txtRentang.getText();
-        if(!strDate.equals(dateNow)) {
-        aturPromo();    
-        } else {
+        boolean valid;
+        if(txtNamaPromo.getText().length() == 0) {
+            valid = false;
+            JOptionPane.showMessageDialog(null, "Silahkan Isi Nama Promo");
+        } else if(strDate.equals(dateNow)) {
+            valid = false;
             JOptionPane.showMessageDialog(null, "Silahkan Tentukan Rentang Promo");
+        } else {
+            valid = true;
+        }
+        
+        if(valid) {
+            aturPromo();
         }
     }//GEN-LAST:event_btnSimpan3ActionPerformed
 

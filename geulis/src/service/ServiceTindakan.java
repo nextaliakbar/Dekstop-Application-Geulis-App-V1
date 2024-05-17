@@ -9,7 +9,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import swing.Pagination;
 
 /**
  *
@@ -22,23 +21,11 @@ public class ServiceTindakan {
         connection = Koneksi.getConnection();
     }
     
-    public void loadData(int page, Pagination pagination, DefaultTableModel model) {
-        String sqlCount = "SELECT COUNT(Kode_Tindakan) AS Jumlah FROM Tindakan";
-        int limit = 15;
-        int count = 0;
-        String query = "SELECT * FROM tindakan LIMIT "+(page-1) * limit+","+limit+"";
+    public void loadData(DefaultTableModel model) {
+        String query = "SELECT * FROM tindakan";
         try {
-            PreparedStatement pst = connection.prepareStatement(sqlCount);
+            PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
-            if(rst.next()) {
-                count = rst.getInt("Jumlah");
-            }
-            
-            pst.close();
-            rst.close();
-            
-            pst = connection.prepareStatement(query);
-            rst = pst.executeQuery();
             while(rst.next()) {
                 String kodeTindakan = rst.getString("Kode_Tindakan");
                 String namaTindakan = rst.getString("Nama_Tindakan");
@@ -46,11 +33,6 @@ public class ServiceTindakan {
                 model.addRow(new Object[]{kodeTindakan, namaTindakan, biaya});
             }
             
-            pst.close();
-            rst.close();
-            
-            int totalPage = (int) Math.ceil((double)count / limit);
-            pagination.setPagination(page, totalPage);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -64,7 +46,7 @@ public class ServiceTindakan {
             pst.setString(2, modelTindakan.getNamaTindakan());
             pst.setInt(3, modelTindakan.getBiaya());
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
+            JOptionPane.showMessageDialog(null, "Data Tindakan berhasil ditambahkan");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -78,7 +60,7 @@ public class ServiceTindakan {
             pst.setInt(2, modelTindakan.getBiaya());
             pst.setString(3, modelTindakan.getKodeTindakan());
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Data berhasil diperbarui");
+            JOptionPane.showMessageDialog(null, "Data Tindakan berhasil diperbarui");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -90,7 +72,7 @@ public class ServiceTindakan {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.setString(1, modelTindakan.getKodeTindakan());
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Data berhasil dihapus");
+            JOptionPane.showMessageDialog(null, "Data Tindakan berhasil dihapus");
         } catch(Exception ex) {
             ex.printStackTrace();
         }

@@ -950,6 +950,11 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         txtDeskripsi.setText("Catatan (Opsional)");
         txtDeskripsi.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
         txtDeskripsi.setOpaque(false);
+        txtDeskripsi.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtDeskripsiFocusGained(evt);
+            }
+        });
 
         lbNoPemeriksaan.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         lbNoPemeriksaan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -1352,6 +1357,11 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         pagination.setVisible(true);
     }//GEN-LAST:event_txtCariFocusLost
 
+    private void txtDeskripsiFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtDeskripsiFocusGained
+        txtDeskripsi.setText("");
+        txtDeskripsi.setForeground(new Color(0, 0, 0));
+    }//GEN-LAST:event_txtDeskripsiFocusGained
+
     private void changePanel(JPanel panel) {
         removeAll();
         add(panel);
@@ -1379,6 +1389,8 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         txtPotongan.setEnabled(true);
         tabEnter.setText("Tab Enter");
         tabEnter.setVisible(false);
+        txtDeskripsi.setText("Catatan (Opsional)");
+        txtDeskripsi.setForeground(new Color(185, 185, 185));
     }
     
     private boolean validation() {

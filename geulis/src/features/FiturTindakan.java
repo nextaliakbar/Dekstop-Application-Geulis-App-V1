@@ -52,20 +52,10 @@ public class FiturTindakan extends javax.swing.JPanel {
         tabmodel = (DefaultTableModel) table.getModel();
         rowSorter = new TableRowSorter<>(tabmodel);
         table.setRowSorter(rowSorter);
-        tampilData();
+        pagination.setVisible(false);
+        serviceTindakan.loadData(tabmodel);
         actionRenderTable();
         cariData();
-    }
-    
-    private void tampilData() {
-        serviceTindakan.loadData(1, pagination, tabmodel);
-        pagination.addActionPagination(new ActionPagination() {
-            @Override
-            public void pageChanged(int page) {
-                tabmodel.setRowCount(0);
-                serviceTindakan.loadData(page, pagination, tabmodel);
-            }
-    });
     }
     
 //  Update,Delete,Detail
@@ -434,17 +424,17 @@ public class FiturTindakan extends javax.swing.JPanel {
             perbaruiData();
         } 
         clearField();
+        changePanel(panelData);
         tabmodel.setRowCount(0);
-        serviceTindakan.loadData(1, pagination, tabmodel);
-            changePanel(panelData);
+        serviceTindakan.loadData(tabmodel);
         }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
         clearField();
-        tabmodel.setRowCount(0);
-        tampilData();
         changePanel(panelData);
+        tabmodel.setRowCount(0);
+        serviceTindakan.loadData(tabmodel);
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void changePanel(JPanel panel) {

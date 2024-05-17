@@ -56,24 +56,14 @@ public class FiturBarang extends javax.swing.JPanel {
         table.setRowSorter(rowSorter);
         t_Dir.setVisible(false);
         lbKodeJenis.setVisible(false);
-        tampilData();
+        pagination.setVisible(false);
+        serviceBarang.loadData(tabmodel);
         tampilJenisBarang();
         tampilJenisSatuan();
         cariData();
         actionRenderTable();
     }
-    
-    private void tampilData() {
-        serviceBarang.loadData(1, pagination, tabmodel);
-        pagination.addActionPagination(new ActionPagination() {
-        @Override
-        public void pageChanged(int page) {
-            tabmodel.setRowCount(0);
-            serviceBarang.loadData(page, pagination, tabmodel);
-        }
-    });
-    }
-    
+        
 //  Update,Delete,Detail
     private void actionRenderTable() {
         action = new TableAction() {
@@ -453,6 +443,11 @@ public class FiturBarang extends javax.swing.JPanel {
 
         t_tambahJenisBarang.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         t_tambahJenisBarang.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
+        t_tambahJenisBarang.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                t_tambahJenisBarangFocusGained(evt);
+            }
+        });
 
         btnTambahJenis.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add.png"))); // NOI18N
         btnTambahJenis.addActionListener(new java.awt.event.ActionListener() {
@@ -635,9 +630,9 @@ public class FiturBarang extends javax.swing.JPanel {
             perbaruiData();
         }
         clearField();
-        tabmodel.setRowCount(0);
-        serviceBarang.loadData(1, pagination, tabmodel);
         changePanel(panelData);
+        tabmodel.setRowCount(0);
+        serviceBarang.loadData(tabmodel);
         }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
@@ -657,9 +652,9 @@ public class FiturBarang extends javax.swing.JPanel {
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
         clearField();
-        tabmodel.setRowCount(0);
-        tampilData();
         changePanel(panelData);
+        tabmodel.setRowCount(0);
+        serviceBarang.loadData(tabmodel);
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void cbx_jenisBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_jenisBarangActionPerformed
@@ -674,8 +669,8 @@ public class FiturBarang extends javax.swing.JPanel {
             t_kodeBarang.setText(kodeBarang);
         } else {
             setShowFieldAddJenis(true, true, true);
-            t_tambahJenisBarang.setText(null);
-            t_tambahJenisBarang.requestFocus();
+            t_tambahJenisBarang.setText("Tambah Jenis Barang");
+            t_tambahJenisBarang.setForeground(new Color(185, 185, 185));
             t_kodeBarang.setText(null);
         }
     }//GEN-LAST:event_cbx_jenisBarangActionPerformed
@@ -707,6 +702,11 @@ public class FiturBarang extends javax.swing.JPanel {
     private void btnBatalJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalJenisActionPerformed
         setShowFieldAddJenis(false, false, false);
     }//GEN-LAST:event_btnBatalJenisActionPerformed
+
+    private void t_tambahJenisBarangFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_t_tambahJenisBarangFocusGained
+        t_tambahJenisBarang.setText("");
+        t_tambahJenisBarang.setForeground(new Color(0, 0, 0));
+    }//GEN-LAST:event_t_tambahJenisBarangFocusGained
 
     private void changePanel(JPanel panel) {
         removeAll();

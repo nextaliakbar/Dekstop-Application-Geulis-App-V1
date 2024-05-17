@@ -52,7 +52,8 @@ public class FiturKaryawan extends javax.swing.JPanel {
         tabmodel = (DefaultTableModel) table.getModel();
         rowSorter = new TableRowSorter<>(tabmodel);
         table.setRowSorter(rowSorter);
-        tampilData();
+        pagination.setVisible(false);
+        serviceKaryawan.loadData(tabmodel);
         tampilJabatanStatus();
         actionRenderTable();
         cariData();
@@ -163,17 +164,7 @@ public class FiturKaryawan extends javax.swing.JPanel {
         TFEmailKaryawan.setText(null);
         TFAlamatKaryawan.setText(null);
     }
-     
-    private void tampilData(){
-    serviceKaryawan.loadData(1, tabmodel, pagination);
-    pagination.addActionPagination(new action.ActionPagination() {
-        @Override
-        public void pageChanged(int page) {
-             serviceKaryawan.loadData(page, tabmodel, pagination);
-        }
-        });
-    }
-    
+         
     private void tampilJabatanStatus() {
         String[] positions = new String[]{"Admin","Terapis"};
         String[] statuss = new String[]{"Aktif","Nonaktif"};
@@ -632,7 +623,7 @@ public class FiturKaryawan extends javax.swing.JPanel {
         }
         }
         tabmodel.setRowCount(0);
-        tampilData();
+        serviceKaryawan.loadData(tabmodel);
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void txtCariFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCariFocusGained
@@ -647,9 +638,9 @@ public class FiturKaryawan extends javax.swing.JPanel {
 
     private void btnSimpan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpan1ActionPerformed
         clearField();
-        tabmodel.setRowCount(0);
-        tampilData();
         changePanel(panelData);
+        tabmodel.setRowCount(0);
+        serviceKaryawan.loadData(tabmodel);
     }//GEN-LAST:event_btnSimpan1ActionPerformed
 
     private void changePanel(JPanel panel) {

@@ -51,7 +51,8 @@ public class FiturPengguna extends javax.swing.JPanel {
         tabmodel = (DefaultTableModel) table.getModel();
         rowSorter = new TableRowSorter<>(tabmodel);
         table.setRowSorter(rowSorter);
-        tampilData();
+        pagination.setVisible(false);
+        servicePengguna.loadData(tabmodel);
         tampilLevel_Status();
         actionRenderTable();
         cariData();
@@ -178,15 +179,6 @@ public class FiturPengguna extends javax.swing.JPanel {
         TFUsernamePengguna.setText(null);
         TFPasswordPengguna.setText(null);
         TFEmailPengguna.setText(null);
-    }
-    private void tampilData(){
-        servicePengguna.loadData(1, tabmodel, pagination);
-        pagination.addActionPagination(new action.ActionPagination() {
-            @Override
-            public void pageChanged(int page) {
-                 servicePengguna.loadData(page, tabmodel, pagination);
-            }
-        });
     }
     
     private void cariData() {
@@ -629,7 +621,7 @@ public class FiturPengguna extends javax.swing.JPanel {
             }
         }
         tabmodel.setRowCount(0);
-        tampilData();
+        servicePengguna.loadData(tabmodel);
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void txtCariFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCariFocusGained
@@ -640,9 +632,9 @@ public class FiturPengguna extends javax.swing.JPanel {
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
         clearField();
-        tabmodel.setRowCount(0);
-        tampilData();
         changePanel(panelData);
+        tabmodel.setRowCount(0);
+        servicePengguna.loadData(tabmodel);
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void changePanel(JPanel panel) {

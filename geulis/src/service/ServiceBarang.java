@@ -26,23 +26,11 @@ public class ServiceBarang {
        connection = Koneksi.getConnection();
     }
     
-    public void loadData(int page, Pagination pagination, DefaultTableModel model) {
-        String sqlCount = "SELECT COUNT(Kode_Barang) AS Jumlah FROM barang";
-        int limit = 15;
-        int count = 0;
-        String query = "SELECT * FROM barang barang JOIN jenis_barang jenis_barang ON barang.Kode_Jenis=jenis_barang.Kode_Jenis LIMIT "+(page-1) * limit+","+limit+"";
+    public void loadData(DefaultTableModel model) {
+        String query = "SELECT * FROM barang barang JOIN jenis_barang jenis_barang ON barang.Kode_Jenis=jenis_barang.Kode_Jenis";
         try {
-            PreparedStatement pst = connection.prepareStatement(sqlCount);
-            ResultSet rst = pst.executeQuery();
-            if(rst.next()) {
-                count = rst.getInt("Jumlah");
-            }
-            
-            pst.close();
-            rst.close();
-            
-            pst = connection.prepareStatement(query);
-            rst = pst.executeQuery();
+            PreparedStatement pst = connection.prepareStatement(query);
+            ResultSet rst = pst.executeQuery();            
             while(rst.next()) {
                 String kodeBarang = rst.getString("Kode_Barang");
                 String noBarcode = rst.getString("Nomor_Barcode");
@@ -55,12 +43,6 @@ public class ServiceBarang {
                 int stok = rst.getInt("Stok");
                 model.addRow(new Object[]{kodeBarang, noBarcode, kodeJenis, jenis_barang, namaBarang, satuan, hargaBeli, hargaJual, stok});
             }
-            
-            pst.close();
-            rst.close();
-            
-            int totalPage = (int) Math.ceil((double)count / limit);
-            pagination.setPagination(page, totalPage);
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -79,7 +61,7 @@ public class ServiceBarang {
          pst.setInt(7, modelBarang.getHarga_Jual());
          pst.setInt(8, modelBarang.getStok());
          pst.executeUpdate();
-         JOptionPane.showMessageDialog(null, "Barang berhasil ditambahkan");
+         JOptionPane.showMessageDialog(null, "Data Barang berhasil ditambahkan");
      } catch(Exception ex) {
          ex.printStackTrace();
      }
@@ -97,7 +79,7 @@ public class ServiceBarang {
          pst.setInt(6, modelBarang.getStok());
          pst.setString(7, modelBarang.getKode_Barang());
          pst.executeUpdate();
-         JOptionPane.showMessageDialog(null, "Barang berhasil diperbarui");
+         JOptionPane.showMessageDialog(null, "Data Barang berhasil diperbarui");
      } catch(Exception ex) {
          ex.printStackTrace();
      }
@@ -109,7 +91,7 @@ public class ServiceBarang {
          PreparedStatement pst = connection.prepareStatement(query);
          pst.setString(1, modelBarang.getKode_Barang());
          pst.executeUpdate();
-         JOptionPane.showMessageDialog(null, "Barang berhasil dihapus");
+         JOptionPane.showMessageDialog(null, "Data Barang berhasil dihapus");
      } catch(Exception ex) {
          ex.printStackTrace();
      }

@@ -22,21 +22,11 @@ public class ServicePasien {
         connection = Koneksi.getConnection();
     }
     
-    public void loadData(int page, Pagination pagination, DefaultTableModel model) {
-        String sqlCount = "SELECT COUNT(ID_Pasien) AS Jumlah FROM Pasien";
-        int limit = 15;
-        int count = 0;
-        String query = "SELECT * FROM pasien LIMIT "+(page-1) * limit+","+limit+"";
+    public void loadData(DefaultTableModel model) {
+        String query = "SELECT * FROM pasien";
         try {
-            PreparedStatement pst = connection.prepareStatement(sqlCount);
+            PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
-            if(rst.next()) {
-                count = rst.getInt("Jumlah");
-            }
-            
-            pst.close();
-            rst.close();
-            
             pst = connection.prepareStatement(query);
             rst = pst.executeQuery();
             while(rst.next()) {
@@ -49,12 +39,6 @@ public class ServicePasien {
                 String level = rst.getString("Level");
                 model.addRow(new Object[]{idPasien, nama, jenisKelamin, no_Telp, email, alamat, level});
             }
-            
-            pst.close();
-            rst.close();
-            
-            int totalPage = (int) Math.ceil((double)count / limit);
-            pagination.setPagination(page, totalPage);
         } catch(Exception ex) {
             ex.printStackTrace();
         }

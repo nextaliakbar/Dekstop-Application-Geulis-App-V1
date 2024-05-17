@@ -51,7 +51,8 @@ public class FiturSupplier extends javax.swing.JPanel {
         tabmodel = (DefaultTableModel) table.getModel();
         rowSorter = new TableRowSorter<>(tabmodel);
         table.setRowSorter(rowSorter);
-        tampilData();
+        serviceSupplier.loadData(tabmodel);
+        pagination.setVisible(false);
         actionRenderTable();
         cariData();
     }
@@ -63,7 +64,6 @@ public class FiturSupplier extends javax.swing.JPanel {
         public void edit(int row) {
             changePanel(panelTambah);
             setComponentUpdate(row);
-            btnSimpan.setText("PERBARUI");
         }
 
         @Override
@@ -97,6 +97,7 @@ public class FiturSupplier extends javax.swing.JPanel {
         TFNoTelepon.setText((String) table.getValueAt(row, 2));
         TFEmail.setText((String) table.getValueAt(row, 3));
         TFAlamat.setText((String) table.getValueAt(row, 4));
+        btnSimpan.setText("PERBARUI");
     }
     
     private void perbaruiData() {
@@ -185,18 +186,7 @@ public class FiturSupplier extends javax.swing.JPanel {
         TFEmail.setText(null);
         TFAlamat.setText(null);
     }
-    
-    //tampilData
-    private void tampilData(){
-    serviceSupplier.loadData(1, tabmodel, pagination);
-    pagination.addActionPagination(new action.ActionPagination() {
-        @Override
-        public void pageChanged(int page) {
-             serviceSupplier.loadData(page, tabmodel, pagination);
-        }
-    });
-    }
-   
+       
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -568,7 +558,7 @@ public class FiturSupplier extends javax.swing.JPanel {
             }
         }
         tabmodel.setRowCount(0);
-        tampilData();
+        serviceSupplier.loadData(tabmodel);
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void txtCariFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCariFocusGained
@@ -579,9 +569,9 @@ public class FiturSupplier extends javax.swing.JPanel {
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
         clearField();
-        tabmodel.setRowCount(0);
-        tampilData();
         changePanel(panelData);   
+        tabmodel.setRowCount(0);
+        serviceSupplier.loadData(tabmodel);
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void TFNoTeleponKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_TFNoTeleponKeyTyped
