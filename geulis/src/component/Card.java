@@ -115,11 +115,12 @@ public class Card extends javax.swing.JPanel {
         lbIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/sales.png"))); // NOI18N
 
-        txtRange.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        txtRange.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
         txtRange.setForeground(new java.awt.Color(102, 102, 102));
         txtRange.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtRange.setText("2024-03-28 Sampai 2024-04-28");
         txtRange.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(170, 170, 170)));
+        txtRange.setOpaque(false);
 
         btnDetail.setBackground(new java.awt.Color(153, 153, 153));
         btnDetail.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N

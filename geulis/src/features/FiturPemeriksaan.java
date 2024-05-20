@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -131,7 +132,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             ex.printStackTrace();
         }
         
-        pasien.setIdPasien(lbIdPasien.getText());
+        pasien.setIdPasien(lbIdPasien1.getText());
         pasien.setNama(lbNamaPasien.getText());
         karyawan.setIdKaryawan(lbIdKaryawan.getText());
         karyawan.setNama(lbNamaKaryawan.getText());
@@ -368,6 +369,17 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Silahkan scan kartu member");
         }
     }
+    
+    private void validationCheckPromo() {
+        String idMember = txtPotongan.getText();
+        if(idMember.equals(lbIdPasien1.getText())) {
+            checkPromo();
+        } else {
+            txtPotongan.setHorizontalAlignment(JTextField.CENTER);
+            viewCheck("Klik disini dan Scan Kartu Member", txtPotongan, 14);
+            JOptionPane.showMessageDialog(null, "Pasien tidak terdaftar"); 
+        }
+    }
         
     private void cariData() {
         txtCari.getDocument().addDocumentListener(new DocumentListener() {
@@ -466,11 +478,12 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         lbHarga = new javax.swing.JLabel();
         txtPotongan = new javax.swing.JTextField();
         tabEnter = new javax.swing.JLabel();
+        lbIdPasien2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         label1 = new javax.swing.JLabel();
         btnBatal = new swing.Button();
         btnSimpan = new swing.Button();
-        lbIdPasien = new javax.swing.JLabel();
+        lbIdPasien1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.CardLayout());
@@ -1000,6 +1013,9 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             }
         });
         txtPotongan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPotonganKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPotonganKeyReleased(evt);
             }
@@ -1014,6 +1030,11 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
                 tabEnterMouseClicked(evt);
             }
         });
+
+        lbIdPasien2.setBackground(new java.awt.Color(255, 255, 255));
+        lbIdPasien2.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lbIdPasien2.setForeground(new java.awt.Color(0, 0, 0));
+        lbIdPasien2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
@@ -1037,15 +1058,15 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
                     .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panel2Layout.createSequentialGroup()
-                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(btnTambahSementara, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnTambahSementara, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbIdPasien2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtDeskripsi)
@@ -1121,7 +1142,9 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
                     .addGroup(panel2Layout.createSequentialGroup()
                         .addComponent(tabEnter, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtDeskripsi, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE))
+                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtDeskripsi, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                            .addComponent(lbIdPasien2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
                         .addComponent(btnTambahSementara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(9, 9, 9)))
@@ -1152,8 +1175,8 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             }
         });
 
-        lbIdPasien.setBackground(new java.awt.Color(135, 15, 50));
-        lbIdPasien.setForeground(new java.awt.Color(135, 15, 50));
+        lbIdPasien1.setBackground(new java.awt.Color(135, 15, 50));
+        lbIdPasien1.setForeground(new java.awt.Color(135, 15, 50));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -1161,7 +1184,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbIdPasien, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbIdPasien1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 922, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
@@ -1181,7 +1204,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
                 .addContainerGap(13, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lbIdPasien, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbIdPasien1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -1216,7 +1239,8 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         changePanel(panelTambah);
-        lbIdPasien.setVisible(false);
+        lbIdPasien1.setVisible(false);
+        lbIdPasien2.setVisible(false);
         lbNoPemeriksaan.setText(servicPemeriksaan.createNo());
         actionTableDetail();
         cbxNoReservasi.removeAllItems();
@@ -1291,7 +1315,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         
         if(selectIndex == selectIndex) {
             String noReservasi = (String) cbxNoReservasi.getSelectedItem();
-            servicPemeriksaan.readLabel(noReservasi, lbTgl, lbIdPasien,lbNamaPasien);
+            servicPemeriksaan.readLabel(noReservasi, lbTgl, lbIdPasien1,lbNamaPasien);
         }
     }//GEN-LAST:event_cbxNoReservasiActionPerformed
 
@@ -1315,6 +1339,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         txtPotongan.setFont(new Font("sansserif", Font.PLAIN, 20));
         txtPotongan.setHorizontalAlignment(JTextField.CENTER);
         txtPotongan.setForeground(new Color(0, 0, 0));
+        lbIdPasien2.setText("");
     }//GEN-LAST:event_txtPotonganFocusGained
 
     private void tabEnterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabEnterMouseClicked
@@ -1327,14 +1352,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
     }//GEN-LAST:event_tabEnterMouseClicked
 
     private void txtPotonganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPotonganActionPerformed
-        String idMember = txtPotongan.getText();
-        if(idMember.equals(lbIdPasien.getText())) {
-            checkPromo();
-        } else {
-            txtPotongan.setHorizontalAlignment(JTextField.CENTER);
-            viewCheck("Klik disini dan Scan Kartu Member", txtPotongan, 14);
-            JOptionPane.showMessageDialog(null, "Pasien tidak terdaftar"); 
-        }
+        validationCheckPromo();
     }//GEN-LAST:event_txtPotonganActionPerformed
 
     private void txtBayarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBayarKeyReleased
@@ -1361,6 +1379,10 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         txtDeskripsi.setText("");
         txtDeskripsi.setForeground(new Color(0, 0, 0));
     }//GEN-LAST:event_txtDeskripsiFocusGained
+
+    private void txtPotonganKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPotonganKeyPressed
+        lbIdPasien2.setText(txtPotongan.getText());    
+    }//GEN-LAST:event_txtPotonganKeyPressed
 
     private void changePanel(JPanel panel) {
         removeAll();
@@ -1418,10 +1440,15 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         int rowCount = tableDetail.getRowCount();
         String disc = txtPotongan.getText();
         String kodeTdkn = lbKodeTindakan.getText();
+        ModelPasien modelPasien = new ModelPasien();
+        modelPasien.setIdPasien(lbIdPasien2.getText());
         try {
-            if(lbKodeTindakan.getText().length() == 0) {
+            if(kodeTdkn.length() == 0) {
                 valid = false;
                 JOptionPane.showMessageDialog(null, "Silahkan Pilih Tindakan");
+            } else if(servicPemeriksaan.validastionAddData(modelPasien) && lbIdPasien2.getText().length() != 0) {
+                valid = false;
+                JOptionPane.showMessageDialog(null, "Pasien tidak terdaftar");
             } else if(!disc.equals("Klik disini dan Scan Kartu Member")) {
                 if(potongan() == 0 || totalPotongan() == 0) {
                     valid = true;
@@ -1493,7 +1520,8 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
     private javax.swing.JLabel label1;
     private javax.swing.JLabel lbHarga;
     private javax.swing.JLabel lbIdKaryawan;
-    private javax.swing.JLabel lbIdPasien;
+    private javax.swing.JLabel lbIdPasien1;
+    private javax.swing.JLabel lbIdPasien2;
     private javax.swing.JLabel lbKembalian;
     private javax.swing.JLabel lbKodeTindakan;
     private javax.swing.JLabel lbNamaKaryawan;

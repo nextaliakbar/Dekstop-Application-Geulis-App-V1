@@ -6,12 +6,14 @@ package service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.ModelPasien;
 import model.ModelPemeriksaan;
 import swing.Pagination;
 /**
@@ -236,5 +238,20 @@ public class ServicePemeriksaan {
             ex.printStackTrace();
         }
         return member;
+    }
+    
+    public boolean validastionAddData(ModelPasien modelPasien) {
+        boolean valid = true;
+        String query = "SELECT ID_Pasien FROM pasien WHERE ID_Pasien='"+modelPasien.getIdPasien()+"' ";
+        try {
+            PreparedStatement pst = connection.prepareStatement(query);
+            ResultSet rst = pst.executeQuery();
+            if(rst.next()) {
+                valid = false;
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return valid;
     }
 }
