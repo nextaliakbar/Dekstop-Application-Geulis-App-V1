@@ -156,8 +156,9 @@ public class FiturPenjualan extends javax.swing.JPanel {
             List<FieldsPenjualan> fields = new ArrayList<>();
             for(int a = 0; a < tableDetail.getRowCount(); a++) {
                 ModelDetailPenjualan penjualan = (ModelDetailPenjualan) tableDetail.getValueAt(a, 0);
-                fields.add(new FieldsPenjualan(penjualan.getModelBarang().getNama_Barang(), penjualan.getModelBarang().getHarga_Jual(), 
-                 penjualan.getJumlah(), penjualan.getSubtotal()));
+                fields.add(new FieldsPenjualan(penjualan.getModelBarang().getNama_Barang(), 
+                df.format(penjualan.getModelBarang().getHarga_Jual()), 
+                penjualan.getJumlah(), df.format(penjualan.getSubtotal())));
             }
             String noPenjualan = lbNoPenjualan.getText();
             Date dateNow = new Date();
@@ -183,7 +184,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
         modelPengguna.setIdpengguna(idPengguna);
         modelPengguna.setNama(namaPengguna);
         String tglPenjualan = (String) table.getValueAt(row, 3);
-        int totalPenjualan = (int) table.getValueAt(row, 4);
+        String totalPenjualan = (String) table.getValueAt(row, 4);
         double bayar = (double) table.getValueAt(row, 5);
         double kembali = (double) table.getValueAt(row, 6);
         String jenisPembayaran = (String) table.getValueAt(row, 7);
@@ -200,7 +201,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
         String noPenjualan = lbNoPenjualan.getText();
         LocalDate dateNow = LocalDate.now();
         String tglPenjualan = dateNow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        int totalPenjualan = (int) total();
+        String totalPenjualan = String.valueOf(total());
         double bayar = Double.parseDouble(txtBayar.getText());
         double kembalian = 0;
         String jenisPembayaran = (String) cbx_jenisPembayaran.getSelectedItem();
@@ -402,7 +403,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "No Penjualan", "ID Pengguna", "Kasir", "Tanggal", "Total", "Bayar", "Kembali", "Jenis Pembayaran", "Detail"
+                "No Penjualan", "ID Pengguna", "Kasir", "Tanggal", "Total", "Bayar", "Kembali", "Jenis Pembayaran", "        Detail"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -430,6 +431,9 @@ public class FiturPenjualan extends javax.swing.JPanel {
             table.getColumnModel().getColumn(7).setMinWidth(0);
             table.getColumnModel().getColumn(7).setPreferredWidth(0);
             table.getColumnModel().getColumn(7).setMaxWidth(0);
+            table.getColumnModel().getColumn(8).setMinWidth(100);
+            table.getColumnModel().getColumn(8).setPreferredWidth(100);
+            table.getColumnModel().getColumn(8).setMaxWidth(100);
         }
 
         btnTambah.setBackground(new java.awt.Color(135, 15, 50));
@@ -549,7 +553,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Data", "Kode Barang", "Nama Barang", "Satuan", "Harga Jual", "Jumlah", "Subtotal", "Aksi"
+                "Data", "Kode Barang", "Nama Barang", "Satuan", "Harga Jual", "Jumlah", "Subtotal", "         Aksi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -566,6 +570,9 @@ public class FiturPenjualan extends javax.swing.JPanel {
             tableDetail.getColumnModel().getColumn(0).setMinWidth(0);
             tableDetail.getColumnModel().getColumn(0).setPreferredWidth(0);
             tableDetail.getColumnModel().getColumn(0).setMaxWidth(0);
+            tableDetail.getColumnModel().getColumn(7).setMinWidth(100);
+            tableDetail.getColumnModel().getColumn(7).setPreferredWidth(100);
+            tableDetail.getColumnModel().getColumn(7).setMaxWidth(100);
         }
 
         jPanel2.setBackground(new java.awt.Color(135, 15, 50));

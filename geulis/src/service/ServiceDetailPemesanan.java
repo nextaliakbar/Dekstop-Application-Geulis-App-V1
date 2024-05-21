@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import model.Sementara;
 /**
  *
@@ -16,6 +17,7 @@ import model.Sementara;
  */
 public class ServiceDetailPemesanan {
     private Connection connection;
+    private final DecimalFormat df = new DecimalFormat("#,##0.##");
     
     public ServiceDetailPemesanan() {
         connection = Koneksi.getConnection();
@@ -36,7 +38,7 @@ public class ServiceDetailPemesanan {
                 int hrgBeli = rst.getInt("Harga_Beli");
                 int jumlah = rst.getInt("Jumlah");
                 int subtotal = rst.getInt("Subtotal");
-                tabmodel.addRow(new Object[]{kodeBarang, namaBarang, satuan, hrgBeli, jumlah, subtotal});
+                tabmodel.addRow(new Object[]{kodeBarang, namaBarang, satuan, df.format(hrgBeli), jumlah, df.format(subtotal)});
             }
         } catch(Exception ex) {
             ex.printStackTrace();

@@ -28,7 +28,6 @@ import model.ModelHeaderTable;
 import model.ModelKaryawan;
 import model.ModelPasien;
 import model.ModelRenderTable;
-import model.ModelTindakan;
 import service.Koneksi;
 
 /**

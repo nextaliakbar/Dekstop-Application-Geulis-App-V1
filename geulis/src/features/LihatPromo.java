@@ -12,12 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.RowFilter;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
 import model.ModelHeaderTable;
 import model.ModelPromo;
 import model.ModelRenderTable;
@@ -33,17 +29,13 @@ public class LihatPromo extends java.awt.Dialog {
      * Creates new form LihatPromo
      */
     private DefaultTableModel tabmodel;
-    private TableRowSorter<DefaultTableModel> rowSorter;
     private ServicePromo servicePromo = new ServicePromo();
     public LihatPromo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         styleTable(scrollPane, table, 6);
         tabmodel = (DefaultTableModel) table.getModel();
-        rowSorter = new TableRowSorter<>(tabmodel);
-        table.setRowSorter(rowSorter);
-        servicePromo.loadPromo(tabmodel);
-        cariPromo();
+        servicePromo.loadPromo(tabmodel,"SELECT * FROM promo");
     }
     
     //  Style Table
@@ -56,38 +48,7 @@ public class LihatPromo extends java.awt.Dialog {
         table.setRowHeight(40);        
         table.getTableHeader().setDefaultRenderer(new ModelHeaderTable());
         table.setDefaultRenderer(Object.class, new ModelRenderTable(columnTable));
-    }
-    
-//    Cari promo
-    private void cariPromo() {
-        txtCariPromo.getDocument().addDocumentListener(new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                String text = txtCariPromo.getText();
-                if(text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 1, 4, 5));
-                }
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                String text = txtCariPromo.getText();
-                if(text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text, 1, 4, 5));
-                }
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
-        });
-    }
-    
+    }    
 //    Akhiri promo
     private void akhirPromo() {
         int row = table.getSelectedRow();
@@ -96,7 +57,7 @@ public class LihatPromo extends java.awt.Dialog {
             String noPromo = (String) tabmodel.getValueAt(row, 0);
             promo.setNoPromo(noPromo);
             LocalDate date = LocalDate.now();
-            String thisDate = date.format(DateTimeFormatter.ISO_DATE);
+            String thisDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             String lastDate = servicePromo.lastDatePromo(promo);
             String keterangan = (String) tabmodel.getValueAt(row, 5);
             
@@ -106,7 +67,7 @@ public class LihatPromo extends java.awt.Dialog {
                 } else if(JOptionPane.showConfirmDialog(null, "Promo masih dalam batas rentang\nyang ditentukan, Yakin ingin\nmengakhiri?", "Konfirmasi",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
                     servicePromo.endPromo(promo);
                     tabmodel.setRowCount(0);
-                    servicePromo.loadPromo(tabmodel);
+                    servicePromo.loadPromo(tabmodel, "SELECT * FROM promo");
                 }
             }
         } else {
@@ -193,6 +154,11 @@ public class LihatPromo extends java.awt.Dialog {
                 txtCariPromoFocusGained(evt);
             }
         });
+        txtCariPromo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCariPromoKeyReleased(evt);
+            }
+        });
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/search-2.png"))); // NOI18N
@@ -248,6 +214,13 @@ public class LihatPromo extends java.awt.Dialog {
         txtCariPromo.setFont(new Font("sansserif", 0, 16));
         txtCariPromo.setForeground(new Color(0, 0, 0));
     }//GEN-LAST:event_txtCariPromoFocusGained
+
+    private void txtCariPromoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCariPromoKeyReleased
+        String text = txtCariPromo.getText();
+        tabmodel.setRowCount(0);
+        servicePromo.loadPromo(tabmodel, "SELECT * FROM promo WHERE Nama_Promo "
+        + "LIKE '%"+text+"%' OR Jenis_Promo LIKE '%"+text+"%' OR Keterangan LIKE '%"+text+"%' ");
+    }//GEN-LAST:event_txtCariPromoKeyReleased
 
     /**
      * @param args the command line arguments

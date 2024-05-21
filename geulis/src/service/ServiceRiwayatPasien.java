@@ -63,7 +63,7 @@ public class ServiceRiwayatPasien {
                 if(tglSekarang.equals(estimasiPemeriksaan)) {
                     status = "Tindak Lanjuti";
                 }
-                model.addRow(new String[]{noPemeriksaan, idPasien, nama, tglPemeriksaan, status});
+                model.addRow(new String[]{noPemeriksaan, idPasien, nama, lastCheckDate.format(DateTimeFormatter.ofPattern("dd - MMMM - yyyy")), status});
             }
         } catch(Exception ex) {
             ex.printStackTrace();

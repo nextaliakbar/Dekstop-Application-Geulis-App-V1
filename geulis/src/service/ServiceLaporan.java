@@ -94,7 +94,7 @@ public class ServiceLaporan {
         modelPengguna.setIdpengguna(idPengguna);
         modelPengguna.setNama(namaPengguna);
         tabmodel.addRow(new ModelPemeriksaan(noPemeriksaan, modelReservasi, tgl, 
-        deskripsi, total, bayar, kembalian, jenisPembayaran, modelPasien, modelKaryawan, modelPengguna).toRowTable());
+        deskripsi, df.format(total), bayar, kembalian, jenisPembayaran, modelPasien, modelKaryawan, modelPengguna).toRowTable());
     }
     
 //  Penjualan
@@ -110,7 +110,7 @@ public class ServiceLaporan {
         double bayar = rst.getDouble("Bayar");
         double kembali = rst.getDouble("Kembali");
         String jenisPembayaran = rst.getString("Jenis_Pembayaran");
-        tabmodel.addRow(new ModelPenjualan(noPenjualan, tglPenjualan, total, bayar, kembali, jenisPembayaran, modelPengguna).toRowTable());
+        tabmodel.addRow(new ModelPenjualan(noPenjualan, tglPenjualan, df.format(total), bayar, kembali, jenisPembayaran, modelPengguna).toRowTable());
     }
     
     //    Pemesanan
@@ -138,8 +138,8 @@ public class ServiceLaporan {
 
         tabmodel.addRow(new ModelPemesanan(
                 noPemeriksaan, tgl, type, status, 
-                total, bayar, kembali, jenisPembayaran, modelSupplier, 
-                modelPengguna).toRowTable2());
+                df.format(total), bayar, kembali, jenisPembayaran, 
+                modelSupplier, modelPengguna).toRowTable2());
     }
     
 //    Pengeluaran
@@ -153,7 +153,7 @@ public class ServiceLaporan {
         String tgl = rst.getString("Tanggal_Pengeluaran");
         int total = rst.getInt("Total_Pengeluaran");
         String deskripsi = rst.getString("Deskripsi");
-        tabmodel.addRow(new ModelPengeluaran(noPengeluaran, tgl, total, deskripsi, modelPengguna).toRowTable());
+        tabmodel.addRow(new ModelPengeluaran(noPengeluaran, tgl,df.format(total), deskripsi, modelPengguna).toRowTable());
     }
     
     public void loadAll(DefaultTableModel tabmodel, String slide) {
@@ -252,12 +252,12 @@ public class ServiceLaporan {
                     int harga = rst.getInt("Biaya_Tindakan");
                     int potongan = rst.getInt("Potongan");
                     int totalHarga = rst.getInt("Subtotal");
-                    detail.add(new FieldsPemeriksaan(nama, harga, potongan, totalHarga));
+                    detail.add(new FieldsPemeriksaan(nama, df.format(harga), df.format(potongan), df.format(totalHarga)));
                 }
                 rst.close();
                 fields.add(new FieldsLaporanPemeriksaan(a+1, pemeriksaan.getNoPemeriksaan(), pemeriksaan.getModelReservasi().getNoReservasi(), 
                 pemeriksaan.getModelPasien().getNama(), pemeriksaan.getModelKaryawan().getIdKaryawan(), pemeriksaan.getTglPemeriksaan(), 
-                df.format(pemeriksaan.getTotal())+" / " +pemeriksaan.getJenisPembayaran(), df.format(pemeriksaan.getBayar()), 
+                df.format(Integer.parseInt(pemeriksaan.getTotal()))+" / " +pemeriksaan.getJenisPembayaran(), df.format(pemeriksaan.getBayar()), 
                 df.format(pemeriksaan.getKembalian()), detail));
             }
             pst.close();
@@ -294,7 +294,7 @@ public class ServiceLaporan {
                     double hrgJual = rst.getDouble("Harga_Jual");
                     int jumlah = rst.getInt("Jumlah");
                     double subtotal = rst.getDouble("Subtotal");
-                    detail.add(new FieldsPenjualan(namaBrg, hrgJual, jumlah, subtotal));
+                    detail.add(new FieldsPenjualan(namaBrg, df.format(hrgJual), jumlah, df.format(subtotal)));
                 }
                 pstCount.setString(1, penjualan.getNoPenjualan());
                 ResultSet rstCount = pstCount.executeQuery();
@@ -306,8 +306,8 @@ public class ServiceLaporan {
                 rst.close();
                 rstCount.close();
                 fields.add(new FieldsLaporanPenjualan(a+1, penjualan.getNoPenjualan(), penjualan.getModelPengguna().getNama(), 
-                penjualan.getTglPenjualan(), totalJumlah, df.format(penjualan.getTotalPenjualan())+" / "+penjualan.getJenisPembayaran(),                        
-                df.format( penjualan.getBayar()),  df.format(penjualan.getKembali()), detail));
+                penjualan.getTglPenjualan(), totalJumlah, df.format(Integer.parseInt(penjualan.getTotalPenjualan()))+" / "+
+                penjualan.getJenisPembayaran(), df.format( penjualan.getBayar()),  df.format(penjualan.getKembali()), detail));
             }
             pst.close();
             ParamLaporan paramater = new ParamLaporan();
@@ -342,7 +342,7 @@ public class ServiceLaporan {
                     double hargaBeli = rst.getDouble("Harga_Beli");
                     int jumlah = rst.getInt("Jumlah");
                     double subtotal = rst.getDouble("Subtotal");
-                    detail.add(new FieldsPenjualan(namaBrg, hargaBeli, jumlah, subtotal));
+                    detail.add(new FieldsPenjualan(namaBrg, df.format(hargaBeli), jumlah, df.format(subtotal)));
                 }
                 pstCount.setString(1, pemesanan.getNoPemesanan());
                 ResultSet rstCount = pstCount.executeQuery();
@@ -354,7 +354,7 @@ public class ServiceLaporan {
                 rstCount.close();
                 fields.add(new FieldsLaporanPemesanan(a+1, pemesanan.getNoPemesanan()+" / "+pemesanan.getStatusPemesanan(), 
                 pemesanan.getModelSupplier().getNamaSupplier(), pemesanan.getTglPemesanan(), totalJumlah, 
-                df.format(pemesanan.getTotalPemesanan())+" / "+pemesanan.getJenisPembayaran(),
+                df.format(Integer.parseInt(pemesanan.getTotalPemesanan()))+" / "+pemesanan.getJenisPembayaran(),
                 df.format(pemesanan.getBayar()), df.format(pemesanan.getKembali()), detail));
                 
             }
@@ -387,11 +387,11 @@ public class ServiceLaporan {
                     String namaJenis = rst.getString("Nama_Jenis");
                     String detailJenis = rst.getString("Detail_Jenis");
                     double subtotal = rst.getDouble("Subtotal");
-                    detail.add(new FieldsPengeluaran(namaJenis, detailJenis, subtotal));
+                    detail.add(new FieldsPengeluaran(namaJenis, detailJenis, df.format(subtotal)));
                 }
                 rst.close();
                 fields.add(new FieldsLaporanganPengeluaran(a+1, pengeluaran.getNoPengeluaran(), pengeluaran.getModelPengguna().getNama(), 
-                        pengeluaran.getTglPengeluaran(), df.format(pengeluaran.getTotal()), detail));
+                pengeluaran.getTglPengeluaran(), df.format(Integer.parseInt(pengeluaran.getTotal())), detail));
             }
             pst.close();
             ParamLaporan paramater = new ParamLaporan();

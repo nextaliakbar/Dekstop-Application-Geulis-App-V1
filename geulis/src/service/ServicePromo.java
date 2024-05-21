@@ -6,12 +6,11 @@ package service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelPromo;
@@ -70,8 +69,8 @@ public class ServicePromo {
     
     
 //  loadPromo
-    public void loadPromo(DefaultTableModel tabmodel) {
-        String query = "SELECT * FROM promo";
+    public void loadPromo(DefaultTableModel tabmodel, String query) {
+        DecimalFormat df = new DecimalFormat("#,##0.##");
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
@@ -86,7 +85,7 @@ public class ServicePromo {
                 if(lots <= 100) {
                     banyak = rst.getString("Banyak_Promo").concat(" %");
                 } else {
-                    banyak  = rst.getString("Banyak_Promo");
+                    banyak  = df.format(Integer.parseInt(rst.getString("Banyak_Promo")));
                 }
                 String jenis = rst.getString("Jenis_Promo");
                 String keterangan = rst.getString("Keterangan");

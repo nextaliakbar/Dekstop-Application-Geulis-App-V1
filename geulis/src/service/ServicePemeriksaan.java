@@ -6,7 +6,7 @@ package service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JComboBox;
@@ -22,7 +22,7 @@ import swing.Pagination;
  */
 public class ServicePemeriksaan {
     private Connection connection;
-
+    private final DecimalFormat df = new DecimalFormat("#,##0.##");
     public ServicePemeriksaan() {
         connection = Koneksi.getConnection();
     }
@@ -68,7 +68,7 @@ public class ServicePemeriksaan {
                 String namaPengguna = rst.getString("pgn.Nama");
                 tabmodel.addRow(
                 new Object[]{noPemeriksaan, noReservasi, idPasien, namaPasien, 
-                idKaryawan, tgl, total, deskripsi, bayar, kembalian, 
+                idKaryawan, tgl, df.format(total), deskripsi, bayar, kembalian, 
                 jenisPembayaran, idPengguna, namaPengguna});
             }
             pst.close();
@@ -109,7 +109,7 @@ public class ServicePemeriksaan {
                 String namaPengguna = rst.getString("pgn.Nama");
                 tabmodel.addRow(
                 new Object[]{noPemeriksaan, noReservasi, idPasien, namaPasien, 
-                idKaryawan, tgl, total, deskripsi, bayar, kembalian, 
+                idKaryawan, tgl, df.format(total), deskripsi, bayar, kembalian, 
                 jenisPembayaran, idPengguna, namaPengguna});
             }
         } catch(Exception ex) {
@@ -128,7 +128,7 @@ public class ServicePemeriksaan {
             pst.setString(3, modelPemeriksaan.getTglPemeriksaan());
             pst.setString(4, modelPemeriksaan.getDeskripsi());
             pst.setString(5, "Selesai");
-            pst.setInt(6, modelPemeriksaan.getTotal());
+            pst.setString(6, modelPemeriksaan.getTotal());
             pst.setDouble(7, modelPemeriksaan.getBayar());
             pst.setDouble(8, modelPemeriksaan.getKembalian());
             pst.setString(9, modelPemeriksaan.getJenisPembayaran());

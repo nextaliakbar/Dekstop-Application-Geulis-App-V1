@@ -185,7 +185,7 @@ public class FiturRiwayatPasien extends javax.swing.JPanel {
 
             },
             new String [] {
-                "No Pemeriksaan", "ID Pasien", "Nama Pasien", "Terakhir Pemeriksaan", "Status", "Detail"
+                "No Pemeriksaan", "ID Pasien", "Nama Pasien", "Terakhir Pemeriksaan", "Status", "         Detail"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -207,9 +207,9 @@ public class FiturRiwayatPasien extends javax.swing.JPanel {
             table.getColumnModel().getColumn(1).setMinWidth(0);
             table.getColumnModel().getColumn(1).setPreferredWidth(0);
             table.getColumnModel().getColumn(1).setMaxWidth(0);
-            table.getColumnModel().getColumn(3).setMinWidth(0);
-            table.getColumnModel().getColumn(3).setPreferredWidth(0);
-            table.getColumnModel().getColumn(3).setMaxWidth(0);
+            table.getColumnModel().getColumn(5).setMinWidth(100);
+            table.getColumnModel().getColumn(5).setPreferredWidth(100);
+            table.getColumnModel().getColumn(5).setMaxWidth(100);
         }
 
         label.setBackground(new java.awt.Color(135, 15, 50));

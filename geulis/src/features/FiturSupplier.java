@@ -242,7 +242,7 @@ public class FiturSupplier extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID Supplier", "Nama Supplier", "No Telepon", "Email", "Alamat", "Aksi"
+                "ID Supplier", "Nama Supplier", "No Telepon", "Email", "Alamat", "           Aksi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -257,6 +257,23 @@ public class FiturSupplier extends javax.swing.JPanel {
         table.setOpaque(false);
         table.setSelectionBackground(new java.awt.Color(255, 255, 255));
         scrollPane.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setMinWidth(125);
+            table.getColumnModel().getColumn(0).setPreferredWidth(125);
+            table.getColumnModel().getColumn(0).setMaxWidth(125);
+            table.getColumnModel().getColumn(1).setMinWidth(350);
+            table.getColumnModel().getColumn(1).setPreferredWidth(350);
+            table.getColumnModel().getColumn(1).setMaxWidth(350);
+            table.getColumnModel().getColumn(2).setMinWidth(150);
+            table.getColumnModel().getColumn(2).setPreferredWidth(150);
+            table.getColumnModel().getColumn(2).setMaxWidth(150);
+            table.getColumnModel().getColumn(3).setMinWidth(200);
+            table.getColumnModel().getColumn(3).setPreferredWidth(200);
+            table.getColumnModel().getColumn(3).setMaxWidth(200);
+            table.getColumnModel().getColumn(5).setMinWidth(125);
+            table.getColumnModel().getColumn(5).setPreferredWidth(125);
+            table.getColumnModel().getColumn(5).setMaxWidth(125);
+        }
 
         btnTambah.setBackground(new java.awt.Color(135, 15, 50));
         btnTambah.setForeground(new java.awt.Color(255, 255, 255));

@@ -16,11 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import model.ModelCard;
 import model.ModelDashboard;
-import model.ModelHeader;
+import model.ModelHeaderTable;
 import model.ModelPengguna;
 import service.ServiceDashboard;
 
@@ -135,7 +136,8 @@ public class Dashboard extends javax.swing.JPanel {
         this.card13.viewDetail(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                JOptionPane.showMessageDialog(null, "Keuntungan penjualan merukapan keuntungan\n"
+                + "Dari selisih harga jual dengan harga beli barang\nPada transaksi penjualan", "Informasi", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         
@@ -162,7 +164,7 @@ public class Dashboard extends javax.swing.JPanel {
     }
     
     private void styleTable(JTable table) {
-        table.getTableHeader().setDefaultRenderer(new ModelHeader());  
+        table.getTableHeader().setDefaultRenderer(new ModelHeaderTable());  
     }
     
     private void detail(JPanel panel) {

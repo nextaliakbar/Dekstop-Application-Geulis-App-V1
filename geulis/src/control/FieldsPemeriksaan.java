@@ -10,7 +10,7 @@ package control;
  */
 public class FieldsPemeriksaan {
 
-    public FieldsPemeriksaan(String action, int price, int disc, int subtotal) {
+    public FieldsPemeriksaan(String action, String price, String disc, String subtotal) {
         this.action = action;
         this.price = price;
         this.disc = disc;
@@ -23,9 +23,9 @@ public class FieldsPemeriksaan {
     
     
     private String action;
-    private int price;
-    private int disc;
-    private int subtotal;
+    private String price;
+    private String disc;
+    private String subtotal;
 
     public String getAction() {
         return action;
@@ -35,27 +35,27 @@ public class FieldsPemeriksaan {
         this.action = action;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
-    public int getDisc() {
+    public String getDisc() {
         return disc;
     }
 
-    public void setDisc(int disc) {
+    public void setDisc(String disc) {
         this.disc = disc;
     }
 
-    public int getSubtotal() {
+    public String getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(int subtotal) {
+    public void setSubtotal(String subtotal) {
         this.subtotal = subtotal;
     }
 }

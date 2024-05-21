@@ -6,6 +6,7 @@ package service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -21,7 +22,7 @@ import swing.Pagination;
  */
 public class ServicePengeluaran {
     private Connection connection;
-    
+    private final DecimalFormat df = new DecimalFormat("#,##0.##");
     public ServicePengeluaran() {
         connection = Koneksi.getConnection();
     }
@@ -56,7 +57,7 @@ public class ServicePengeluaran {
                 String tgl = rst.getString("Tanggal_Pengeluaran");
                 int total = rst.getInt("Total_Pengeluaran");
                 String deskripsi = rst.getString("Deskripsi");
-                tabmodel.addRow(new Object[]{noPengeluaran, idPengguna, namaPengguna, tgl, total, deskripsi});
+                tabmodel.addRow(new Object[]{noPengeluaran, idPengguna, namaPengguna, tgl, df.format(total), deskripsi});
             }
             pst.close();
             rst.close();
@@ -84,7 +85,7 @@ public class ServicePengeluaran {
                 String tgl = rst.getString("Tanggal_Pengeluaran");
                 int total = rst.getInt("Total_Pengeluaran");
                 String deskripsi = rst.getString("Deskripsi");
-                tabmodel.addRow(new Object[]{noPengeluaran, idPengguna, namaPengguna, tgl, total, deskripsi});
+                tabmodel.addRow(new Object[]{noPengeluaran, idPengguna, namaPengguna, tgl, df.format(total), deskripsi});
             }
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -97,7 +98,7 @@ public class ServicePengeluaran {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.setString(1, modelPengeluaran.getNoPengeluaran());
             pst.setString(2, modelPengeluaran.getTglPengeluaran());
-            pst.setInt(3, modelPengeluaran.getTotal());
+            pst.setString(3, modelPengeluaran.getTotal());
             pst.setString(4, modelPengeluaran.getDeskripsi());
             pst.setString(5, modelPengeluaran.getModelPengguna().getIdpengguna());
             pst.executeUpdate();
@@ -185,7 +186,7 @@ public class ServicePengeluaran {
                 String namaJenis = rst.getString("Nama_Jenis");
                 String detailJenis = rst.getString("Detail_Jenis");
                 int subtotal = rst.getInt("Subtotal");
-                tabmodel.addRow(new Object[]{noJenis, namaJenis, detailJenis, subtotal});
+                tabmodel.addRow(new Object[]{noJenis, namaJenis, detailJenis, df.format(subtotal)});
             }
         } catch(Exception ex) {
             ex.printStackTrace();

@@ -3,8 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package features;
-
-import action.ActionPagination;
 import java.awt.Color;
 import java.awt.Font;
 import java.text.DecimalFormat;
@@ -22,7 +20,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelDetailRestok;
-import model.ModelHeader;
 import model.ModelHeaderTable;
 import model.ModelPemesanan;
 import model.ModelPengguna;
@@ -65,7 +62,7 @@ public class FiturRestok extends javax.swing.JPanel {
         tabmodel3 = (DefaultTableModel) table3.getModel();
         rowSorter2 = new TableRowSorter<>(tabmodel3);
         table3.setRowSorter(rowSorter2);
-        table3.getTableHeader().setDefaultRenderer(new ModelHeader());
+        table3.getTableHeader().setDefaultRenderer(new ModelHeaderTable());
         
         searchData(rowSorter1, txtCari);
     }
@@ -108,7 +105,8 @@ public class FiturRestok extends javax.swing.JPanel {
         ModelRestok modelRestok = new ModelRestok();
         modelRestok.setModelPemesanan(modelPemesanan);
         DecimalFormat df = new DecimalFormat("#,##0.##");
-        lbTotal.setText(df.format(pemesanan.modelPemesanan.getTotalPemesanan()));
+        lbTotal.setText(df.format(
+        Integer.parseInt(pemesanan.modelPemesanan.getTotalPemesanan())));
         serviceRestok.getData(modelRestok, tabmodel2);
     }
     

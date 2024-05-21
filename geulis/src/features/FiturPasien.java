@@ -3,8 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package features;
-
-import action.ActionPagination;
 import action.TableAction;
 import java.awt.Color;
 import java.awt.Font;
@@ -158,7 +156,7 @@ public class FiturPasien extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID Pasien", "Nama Pasien", "Jenis Kelamin", "No Telepon", "Email", "Alamat", "Level", "Aksi"
+                "ID Pasien", "Nama Pasien", "Jenis Kelamin", "No Telepon", "Email", "Alamat", "Level", "           Aksi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -187,9 +185,9 @@ public class FiturPasien extends javax.swing.JPanel {
             table.getColumnModel().getColumn(6).setMinWidth(100);
             table.getColumnModel().getColumn(6).setPreferredWidth(100);
             table.getColumnModel().getColumn(6).setMaxWidth(100);
-            table.getColumnModel().getColumn(7).setMinWidth(100);
-            table.getColumnModel().getColumn(7).setPreferredWidth(100);
-            table.getColumnModel().getColumn(7).setMaxWidth(100);
+            table.getColumnModel().getColumn(7).setMinWidth(125);
+            table.getColumnModel().getColumn(7).setPreferredWidth(125);
+            table.getColumnModel().getColumn(7).setMaxWidth(125);
         }
 
         btnTambah.setBackground(new java.awt.Color(135, 15, 50));

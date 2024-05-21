@@ -3,8 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package features;
-
-import action.ActionPagination;
 import action.TableAction;
 import java.awt.Color;
 import java.awt.Font;
@@ -136,7 +134,7 @@ public class FiturTindakan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Kode Tindakan", "Nama Tindakan", "Biaya", "Aksi"
+                "Kode Tindakan", "Nama Tindakan", "Biaya", "           Aksi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -151,6 +149,11 @@ public class FiturTindakan extends javax.swing.JPanel {
         table.setOpaque(false);
         table.setSelectionBackground(new java.awt.Color(255, 255, 255));
         scrollPane.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(3).setMinWidth(125);
+            table.getColumnModel().getColumn(3).setPreferredWidth(125);
+            table.getColumnModel().getColumn(3).setMaxWidth(125);
+        }
 
         btnTambah.setBackground(new java.awt.Color(135, 15, 50));
         btnTambah.setForeground(new java.awt.Color(255, 255, 255));

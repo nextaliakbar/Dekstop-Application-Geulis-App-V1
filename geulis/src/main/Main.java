@@ -331,7 +331,8 @@ public class Main extends javax.swing.JFrame {
             .addComponent(background)
         );
 
-        pack();
+        setSize(new java.awt.Dimension(987, 860));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**

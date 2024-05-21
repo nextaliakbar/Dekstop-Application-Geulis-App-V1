@@ -17,7 +17,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -140,7 +139,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         
         ModelPemeriksaan pemeriksaan = new ModelPemeriksaan(
         noPemeriksaan, modelReservasi, tgl, deskripsi, 
-        total(), bayar, kembalian, jenisPembayaran, pasien, 
+        String.valueOf(total()), bayar, kembalian, jenisPembayaran, pasien, 
         karyawan, modelPengguna);
         servicPemeriksaan.addData(pemeriksaan);
         
@@ -226,7 +225,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         modelKaryawan.setIdKaryawan((String) table.getValueAt(row, 4));
         modelPemeriksaan.setModelKaryawan(modelKaryawan);
         modelPemeriksaan.setTglPemeriksaan((String) table.getValueAt(row, 5));
-        modelPemeriksaan.setTotal((int) table.getValueAt(row, 6));
+        modelPemeriksaan.setTotal((String) table.getValueAt(row, 6));
         modelPemeriksaan.setDeskripsi((String) table.getValueAt(row, 7));
         modelPemeriksaan.setBayar((double) table.getValueAt(row, 8));
         modelPemeriksaan.setKembalian((double) table.getValueAt(row, 9));
@@ -257,8 +256,9 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         List<FieldsPemeriksaan> fields = new ArrayList<>();
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
             ModelDetailPemeriksaan pemeriksaan = (ModelDetailPemeriksaan) tableDetail.getValueAt(a, 0);
-            fields.add(new FieldsPemeriksaan(pemeriksaan.getModelTindakan().getKodeTindakan(), pemeriksaan.getModelTindakan().getBiaya(), 
-            pemeriksaan.getPotongan(), pemeriksaan.getSubtotal()));
+            fields.add(new FieldsPemeriksaan(pemeriksaan.getModelTindakan().getKodeTindakan(), 
+            df.format(pemeriksaan.getModelTindakan().getBiaya()), df.format(pemeriksaan.getPotongan()), 
+            df.format(pemeriksaan.getSubtotal())));
         }
             String noPemeriksaan = lbNoPemeriksaan.getText();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -504,7 +504,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "No Pemeriksaan", "No Reservasi", "ID Pasien", "Nama Pasien", "ID Karyawan", "Tanggal Pemeriksaan", "Total", "Deskripsi", "Bayar", "Kembalian", "Jenis Pembayaran", "ID Pengguna", "Nama Pengguna", "Detail"
+                "No Pemeriksaan", "No Reservasi", "ID Pasien", "Nama Pasien", "ID Karyawan", "Tanggal Pemeriksaan", "Total", "Deskripsi", "Bayar", "Kembalian", "Jenis Pembayaran", "ID Pengguna", "Nama Pengguna", "        Detail"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -544,6 +544,9 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             table.getColumnModel().getColumn(12).setMinWidth(0);
             table.getColumnModel().getColumn(12).setPreferredWidth(0);
             table.getColumnModel().getColumn(12).setMaxWidth(0);
+            table.getColumnModel().getColumn(13).setMinWidth(100);
+            table.getColumnModel().getColumn(13).setPreferredWidth(100);
+            table.getColumnModel().getColumn(13).setMaxWidth(100);
         }
 
         btnTambah.setBackground(new java.awt.Color(135, 15, 50));
@@ -663,7 +666,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Data", "Kode Tindakan", "Nama Tindakan", "Harga", "Potongan", "Total Harga", "Aksi"
+                "Data", "Kode Tindakan", "Nama Tindakan", "Harga", "Potongan", "Total Harga", "         Aksi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -682,6 +685,9 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             tableDetail.getColumnModel().getColumn(0).setMinWidth(0);
             tableDetail.getColumnModel().getColumn(0).setPreferredWidth(0);
             tableDetail.getColumnModel().getColumn(0).setMaxWidth(0);
+            tableDetail.getColumnModel().getColumn(6).setMinWidth(100);
+            tableDetail.getColumnModel().getColumn(6).setPreferredWidth(100);
+            tableDetail.getColumnModel().getColumn(6).setMaxWidth(100);
         }
 
         jPanel2.setBackground(new java.awt.Color(135, 15, 50));

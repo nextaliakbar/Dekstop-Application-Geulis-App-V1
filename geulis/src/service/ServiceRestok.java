@@ -6,6 +6,7 @@ package service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -21,6 +22,7 @@ import swing.StatusType;
  */
 public class ServiceRestok {
     private Connection connection;
+    private final DecimalFormat df = new DecimalFormat("#,##0.##");
     
     public ServiceRestok() {
         connection = Koneksi.getConnection();
@@ -39,7 +41,7 @@ public class ServiceRestok {
                 String idPengguna = rst.getString("ID_Pengguna");
                 String nama = rst.getString("Nama");
                 int total = rst.getInt("Total_Biaya");
-                tabmodel.addRow(new Object[]{noRestok, tglTiba, idPengguna, nama, total});
+                tabmodel.addRow(new Object[]{noRestok, tglTiba, idPengguna, nama, df.format(total)});
             }
         } catch(Exception ex) {
             ex.printStackTrace();

@@ -3,8 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package features;
-
-import action.ActionPagination;
 import action.TableAction;
 import java.awt.Color;
 import java.awt.Font;
@@ -175,7 +173,7 @@ public class FiturBarang extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Kode Barang", "Nomor Barcode", "Kode Jenis", "Jenis Barang", "Nama Barang", "Satuan", "Harga Beli", "Harga Jual", "Stok", "Aksi"
+                "Kode Barang", "Nomor Barcode", "Kode Jenis", "Jenis Barang", "Nama Barang", "Satuan", "Harga Beli", "Harga Jual", "Stok", "           Aksi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -191,9 +189,30 @@ public class FiturBarang extends javax.swing.JPanel {
         table.setSelectionBackground(new java.awt.Color(255, 255, 255));
         scrollPane.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setMinWidth(150);
+            table.getColumnModel().getColumn(0).setPreferredWidth(150);
+            table.getColumnModel().getColumn(0).setMaxWidth(150);
             table.getColumnModel().getColumn(2).setMinWidth(0);
             table.getColumnModel().getColumn(2).setPreferredWidth(0);
             table.getColumnModel().getColumn(2).setMaxWidth(0);
+            table.getColumnModel().getColumn(3).setMinWidth(125);
+            table.getColumnModel().getColumn(3).setPreferredWidth(125);
+            table.getColumnModel().getColumn(3).setMaxWidth(125);
+            table.getColumnModel().getColumn(5).setMinWidth(125);
+            table.getColumnModel().getColumn(5).setPreferredWidth(125);
+            table.getColumnModel().getColumn(5).setMaxWidth(125);
+            table.getColumnModel().getColumn(6).setMinWidth(125);
+            table.getColumnModel().getColumn(6).setPreferredWidth(125);
+            table.getColumnModel().getColumn(6).setMaxWidth(125);
+            table.getColumnModel().getColumn(7).setMinWidth(125);
+            table.getColumnModel().getColumn(7).setPreferredWidth(125);
+            table.getColumnModel().getColumn(7).setMaxWidth(125);
+            table.getColumnModel().getColumn(8).setMinWidth(100);
+            table.getColumnModel().getColumn(8).setPreferredWidth(100);
+            table.getColumnModel().getColumn(8).setMaxWidth(100);
+            table.getColumnModel().getColumn(9).setMinWidth(125);
+            table.getColumnModel().getColumn(9).setPreferredWidth(125);
+            table.getColumnModel().getColumn(9).setMaxWidth(125);
         }
 
         btnTambah.setBackground(new java.awt.Color(135, 15, 50));

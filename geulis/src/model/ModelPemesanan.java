@@ -12,7 +12,7 @@ import swing.StatusType;
  */
 public class ModelPemesanan {
 
-    public ModelPemesanan(String noPemesanan, String tglPemesanan, StatusType type, String statusPemesanan, int totalPemesanan, double bayar, double kembali, String jenisPembayaran, ModelSupplier modelSupplier, ModelPengguna modelPengguna) {
+    public ModelPemesanan(String noPemesanan, String tglPemesanan, StatusType type, String statusPemesanan, String totalPemesanan, double bayar, double kembali, String jenisPembayaran, ModelSupplier modelSupplier, ModelPengguna modelPengguna) {
         this.noPemesanan = noPemesanan;
         this.tglPemesanan = tglPemesanan;
         this.type = type;
@@ -34,7 +34,7 @@ public class ModelPemesanan {
     private String tglPemesanan;
     private StatusType type;
     private String statusPemesanan;
-    private int totalPemesanan;
+    private String totalPemesanan;
     private double bayar;
     private double kembali;
     private String jenisPembayaran;
@@ -73,11 +73,11 @@ public class ModelPemesanan {
         this.statusPemesanan = statusPemesanan;
     }
 
-    public int getTotalPemesanan() {
+    public String getTotalPemesanan() {
         return totalPemesanan;
     }
 
-    public void setTotalPemesanan(int totalPemesanan) {
+    public void setTotalPemesanan(String totalPemesanan) {
         this.totalPemesanan = totalPemesanan;
     }
 

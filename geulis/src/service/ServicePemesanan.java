@@ -6,6 +6,7 @@ package service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -22,6 +23,7 @@ import swing.StatusType;
  */
 public class ServicePemesanan {
     private Connection connection;
+    private final DecimalFormat df = new DecimalFormat("#,##0.##");
     public ServicePemesanan() {
         connection = Koneksi.getConnection();
     }
@@ -76,7 +78,7 @@ public class ServicePemesanan {
                 
                 tabmodel.addRow(new ModelPemesanan(
                         noPemeriksaan, tgl, type, status, 
-                        total, bayar, kembali, jenisPembayaran, modelSupplier, 
+                        df.format(total), bayar, kembali, jenisPembayaran, modelSupplier, 
                         modelPengguna).toRowTable1());
             }
             pst.close();
@@ -124,7 +126,7 @@ public class ServicePemesanan {
                 
                 tabmodel.addRow(new ModelPemesanan(
                         noPemeriksaan, tgl, type, status, 
-                        total, bayar, kembali, jenisPembayaran, modelSupplier, 
+                        df.format(total), bayar, kembali, jenisPembayaran, modelSupplier, 
                         modelPengguna).toRowTable1());
             }
         } catch(Exception ex) {
@@ -140,7 +142,7 @@ public class ServicePemesanan {
             pst.setString(1, modelPemesanan.getNoPemesanan());
             pst.setString(2, modelPemesanan.getTglPemesanan());
             pst.setString(3, "Dikirim");
-            pst.setInt(4, modelPemesanan.getTotalPemesanan());
+            pst.setString(4, modelPemesanan.getTotalPemesanan());
             pst.setDouble(5, modelPemesanan.getBayar());
             pst.setDouble(6, modelPemesanan.getKembali());
             pst.setString(7, modelPemesanan.getJenisPembayaran());

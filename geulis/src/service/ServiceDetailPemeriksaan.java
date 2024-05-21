@@ -6,6 +6,7 @@ package service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import javax.swing.table.DefaultTableModel;
 import model.ModelDetailPemeriksaan;
 import model.PemeriksaanSementara;
@@ -16,7 +17,7 @@ import model.PemeriksaanSementara;
 public class ServiceDetailPemeriksaan {
     
     private Connection conncetion;
-
+    private final DecimalFormat df = new DecimalFormat("#,##0.##");
     public ServiceDetailPemeriksaan() {
         conncetion = Koneksi.getConnection();
     }
@@ -36,7 +37,7 @@ public class ServiceDetailPemeriksaan {
                 int potongan = rst.getInt("Potongan");
                 int totalHarga = rst.getInt("Subtotal");
                 
-                tabModel.addRow(new Object[]{kode, nama, harga, potongan, totalHarga});
+                tabModel.addRow(new Object[]{kode, nama, df.format(harga), df.format(potongan), df.format(totalHarga)});
             }
             
             pst.close();

@@ -24,7 +24,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelBarang;
 import model.ModelDetailPemesanan;
-import model.ModelHeader;
 import model.ModelHeaderTable;
 import model.ModelPemesanan;
 import model.ModelPengguna;
@@ -56,7 +55,7 @@ public class FiturPemesanan extends javax.swing.JPanel {
         initComponents();
         this.modelPengguna = modelPengguna;
         table.scrollPane(scrollPane);
-        table.getTableHeader().setDefaultRenderer(new ModelHeader());
+        table.getTableHeader().setDefaultRenderer(new ModelHeaderTable());
         tabmodel1 = (DefaultTableModel) table.getModel();
         rowSorter = new TableRowSorter<>(tabmodel1);
         table.setRowSorter(rowSorter);
@@ -159,7 +158,7 @@ public class FiturPemesanan extends javax.swing.JPanel {
         modelSupplier.setNamaSupplier((String) table.getValueAt(row, 2));
         modelPemesanan.setModelSupplier(modelSupplier);
         modelPemesanan.setTglPemesanan((String) table.getValueAt(row, 3));
-        modelPemesanan.setTotalPemesanan((int) table.getValueAt(row, 4));
+        modelPemesanan.setTotalPemesanan((String) table.getValueAt(row, 4));
         modelPemesanan.setBayar((double) table.getValueAt(row, 5));
         modelPemesanan.setKembali((double) table.getValueAt(row, 6));
         modelPemesanan.setJenisPembayaran((String) table.getValueAt(row, 7));
@@ -180,7 +179,7 @@ public class FiturPemesanan extends javax.swing.JPanel {
         String noPemesanan = lbNoPemesanan.getText();
         Date date = new Date();
         String tglPemesanan = new SimpleDateFormat("yyyy-MM-dd").format(date);
-        int totalPemesanan =(int) total();
+        String totalPemesanan =String.valueOf(total());
         double bayar = Double.parseDouble(txtBayar.getText());
         double kembalian = 0;
         String jenisPembayaran = (String) cbx_jenisPembayaran.getSelectedItem();
@@ -617,7 +616,7 @@ public class FiturPemesanan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Kode Barang", "Nama Barang", "Harga Beli Sebelum", "Harga Beli Sekarang", "Satuan", "Jumlah", "Subtotal", "Aksi"
+                "Kode Barang", "Nama Barang", "Harga Beli Sebelum", "Harga Beli Sekarang", "Satuan", "Jumlah", "Subtotal", "         Aksi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -636,12 +635,9 @@ public class FiturPemesanan extends javax.swing.JPanel {
             tableDetail.getColumnModel().getColumn(4).setMinWidth(75);
             tableDetail.getColumnModel().getColumn(4).setPreferredWidth(75);
             tableDetail.getColumnModel().getColumn(4).setMaxWidth(75);
-            tableDetail.getColumnModel().getColumn(5).setMinWidth(50);
-            tableDetail.getColumnModel().getColumn(5).setPreferredWidth(50);
-            tableDetail.getColumnModel().getColumn(5).setMaxWidth(50);
-            tableDetail.getColumnModel().getColumn(7).setMinWidth(50);
-            tableDetail.getColumnModel().getColumn(7).setPreferredWidth(50);
-            tableDetail.getColumnModel().getColumn(7).setMaxWidth(50);
+            tableDetail.getColumnModel().getColumn(7).setMinWidth(100);
+            tableDetail.getColumnModel().getColumn(7).setPreferredWidth(100);
+            tableDetail.getColumnModel().getColumn(7).setMaxWidth(100);
         }
 
         jPanel2.setBackground(new java.awt.Color(135, 15, 50));

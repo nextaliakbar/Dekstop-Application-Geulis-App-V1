@@ -156,10 +156,13 @@ public class FiturPengeluaran extends javax.swing.JPanel {
     private void tambahData() {
         String noPengeluaran = lbNoPengeluaran.getText();
         String tgl = txtTanggal.getText();
-        String deskripsi = txtDesc.getText();
+        String deskripsi = "";
+        if(!txtDesc.getText().equals("Catatan(Opsional)")) {
+            deskripsi = txtDesc.getText();
+        }
         
 //        tambah data pengeluaran
-        ModelPengeluaran modelPengeluaran = new ModelPengeluaran(noPengeluaran, tgl, total(), deskripsi, modelPengguna);
+        ModelPengeluaran modelPengeluaran = new ModelPengeluaran(noPengeluaran, tgl, String.valueOf(total()), deskripsi, modelPengguna);
         servicePengeluaran.addDataPengeluaran(modelPengeluaran);
         
         ModelDetailPengeluaran detail = new ModelDetailPengeluaran();
@@ -198,7 +201,7 @@ public class FiturPengeluaran extends javax.swing.JPanel {
         modelPengguna.setNama((String) table.getValueAt(row, 2));
         pengeluaran.setModelPengguna(modelPengguna);
         pengeluaran.setTglPengeluaran((String) table.getValueAt(row, 3));
-        pengeluaran.setTotal((int) table.getValueAt(row, 4));
+        pengeluaran.setTotal((String) table.getValueAt(row, 4));
         pengeluaran.setDeskripsi((String) table.getValueAt(row, 5));
         detailPengeluaran.setModelPengeluaran(pengeluaran);
         DialogDetail dialog = new DialogDetail(null, true, "Slide-3", null, null,null, detailPengeluaran);
@@ -314,7 +317,7 @@ public class FiturPengeluaran extends javax.swing.JPanel {
 
             },
             new String [] {
-                "No Pengeluaran", "ID Pengguna", "Pengguna", "Tanggal Pengeluaran", "Total Pengeluaran", "Deskripsi", "Detail"
+                "No Pengeluaran", "ID Pengguna", "Pengguna", "Tanggal Pengeluaran", "Total Pengeluaran", "Deskripsi", "       Detail"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -336,6 +339,9 @@ public class FiturPengeluaran extends javax.swing.JPanel {
             table.getColumnModel().getColumn(5).setMinWidth(0);
             table.getColumnModel().getColumn(5).setPreferredWidth(0);
             table.getColumnModel().getColumn(5).setMaxWidth(0);
+            table.getColumnModel().getColumn(6).setMinWidth(100);
+            table.getColumnModel().getColumn(6).setPreferredWidth(100);
+            table.getColumnModel().getColumn(6).setMaxWidth(100);
         }
 
         btnTambah.setBackground(new java.awt.Color(135, 15, 50));
@@ -455,7 +461,7 @@ public class FiturPengeluaran extends javax.swing.JPanel {
 
             },
             new String [] {
-                "No Jenis", "Jenis Pengeluaran", "Detail Jenis", "Subtotal", "Aksi"
+                "No Jenis", "Jenis Pengeluaran", "Detail Jenis", "Subtotal", "         Aksi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -473,6 +479,9 @@ public class FiturPengeluaran extends javax.swing.JPanel {
             tableDetail.getColumnModel().getColumn(0).setMinWidth(0);
             tableDetail.getColumnModel().getColumn(0).setPreferredWidth(0);
             tableDetail.getColumnModel().getColumn(0).setMaxWidth(0);
+            tableDetail.getColumnModel().getColumn(4).setMinWidth(100);
+            tableDetail.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tableDetail.getColumnModel().getColumn(4).setMaxWidth(100);
         }
 
         jPanel2.setBackground(new java.awt.Color(135, 15, 50));
@@ -861,7 +870,7 @@ public class FiturPengeluaran extends javax.swing.JPanel {
         PilihPemesanan pemesanan = new PilihPemesanan(null, true, "Pengeluaran");
         pemesanan.setVisible(true);
         txtDetailJenis.setText(pemesanan.modelPemesanan.getNoPemesanan());
-        txtSubtotal.setText(String.valueOf(pemesanan.modelPemesanan.getTotalPemesanan()));
+        txtSubtotal.setText(pemesanan.modelPemesanan.getTotalPemesanan());
     }//GEN-LAST:event_btnPilihActionPerformed
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
@@ -937,6 +946,7 @@ public class FiturPengeluaran extends javax.swing.JPanel {
         txtDesc.setText("Catatan(Opsional)");
         txtDesc.setForeground(new Color(185, 185, 185));
         lbTotal.setText("0");
+        tabmodel2.setRowCount(0);
     } 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

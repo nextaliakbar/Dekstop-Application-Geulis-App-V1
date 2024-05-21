@@ -264,7 +264,7 @@ public class FiturKaryawan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID Karyawan", "Nama", "No Telepon", "Email", "Alamat", "Jabatan", "Status", "Aksi"
+                "ID Karyawan", "Nama", "No Telepon", "Email", "Alamat", "Jabatan", "Status", "           Aksi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -283,10 +283,19 @@ public class FiturKaryawan extends javax.swing.JPanel {
             table.getColumnModel().getColumn(0).setMinWidth(100);
             table.getColumnModel().getColumn(0).setPreferredWidth(100);
             table.getColumnModel().getColumn(0).setMaxWidth(100);
+            table.getColumnModel().getColumn(2).setMinWidth(150);
+            table.getColumnModel().getColumn(2).setPreferredWidth(150);
+            table.getColumnModel().getColumn(2).setMaxWidth(150);
             table.getColumnModel().getColumn(4).setPreferredWidth(300);
-            table.getColumnModel().getColumn(7).setMinWidth(100);
-            table.getColumnModel().getColumn(7).setPreferredWidth(100);
-            table.getColumnModel().getColumn(7).setMaxWidth(100);
+            table.getColumnModel().getColumn(5).setMinWidth(125);
+            table.getColumnModel().getColumn(5).setPreferredWidth(125);
+            table.getColumnModel().getColumn(5).setMaxWidth(125);
+            table.getColumnModel().getColumn(6).setMinWidth(125);
+            table.getColumnModel().getColumn(6).setPreferredWidth(125);
+            table.getColumnModel().getColumn(6).setMaxWidth(125);
+            table.getColumnModel().getColumn(7).setMinWidth(125);
+            table.getColumnModel().getColumn(7).setPreferredWidth(125);
+            table.getColumnModel().getColumn(7).setMaxWidth(125);
         }
 
         btnTambah.setBackground(new java.awt.Color(135, 15, 50));
@@ -499,16 +508,13 @@ public class FiturKaryawan extends javax.swing.JPanel {
                     .addComponent(TFTeleponKaryawan)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 689, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
-                                .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSimpan1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cbxStatusKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSimpan1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cbxStatusKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panel2Layout.createSequentialGroup()
                         .addComponent(cbxJabatanKaryawan, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))

@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.text.DecimalFormat;
+
 /**
  *
  * @author usER
@@ -16,7 +18,7 @@ public class ModelPemeriksaan {
 
     public ModelPemeriksaan(
     String noPemeriksaan, ModelReservasi modelReservasi, String tglPemeriksaan, String deskripsi, 
-    int total, double bayar, double kembalian, String jenisPembayaran, ModelPasien modelPasien, 
+    String total, double bayar, double kembalian, String jenisPembayaran, ModelPasien modelPasien, 
     ModelKaryawan modelKaryawan, ModelPengguna modelPengguna
     ) {
         this.noPemeriksaan = noPemeriksaan;
@@ -35,7 +37,7 @@ public class ModelPemeriksaan {
     private String noPemeriksaan;
     private String tglPemeriksaan;
     private String deskripsi;
-    private int total;
+    private String total;
     private double bayar;
     private double kembalian;
     private String jenisPembayaran;
@@ -68,11 +70,11 @@ public class ModelPemeriksaan {
         this.deskripsi = deskripsi;
     }
 
-    public int getTotal() {
+    public String getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(String total) {
         this.total = total;
     }
     

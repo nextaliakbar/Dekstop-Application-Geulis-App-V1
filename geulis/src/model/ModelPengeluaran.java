@@ -10,7 +10,7 @@ package model;
  */
 public class ModelPengeluaran {
 
-    public ModelPengeluaran(String noPengeluaran, String tglPengeluaran, int total, String deskripsi, ModelPengguna modelPengguna) {
+    public ModelPengeluaran(String noPengeluaran, String tglPengeluaran, String total, String deskripsi, ModelPengguna modelPengguna) {
         this.noPengeluaran = noPengeluaran;
         this.tglPengeluaran = tglPengeluaran;
         this.total = total;
@@ -24,7 +24,7 @@ public class ModelPengeluaran {
     
     private String noPengeluaran;
     private String tglPengeluaran;
-    private int total;
+    private String total;
     private String deskripsi;
     private ModelPengguna modelPengguna;
 
@@ -44,11 +44,11 @@ public class ModelPengeluaran {
         this.tglPengeluaran = tglPengeluaran;
     }
 
-    public int getTotal() {
+    public String getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(String total) {
         this.total = total;
     }
 

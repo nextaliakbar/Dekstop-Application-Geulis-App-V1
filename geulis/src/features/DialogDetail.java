@@ -93,7 +93,7 @@ public class DialogDetail extends java.awt.Dialog {
         String nama = detailPemeriksaan.getModelPemeriksaan().getModelPasien().getNama();
         String idKaryawan = detailPemeriksaan.getModelPemeriksaan().getModelKaryawan().getIdKaryawan();
         String tgl = detailPemeriksaan.getModelPemeriksaan().getTglPemeriksaan();
-        int total = detailPemeriksaan.getModelPemeriksaan().getTotal();
+        String total = detailPemeriksaan.getModelPemeriksaan().getTotal();
         double bayar = detailPemeriksaan.getModelPemeriksaan().getBayar();
         double kembalian = detailPemeriksaan.getModelPemeriksaan().getKembalian();
         String jenisPembayaran = detailPemeriksaan.getModelPemeriksaan().getJenisPembayaran();
@@ -109,7 +109,7 @@ public class DialogDetail extends java.awt.Dialog {
         lbIdPasien.setText(idPasien);
         lbNama.setText(nama);
         lbIdKaryawan.setText(idKaryawan);
-        lbTotal.setText("Rp " + df.format(total));
+        lbTotal.setText("Rp " + total);
         txtDesc.setText(deskripsi);
         lbBayar.setText("Rp " + df.format(bayar) + " / " + jenisPembayaran);
         lbKembalian.setText("Rp " + df.format(kembalian));
@@ -125,7 +125,7 @@ public class DialogDetail extends java.awt.Dialog {
         String tglPenjualan = detailPenjualan.getModelPenjualan().getTglPenjualan();
         String idPengguna = detailPenjualan.getModelPenjualan().getModelPengguna().getIdpengguna();
         String namaPengguna = detailPenjualan.getModelPenjualan().getModelPengguna().getNama();
-        int total = detailPenjualan.getModelPenjualan().getTotalPenjualan();
+        String total = detailPenjualan.getModelPenjualan().getTotalPenjualan();
         double bayar = detailPenjualan.getModelPenjualan().getBayar();
         double kembali = detailPenjualan.getModelPenjualan().getKembali();
         String jenisPembayaran = detailPenjualan.getModelPenjualan().getJenisPembayaran();
@@ -133,7 +133,7 @@ public class DialogDetail extends java.awt.Dialog {
         lbNoPenjualan.setText(noPenjualan);
         lbTglPenjualan.setText(tglPenjualan);
         lbKasir2.setText(idPengguna+" / "+namaPengguna);
-        lbTotalPenjualan.setText("Rp "+df.format(total));
+        lbTotalPenjualan.setText("Rp "+total);
         lbBayarPenjualan.setText("Rp "+df.format(bayar)+" / "+jenisPembayaran);
         lbKembaliPenjualan.setText("Rp "+df.format(kembali));
         
@@ -151,7 +151,7 @@ public class DialogDetail extends java.awt.Dialog {
         String namaSupplier = detailPemesanan.getModelPemesanan().getModelSupplier().getNamaSupplier();
         String tanggal = detailPemesanan.getModelPemesanan().getTglPemesanan();
         String status = detailPemesanan.getModelPemesanan().getStatusPemesanan();
-        int total = detailPemesanan.getModelPemesanan().getTotalPemesanan();
+        String total = detailPemesanan.getModelPemesanan().getTotalPemesanan();
         double bayar = detailPemesanan.getModelPemesanan().getBayar();
         double kembali = detailPemesanan.getModelPemesanan().getKembali();
         String jenisPembayaran = detailPemesanan.getModelPemesanan().getJenisPembayaran();
@@ -164,7 +164,7 @@ public class DialogDetail extends java.awt.Dialog {
         lbIdSuplr.setText(idSupplier);
         lbNamaSuplr.setText(namaSupplier);
         lbPemesan.setText(idPengguna+" / "+namaPengguna);
-        lbTotalPemesanan.setText("Rp " + df.format(total));
+        lbTotalPemesanan.setText("Rp " + total);
         lbBayarPemesanan.setText("Rp " + df.format(bayar) + " / " + jenisPembayaran);
         lbKembaliPemesanan.setText("Rp " + df.format(kembali));
 
@@ -204,12 +204,12 @@ public class DialogDetail extends java.awt.Dialog {
         String user = idPengguna.concat("/" + namaPengguna);
         String tanggal = detailPengeluaran.getModelPengeluaran().getTglPengeluaran();
         String desc = detailPengeluaran.getModelPengeluaran().getDeskripsi();
-        int total = detailPengeluaran.getModelPengeluaran().getTotal();
+        String total = detailPengeluaran.getModelPengeluaran().getTotal();
         
         lbNoPengeluaran.setText(noPengeluaran);
         lbPengguna.setText(user);
         lbTglPengeluaran.setText(tanggal);
-        lbTotalPengeluaran.setText("Rp " + df.format(total));
+        lbTotalPengeluaran.setText("Rp " + total);
         txtDescPengeluaran.setText(desc);
         ModelPengeluaran modelPengeluaran = new ModelPengeluaran();
         modelPengeluaran.setNoPengeluaran(noPengeluaran);

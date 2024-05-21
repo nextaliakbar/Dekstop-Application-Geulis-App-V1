@@ -19,7 +19,7 @@ public class ModelHeaderTable extends DefaultTableCellRenderer{
     public ModelHeaderTable() {
         setOpaque(true);
         setBorder(new EmptyBorder(0, 0, 0, 0));
-        setHorizontalAlignment(JLabel.CENTER);
+        setHorizontalAlignment(JLabel.LEFT);
     }
 
     @Override

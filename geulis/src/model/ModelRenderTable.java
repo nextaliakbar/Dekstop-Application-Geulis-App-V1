@@ -19,7 +19,7 @@ public class ModelRenderTable extends DefaultTableCellRenderer{
     
     private int columnTable;
     public ModelRenderTable(int columnTable) {
-        setHorizontalAlignment(JLabel.CENTER);
+        setHorizontalAlignment(JLabel.LEFT);
         this.columnTable = columnTable;
     }
 

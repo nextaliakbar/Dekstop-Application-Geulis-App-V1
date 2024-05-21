@@ -277,7 +277,7 @@ public class FiturPengguna extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID Pengguna", "Nama Pengguna", "Username", "Email", "Level", "Status", "Aksi"
+                "ID Pengguna", "Nama Pengguna", "Username", "Email", "Level", "Status", "           Aksi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -292,6 +292,11 @@ public class FiturPengguna extends javax.swing.JPanel {
         table.setOpaque(false);
         table.setSelectionBackground(new java.awt.Color(255, 255, 255));
         scrollPane.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(6).setMinWidth(125);
+            table.getColumnModel().getColumn(6).setPreferredWidth(125);
+            table.getColumnModel().getColumn(6).setMaxWidth(125);
+        }
 
         btnTambah.setBackground(new java.awt.Color(135, 15, 50));
         btnTambah.setForeground(new java.awt.Color(255, 255, 255));

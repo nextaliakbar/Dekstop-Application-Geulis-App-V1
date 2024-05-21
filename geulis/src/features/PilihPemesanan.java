@@ -162,7 +162,7 @@ public class PilihPemesanan extends java.awt.Dialog {
             modelPengguna.setIdpengguna((String) table2.getValueAt(selectRow, 4));
             modelPengguna.setNama((String) table2.getValueAt(selectRow, 5));
             modelPemesanan.setModelPengguna(modelPengguna);
-            modelPemesanan.setTotalPemesanan((int) table2.getValueAt(selectRow, 6));
+            modelPemesanan.setTotalPemesanan(String.valueOf(Integer.parseInt(table2.getValueAt(selectRow, 6).toString())));
             dispose();
         } else {
             JOptionPane.showMessageDialog(panel2, "Silahkan Pilih Pemesanan Terlebih Dahulu");
@@ -321,7 +321,6 @@ public class PilihPemesanan extends java.awt.Dialog {
                     .addGroup(panel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(3, 3, 3)))
-                .addGap(18, 18, 18)
                 .addComponent(scroll2, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
