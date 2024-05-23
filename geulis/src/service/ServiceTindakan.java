@@ -107,7 +107,6 @@ public class ServiceTindakan {
                 JOptionPane.showMessageDialog(null, "Tidak dapat menghapus tindakan ini\n"
                + "Tindakan ini pernah digunakan di transaksi", "Peringatan", JOptionPane.WARNING_MESSAGE);
             } else {
-                System.out.println(valid);
                 valid = true;
             }
         } catch(Exception ex) {

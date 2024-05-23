@@ -10,8 +10,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -180,15 +178,11 @@ public class DialogDetail extends java.awt.Dialog {
         String idPasien = detailPemeriksaan.getModelPemeriksaan().getModelPasien().getIdPasien();
         String namaPasien = detailPemeriksaan.getModelPemeriksaan().getModelPasien().getNama();
         String tgl = detailPemeriksaan.getModelPemeriksaan().getTglPemeriksaan();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate date = LocalDate.parse(tgl, formatter);
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd - MMMM - yyyy");
-        String tanggal = date.format(format);
         String noPemeriksaan = detailPemeriksaan.getModelPemeriksaan().getNoPemeriksaan();
         
         lbIdPasien2.setText(idPasien);
         lbNamaPasien.setText(namaPasien);
-        lbTerakhirPemeriksaan.setText(tanggal);
+        lbTerakhirPemeriksaan.setText(tgl);
         lbNoPemeriksaan2.setText(noPemeriksaan);
         
         pasien.setIdPasien(idPasien);

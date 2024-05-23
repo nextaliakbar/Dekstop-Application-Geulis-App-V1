@@ -503,7 +503,7 @@ public class FiturTindakan extends javax.swing.JPanel {
         modelTindakan.setKodeTindakan(kodeTindakan);
         if(serviceTindakan.validationDelete(modelTindakan)) {
         int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus tindakan ini?", 
-    "Konfirmasi", JOptionPane.YES_NO_OPTION);
+        "Konfirmasi", JOptionPane.YES_NO_OPTION);
             if(confirm == JOptionPane.YES_OPTION) {
             if(table.isEditing()) {
                 table.getCellEditor().stopCellEditing();

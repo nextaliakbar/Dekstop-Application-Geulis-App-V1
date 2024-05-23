@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Thu May 23 09:03:52 WIB 2024:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.17.1.0 - (1913217): instance a816c00e-018f-a330-be74-000006b0c1c8 
+on database directory C:\Users\usER\OneDrive\Documents\Aplikasi Dekstop Geulis\geulis\geulisdb with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@70dea4e 
+Loaded from file:/C:/Users/usER/OneDrive/Documents/Derby/db-derby-10.17.1.0-bin/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=20.0.2+9-78
+user.dir=C:\Users\usER\OneDrive\Documents\Aplikasi Dekstop Geulis\geulis
+os.name=Windows 11
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

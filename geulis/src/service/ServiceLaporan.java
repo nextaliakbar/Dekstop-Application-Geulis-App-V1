@@ -257,7 +257,7 @@ public class ServiceLaporan {
                 rst.close();
                 fields.add(new FieldsLaporanPemeriksaan(a+1, pemeriksaan.getNoPemeriksaan(), pemeriksaan.getModelReservasi().getNoReservasi(), 
                 pemeriksaan.getModelPasien().getNama(), pemeriksaan.getModelKaryawan().getIdKaryawan(), pemeriksaan.getTglPemeriksaan(), 
-                df.format(Integer.parseInt(pemeriksaan.getTotal()))+" / " +pemeriksaan.getJenisPembayaran(), df.format(pemeriksaan.getBayar()), 
+                pemeriksaan.getTotal()+" / " +pemeriksaan.getJenisPembayaran(), df.format(pemeriksaan.getBayar()), 
                 df.format(pemeriksaan.getKembalian()), detail));
             }
             pst.close();
@@ -306,7 +306,7 @@ public class ServiceLaporan {
                 rst.close();
                 rstCount.close();
                 fields.add(new FieldsLaporanPenjualan(a+1, penjualan.getNoPenjualan(), penjualan.getModelPengguna().getNama(), 
-                penjualan.getTglPenjualan(), totalJumlah, df.format(Integer.parseInt(penjualan.getTotalPenjualan()))+" / "+
+                penjualan.getTglPenjualan(), totalJumlah, penjualan.getTotalPenjualan()+" / "+
                 penjualan.getJenisPembayaran(), df.format( penjualan.getBayar()),  df.format(penjualan.getKembali()), detail));
             }
             pst.close();
@@ -354,7 +354,7 @@ public class ServiceLaporan {
                 rstCount.close();
                 fields.add(new FieldsLaporanPemesanan(a+1, pemesanan.getNoPemesanan()+" / "+pemesanan.getStatusPemesanan(), 
                 pemesanan.getModelSupplier().getNamaSupplier(), pemesanan.getTglPemesanan(), totalJumlah, 
-                df.format(Integer.parseInt(pemesanan.getTotalPemesanan()))+" / "+pemesanan.getJenisPembayaran(),
+                pemesanan.getTotalPemesanan()+" / "+pemesanan.getJenisPembayaran(),
                 df.format(pemesanan.getBayar()), df.format(pemesanan.getKembali()), detail));
                 
             }
@@ -391,7 +391,7 @@ public class ServiceLaporan {
                 }
                 rst.close();
                 fields.add(new FieldsLaporanganPengeluaran(a+1, pengeluaran.getNoPengeluaran(), pengeluaran.getModelPengguna().getNama(), 
-                pengeluaran.getTglPengeluaran(), df.format(Integer.parseInt(pengeluaran.getTotal())), detail));
+                pengeluaran.getTglPengeluaran(),pengeluaran.getTotal(), detail));
             }
             pst.close();
             ParamLaporan paramater = new ParamLaporan();
