@@ -104,7 +104,7 @@ public class ServiceAbsensi {
     }
     
     
-        private boolean cekInformation(ModelAbsensi modelAbsensi) {
+    private boolean cekInformation(ModelAbsensi modelAbsensi) {
         boolean valid = false;
         String query = "SELECT Absensi_Masuk, Absensi_Keluar FROM absensi WHERE ID_Karyawan='"+modelAbsensi.getModelKaryawan().getIdKaryawan()+"' "
                 + "AND Tanggal='"+modelAbsensi.getTanggal()+"'";

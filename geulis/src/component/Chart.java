@@ -75,6 +75,11 @@ public class Chart extends javax.swing.JPanel {
         panelLegends.revalidate();
     }
     
+    public void clearLegends() {
+        legends.clear();
+        panelLegends.removeAll();
+    }
+    
     public void addData(ModelChart data) {
         model.add(data);
         blankPlotChart1.setLabelCount(model.size());

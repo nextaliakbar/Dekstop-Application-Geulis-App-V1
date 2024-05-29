@@ -27,7 +27,7 @@ public class ServiceDashboard {
         connection = Koneksi.getConnection();
     }
     
-    public double revenuePemeriksaan(ModelDashboard modelDashboard) {
+    public double pendapatanPemeriksaan(ModelDashboard modelDashboard) {
         double revenue = 0;
         String query= "SELECT SUM(total) AS Total FROM pemeriksaan WHERE Tanggal_Pemeriksaan BETWEEN '"+modelDashboard.getFromDate()+"' AND '"+modelDashboard.getToDate()+"'";
         try {
@@ -60,26 +60,6 @@ public class ServiceDashboard {
         return total;
     }
     
-    public double keuntunganPenjualan(ModelDashboard modelDashboard) {
-        double keuntungan = 0;
-        String query = "SELECT dtl.No_Penjualan, dtl.Kode_Barang, bg.Harga_Beli, bg.Harga_Jual, dtl.Jumlah, pjn.Tanggal FROM detail_penjualan dtl "
-                + "INNER JOIN barang bg ON dtl.Kode_Barang=bg.Kode_Barang INNER JOIN penjualan pjn ON dtl.No_Penjualan=pjn.No_Penjualan "
-                + "WHERE Tanggal BETWEEN '"+modelDashboard.getFromDate()+"' AND '"+modelDashboard.getToDate()+"'";
-        try {
-            PreparedStatement pst = connection.prepareStatement(query);
-            ResultSet rst = pst.executeQuery();
-            while(rst.next()) {
-                double hargaBeli = rst.getDouble("Harga_Beli");
-                double hargaJual = rst.getDouble("Harga_Jual");
-                int jumlah = rst.getInt("Jumlah");
-                keuntungan += (jumlah * hargaJual) - (jumlah * hargaBeli);
-            }
-        } catch(Exception ex) {
-            
-        }
-        return keuntungan;
-    }
-    
     public double pengeluaran(ModelDashboard modelDashboard) {
         double pengeluaran = 0;
         String query = "SELECT SUM(Total_Pengeluaran) AS Total FROM pengeluaran WHERE Tanggal_Pengeluaran BETWEEN '"+modelDashboard.getFromDate()+"' AND '"+modelDashboard.getToDate()+"'";
@@ -94,6 +74,27 @@ public class ServiceDashboard {
         }
         
         return pengeluaran;
+    }
+    
+    public double keuntunganPenjualan(ModelDashboard modelDashboard) {
+        double keuntungan = 0;
+        String query = "SELECT bg.Harga_Beli, bg.Harga_Jual, dtl.Jumlah FROM detail_penjualan dtl \n" +
+        "INNER JOIN barang bg ON dtl.Kode_Barang=bg.Kode_Barang \n" +
+        "INNER JOIN penjualan pjn ON dtl.No_Penjualan=pjn.No_Penjualan \n" +
+        "WHERE Tanggal BETWEEN '"+modelDashboard.getFromDate()+"' AND '"+modelDashboard.getToDate()+"'";
+        try {
+            PreparedStatement pst = connection.prepareStatement(query);
+            ResultSet rst = pst.executeQuery();
+            while(rst.next()) {
+                double hargaBeli = rst.getDouble("Harga_Beli");
+                double hargaJual = rst.getDouble("Harga_Jual");
+                int jumlah = rst.getInt("Jumlah");
+                keuntungan += (jumlah * hargaJual) - (jumlah * hargaBeli);
+            }
+        } catch(Exception ex) {
+            
+        }
+        return keuntungan;
     }
     
     public void lastReseravsi(Table table) {
@@ -161,7 +162,7 @@ public class ServiceDashboard {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
             if(rst.next()) {
-                totalSells.add(rst.getDouble("TotalSells"));      
+                totalSells.add(rst.getDouble("TotalSells")); 
             } else {
                 totalSells.add((double)0);
             }
@@ -171,32 +172,6 @@ public class ServiceDashboard {
       }
       
         return totalSells;
-    }
-        
-    private List<Double> getProfits(List<Integer> months, String year) {
-        List<Double> profits = new ArrayList<>();
-        for(int month : months) {
-            String query = "SELECT dtl.No_Penjualan, dtl.Kode_Barang, bg.Harga_Beli, bg.Harga_Jual, dtl.Jumlah, "
-                    + "pjn.Tanggal FROM detail_penjualan dtl INNER JOIN barang bg ON dtl.Kode_Barang=bg.Kode_Barang "
-                    + "INNER JOIN penjualan pjn ON dtl.No_Penjualan=pjn.No_Penjualan WHERE MONTH(Tanggal)='"+month+"' AND YEAR(Tanggal)='"+year+"'";
-            try {
-                PreparedStatement pst = connection.prepareStatement(query);
-                ResultSet rst = pst.executeQuery();
-                if(rst.next()) {
-                    double hargaBeli = rst.getDouble("Harga_Beli");
-                    double hargaJual = rst.getDouble("Harga_Jual");
-                    int jumlah = rst.getInt("Jumlah");
-                    double profit = (hargaJual * jumlah) - (hargaBeli * jumlah);
-                    profits.add(profit);
-                } else {
-                    profits.add((double)0);
-                }
-            } catch(Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        
-        return profits;
     }
     
     private List<Double> getExpenditures(List<Integer> months, String year) {
@@ -218,22 +193,53 @@ public class ServiceDashboard {
         
         return expenditures;
     }
+        
+    private List<Double> getProfits(List<Integer> months, String year) {
+        List<Double> profits = new ArrayList<>();
+        for(int month : months) {
+            String query = "SELECT YEAR(pjn.Tanggal) AS Tahun, MONTH(pjn.Tanggal) AS Bulan, \n" +
+            "SUM(dtl.Subtotal) - SUM(brg.Harga_Beli * dtl.Jumlah) AS Keuntungan \n" +
+            "FROM detail_penjualan dtl INNER JOIN penjualan pjn \n" +
+            "ON dtl.No_Penjualan = pjn.No_Penjualan INNER JOIN barang brg \n" +
+            "ON dtl.Kode_Barang = brg.Kode_Barang WHERE MONTH(pjn.Tanggal)='"+month+"' \n" +
+            "AND YEAR(pjn.Tanggal) = '"+year+"' GROUP BY YEAR (pjn.Tanggal), MONTH(pjn.Tanggal)";
+            try {
+                PreparedStatement pst = connection.prepareStatement(query);
+                ResultSet rst = pst.executeQuery();
+                while(rst.next()) {
+                    profits.add(rst.getDouble("Keuntungan"));
+                }     
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        
+        return profits;
+    }
     
     
-    public void chartDiagram(List<Integer> months, Chart chart, String year) {
+    
+    public void chartDiagram(Chart chart, String year, int index) {
+        List<Integer> months = new ArrayList<>();
+        
+        for(int a = 1; a <= 12; a++) {
+            months.add(a);
+        }
+        
         List<Double> revenues = getRevenues(months, year);
         List<Double> totalSells = getTotalSells(months, year);
-        List<Double> profits = getProfits(months, year);
         List<Double> expenditures = getExpenditures(months, year);
-        for(int a = 0; a < months.size(); a++) {
-            Month month = Month.of(a + 1);
+        List<Double> profits = getProfits(months, year);
+        for(int a = 0; a < 12; a++) {
+            Month month = Month.of(a+1);
             String bulan = styleString(month.toString());
-            double[] values = new double[4];
-            values[0] = revenues.get(a);
-            values[1] = totalSells.get(a);
-            values[2] = profits.get(a);
-            values[3] = expenditures.get(a);
-            chart.addData(new ModelChart(bulan, values));
+            double[] values1 = {revenues.get(a), totalSells.get(a), expenditures.get(a)};
+            double[] values2 = {profits.get(a)};
+            if(index == 0) {
+                chart.addData(new ModelChart(bulan, values1));
+            } else {
+                chart.addData(new ModelChart(bulan, values2));
+            }
         }
     }
     

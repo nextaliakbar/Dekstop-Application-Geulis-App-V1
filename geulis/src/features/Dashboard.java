@@ -6,6 +6,7 @@ package features;
 import com.raven.datechooser.DateBetween;
 import com.raven.datechooser.listener.DateChooserAction;
 import com.raven.datechooser.listener.DateChooserAdapter;
+import component.Chart;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,13 +37,12 @@ public class Dashboard extends javax.swing.JPanel {
      */
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private ServiceDashboard serviceDashboard = new ServiceDashboard();
-    private List<Integer> months = new ArrayList<>();
     private ModelPengguna modelPengguna;
     public Dashboard(ModelPengguna modelPengguna) {
         initComponents();
         this.modelPengguna = modelPengguna;
         initiationCard();
-        viewChart();
+        viewChart(0);
         serviceDashboard.lastReseravsi(table2);
         table2.scrollPane(scroll2);
         styleTable( table2);
@@ -60,7 +60,7 @@ public class Dashboard extends javax.swing.JPanel {
         String tglSekarang = now.format(format);
         ModelDashboard modelDashboard = new ModelDashboard(tglSekarang, tglSekarang);
         
-        double revenuePemeriksaan = serviceDashboard.revenuePemeriksaan(modelDashboard);
+        double revenuePemeriksaan = serviceDashboard.pendapatanPemeriksaan(modelDashboard);
         double totalPenjualan = serviceDashboard.totalPenjualan(modelDashboard);
         double keuntunganPenjualan = serviceDashboard.keuntunganPenjualan(modelDashboard);
         double pengeluaran = serviceDashboard.pengeluaran(modelDashboard);
@@ -78,7 +78,7 @@ public class Dashboard extends javax.swing.JPanel {
                 String fromDate = sdf.format(date.getFromDate());
                 String toDate = sdf.format(date.getToDate());
                 ModelDashboard modelDashboard = new ModelDashboard(fromDate, toDate);
-                double value = serviceDashboard.revenuePemeriksaan(modelDashboard);
+                double value = serviceDashboard.pendapatanPemeriksaan(modelDashboard);
                 card11.setData(modelCard("Pendapatan Pemeriksaan", value, new ImageIcon(getClass().getResource("/image/coins.png")),"Lihat Detail"));
             }    
         });
@@ -136,7 +136,7 @@ public class Dashboard extends javax.swing.JPanel {
         this.card13.viewDetail(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Keuntungan penjualan merukapan keuntungan\n"
+                JOptionPane.showMessageDialog(null, "Keuntungan penjualan merupakan keuntungan\n"
                 + "Dari selisih harga jual dengan harga beli barang\nPada transaksi penjualan", "Informasi", JOptionPane.INFORMATION_MESSAGE);
             }
         });
@@ -149,18 +149,26 @@ public class Dashboard extends javax.swing.JPanel {
         });
     }
     
-    private void viewChart() {
+    private void viewChart(int index) {
         LocalDate now = LocalDate.now();
         txtYear.setText(String.valueOf(now.getYear()));
         String year = txtYear.getText();
-        chart.addLegends("Pendapatan Pemeriksaan", new Color(255, 193, 7));
-        chart.addLegends("Total Penjualan", new Color(76, 175, 80));
-        chart.addLegends("Keuntungan Penjualan", new Color(33, 150, 243));
-        chart.addLegends("Pengeluaran", new Color(135, 15, 50));
-        for(int a = 1; a <= 12; a++) {
-            months.add(a);
-        }
-        getChart(year);
+        switch(index) {
+            case 0:
+                chart1.clearLegends();
+                chart1.clearLegends();
+                chart1.clearLegends();
+                chart1.addLegends("Pendapatan Pemeriksaan", new Color(255, 193, 7));
+                chart1.addLegends("Total Penjualan", new Color(76, 175, 80));
+                chart1.addLegends("Pengeluaran", new Color(135, 15, 50));
+                getChart(year, chart1, index);
+                break;
+            case 1:
+                chart2.clearLegends();
+                chart2.addLegends("Keuntungan Penjualan", new Color(33, 150, 243));
+                getChart(year, chart2, index);
+                break;
+        }   
     }
     
     private void styleTable(JTable table) {
@@ -174,12 +182,19 @@ public class Dashboard extends javax.swing.JPanel {
         revalidate();
     }
     
-    private void getChart(String year) {
+    private void getChart(String year, Chart chart, int index) {
         chart.clear();
-        serviceDashboard.chartDiagram(months, chart, year);
+        serviceDashboard.chartDiagram(chart, year, index);
         chart.start();
     }
-
+    
+    private void changeChart(Chart chart) {
+        panelChart.removeAll();
+        panelChart.add(chart);
+        panelChart.repaint();
+        panelChart.revalidate();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -194,9 +209,12 @@ public class Dashboard extends javax.swing.JPanel {
         card12 = new component.Card();
         card13 = new component.Card();
         panel1 = new javax.swing.JPanel();
-        chart = new component.Chart();
         jLabel3 = new javax.swing.JLabel();
         txtYear = new javax.swing.JTextField();
+        cbxChart = new javax.swing.JComboBox<>();
+        panelChart = new javax.swing.JPanel();
+        chart1 = new component.Chart();
+        chart2 = new component.Chart();
         panel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         scroll2 = new javax.swing.JScrollPane();
@@ -229,17 +247,36 @@ public class Dashboard extends javax.swing.JPanel {
             }
         });
 
+        cbxChart.setBackground(new java.awt.Color(255, 255, 255));
+        cbxChart.setFont(new java.awt.Font("SansSerif", 0, 18)); // NOI18N
+        cbxChart.setForeground(new java.awt.Color(102, 102, 102));
+        cbxChart.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Grafik Utama", "Grafik Keuntungan" }));
+        cbxChart.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(185, 185, 185)));
+        cbxChart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxChartActionPerformed(evt);
+            }
+        });
+
+        panelChart.setBackground(new java.awt.Color(255, 255, 255));
+        panelChart.setForeground(new java.awt.Color(255, 255, 255));
+        panelChart.setLayout(new java.awt.CardLayout());
+        panelChart.add(chart1, "card2");
+        panelChart.add(chart2, "card2");
+
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
         panel1Layout.setHorizontalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 1001, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 790, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbxChart, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(chart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,9 +284,10 @@ public class Dashboard extends javax.swing.JPanel {
                 .addGap(2, 2, 2)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtYear, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxChart, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chart, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))
+                .addComponent(panelChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -345,19 +383,49 @@ public class Dashboard extends javax.swing.JPanel {
 
     private void txtYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtYearActionPerformed
         String year = txtYear.getText();
-        getChart(year);
+        int index = cbxChart.getSelectedIndex();
+        switch(index) {
+            case 0:
+                getChart(year, chart1, index);
+                break;
+            case 1 :
+                getChart(year, chart2, index);
+                break;
+        }
     }//GEN-LAST:event_txtYearActionPerformed
+
+    private void cbxChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxChartActionPerformed
+        LocalDate now = LocalDate.now();
+        txtYear.setText(String.valueOf(now.getYear()));
+        String year = txtYear.getText();
+        int index = cbxChart.getSelectedIndex();
+        switch(index) {
+            case 0:
+                changeChart(chart1);
+                viewChart(index);
+                getChart(year, chart1, index);
+                break;
+            case 1 :
+                changeChart(chart2);
+                viewChart(index);
+                getChart(year, chart2, index);
+                break;
+        }
+    }//GEN-LAST:event_cbxChartActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private component.Card card11;
     private component.Card card12;
     private component.Card card13;
     private component.Card card14;
-    private component.Chart chart;
+    private javax.swing.JComboBox<String> cbxChart;
+    private component.Chart chart1;
+    private component.Chart chart2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel panel1;
     private javax.swing.JPanel panel2;
+    private javax.swing.JPanel panelChart;
     private javax.swing.JPanel panelData;
     private javax.swing.JScrollPane scroll2;
     private swing.Table table2;
