@@ -159,6 +159,10 @@ public class ServicePromo {
             ResultSet rst = pst.executeQuery();
             while(rst.next()) {
                 String strFirstDate = rst.getString("Tanggal_Awal");  
+                LocalDate firstDate = LocalDate.parse(strFirstDate, formatter);
+                int yearFisrt = firstDate.getYear();
+                int monthFirst = firstDate.getMonthValue();
+                int dayFisrt = firstDate.getDayOfMonth();
                 
                 String strLastDate = rst.getString("Tanggal_Akhir");
                 LocalDate lastDate = LocalDate.parse(strLastDate, formatter);
@@ -168,7 +172,7 @@ public class ServicePromo {
                 LocalDate plusOneDay = lastDate.plusDays(1);
                 String strPlusOneDay = plusOneDay.format(formatter);
                 
-                if(strFirstDate.equals(strDateNow)) {
+                if(strFirstDate.equals(strDateNow) || yearFisrt == yearNow && monthFirst == monthNow && dayFisrt >= dayNow ) {
                     String noPromo = rst.getString("No_Promo");
                     ModelPromo modelPromo = new ModelPromo();
                     modelPromo.setNoPromo(noPromo);
@@ -180,14 +184,12 @@ public class ServicePromo {
                     ModelPromo modelPromo = new ModelPromo();
                     modelPromo.setNoPromo(noPromo);
                     setAutoEndPromo(modelPromo);
-                } else if(yearNow > yearLast || monthNow > monthLast && dayNow > dayLast) {
+                } else if(yearNow > yearLast || monthNow >= monthLast && dayNow > dayLast || monthNow > monthLast) {
                     String noPromo = rst.getString("No_Promo");
                     ModelPromo modelPromo = new ModelPromo();
                     modelPromo.setNoPromo(noPromo);
                     setAutoEndPromo(modelPromo);
-                }
-                
-                
+                }   
             }
         } catch(Exception ex) {
             ex.printStackTrace();

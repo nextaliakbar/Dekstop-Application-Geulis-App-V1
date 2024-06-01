@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportPemeriksaan" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0a185fa4-375d-4b81-95e3-6ddfe2d8b6fa">
-	<property name="ireport.zoom" value="3.797498335832494"/>
-	<property name="ireport.x" value="25"/>
+	<property name="ireport.zoom" value="2.5937424601000583"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
@@ -75,7 +75,7 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No]]></text>
 			</staticText>
@@ -88,7 +88,7 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No Pengeluaran]]></text>
 			</staticText>
@@ -101,7 +101,7 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Jenis Pengeluaran]]></text>
 			</staticText>
@@ -114,7 +114,7 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Pengguna]]></text>
 			</staticText>
@@ -127,7 +127,7 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Subtotal]]></text>
 			</staticText>
@@ -140,7 +140,7 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Tanggal]]></text>
 			</staticText>
@@ -153,7 +153,7 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total Pengeluaran]]></text>
 			</staticText>
@@ -166,16 +166,16 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Detail Jenis]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="10" splitType="Stretch">
+		<band height="14" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="13" height="10" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="b4c065e9-a147-421e-8959-902416c323ce"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="13" height="14" isPrintWhenDetailOverflows="true" uuid="b4c065e9-a147-421e-8959-902416c323ce"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -183,12 +183,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{no}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="182" y="0" width="103" height="10" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="41414ee5-8fae-413e-a59f-fb9dfaf80ef4"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="182" y="0" width="103" height="14" isPrintWhenDetailOverflows="true" uuid="41414ee5-8fae-413e-a59f-fb9dfaf80ef4"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -196,12 +196,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tgl}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="13" y="0" width="87" height="10" isPrintWhenDetailOverflows="true" uuid="2c4a150a-78fc-4641-bf02-713bbec8e35b"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="13" y="0" width="87" height="14" isPrintWhenDetailOverflows="true" uuid="2c4a150a-78fc-4641-bf02-713bbec8e35b"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -209,12 +209,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{noPengeluaran}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="100" y="0" width="82" height="10" isPrintWhenDetailOverflows="true" uuid="ea4b6fbc-a50f-4e78-994f-43a1081f653a"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="100" y="0" width="82" height="14" isPrintWhenDetailOverflows="true" uuid="ea4b6fbc-a50f-4e78-994f-43a1081f653a"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -222,12 +222,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pengguna}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="285" y="0" width="57" height="10" isPrintWhenDetailOverflows="true" uuid="81d1adcc-8ba0-4e8c-bce2-8b2fe7f1516f"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="285" y="0" width="57" height="14" isPrintWhenDetailOverflows="true" uuid="81d1adcc-8ba0-4e8c-bce2-8b2fe7f1516f"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -235,12 +235,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalPengeluaran}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement key="table" style="table" positionType="Float" stretchType="RelativeToTallestObject" x="342" y="0" width="213" height="10" isPrintInFirstWholeBand="true" uuid="42dc44dd-68af-49da-90b2-72cedf461de3"/>
+				<reportElement key="table" style="table" positionType="Float" stretchType="RelativeToTallestObject" x="342" y="0" width="213" height="14" isPrintWhenDetailOverflows="true" uuid="42dc44dd-68af-49da-90b2-72cedf461de3"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="data" uuid="7634e0f6-3ffc-4f46-bd03-38534c541c25">
 						<dataSourceExpression><![CDATA[$F{detail}]]></dataSourceExpression>
@@ -256,7 +256,7 @@
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="6"/>
+									<font size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{type}]]></textFieldExpression>
 							</textField>
@@ -273,7 +273,7 @@
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="6"/>
+									<font size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{detail}]]></textFieldExpression>
 							</textField>
@@ -290,7 +290,7 @@
 									<rightPen lineWidth="0.5"/>
 								</box>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="6"/>
+									<font size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
 							</textField>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportPemeriksaan" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0a185fa4-375d-4b81-95e3-6ddfe2d8b6fa">
-	<property name="ireport.zoom" value="2.1435888100000424"/>
-	<property name="ireport.x" value="0"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportPemeriksaan" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0a185fa4-375d-4b81-95e3-6ddfe2d8b6fa">
+	<property name="ireport.zoom" value="2.8531167061100695"/>
+	<property name="ireport.x" value="71"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
@@ -38,45 +38,45 @@
 	<title>
 		<band height="34" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="555" height="13" uuid="d18b4d04-b7d2-4478-a139-3453707121b7"/>
+				<reportElement x="0" y="0" width="802" height="13" uuid="d18b4d04-b7d2-4478-a139-3453707121b7"/>
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[REKAP LAPORAN PENJUALAN RUMAH CANTIK ALESHA]]></text>
 			</staticText>
 			<line>
-				<reportElement x="0" y="13" width="555" height="1" uuid="bcf4fc1f-e786-40ab-8027-1af58b2f3153"/>
+				<reportElement x="0" y="13" width="802" height="1" uuid="bcf4fc1f-e786-40ab-8027-1af58b2f3153"/>
 				<graphicElement>
 					<pen lineStyle="Solid"/>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="362" y="14" width="87" height="20" uuid="8e5318a7-d94e-4f2d-8a68-a81fc9087b2e"/>
+				<reportElement x="497" y="14" width="87" height="20" uuid="8e5318a7-d94e-4f2d-8a68-a81fc9087b2e"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle"/>
 				<text><![CDATA[Total Keseluruhan :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="14" width="51" height="20" uuid="e87a366c-2e97-493b-a572-811504900c2e"/>
+				<reportElement x="87" y="14" width="51" height="20" uuid="e87a366c-2e97-493b-a572-811504900c2e"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Rentang :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="51" y="14" width="159" height="20" uuid="a138751b-30d3-4ec9-8dcb-7c6be8ebe6d3"/>
+				<reportElement x="138" y="14" width="159" height="20" uuid="a138751b-30d3-4ec9-8dcb-7c6be8ebe6d3"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{rentang}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="449" y="14" width="106" height="20" uuid="1d8a3e4f-3f0d-4409-ba09-45fca416ce94"/>
+				<reportElement x="584" y="14" width="154" height="20" uuid="1d8a3e4f-3f0d-4409-ba09-45fca416ce94"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="210" y="14" width="98" height="20" uuid="c33774c5-3adb-454a-bcf9-957adbca9535"/>
+				<reportElement x="313" y="14" width="98" height="20" uuid="c33774c5-3adb-454a-bcf9-957adbca9535"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Total Barang Terjual :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="308" y="14" width="54" height="20" uuid="ed4e7235-32af-4ad9-9673-3c73500c722f"/>
+				<reportElement x="411" y="14" width="54" height="20" uuid="ed4e7235-32af-4ad9-9673-3c73500c722f"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$P{totalQty}]]></textFieldExpression>
 			</textField>
@@ -93,12 +93,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="13" y="0" width="53" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="a68f3075-7496-4c50-8801-1c6c90fb4aed"/>
+				<reportElement mode="Opaque" x="13" y="0" width="74" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="a68f3075-7496-4c50-8801-1c6c90fb4aed"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -106,12 +106,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No Penjualan]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="66" y="0" width="72" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="984d4aac-9c7f-48f4-b05d-3f2507ffac2e"/>
+				<reportElement mode="Opaque" x="87" y="0" width="101" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="984d4aac-9c7f-48f4-b05d-3f2507ffac2e"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -119,12 +119,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Kasir]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="138" y="0" width="61" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="7e50599c-82e6-41bc-989c-31879c3553f6"/>
+				<reportElement mode="Opaque" x="188" y="0" width="90" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="7e50599c-82e6-41bc-989c-31879c3553f6"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -132,12 +132,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Tanggal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="241" y="0" width="57" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="217a0999-7993-45e8-ba07-958e634fc53d"/>
+				<reportElement mode="Opaque" x="330" y="0" width="103" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="217a0999-7993-45e8-ba07-958e634fc53d"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -145,12 +145,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total Penjualan]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="358" y="0" width="77" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="92d61e6a-3bcf-46ad-b1f4-8c88efbcdd9d"/>
+				<reportElement mode="Opaque" x="519" y="0" width="127" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="92d61e6a-3bcf-46ad-b1f4-8c88efbcdd9d"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -158,12 +158,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nama Barang]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="435" y="0" width="40" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="64338acc-d48c-4101-83c6-57e4fa06789d"/>
+				<reportElement mode="Opaque" x="646" y="0" width="52" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="64338acc-d48c-4101-83c6-57e4fa06789d"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -171,12 +171,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Harga Jual]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="475" y="0" width="40" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="dcc34dd2-85df-4fa7-a939-9c43c2ac7599"/>
+				<reportElement mode="Opaque" x="698" y="0" width="52" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="dcc34dd2-85df-4fa7-a939-9c43c2ac7599"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -184,12 +184,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Jumlah]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="515" y="0" width="40" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="148884ec-1fac-4f42-adfd-1c8afefb2361"/>
+				<reportElement mode="Opaque" x="750" y="0" width="52" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="148884ec-1fac-4f42-adfd-1c8afefb2361"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -197,12 +197,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Subtotal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="298" y="0" width="30" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="c14508b5-bc95-457f-8b93-cff9e3b348ec"/>
+				<reportElement mode="Opaque" x="433" y="0" width="43" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="c14508b5-bc95-457f-8b93-cff9e3b348ec"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -210,12 +210,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Bayar]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="328" y="0" width="30" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="f5bf715b-66e9-4723-a1b1-f203f9b8fbda"/>
+				<reportElement mode="Opaque" x="476" y="0" width="43" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="f5bf715b-66e9-4723-a1b1-f203f9b8fbda"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -223,12 +223,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Kembali]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="199" y="0" width="42" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="515b7f65-25d5-477c-86b8-3117b03d9e62"/>
+				<reportElement mode="Opaque" x="278" y="0" width="52" height="13" forecolor="#000000" backcolor="#4CAF50" uuid="515b7f65-25d5-477c-86b8-3117b03d9e62"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -236,16 +236,16 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
+					<font size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total Jumlah]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="10" splitType="Stretch">
+		<band height="14" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="13" height="10" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="b4c065e9-a147-421e-8959-902416c323ce"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="0" y="0" width="13" height="14" isPrintWhenDetailOverflows="true" uuid="b4c065e9-a147-421e-8959-902416c323ce"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -253,12 +253,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{no}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="13" y="0" width="53" height="10" isPrintInFirstWholeBand="true" uuid="615a3c8a-dda5-4e5a-a89d-1a82d89d9883"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="13" y="0" width="74" height="14" isPrintWhenDetailOverflows="true" uuid="615a3c8a-dda5-4e5a-a89d-1a82d89d9883"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -266,12 +266,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{noPenjualan}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="66" y="0" width="72" height="10" isPrintInFirstWholeBand="true" uuid="b2f4f60a-f657-4c69-983e-27da26c57bd0"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="87" y="0" width="101" height="14" isPrintWhenDetailOverflows="true" uuid="b2f4f60a-f657-4c69-983e-27da26c57bd0"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -279,12 +279,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{kasir}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="138" y="0" width="61" height="10" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="41414ee5-8fae-413e-a59f-fb9dfaf80ef4"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="188" y="0" width="90" height="14" isPrintWhenDetailOverflows="true" uuid="41414ee5-8fae-413e-a59f-fb9dfaf80ef4"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -292,12 +292,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tgl}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="199" y="0" width="42" height="10" isPrintInFirstWholeBand="true" uuid="bce23fa9-a90a-489e-9a05-e601c5367159"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="330" y="0" width="103" height="14" isPrintWhenDetailOverflows="true" uuid="e8b94c69-4018-4558-af73-bebbf1dc0f79"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -305,25 +305,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{totalJumlah}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="241" y="0" width="57" height="10" isPrintInFirstWholeBand="true" uuid="e8b94c69-4018-4558-af73-bebbf1dc0f79"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalPenjualan}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="298" y="0" width="30" height="10" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="48781c6e-032f-47c1-b877-d273ca67d8a4"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="433" y="0" width="43" height="14" isPrintWhenDetailOverflows="true" uuid="48781c6e-032f-47c1-b877-d273ca67d8a4"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -331,12 +318,12 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bayar}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="328" y="0" width="30" height="10" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="f4ddcceb-9ead-4910-99b2-edfe9499a90c"/>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="476" y="0" width="43" height="14" isPrintWhenDetailOverflows="true" uuid="f4ddcceb-9ead-4910-99b2-edfe9499a90c"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -344,55 +331,55 @@
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{kembali}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement key="table" style="table" positionType="Float" stretchType="RelativeToTallestObject" x="358" y="0" width="197" height="10" isPrintWhenDetailOverflows="true" uuid="09e09e89-25aa-461b-b5c1-000ece556d2f"/>
+				<reportElement key="table" style="table" positionType="Float" stretchType="RelativeToTallestObject" x="519" y="0" width="283" height="14" isPrintWhenDetailOverflows="true" uuid="09e09e89-25aa-461b-b5c1-000ece556d2f"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="data" uuid="d313a695-e73b-42fa-b34b-c91bcd938cc0">
 						<dataSourceExpression><![CDATA[$F{detail}]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="77" uuid="bef62263-9635-4bdd-b1c0-2913a8ec0da7">
+					<jr:column width="127" uuid="bef62263-9635-4bdd-b1c0-2913a8ec0da7">
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="77" height="15" uuid="2926f4ab-139a-4397-ac5d-098d3d2eec52"/>
+								<reportElement x="0" y="0" width="127" height="15" uuid="2926f4ab-139a-4397-ac5d-098d3d2eec52"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="6"/>
+									<font size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{product}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="40" uuid="239679be-975b-4f66-8dd4-89d2020a21d4">
+					<jr:column width="52" uuid="239679be-975b-4f66-8dd4-89d2020a21d4">
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="40" height="15" uuid="13188d0b-0edb-44be-b798-4968b80bd98c"/>
+								<reportElement x="0" y="0" width="52" height="15" uuid="13188d0b-0edb-44be-b798-4968b80bd98c"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="6"/>
+									<font size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="40" uuid="03d9f728-b929-466a-9ab8-f971d4f893c9">
+					<jr:column width="52" uuid="03d9f728-b929-466a-9ab8-f971d4f893c9">
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="40" height="15" uuid="94a07dd9-c2cf-448c-8f83-fb80a0f87dc1"/>
+								<reportElement x="0" y="0" width="52" height="15" uuid="94a07dd9-c2cf-448c-8f83-fb80a0f87dc1"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="6"/>
+									<font size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="40" uuid="aba17876-33f0-439e-baf8-8c41826ecd6b">
+					<jr:column width="52" uuid="aba17876-33f0-439e-baf8-8c41826ecd6b">
 						<jr:detailCell style="table_TD" height="15" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="40" height="15" uuid="b58cff4c-43e8-4eaf-b0f7-97cfe3d78970"/>
+								<reportElement x="0" y="0" width="52" height="15" uuid="b58cff4c-43e8-4eaf-b0f7-97cfe3d78970"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
-									<font size="6"/>
+									<font size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
 							</textField>
@@ -400,6 +387,19 @@
 					</jr:column>
 				</jr:table>
 			</componentElement>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="278" y="0" width="52" height="14" isPrintWhenDetailOverflows="true" uuid="bce23fa9-a90a-489e-9a05-e601c5367159"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totalJumlah}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>
