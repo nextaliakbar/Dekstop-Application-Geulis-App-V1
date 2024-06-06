@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.text.DecimalFormat;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -52,6 +53,7 @@ public class DialogDetail extends java.awt.Dialog {
     ModelDetailPemesanan detailPemesanan, ModelDetailPengeluaran detailPengeluaran) {
         super(parent, modal);
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         this.detailPemeriksaan = detailPemeriksaan;
         this.detailPenjualan = detailPenjualan;
         this.detailPemesanan = detailPemesanan;

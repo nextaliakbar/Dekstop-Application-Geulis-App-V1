@@ -29,6 +29,7 @@ import features.FiturSupplier;
 import features.FiturTindakan;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.ModelPengguna;
@@ -54,6 +55,7 @@ public class Main extends javax.swing.JFrame {
     private Animator animator;
     public Main(ModelPengguna modelPengguna) {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         initiation(modelPengguna);
         endPromoAuto();
     }

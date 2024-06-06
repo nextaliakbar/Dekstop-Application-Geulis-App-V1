@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,6 +34,7 @@ public class LihatPromo extends java.awt.Dialog {
     public LihatPromo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         styleTable(scrollPane, table, 6);
         tabmodel = (DefaultTableModel) table.getModel();
         servicePromo.loadPromo(tabmodel,"SELECT * FROM promo");

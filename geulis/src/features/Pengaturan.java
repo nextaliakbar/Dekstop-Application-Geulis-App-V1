@@ -5,6 +5,7 @@
 package features;
 
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
 import model.ModelPengguna;
 
 
@@ -20,6 +21,7 @@ public class Pengaturan extends java.awt.Dialog {
     public Pengaturan(java.awt.Frame parent, boolean modal, ModelPengguna modelPengguna) {
         super(parent, modal);
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         String level = modelPengguna.getLevel();
         if(level.equals("Admin")) {
             jLabel3.setVisible(false);

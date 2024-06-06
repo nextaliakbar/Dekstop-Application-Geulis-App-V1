@@ -162,7 +162,7 @@ public class ServicePromo {
                 LocalDate firstDate = LocalDate.parse(strFirstDate, formatter);
                 int yearFisrt = firstDate.getYear();
                 int monthFirst = firstDate.getMonthValue();
-                int dayFisrt = firstDate.getDayOfMonth();
+                int dayFirst = firstDate.getDayOfMonth();
                 
                 String strLastDate = rst.getString("Tanggal_Akhir");
                 LocalDate lastDate = LocalDate.parse(strLastDate, formatter);
@@ -172,7 +172,7 @@ public class ServicePromo {
                 LocalDate plusOneDay = lastDate.plusDays(1);
                 String strPlusOneDay = plusOneDay.format(formatter);
                 
-                if(strFirstDate.equals(strDateNow) || yearFisrt == yearNow && monthFirst == monthNow && dayFisrt >= dayNow ) {
+                if(strFirstDate.equals(strDateNow) || yearNow == yearFisrt && monthNow == monthFirst && dayNow >= dayFirst ) {
                     String noPromo = rst.getString("No_Promo");
                     ModelPromo modelPromo = new ModelPromo();
                     modelPromo.setNoPromo(noPromo);

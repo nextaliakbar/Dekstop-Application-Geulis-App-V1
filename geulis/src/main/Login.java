@@ -9,6 +9,7 @@ import component.PanelLoading;
 import component.PanelVerifyCode;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import model.ModelPengguna;
@@ -34,6 +35,7 @@ public class Login extends javax.swing.JFrame {
     private ServiceLogin serviceLogin = new ServiceLogin();
     public Login() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         initiation();
     }
     

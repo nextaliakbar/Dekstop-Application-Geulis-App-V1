@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -48,6 +49,7 @@ public class TambahPemesanan extends java.awt.Dialog {
     public TambahPemesanan(java.awt.Frame parent, boolean modal, String slide) {
         super(parent, modal);
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         connection = Koneksi.getConnection();
         
         this.slide = slide;
