@@ -504,15 +504,26 @@ public class FiturPasien extends javax.swing.JPanel {
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         if(validation()) {
+        ModelPasien modelPasien = new ModelPasien();
+        modelPasien.setNoTelp(t_no_Telp.getText());
+        modelPasien.setEmail(t_email.getText());
         if(btnSimpan.getText().equals("SIMPAN")) {
-            tambahData();  
+            if(servicePasien.validationAddEmaiTelpl(modelPasien)) {
+                tambahData();  
+                clearField();
+                changePanel(panelData);
+                tabmodel.setRowCount(0);
+                servicePasien.loadData(tabmodel);
+            }
         } else {
-            perbaruiData();
+            if(servicePasien.validationAddEmaiTelpl(modelPasien)) {
+                perbaruiData();
+                clearField();
+                changePanel(panelData);
+                tabmodel.setRowCount(0);
+                servicePasien.loadData(tabmodel);
+            }
         }
-        clearField();
-        changePanel(panelData);
-        tabmodel.setRowCount(0);
-        servicePasien.loadData(tabmodel);
         }
     }//GEN-LAST:event_btnSimpanActionPerformed
 

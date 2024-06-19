@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -268,6 +269,7 @@ public class ServiceLaporan {
             Report.getInstance().printLaporanPemeriksaan(paramater);
         } catch(Exception ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
@@ -318,6 +320,7 @@ public class ServiceLaporan {
             Report.getInstance().printLaporanPenjualan(paramater);
         } catch(Exception ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
@@ -367,6 +370,7 @@ public class ServiceLaporan {
                 Report.getInstance().printLaporanPemesanan(paramater);
         } catch(Exception ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
@@ -401,6 +405,7 @@ public class ServiceLaporan {
             Report.getInstance().printLaporanPengeluaran(paramater);
         } catch(Exception ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     

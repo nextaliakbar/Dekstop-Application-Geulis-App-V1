@@ -281,6 +281,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
 
         } catch(Exception ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
@@ -391,7 +392,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
                    pagination.setVisible(true);
                 } else {
                    pagination.setVisible(false);
-                   rowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+text, 0, 3));
+                   rowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+text, 0, 3, 5));
                 }
             }
 
@@ -403,7 +404,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
                    pagination.setVisible(true);
                 } else {
                    pagination.setVisible(false);
-                   rowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+text, 0, 3));
+                   rowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+text, 0, 3, 5));
                 }
            }
 
@@ -572,7 +573,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         txtCari.setFont(new java.awt.Font("SansSerif", 2, 14)); // NOI18N
         txtCari.setForeground(new java.awt.Color(185, 185, 185));
         txtCari.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtCari.setText("Cari Berdasarkan No Pemeriksaan Atau Nama Pasien");
+        txtCari.setText("Cari Berdasarkan No Pemeriksaan, Nama Pasien atau Tanggal");
         txtCari.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(185, 185, 185)));
         txtCari.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -593,10 +594,10 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             .addGroup(panel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 651, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 585, Short.MAX_VALUE)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
-                .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

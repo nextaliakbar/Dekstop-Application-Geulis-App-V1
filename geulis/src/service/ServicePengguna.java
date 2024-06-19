@@ -43,7 +43,6 @@ public class ServicePengguna {
                 
     public void addData(ModelPengguna modelPengguna) {
         String query = "INSERT INTO pengguna (ID_Pengguna, Nama, Username, Password, Email, Level, Status_Pengguna ) VALUES (?,?,?,?,?,?,?)";
-        System.out.println(query);
         try {
            PreparedStatement pst = connection.prepareStatement(query);
            pst.setString(1, modelPengguna.getIdpengguna());
@@ -140,4 +139,24 @@ public class ServicePengguna {
         }
         return valid;
     }
+    
+    public boolean validationAddEmail(ModelPengguna modelPengguna) {
+        boolean valid = true;
+        String query = "SELECT Email FROM pengguna";
+        try {
+            PreparedStatement pst = connection.prepareStatement(query);
+            ResultSet rst = pst.executeQuery();
+            while(rst.next()) {
+                if(modelPengguna.getEmail().equalsIgnoreCase(rst.getString("Email"))) {
+                    JOptionPane.showMessageDialog(null, "Email telah terdaftar");
+                    valid = false;
+                    break;
+                }
+            }
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return valid;
+    }
+    
 }

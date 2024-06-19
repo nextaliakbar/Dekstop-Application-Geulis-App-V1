@@ -168,7 +168,7 @@ public class ServicePemesanan {
                 number++;
                 noPemesanan = "PMSN-" + format + "-" + String.format("%03d", number);
             } else {
-                noPemesanan = "PMSN-"+format+"-001";
+                noPemesanan = "PMSN-"+ format +"-001";
             }
         } catch(Exception ex) {
             ex.printStackTrace();

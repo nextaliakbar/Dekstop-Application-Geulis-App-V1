@@ -23,7 +23,7 @@ public class ServiceDetailPemeriksaan {
     }
     
     public void loadData(DefaultTableModel tabModel, ModelDetailPemeriksaan detail) {
-        String query = "SELECT detPem.No_Pemeriksaan, detPem.Kode_Tindakan, tdk.Nama_Tindakan, tdk.Biaya_Tindakan, "
+        String query = "SELECT detPem.Kode_Tindakan, tdk.Nama_Tindakan, tdk.Biaya_Tindakan, "
                 + "detPem.Potongan, detPem.Subtotal FROM detail_pemeriksaan detPem INNER JOIN "
                 + "tindakan tdk ON detPem.Kode_Tindakan=tdk.Kode_Tindakan WHERE No_Pemeriksaan='"+detail.getModelPemeriksaan().getNoPemeriksaan()+"'";
         

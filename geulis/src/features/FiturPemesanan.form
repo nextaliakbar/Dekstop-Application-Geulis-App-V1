@@ -79,10 +79,10 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Component id="btnTambah" min="-2" pref="119" max="-2" attributes="0"/>
-                              <EmptySpace pref="724" max="32767" attributes="0"/>
+                              <EmptySpace pref="698" max="32767" attributes="0"/>
                               <Component id="jLabel9" min="-2" pref="34" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
-                              <Component id="txtCari" min="-2" pref="345" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="txtCari" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">

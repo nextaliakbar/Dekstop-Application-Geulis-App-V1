@@ -2,16 +2,18 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="KartuKaryawan" language="groovy" pageWidth="155" pageHeight="240" columnWidth="155" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="d249fbf0-5168-4854-8597-046888eeb89a">
 	<property name="ireport.zoom" value="2.3579476910000117"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="131"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="qrcode" class="java.io.InputStream"/>
+	<parameter name="image1" class="java.io.InputStream"/>
+	<parameter name="image2" class="java.io.InputStream"/>
 	<field name="id" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="position" class="java.lang.String"/>
 	<background>
 		<band height="240">
-			<image>
+			<image hAlign="Center">
 				<reportElement x="0" y="95" width="155" height="76" uuid="a9a5e7b3-7ce9-477e-9f47-41feb572193e"/>
-				<imageExpression><![CDATA["C:\\Users\\usER\\OneDrive\\Documents\\Geulis-App\\geulis\\src\\image\\bg.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{image1}]]></imageExpression>
 			</image>
 			<rectangle>
 				<reportElement x="0" y="171" width="155" height="69" forecolor="#870F32" backcolor="#870F32" uuid="c6bcab25-b979-494f-a1e6-34fc89b19647"/>
@@ -43,9 +45,9 @@
 				<reportElement x="36" y="76" width="81" height="67" uuid="7703cd96-23ea-424e-b2c2-e4f26c2c46ca"/>
 				<imageExpression><![CDATA[$P{qrcode}]]></imageExpression>
 			</image>
-			<image>
+			<image hAlign="Center">
 				<reportElement x="26" y="13" width="102" height="37" uuid="7d153b26-9c22-4763-8f3b-6da876d0487b"/>
-				<imageExpression><![CDATA["C:\\Users\\usER\\OneDrive\\Documents\\Geulis-App\\geulis\\src\\image\\Group 47.png"]]></imageExpression>
+				<imageExpression><![CDATA[$P{image2}]]></imageExpression>
 			</image>
 		</band>
 	</background>

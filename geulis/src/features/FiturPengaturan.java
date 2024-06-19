@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import model.ModelPengguna;
 import model.ModelPromo;
 import service.ServicePengaturan;
+import service.ServicePengguna;
 import service.ServicePromo;
 
 
@@ -658,7 +659,7 @@ public class FiturPengaturan extends javax.swing.JPanel {
         txtPaneInfo.setBorder(null);
         txtPaneInfo.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
         txtPaneInfo.setForeground(new java.awt.Color(0, 0, 0));
-        txtPaneInfo.setText("\t\t\t\t\n\t\t\t      Released Version 1.0\n   Geulis App merupakan aplikasi sistem informasi yang membantu memudahkan\n   pelaku usaha dalam mengelola unit usahanya di bidang layanan kecantikan (Beauty Center) \n   dan juga penjualan produk atau barang seperti pehitungan (pendapatan, keuntungan, pengeluaran)\n   pencatatan, pengelolaan stok,pembuatan laporan serta juga memudahkan pelaku usaha \n   dalam mengambil keputusan untuk mengembangkan usahanya sehingga dapat bersaing di pasar global.\n\n   Kelebihan\n   1.Hak Akses User (Owner dan Admin)\n   2.Sistem Keamanan (Security) aplikasi dengan fitur verifikasi melalui G-Mail\n   3.Dilengkapi dengan Chart Bar yang dapat digunakan dalam menganalisis perkembangan usaha\n   4.Informasi pendapatan serta keuntungan dari transaksi dan juga pengeluaran biaya \n      operasioal atau non operasional secara real-time\n   5.Pemberian potongan atau diskon pada pelanggan dengan sistem Membership\n   6.Pembaharuan status pada layanan reservasi dan pemesanan barang\n   7.Penggunaan Scan Barcode dalam penjualan barang\n   8.Pemberitahuan untuk menindaklanjuti atau Follow Up kepada pelanggan\n   9.Pembuatan ID Card untuk karyawan dan Membership Card untuk pelanggan\n   10.Pengelolaan stok barang secara otomatis\n   11.Pemberitahuan pada stok barang dalam keadaan tertentu\n   12.Cetak struk atau bukti pembayaran\n   13.Absensi terhadap karyawan dengan scan ID Card\n   14.Pembuatan laporan secara otomatis");
+        txtPaneInfo.setText("\t                                              Released Version 1.0\n   Geulis App merupakan aplikasi sistem informasi yang membantu memudahkan\n   pelaku usaha dalam mengelola unit usahanya di bidang layanan kecantikan (Beauty Center) \n   dan juga penjualan produk atau barang yang dilengkapi berbagi fitur yang mampu dalam \n   melakukan mulai dari pehitungan  (pendapatan, keuntungan, pengeluaran) sampai dengan\n   pembuatan laporan serta juga memudahkan pelaku usaha dalam mengambil keputusan \n   untuk mengembangkan usahanya sehingga dapat bersaing di pasar global.\n\n   Kelebihan\n   1.Hak Akses User (Owner dan Admin)\n   2.Sistem Keamanan (Security) aplikasi dengan fitur verifikasi melalui G-Mail\n   3.Dilengkapi dengan Chart Bar yang dapat digunakan dalam menganalisis perkembangan usaha\n   4.Informasi pendapatan serta keuntungan dari transaksi dan juga pengeluaran biaya \n      operasioal atau non operasional secara real-time\n   5.Pemberian potongan atau diskon pada pelanggan dengan sistem Membership\n   6.Pembaharuan status pada layanan reservasi dan pemesanan barang\n   7.Penggunaan Scan Barcode dalam penjualan barang\n   8.Pemberitahuan untuk menindaklanjuti atau Follow Up kepada pelanggan\n   9.Pembuatan ID Card untuk karyawan dan Membership Card untuk pelanggan\n   10.Pengelolaan stok barang secara otomatis\n   11.Pemberitahuan pada stok barang dalam keadaan tertentu\n   12.Cetak struk atau bukti pembayaran\n   13.Absensi terhadap karyawan dengan scan ID Card\n   14.Pembuatan laporan secara otomatis");
         scrollInfo.setViewportView(txtPaneInfo);
 
         javax.swing.GroupLayout panel5Layout = new javax.swing.GroupLayout(panel5);
@@ -889,7 +890,10 @@ public class FiturPengaturan extends javax.swing.JPanel {
         modelPengguna.setNama(txtNama.getText());
         modelPengguna.setUsername(txtUsername.getText());
         modelPengguna.setEmail(txtEmail.getText());
-        servicePengaturan.setAccount(modelPengguna);
+        ServicePengguna servicePengguna = new ServicePengguna();
+        if(servicePengguna.validationAddEmail(modelPengguna)) {
+            servicePengaturan.setAccount(modelPengguna);    
+        }
     }
     
 //    Ubah Password

@@ -104,6 +104,8 @@ public class Report {
     public void printCard(ParamCard data) throws JRException{
         Map paramater = new HashMap();
         paramater.put("qrcode", data.getQrcode());
+        paramater.put("image1", data.getImage1());
+        paramater.put("image2", data.getImage2());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data.getFields());
         JasperPrint print = JasperFillManager.fillReport(report1, paramater, dataSource);
         viewReport(print);

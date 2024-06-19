@@ -23,6 +23,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import model.ModelBarang;
@@ -173,6 +175,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
             Report.getInstance().printReportPenjualan(paramater);
         } catch(JRException ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
@@ -459,7 +462,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
         txtCari.setFont(new java.awt.Font("SansSerif", 2, 14)); // NOI18N
         txtCari.setForeground(new java.awt.Color(185, 185, 185));
         txtCari.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtCari.setText("Cari Berdasarkan Kode Barang & Nama Barang");
+        txtCari.setText("Cari Berdasarkan No Penjualan, Kasir atau Tanggal");
         txtCari.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(185, 185, 185)));
         txtCari.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -480,9 +483,9 @@ public class FiturPenjualan extends javax.swing.JPanel {
             .addGroup(panel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 651, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 642, Short.MAX_VALUE)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
@@ -1133,6 +1136,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
             lbNamaBrg.setText(barang.getNama_Barang());
             lbSatuan.setText(barang.getSatuan());
             lbHrgJual.setText(String.valueOf(barang.getHarga_Jual()));
+            lbStok.setText(String.valueOf(barang.getStok()));
         }
         spnJumlah.setValue((int) 1);
         int jumlah = (int) spnJumlah.getValue();

@@ -72,9 +72,9 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnTambah" min="-2" pref="119" max="-2" attributes="0"/>
-                      <EmptySpace pref="651" max="32767" attributes="0"/>
+                      <EmptySpace pref="642" max="32767" attributes="0"/>
                       <Component id="jLabel9" min="-2" pref="34" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtCari" min="-2" pref="345" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
                   </Group>
@@ -278,7 +278,7 @@
                   <Color blue="b9" green="b9" red="b9" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="Cari Berdasarkan Kode Barang &amp; Nama Barang"/>
+                <Property name="text" type="java.lang.String" value="Cari Berdasarkan No Penjualan, Kasir atau Tanggal"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
                     <MatteColorBorder bottom="2" left="0" right="0" top="0">

@@ -153,11 +153,11 @@ public class Dialog extends java.awt.Dialog {
 
     private boolean validation() {
         boolean valid = false;
-        if(t_nama.getText().isEmpty()) {
+        if(t_nama.getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Nama Pasien tidak boleh kosong");
-        } else if(t_no_Telp.getText().isEmpty()) {
+        } else if(t_no_Telp.getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "No Telepon tidak boleh kosong");
-        } else if(t_alamat.getText().isEmpty()) {
+        } else if(t_alamat.getText().length() == 0) {
             JOptionPane.showMessageDialog(null, "Alamat tidak boleh kosong");
         } else {
             valid = true;
@@ -508,10 +508,15 @@ public class Dialog extends java.awt.Dialog {
 
     private void btnDaftarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDaftarActionPerformed
         if(validation()) {
-            tambahData();
-            dispose();
-            model.setRowCount(0);
-            serviceReservasi.loadDataPasien(model);
+            ModelPasien modelPasien = new ModelPasien();
+            modelPasien.setNoTelp(t_no_Telp.getText());
+            modelPasien.setEmail(t_email.getText());
+            if(servicePasien.validationAddEmaiTelpl(modelPasien)) {
+                tambahData();
+                dispose();
+                model.setRowCount(0);
+                serviceReservasi.loadDataPasien(model);
+            }
         }
     }//GEN-LAST:event_btnDaftarActionPerformed
 

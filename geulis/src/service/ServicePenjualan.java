@@ -135,7 +135,7 @@ public class ServicePenjualan {
     
     public List<ModelBarang> setFieldBrg(ModelBarang modelBarang) {
         List<ModelBarang> listDetail = new ArrayList<>();
-        String query = "SELECT Kode_Barang, Nama_Barang, Satuan, Harga_Jual FROM barang WHERE Nomor_Barcode='"+modelBarang.getNomor_Barcode()+"' ";
+        String query = "SELECT Kode_Barang, Nama_Barang, Satuan, Harga_Jual, Stok FROM barang WHERE Nomor_Barcode='"+modelBarang.getNomor_Barcode()+"' ";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
@@ -145,6 +145,7 @@ public class ServicePenjualan {
                 barang.setNama_Barang(rst.getString("Nama_Barang"));
                 barang.setSatuan(rst.getString("Satuan"));
                 barang.setHarga_Jual(rst.getInt("Harga_Jual"));
+                barang.setStok(rst.getInt("Stok"));
                 listDetail.add(barang);
             }
         } catch(Exception ex) {

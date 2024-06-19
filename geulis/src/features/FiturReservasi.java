@@ -495,6 +495,17 @@ public class FiturReservasi extends javax.swing.JPanel {
         });
         tablePasien.setOpaque(false);
         scrollPanePasien.setViewportView(tablePasien);
+        if (tablePasien.getColumnModel().getColumnCount() > 0) {
+            tablePasien.getColumnModel().getColumn(0).setMinWidth(80);
+            tablePasien.getColumnModel().getColumn(0).setPreferredWidth(80);
+            tablePasien.getColumnModel().getColumn(0).setMaxWidth(80);
+            tablePasien.getColumnModel().getColumn(2).setMinWidth(100);
+            tablePasien.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tablePasien.getColumnModel().getColumn(2).setMaxWidth(100);
+            tablePasien.getColumnModel().getColumn(3).setMinWidth(500);
+            tablePasien.getColumnModel().getColumn(3).setPreferredWidth(500);
+            tablePasien.getColumnModel().getColumn(3).setMaxWidth(500);
+        }
 
         jPanel2.setBackground(new java.awt.Color(135, 15, 50));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -516,7 +527,7 @@ public class FiturReservasi extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

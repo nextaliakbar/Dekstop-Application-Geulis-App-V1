@@ -22,8 +22,9 @@ import model.ModelMessage;
 public class ServiceMail {
     public ModelMessage sendMail(String toEmail, String code) {
         ModelMessage ms = new ModelMessage(false, "");
-        String from = "mohaliakbarrafsanjani@gmail.com";
+//        String from = "mohaliakbarrafsanjani@gmail.com";
 //        String from = "stevenaliakabar04@gmail.com";
+        String from = "geulisofficialgroup@gmail.com";
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
         properties.put("mail.smtp.port", "587");
@@ -31,10 +32,12 @@ public class ServiceMail {
         properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.connectiontimeout", "5000");
         properties.put("mail.smtp.timeout", "5000");
-        String username = "mohaliakbarrafsanjani@gmail.com";
+//        String username = "mohaliakbarrafsanjani@gmail.com";
 //        String username = "stevenaliakabar04@gmail.com";
-        String password = "rfcn cvsc oewe luwb";
+        String username = "geulisofficialgroup@gmail.com";
+//        String password = "rfcn cvsc oewe luwb";
 //        String password = "lrea ewrq avtd gbtg";
+        String password = "fbbd yqac nvno gkhn";
         
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
@@ -53,7 +56,6 @@ public class ServiceMail {
             ms.setSucces(true);
         } catch(MessagingException me) {
             if(me.getMessage().equals("Invalid Addresses")) {
-                System.out.println(me.getMessage());
                 ms.setMessage("Email tidak sah");
             } else {
                 ms.setMessage("Error");

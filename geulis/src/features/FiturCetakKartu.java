@@ -15,6 +15,7 @@ import control.ParamCard;
 import control.Report;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -27,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.border.MatteBorder;
 
@@ -104,11 +106,31 @@ public class FiturCetakKartu extends javax.swing.JPanel {
         String postion = txtJabatan.getText();
        
         fields.add(new FieldsCard(id, name, postion));
-        ParamCard dataPrint = new ParamCard(fields, generateQRCode());
+        ImageIcon image1 = new ImageIcon(getClass().getResource("/image/bg.png"));
+        ImageIcon image2;
+        switch (cbxJenisKartu.getSelectedIndex()) {
+            case 0:
+                image2 = new ImageIcon(getClass().getResource("/image/Group 47.png"));
+                break;
+            default :
+                image2 = new ImageIcon(getClass().getResource("/image/Group 50.png"));
+        }
+        ParamCard dataPrint = new ParamCard(fields, generateQRCode(), ImageToInpuStream(image1),ImageToInpuStream(image2));
         Report.getInstance().printCard(dataPrint);
         } catch(Exception ex) {
             ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+    
+    private InputStream ImageToInpuStream(ImageIcon imageIcon) throws Exception {
+        BufferedImage bufferedImage = new BufferedImage(imageIcon.getImage().getWidth(null), imageIcon.getImage().getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = bufferedImage.createGraphics();
+        g2.drawImage(imageIcon.getImage(), 0, 0, null);
+        g2.dispose();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, "png", outputStream);
+        return new ByteArrayInputStream(outputStream.toByteArray());
     }
     
     private InputStream generateQRCode() throws WriterException, IOException{

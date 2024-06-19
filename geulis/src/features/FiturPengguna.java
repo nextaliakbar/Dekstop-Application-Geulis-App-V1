@@ -83,17 +83,17 @@ public class FiturPengguna extends javax.swing.JPanel {
     }
     
     private void tambahData(){
-    String IdPengguna = TFIdPengguna.getText();
-    String NamaPengguna = TFNamaPengguna.getText();
-    String UsernamePengguna = TFUsernamePengguna.getText();
-    String PasswordPengguna = TFPasswordPengguna.getText();
-    String EmailPengguna = TFEmailPengguna.getText();
-    String LevelPengguna = (String)cbxLevelPengguna.getSelectedItem();
-    String StatusPengguna = (String) cbxStatusPengguna.getSelectedItem();
-    ModelPengguna modelPengguna = new ModelPengguna(IdPengguna, NamaPengguna, UsernamePengguna, 
-    PasswordPengguna, EmailPengguna, LevelPengguna, StatusPengguna);
-    servicePengguna.addData(modelPengguna);
-     }
+        String IdPengguna = TFIdPengguna.getText();
+        String NamaPengguna = TFNamaPengguna.getText();
+        String UsernamePengguna = TFUsernamePengguna.getText();
+        String PasswordPengguna = TFPasswordPengguna.getText();
+        String EmailPengguna = TFEmailPengguna.getText();
+        String LevelPengguna = (String)cbxLevelPengguna.getSelectedItem();
+        String StatusPengguna = (String) cbxStatusPengguna.getSelectedItem();
+        ModelPengguna modelPengguna = new ModelPengguna(IdPengguna, NamaPengguna, UsernamePengguna, 
+        PasswordPengguna, EmailPengguna, LevelPengguna, StatusPengguna);
+        servicePengguna.addData(modelPengguna);
+    }
      
     private void setComponentUpdate(int row){
         TFIdPengguna.setText((String) table.getValueAt(row, 0));
@@ -614,15 +614,21 @@ public class FiturPengguna extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        ModelPengguna modelPengguna = new ModelPengguna();
+        modelPengguna.setEmail(TFEmailPengguna.getText());
         if(btnSimpan.getText().equals("SIMPAN")) {
-        if(validationAddData()) {
-            tambahData();          
-            changePanel(panelData); 
-        }   
+            if(validationAddData()) {
+                if(servicePengguna.validationAddEmail(modelPengguna)) {
+                    tambahData();          
+                    changePanel(panelData);    
+                }
+            }   
         } else {
             if(validationUpdateData()) {
-            perbaruiData();
-            changePanel(panelData); 
+                if(servicePengguna.validationAddEmail(modelPengguna)) {
+                perbaruiData();
+                changePanel(panelData);                     
+                }
             }
         }
         tabmodel.setRowCount(0);
