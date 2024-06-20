@@ -73,7 +73,8 @@ public class ServicePenjualan {
     public void loadAll(DefaultTableModel tabmodel) {
         String query = "SELECT pjl.No_Penjualan, DATE_FORMAT(pjl.Tanggal, '%d - %M - %Y') AS Tanggal_Penjualan, "
                 + "pjl.Total_Penjualan, pjl.Bayar, pjl.Kembali, pjl.Jenis_Pembayaran, pjl.ID_Pengguna, "
-                + "pgn.Nama FROM penjualan pjl INNER JOIN pengguna pgn ON pjl.ID_Pengguna=pgn.ID_Pengguna ";
+                + "pgn.Nama FROM penjualan pjl INNER JOIN pengguna pgn ON pjl.ID_Pengguna=pgn.ID_Pengguna "
+                + "ORDER BY No_Penjualan DESC";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
@@ -86,7 +87,7 @@ public class ServicePenjualan {
                 double bayar = rst.getDouble("Bayar");
                 double kembali = rst.getDouble("Kembali");
                 String jenisPembayaran = rst.getString("Jenis_Pembayaran");
-                tabmodel.addRow(new Object[]{noPenjualan, idPengguna, namaPengguna, tglPenjualan, total, bayar, kembali, jenisPembayaran});
+                tabmodel.addRow(new Object[]{noPenjualan, idPengguna, namaPengguna, tglPenjualan, df.format(total), bayar, kembali, jenisPembayaran});
             }
         } catch(Exception ex) {
             ex.printStackTrace();

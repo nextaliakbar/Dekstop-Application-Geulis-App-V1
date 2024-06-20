@@ -231,6 +231,11 @@ public class Login extends javax.swing.JFrame {
         txtConfirPass = new swing.TextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         background.setBackground(new java.awt.Color(255, 255, 255));
         background.setLayout(new java.awt.CardLayout());
@@ -483,6 +488,10 @@ public class Login extends javax.swing.JFrame {
     private void btnMasukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasukActionPerformed
         masuk();
     }//GEN-LAST:event_btnMasukActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
+    }//GEN-LAST:event_formWindowOpened
 
     private void enableLogin(boolean action) {
         txtUserOrEmail.setEditable(action);

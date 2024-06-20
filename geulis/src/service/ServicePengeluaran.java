@@ -74,7 +74,7 @@ public class ServicePengeluaran {
                 + "DATE_FORMAT(plrn.Tanggal_Pengeluaran, '%d - %M - %Y') AS Tanggal_Pengeluaran, "
                 + "plrn.Total_Pengeluaran, plrn.Deskripsi FROM pengeluaran plrn INNER JOIN pengguna pg "
                 + "ON plrn.ID_Pengguna=pg.ID_Pengguna "
-                + "ORDER BY No_Pengeluaran ASC";
+                + "ORDER BY No_Pengeluaran DESC";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();

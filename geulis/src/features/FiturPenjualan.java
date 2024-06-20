@@ -23,10 +23,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.SpinnerModel;
-import javax.swing.SpinnerNumberModel;
+import javax.swing.RowFilter;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import model.ModelBarang;
 import model.ModelDetailPenjualan;
 import model.ModelHeaderTable;
@@ -53,6 +55,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
     private DefaultTableModel tabmodel2;
     private TableAction action;
     private ModelPengguna modelPengguna;
+    private TableRowSorter<DefaultTableModel> rowSorter;
     private ServicePenjualan servicePenjualan = new ServicePenjualan();
     private ServiceDetailPenjualan serviceDetail = new ServiceDetailPenjualan();
     private final DecimalFormat df = new DecimalFormat("#,##0.##");
@@ -61,9 +64,12 @@ public class FiturPenjualan extends javax.swing.JPanel {
         this.modelPengguna = modelPengguna;
         styleTable(scrollPane, table, 8);
         tabmodel1 = (DefaultTableModel) table.getModel();
+        rowSorter = new TableRowSorter<>(tabmodel1);
+        table.setRowSorter(rowSorter);
         tampilData();
         styleTable(scrollPanePasien, tableDetail, 7);
         tabmodel2 = (DefaultTableModel) tableDetail.getModel();
+        cariData();
         instanceReport();
         actionTableMain();    
     }
@@ -110,6 +116,11 @@ public class FiturPenjualan extends javax.swing.JPanel {
         @Override
         public void view(int row) {
             tampilDetail(row);
+            txtCari.setText("");
+            if(txtCari.getText().length() == 0) {
+                tabmodel1.setRowCount(0);
+                tampilData();
+            }
         }
     };        
         table.getColumnModel().getColumn(8).setCellRenderer(new TableCellActionRender(false, false, true));
@@ -141,6 +152,39 @@ public class FiturPenjualan extends javax.swing.JPanel {
     };        
         tableDetail.getColumnModel().getColumn(7).setCellRenderer(new TableCellActionRender(false, true, false));
         tableDetail.getColumnModel().getColumn(7).setCellEditor(new TableCellEditor(action, false, true, false));
+    }
+    
+    private void cariData() {
+        txtCari.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = txtCari.getText();
+                if(text.length() == 0) {
+                   rowSorter.setRowFilter(null);
+                   pagination.setVisible(true);
+                } else {
+                   pagination.setVisible(false);
+                   rowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+text, 0, 2, 3));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = txtCari.getText();
+                if(text.length() == 0) {
+                   rowSorter.setRowFilter(null);
+                   pagination.setVisible(true);
+                } else {
+                   pagination.setVisible(false);
+                   rowSorter.setRowFilter(RowFilter.regexFilter("(?i)"+text, 0, 2, 3));
+                }
+           }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+               
+           }
+        });
     }
     
 //    Instance Report Penjualan
@@ -482,16 +526,18 @@ public class FiturPenjualan extends javax.swing.JPanel {
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 642, Short.MAX_VALUE)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(55, 55, 55))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pagination, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel1Layout.createSequentialGroup()
+                        .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 642, Short.MAX_VALUE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(pagination, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
             .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panel1Layout.createSequentialGroup()
                     .addContainerGap()
