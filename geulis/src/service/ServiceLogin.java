@@ -61,6 +61,8 @@ public class ServiceLogin {
                             panelLoading.setVisible(false);
                             JOptionPane.showMessageDialog(null, "Username atau Email\ndan Password Salah");
                         }
+                        rst.close();
+                        pst.close();
                     } catch (SQLException ex) {
                         Logger.getLogger(ServiceLogin.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -87,7 +89,8 @@ public class ServiceLogin {
         if(rst.next()) {
             check = true;
         }
-        
+        rst.close();
+        pst.close();
         return check;
     }
     
@@ -103,6 +106,8 @@ public class ServiceLogin {
             } else {
                 JOptionPane.showMessageDialog(null, "Email tidak tedaftar");
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -122,6 +127,8 @@ public class ServiceLogin {
             } else {
                 JOptionPane.showMessageDialog(null, "Kode Verifikasi Salah");
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -134,6 +141,7 @@ public class ServiceLogin {
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Password berhasil diubah");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -145,6 +153,7 @@ public class ServiceLogin {
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.executeUpdate();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -163,6 +172,7 @@ public class ServiceLogin {
             } else {
                 JOptionPane.showMessageDialog(null, "Konfirmasi Password Salah");
             }
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

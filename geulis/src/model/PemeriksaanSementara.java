@@ -4,14 +4,18 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author usER
  */
 public class PemeriksaanSementara {
 
-    public PemeriksaanSementara(String[] kodeTindakan, int[] potongan, int[] subtotal) {
+    public PemeriksaanSementara(List<String> kodeTindakan, List<Integer> biayaTindakanFinal, 
+            List<Integer> potongan, List<Integer> subtotal) {
         this.kodeTindakan = kodeTindakan;
+        this.biayaTindakanFinal = biayaTindakanFinal;
         this.potongan = potongan;
         this.subtotal = subtotal;
     }
@@ -20,31 +24,41 @@ public class PemeriksaanSementara {
     
     }
     
-    private String[] kodeTindakan;
-    private int[] potongan;
-    private int[] subtotal;
-
-    public String[] getKodeTindakan() {
+    private List<String> kodeTindakan;
+    private List<Integer> biayaTindakanFinal;
+    private List<Integer> potongan;
+    private List<Integer> subtotal;
+    
+    
+    public List<String> getKodeTindakan() {
         return kodeTindakan;
     }
 
-    public void setKodeTindakan(String[] kodeTindakan) {
+    public void setKodeTindakan(List<String> kodeTindakan) {
         this.kodeTindakan = kodeTindakan;
     }
-    
-    public int[] getPotongan() {
+
+    public List<Integer> getBiayaTindakanFinal() {
+        return biayaTindakanFinal;
+    }
+
+    public void setBiayaTindakanFinal(List<Integer> biayaTindakanFinal) {
+        this.biayaTindakanFinal = biayaTindakanFinal;
+    }
+
+    public List<Integer> getPotongan() {
         return potongan;
     }
 
-    public void setPotongan(int[] potongan) {
+    public void setPotongan(List<Integer> potongan) {
         this.potongan = potongan;
     }
 
-    public int[] getSubtotal() {
+    public List<Integer> getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(int[] subtotal) {
+    public void setSubtotal(List<Integer> subtotal) {
         this.subtotal = subtotal;
-    }
+    }  
 }

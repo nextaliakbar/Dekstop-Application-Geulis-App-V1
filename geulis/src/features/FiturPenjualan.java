@@ -263,12 +263,15 @@ public class FiturPenjualan extends javax.swing.JPanel {
         servicePenjualan.addData(modelPenjualan);
         
 //        Tambah Detail Penjualan
+        List<String> kodeBrg = new ArrayList<>();
+        List<Integer> jumlah = new ArrayList<>();
+        List<Double> subtotal = new ArrayList<>();      
+        detail.setModelPenjualan(modelPenjualan);
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
-            String kodeBrg = (String) tableDetail.getValueAt(a, 1);
-            int jumlah = (int) tableDetail.getValueAt(a, 5);
-            double subtotal = (double) tableDetail.getValueAt(a, 6);
-            Sementara ps = new Sementara(new String[]{kodeBrg}, new int[]{jumlah}, new double[]{subtotal});
-            detail.setModelPenjualan(modelPenjualan);
+            kodeBrg.add((String) tableDetail.getValueAt(a, 1));
+            jumlah.add((Integer)tableDetail.getValueAt(a, 5));
+            subtotal.add((Double)tableDetail.getValueAt(a, 6));
+            Sementara ps = new Sementara(kodeBrg, jumlah, subtotal);
             serviceDetail.addData(detail, ps);
         }
     }
@@ -619,6 +622,12 @@ public class FiturPenjualan extends javax.swing.JPanel {
             tableDetail.getColumnModel().getColumn(0).setMinWidth(0);
             tableDetail.getColumnModel().getColumn(0).setPreferredWidth(0);
             tableDetail.getColumnModel().getColumn(0).setMaxWidth(0);
+            tableDetail.getColumnModel().getColumn(2).setMinWidth(300);
+            tableDetail.getColumnModel().getColumn(2).setPreferredWidth(300);
+            tableDetail.getColumnModel().getColumn(2).setMaxWidth(300);
+            tableDetail.getColumnModel().getColumn(4).setMinWidth(100);
+            tableDetail.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tableDetail.getColumnModel().getColumn(4).setMaxWidth(100);
             tableDetail.getColumnModel().getColumn(7).setMinWidth(100);
             tableDetail.getColumnModel().getColumn(7).setPreferredWidth(100);
             tableDetail.getColumnModel().getColumn(7).setMaxWidth(100);

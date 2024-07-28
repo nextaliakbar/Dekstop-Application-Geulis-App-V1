@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -124,13 +126,17 @@ public class FiturRestok extends javax.swing.JPanel {
         ModelRestok modelRestok = new ModelRestok(modelPemesanan, tglTiba, totalBiaya, modelPengguna);
         serviceRestok.addData(modelRestok);
         
+        // Tambah Detail
+        List<String> kodeBrg = new ArrayList<>();
+        List<Integer> jumlah = new ArrayList<>();
+        List<Double> subtotal = new ArrayList<>(); 
+        ModelDetailRestok modelDetail = new ModelDetailRestok();
+        modelDetail.setModelRestok(modelRestok);
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
-            String kodeBarang = (String) tableDetail.getValueAt(a, 0);
-            int jumlah = (int) tableDetail.getValueAt(a, 3);
-            int subtotal = (int) tableDetail.getValueAt(a, 4);
-            ModelDetailRestok modelDetail = new ModelDetailRestok();
-            modelDetail.setModelRestok(modelRestok);
-            Sementara rs = new Sementara(new String[]{kodeBarang}, new int[]{jumlah}, new double[]{subtotal});
+            kodeBrg.add((String) tableDetail.getValueAt(a, 0));
+            jumlah.add((Integer)tableDetail.getValueAt(a, 3));
+            subtotal.add((Double)tableDetail.getValueAt(a, 4));
+            Sementara rs = new Sementara(kodeBrg, jumlah, subtotal);
             serviceRestok.addDataDetail(modelDetail, rs);
         }
     }
@@ -138,7 +144,7 @@ public class FiturRestok extends javax.swing.JPanel {
     private int getTotal() {
         int total = 0;
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
-            int subtotal = (int) tableDetail.getValueAt(a, 4);
+            double subtotal = (double) tableDetail.getValueAt(a, 4);
             total += subtotal;
         }
         

@@ -4,8 +4,6 @@
  */
 package model;
 
-import java.io.InputStream;
-
 /**
  *
  * @author usER

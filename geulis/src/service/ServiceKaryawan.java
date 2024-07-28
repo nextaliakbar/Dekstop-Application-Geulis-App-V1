@@ -35,7 +35,9 @@ public class ServiceKaryawan {
                String StatusKaryawan = rst.getString("Status_Karyawan");
                tabmodel.addRow(new Object[]{IdKaryawan, NamaKaryawan, TeleponKaryawan, 
                EmailKaryawan, AlamatKaryawan, JabatanKaryawan, StatusKaryawan});
-           }  
+           }
+           rst.close();
+           pst.close();
         }catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -52,9 +54,8 @@ public class ServiceKaryawan {
            pst.setString(6, modelKaryawan.getJabatan());
            pst.setString(7, modelKaryawan.getStatus());
            pst.executeUpdate();
-           JOptionPane.showMessageDialog(null, "Data Karyawan Berhasil Ditambahkan");
            pst.close();
-           
+           JOptionPane.showMessageDialog(null, "Data Karyawan Berhasil Ditambahkan");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -74,7 +75,6 @@ public class ServiceKaryawan {
            pst.executeUpdate();
            JOptionPane.showMessageDialog(null, "Data Karyawan  Berhasil Diperbarui");
            pst.close();
-           
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -85,6 +85,7 @@ public class ServiceKaryawan {
         PreparedStatement pst = connection.prepareCall(query);
         pst.setString(1, modelKaryawan.getIdKaryawan());
         pst.executeUpdate();
+        pst.close();
         JOptionPane.showMessageDialog(null, "Data Karyawan Berhasil Di Hapus");
     } catch (Exception ex) {
             ex.printStackTrace();
@@ -104,6 +105,8 @@ public class ServiceKaryawan {
             } else {
                 idPasien = "STAFF-001";
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -124,6 +127,8 @@ public class ServiceKaryawan {
             } else {
                 valid = true;
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

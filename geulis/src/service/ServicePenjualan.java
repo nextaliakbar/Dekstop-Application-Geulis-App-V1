@@ -44,8 +44,8 @@ public class ServicePenjualan {
                 count = rst.getInt("Jumlah");
             }
             
-            pst.close();
             rst.close();
+            pst.close();
             
             pst = connection.prepareStatement(query);
             rst = pst.executeQuery();
@@ -60,8 +60,8 @@ public class ServicePenjualan {
                 String jenisPembayaran = rst.getString("Jenis_Pembayaran");
                 tabmodel.addRow(new Object[]{noPenjualan, idPengguna, namaPengguna, tglPenjualan, df.format(total), bayar, kembali, jenisPembayaran});
             }
-            pst.close();
             rst.close();
+            pst.close();
             
             int totalPage = (int) Math.ceil((double)count / limit);
             pagination.setPagination(page, totalPage);
@@ -89,6 +89,8 @@ public class ServicePenjualan {
                 String jenisPembayaran = rst.getString("Jenis_Pembayaran");
                 tabmodel.addRow(new Object[]{noPenjualan, idPengguna, namaPengguna, tglPenjualan, df.format(total), bayar, kembali, jenisPembayaran});
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -107,6 +109,7 @@ public class ServicePenjualan {
             pst.setString(6, modelPenjualan.getJenisPembayaran());
             pst.setString(7, modelPenjualan.getModelPengguna().getIdpengguna());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Berhasil");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -128,6 +131,8 @@ public class ServicePenjualan {
             } else {
                 noPenjualan = "PJLN-"+format+"-001";
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -149,6 +154,8 @@ public class ServicePenjualan {
                 barang.setStok(rst.getInt("Stok"));
                 listDetail.add(barang);
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

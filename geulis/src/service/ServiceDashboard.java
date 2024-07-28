@@ -36,6 +36,8 @@ public class ServiceDashboard {
             if(rst.next()) {
                 revenue = rst.getInt("Total");
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -53,6 +55,8 @@ public class ServiceDashboard {
             if(rst.next()) {
                 total = rst.getInt("Total");
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -69,6 +73,8 @@ public class ServiceDashboard {
             if(rst.next()) {
                 pengeluaran = rst.getDouble("Total");
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -91,6 +97,8 @@ public class ServiceDashboard {
                 int jumlah = rst.getInt("Jumlah");
                 keuntungan += (jumlah * hargaJual) - (jumlah * hargaBeli);
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             
         }
@@ -129,6 +137,8 @@ public class ServiceDashboard {
                 
                 table.addRow(new ModelLastReservasi(noReservasi,new ImageIcon(getClass().getResource(sourceImage)), nama, tglKedatangan.concat(" / " + jamKedatangan),type).toRowTable());
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -146,6 +156,8 @@ public class ServiceDashboard {
             } else {
                 revenues.add((double)0);
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -166,6 +178,8 @@ public class ServiceDashboard {
             } else {
                 totalSells.add((double)0);
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -186,6 +200,8 @@ public class ServiceDashboard {
                 } else {
                     expenditures.add((double)0);
                 }
+                rst.close();
+                pst.close();
             } catch(Exception ex) {
                 ex.printStackTrace();
             }
@@ -208,7 +224,9 @@ public class ServiceDashboard {
                 ResultSet rst = pst.executeQuery();
                 while(rst.next()) {
                     profits.add(rst.getDouble("Keuntungan"));
-                }     
+                }
+                rst.close();
+                pst.close();
             } catch(Exception ex) {
                 ex.printStackTrace();
             }

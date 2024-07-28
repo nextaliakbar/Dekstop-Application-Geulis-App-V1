@@ -32,14 +32,14 @@ public class Table extends JTable{
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 if(value instanceof ModelProfile) {
-                ModelProfile data = (ModelProfile) value;
-                Profile cell = new Profile(data);
-                    if(isSelected) {
-                        cell.setBackground(new Color(245, 245, 245));
-                    } else {
-                        cell.setBackground(new Color(255, 255, 255));
-                    }
-                return cell;
+                    ModelProfile data = (ModelProfile) value;
+                    Profile cell = new Profile(data);
+                        if(isSelected) {
+                            cell.setBackground(new Color(245, 245, 245));
+                        } else {
+                            cell.setBackground(new Color(255, 255, 255));
+                        }
+                    return cell;
                 
                 } else if(value instanceof StatusType) {
                     StatusType type = (StatusType) value;

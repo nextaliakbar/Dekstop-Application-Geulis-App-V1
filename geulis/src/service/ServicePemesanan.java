@@ -47,8 +47,8 @@ public class ServicePemesanan {
                 count = rst.getInt("Jumlah");
             }
             
-            pst.close();
             rst.close();
+            pst.close();
             
             pst = connection.prepareStatement(query);
             rst = pst.executeQuery();
@@ -81,8 +81,8 @@ public class ServicePemesanan {
                         df.format(total), bayar, kembali, jenisPembayaran, modelSupplier, 
                         modelPengguna).toRowTable1());
             }
-            pst.close();
             rst.close();
+            pst.close();
             
             int totalPage = (int) Math.ceil((double)count / limit);
             pagination.setPagination(page, totalPage);
@@ -96,7 +96,7 @@ public class ServicePemesanan {
                 + "pmsn.Status_Pemesanan, pmsn.Total_Pemesanan, pmsn.Bayar, pmsn.Kembali, pmsn.Jenis_Pembayaran, "
                 + "pmsn.ID_Supplier, slr.Nama, pmsn.ID_Pengguna, pgn.Nama FROM pemesanan pmsn "
                 + "INNER JOIN supplier slr ON pmsn.ID_Supplier=slr.ID_Supplier "
-                + "INNER JOIN pengguna pgn ON pmsn.ID_Pengguna=pgn.ID_Pengguna ";
+                + "INNER JOIN pengguna pgn ON pmsn.ID_Pengguna=pgn.ID_Pengguna ORDER BY No_Pemesanan DESC";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
@@ -129,6 +129,8 @@ public class ServicePemesanan {
                         df.format(total), bayar, kembali, jenisPembayaran, modelSupplier, 
                         modelPengguna).toRowTable1());
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -149,6 +151,7 @@ public class ServicePemesanan {
             pst.setString(8, modelPemesanan.getModelSupplier().getIdSupplier());
             pst.setString(9, modelPemesanan.getModelPengguna().getIdpengguna());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Pesanan baru telah ditambahkan");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -170,6 +173,8 @@ public class ServicePemesanan {
             } else {
                 noPemesanan = "PMSN-"+ format +"-001";
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -181,6 +186,7 @@ public class ServicePemesanan {
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.executeUpdate();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

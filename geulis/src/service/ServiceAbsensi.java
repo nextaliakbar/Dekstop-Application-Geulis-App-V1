@@ -27,6 +27,7 @@ public class ServiceAbsensi {
             pst.setString(2, modelAbsensi.getTanggal());
             pst.setString(3, modelAbsensi.getAbsenMasuk());
             pst.executeUpdate();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -40,6 +41,7 @@ public class ServiceAbsensi {
             pst.setString(2, modelAbsensi.getModelKaryawan().getIdKaryawan());
             pst.setString(3, modelAbsensi.getTanggal());
             pst.executeUpdate();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -53,6 +55,7 @@ public class ServiceAbsensi {
             pst.setString(2, modelAbsensi.getTanggal());
             pst.setString(3, modelAbsensi.getAbsenMasuk());
             pst.executeUpdate();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -66,6 +69,7 @@ public class ServiceAbsensi {
             pst.setString(2, modelAbsensi.getModelKaryawan().getIdKaryawan());
             pst.setString(3, modelAbsensi.getTanggal());
             pst.executeUpdate();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -82,6 +86,8 @@ public class ServiceAbsensi {
             } else {
                 addAttendenceIn(modelAbsensi);
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -98,6 +104,8 @@ public class ServiceAbsensi {
             } else {
                 addAttendenceOut(modelAbsensi);
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -121,6 +129,8 @@ public class ServiceAbsensi {
             if(!attendenceIn.isEmpty() && !attendenceOut.isEmpty()) {
                 valid = true;
             }
+            rst.close();
+            pst.close();
             
         } catch(Exception ex) {
         }
@@ -138,6 +148,7 @@ public class ServiceAbsensi {
                 pst.setString(1, " - ");
             }
             pst.executeUpdate();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -152,6 +163,8 @@ public class ServiceAbsensi {
             if(rst.next()) {
                 namaKaryawan = rst.getString("Nama");
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -169,10 +182,11 @@ public class ServiceAbsensi {
             if(rst.next()) {
                 keterangan = rst.getString("Keterangan");
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
-        System.out.println(keterangan);
         return keterangan;
     }
 }

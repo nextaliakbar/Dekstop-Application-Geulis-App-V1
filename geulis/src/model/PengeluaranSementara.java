@@ -4,46 +4,52 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author usER
  */
 public class PengeluaranSementara {
 
-    public PengeluaranSementara(String[] noJenis, String[] detailJenis, int[] subtotal) {
+    public PengeluaranSementara(List<String> noJenis, List<String> detailJenis, List<Integer> subtotal) {
         this.noJenis = noJenis;
         this.detailJenis = detailJenis;
         this.subtotal = subtotal;
     }
+
 
     public PengeluaranSementara() {
     }
     
-    private String[] noJenis;
-    private String[] detailJenis;
-    private int[] subtotal;
-    
-    public String[] getNoJenis() {
+    private List<String> noJenis;
+    private List<String> detailJenis;
+    private List<Integer> subtotal;
+
+    public List<String> getNoJenis() {
         return noJenis;
     }
 
-    public void setNoJenis(String[] noJenis) {
+    public void setNoJenis(List<String> noJenis) {
         this.noJenis = noJenis;
     }
 
-    public String[] getDetailJenis() {
+    public List<String> getDetailJenis() {
         return detailJenis;
     }
 
-    public void setDetailJenis(String[] detailJenis) {
+    public void setDetailJenis(List<String> detailJenis) {
         this.detailJenis = detailJenis;
     }
 
-    public int[] getSubtotal() {
+    public List<Integer> getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(int[] subtotal) {
+    public void setSubtotal(List<Integer> subtotal) {
         this.subtotal = subtotal;
     }
+    
+    
+    
 }

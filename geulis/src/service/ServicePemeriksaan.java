@@ -47,8 +47,8 @@ public class ServicePemeriksaan {
                 count = rst.getInt("Jumlah");
             }
             
-            pst.close();
             rst.close();
+            pst.close();
             
             pst = connection.prepareStatement(query);
             rst = pst.executeQuery();
@@ -71,8 +71,8 @@ public class ServicePemeriksaan {
                 idKaryawan, tgl, df.format(total), deskripsi, bayar, kembalian, 
                 jenisPembayaran, idPengguna, namaPengguna});
             }
-            pst.close();
             rst.close();
+            pst.close();
             
             int totalPage = (int) Math.ceil((double)count / limit);
             pagination.setPagination(page, totalPage);
@@ -112,6 +112,8 @@ public class ServicePemeriksaan {
                 idKaryawan, tgl, df.format(total), deskripsi, bayar, kembalian, 
                 jenisPembayaran, idPengguna, namaPengguna});
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -159,8 +161,8 @@ public class ServicePemeriksaan {
             } else {
                 noPemeriksaan = "PMRN-" + format + "-001";
             }
-            pst.close();
             rst.close();
+            pst.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -177,8 +179,8 @@ public class ServicePemeriksaan {
                 String noReservasi = rst.getString("No_Reservasi");
                 comboBox.addItem(noReservasi);
             }
-            pst.close();
             rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -198,8 +200,8 @@ public class ServicePemeriksaan {
                 lbId.setText(id);
                 lbNama.setText(nama);
             }
-            pst.close();
             rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -216,6 +218,8 @@ public class ServicePemeriksaan {
             } else {
                 banyakPromo = 0;
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -234,6 +238,8 @@ public class ServicePemeriksaan {
                    member = true;
                }
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -249,6 +255,8 @@ public class ServicePemeriksaan {
             if(rst.next()) {
                 valid = false;
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

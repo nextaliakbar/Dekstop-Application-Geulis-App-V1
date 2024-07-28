@@ -42,6 +42,8 @@ public class ServiceBarang {
                 int stok = rst.getInt("Stok");
                 model.addRow(new Object[]{kodeBarang, noBarcode, kodeJenis, jenis_barang, namaBarang, satuan, hargaBeli, hargaJual, stok});
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -60,6 +62,7 @@ public class ServiceBarang {
          pst.setInt(7, modelBarang.getHarga_Jual());
          pst.setInt(8, modelBarang.getStok());
          pst.executeUpdate();
+         pst.close();
          JOptionPane.showMessageDialog(null, "Data Barang berhasil ditambahkan");
      } catch(Exception ex) {
          ex.printStackTrace();
@@ -78,6 +81,7 @@ public class ServiceBarang {
          pst.setInt(6, modelBarang.getStok());
          pst.setString(7, modelBarang.getKode_Barang());
          pst.executeUpdate();
+         pst.close();
          JOptionPane.showMessageDialog(null, "Data Barang berhasil diperbarui");
      } catch(Exception ex) {
          ex.printStackTrace();
@@ -90,6 +94,7 @@ public class ServiceBarang {
          PreparedStatement pst = connection.prepareStatement(query);
          pst.setString(1, modelBarang.getKode_Barang());
          pst.executeUpdate();
+         pst.close();
          JOptionPane.showMessageDialog(null, "Data Barang berhasil dihapus");
      } catch(Exception ex) {
          ex.printStackTrace();
@@ -112,6 +117,8 @@ public class ServiceBarang {
             } else {
                 kodeBarang = formatJenis + "-" + format + "-" +"001";
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -132,6 +139,8 @@ public class ServiceBarang {
             } else {
                 kodeJenis = "JB-001";
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -148,6 +157,8 @@ public class ServiceBarang {
             if(rst.next()) {
                 kodeJenis = rst.getString("Kode_Jenis");
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -162,6 +173,7 @@ public class ServiceBarang {
             pst.setString(1, modelJenis.getKodeJenis());
             pst.setString(2, modelJenis.getNamaJenis());
             pst.executeUpdate();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -177,6 +189,8 @@ public class ServiceBarang {
                 String namaJenis = rst.getString("Nama_Jenis");
                 listJenisBarang.add(namaJenis);
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -195,6 +209,8 @@ public class ServiceBarang {
             } else {
                 valid = true;
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -219,6 +235,12 @@ public class ServiceBarang {
             } else {
                 valid = true;
             }
+            rst1.close();
+            rst2.close();
+            rst3.close();
+            pst1.close();
+            pst2.close();
+            pst3.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

@@ -4,13 +4,15 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author usER
  */
 public class Sementara {
 
-    public Sementara(String[] kodeBrg, int[] jumlah, double[] subtotal) {
+    public Sementara(List<String> kodeBrg, List<Integer> jumlah, List<Double> subtotal) {
         this.kodeBrg = kodeBrg;
         this.jumlah = jumlah;
         this.subtotal = subtotal;
@@ -19,31 +21,34 @@ public class Sementara {
     public Sementara() {
     
     }
-    private String[] kodeBrg;
-    private int[] jumlah;
-    private double[] subtotal;
+    
+    private List<String> kodeBrg;
+    private List<Integer> jumlah;
+    private List<Double> subtotal;
 
-    public String[] getKodeBrg() {
+    public List<String> getKodeBrg() {
         return kodeBrg;
     }
 
-    public void setKodeBrg(String[] kodeBrg) {
+    public void setKodeBrg(List<String> kodeBrg) {
         this.kodeBrg = kodeBrg;
     }
 
-    public int[] getJumlah() {
+    public List<Integer> getJumlah() {
         return jumlah;
     }
 
-    public void setJumlah(int[] jumlah) {
+    public void setJumlah(List<Integer> jumlah) {
         this.jumlah = jumlah;
     }
 
-    public double[] getSubtotal() {
+    public List<Double> getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(double[] subtotal) {
+    public void setSubtotal(List<Double> subtotal) {
         this.subtotal = subtotal;
     }
+
+    
 }

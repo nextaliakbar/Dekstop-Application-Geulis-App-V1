@@ -39,6 +39,7 @@ public class ServicePromo {
             pst.setString(6, modelPromo.getJenisPromo());
             pst.setString(7, modelPromo.getKeterangan());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Berhasil menambahkan promo");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -61,6 +62,8 @@ public class ServicePromo {
             } else {
                 noPromosi = "P-" + format + "-001";
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -91,6 +94,8 @@ public class ServicePromo {
                 String keterangan = rst.getString("Keterangan");
                 tabmodel.addRow(new String[]{noPromo,nama, rentang, banyak, jenis, keterangan});
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -102,6 +107,7 @@ public class ServicePromo {
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Promo berhasil di akhiri");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -117,6 +123,8 @@ public class ServicePromo {
             if(rst.next()) {
                 lastDay = rst.getString("Tanggal_Akhir");
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -130,6 +138,7 @@ public class ServicePromo {
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.executeUpdate();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -141,6 +150,7 @@ public class ServicePromo {
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.executeUpdate();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -191,6 +201,8 @@ public class ServicePromo {
                     setAutoEndPromo(modelPromo);
                 }   
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -205,6 +217,8 @@ public class ServicePromo {
             if(rst.next()) {
                 keterangan = rst.getString("Keterangan");                
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

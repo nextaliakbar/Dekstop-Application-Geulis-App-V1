@@ -192,6 +192,9 @@ public class FiturBarang extends javax.swing.JPanel {
             table.getColumnModel().getColumn(0).setMinWidth(150);
             table.getColumnModel().getColumn(0).setPreferredWidth(150);
             table.getColumnModel().getColumn(0).setMaxWidth(150);
+            table.getColumnModel().getColumn(1).setMinWidth(150);
+            table.getColumnModel().getColumn(1).setPreferredWidth(150);
+            table.getColumnModel().getColumn(1).setMaxWidth(150);
             table.getColumnModel().getColumn(2).setMinWidth(0);
             table.getColumnModel().getColumn(2).setPreferredWidth(0);
             table.getColumnModel().getColumn(2).setMaxWidth(0);
@@ -201,12 +204,6 @@ public class FiturBarang extends javax.swing.JPanel {
             table.getColumnModel().getColumn(5).setMinWidth(125);
             table.getColumnModel().getColumn(5).setPreferredWidth(125);
             table.getColumnModel().getColumn(5).setMaxWidth(125);
-            table.getColumnModel().getColumn(6).setMinWidth(125);
-            table.getColumnModel().getColumn(6).setPreferredWidth(125);
-            table.getColumnModel().getColumn(6).setMaxWidth(125);
-            table.getColumnModel().getColumn(7).setMinWidth(125);
-            table.getColumnModel().getColumn(7).setPreferredWidth(125);
-            table.getColumnModel().getColumn(7).setMaxWidth(125);
             table.getColumnModel().getColumn(8).setMinWidth(100);
             table.getColumnModel().getColumn(8).setPreferredWidth(100);
             table.getColumnModel().getColumn(8).setMaxWidth(100);
@@ -805,7 +802,6 @@ public class FiturBarang extends javax.swing.JPanel {
         String nomorBarcode = t_noBarcode.getText();
         String kodeJenis = lbKodeJenis.getText();
         String namaBarang = t_namaBarang.getText();
-        System.out.println(namaBarang);
         String satuan = (String) cbx_satuan.getSelectedItem();
         int hargaBeli = Integer.parseInt(t_hargaBeli.getText());
         int hargaJual = Integer.parseInt(t_hargaJual.getText());

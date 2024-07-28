@@ -59,8 +59,8 @@ public class ServicePengeluaran {
                 String deskripsi = rst.getString("Deskripsi");
                 tabmodel.addRow(new Object[]{noPengeluaran, idPengguna, namaPengguna, tgl, df.format(total), deskripsi});
             }
-            pst.close();
             rst.close();
+            pst.close();
             
             int totalPage = (int) Math.ceil((double)count / limit);
             pagination.setPagination(page, totalPage);
@@ -87,6 +87,8 @@ public class ServicePengeluaran {
                 String deskripsi = rst.getString("Deskripsi");
                 tabmodel.addRow(new Object[]{noPengeluaran, idPengguna, namaPengguna, tgl, df.format(total), deskripsi});
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -102,6 +104,7 @@ public class ServicePengeluaran {
             pst.setString(4, modelPengeluaran.getDeskripsi());
             pst.setString(5, modelPengeluaran.getModelPengguna().getIdpengguna());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Data Berhasil Ditambahkan");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -124,6 +127,8 @@ public class ServicePengeluaran {
             } else {
                 noPengeluaran = "PLRN-" + format + "-001";
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             
         }
@@ -140,6 +145,8 @@ public class ServicePengeluaran {
             if(rst.next()) {
                 noJenis = rst.getString("No_Jenis");
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -151,23 +158,21 @@ public class ServicePengeluaran {
         String query = "INSERT INTO detail_pengeluaran(No_Pengeluaran, No_Jenis, Detail_Jenis, Subtotal) VALUES(?,?,?,?)";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
-            String[] noJenis = sementara.getNoJenis();
-            String[] detailJenis = sementara.getDetailJenis();
-            int[] subtotal = sementara.getSubtotal();
             
             pst.setString(1, modelDetail.getModelPengeluaran().getNoPengeluaran());
-            for(String no : noJenis) {
-                pst.setString(2, no);
+            for(String noJenis : sementara.getNoJenis()) {
+                pst.setString(2, noJenis);
             }
             
-            for(String detail : detailJenis) {
-                pst.setString(3, detail);
+            for(String detailJenis : sementara.getDetailJenis()) {
+                pst.setString(3, detailJenis);
             }
             
-            for(int sub : subtotal) {
-                pst.setInt(4, sub);
+            for(int subtotal : sementara.getSubtotal()) {
+                pst.setInt(4, subtotal);
             }
             pst.executeUpdate();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -188,6 +193,8 @@ public class ServicePengeluaran {
                 int subtotal = rst.getInt("Subtotal");
                 tabmodel.addRow(new Object[]{noJenis, namaJenis, detailJenis, df.format(subtotal)});
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

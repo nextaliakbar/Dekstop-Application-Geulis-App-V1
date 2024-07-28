@@ -5,7 +5,6 @@
 package model;
 
 import javax.swing.Icon;
-import swing.PanelStatus;
 import swing.StatusType;
 
 /**

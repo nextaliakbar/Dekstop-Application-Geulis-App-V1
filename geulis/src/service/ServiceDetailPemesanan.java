@@ -40,6 +40,8 @@ public class ServiceDetailPemesanan {
                 int subtotal = rst.getInt("Subtotal");
                 tabmodel.addRow(new Object[]{kodeBarang, namaBarang, satuan, df.format(hrgBeli), jumlah, df.format(subtotal)});
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -51,23 +53,20 @@ public class ServiceDetailPemesanan {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.setString(1, modelDetail.getModelPemesanan().getNoPemesanan());
             
-            String[] listKodeBrg = ps.getKodeBrg();
-            for(String kodeBrg : listKodeBrg) {
+            for(String kodeBrg : ps.getKodeBrg()) {
                 pst.setString(2, kodeBrg);
             }
             
-            int[] listJumlah = ps.getJumlah();
-            for(int jumlah : listJumlah) {
+            for(int jumlah : ps.getJumlah()) {
                 pst.setInt(3, jumlah);
             }
             
-            double[] listSubtotal = ps.getSubtotal();
-            for(double subtotal : listSubtotal) {
+            for(double subtotal : ps.getSubtotal()) {
                 pst.setDouble(4, subtotal);
             }
             
             pst.executeUpdate();
-            
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

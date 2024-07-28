@@ -32,7 +32,8 @@ public class ServiceTindakan {
                 int biaya = rst.getInt("Biaya_Tindakan");
                 model.addRow(new Object[]{kodeTindakan, namaTindakan, biaya});
             }
-            
+            rst.close();
+            pst.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -46,6 +47,7 @@ public class ServiceTindakan {
             pst.setString(2, modelTindakan.getNamaTindakan());
             pst.setInt(3, modelTindakan.getBiaya());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Data Tindakan berhasil ditambahkan");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -60,6 +62,7 @@ public class ServiceTindakan {
             pst.setInt(2, modelTindakan.getBiaya());
             pst.setString(3, modelTindakan.getKodeTindakan());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Data Tindakan berhasil diperbarui");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -72,6 +75,7 @@ public class ServiceTindakan {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.setString(1, modelTindakan.getKodeTindakan());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Data Tindakan berhasil dihapus");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -91,6 +95,8 @@ public class ServiceTindakan {
             } else {
                 kodeTindakan = "TDKN-001";
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -109,6 +115,8 @@ public class ServiceTindakan {
             } else {
                 valid = true;
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

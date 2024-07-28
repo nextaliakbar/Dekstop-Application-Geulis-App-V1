@@ -38,6 +38,8 @@ public class ServicePasien {
                 String level = rst.getString("Level");
                 model.addRow(new Object[]{idPasien, nama, jenisKelamin, no_Telp, email, alamat, level});
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -55,6 +57,7 @@ public class ServicePasien {
             pst.setString(6, modelPasien.getEmail());
             pst.setString(7, modelPasien.getLevel());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Data Pasien berhasil ditambahkan");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -73,6 +76,7 @@ public class ServicePasien {
             pst.setString(6, modelPasien.getLevel());
             pst.setString(7, modelPasien.getIdPasien());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Data Pasien berhasil diperbarui");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -85,6 +89,7 @@ public class ServicePasien {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.setString(1, modelPasien.getIdPasien());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Data Pasien berhasil dihapus");
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -104,6 +109,8 @@ public class ServicePasien {
             } else {
                 idPasien = "PASIEN001";
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -125,6 +132,10 @@ public class ServicePasien {
             } else {
                 valid = true;
             }
+            rst1.close();
+            rst2.close();
+            pst1.close();
+            pst2.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -148,6 +159,8 @@ public class ServicePasien {
                     break;
                 }
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

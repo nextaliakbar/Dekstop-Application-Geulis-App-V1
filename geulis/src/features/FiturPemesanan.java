@@ -11,7 +11,9 @@ import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -201,12 +203,15 @@ public class FiturPemesanan extends javax.swing.JPanel {
         servicePemesanan.addData(modelPemesanan);
         
     //        Tambah Detail
+        List<String> kodeBrg = new ArrayList<>();
+        List<Integer> jumlah = new ArrayList<>();
+        List<Double> subtotal = new ArrayList<>();
+        detail.setModelPemesanan(modelPemesanan);
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
-            String kodeBrg = (String) tableDetail.getValueAt(a, 0);
-            int jumlah = (int) tableDetail.getValueAt(a, 5);
-            double subtotal = (double) tableDetail.getValueAt(a, 6);
-            Sementara ps = new Sementara(new String[]{kodeBrg}, new int[]{jumlah}, new double[]{subtotal});
-            detail.setModelPemesanan(modelPemesanan);
+            kodeBrg.add((String) tableDetail.getValueAt(a, 0));
+            jumlah.add((Integer) tableDetail.getValueAt(a, 5));
+            subtotal.add((Double)tableDetail.getValueAt(a, 6));
+            Sementara ps = new Sementara(kodeBrg, jumlah, subtotal);
             serviceDetail.addData(detail, ps);
         }
     }
@@ -630,6 +635,15 @@ public class FiturPemesanan extends javax.swing.JPanel {
         tableDetail.setSelectionForeground(new java.awt.Color(255, 255, 255));
         scrollPanePasien.setViewportView(tableDetail);
         if (tableDetail.getColumnModel().getColumnCount() > 0) {
+            tableDetail.getColumnModel().getColumn(1).setMinWidth(300);
+            tableDetail.getColumnModel().getColumn(1).setPreferredWidth(300);
+            tableDetail.getColumnModel().getColumn(1).setMaxWidth(300);
+            tableDetail.getColumnModel().getColumn(2).setMinWidth(150);
+            tableDetail.getColumnModel().getColumn(2).setPreferredWidth(150);
+            tableDetail.getColumnModel().getColumn(2).setMaxWidth(150);
+            tableDetail.getColumnModel().getColumn(3).setMinWidth(150);
+            tableDetail.getColumnModel().getColumn(3).setPreferredWidth(150);
+            tableDetail.getColumnModel().getColumn(3).setMaxWidth(150);
             tableDetail.getColumnModel().getColumn(4).setMinWidth(75);
             tableDetail.getColumnModel().getColumn(4).setPreferredWidth(75);
             tableDetail.getColumnModel().getColumn(4).setMaxWidth(75);

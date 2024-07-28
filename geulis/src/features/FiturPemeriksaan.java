@@ -144,12 +144,21 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         servicPemeriksaan.addData(pemeriksaan);
         
 //      Tambah Detail
+        List<String> kodeTindakan = new ArrayList<>();
+        List<Integer> biayaTindakanFinal = new ArrayList<>();
+        List<Integer> potongan = new ArrayList<>();
+        List<Integer> totalHarga = new ArrayList<>();
+        
+        detail.setModelPemeriksaan(pemeriksaan);
         for(int a = 0; a < tabmodel2.getRowCount(); a++) {
-            String kodeTindakan = (String) tableDetail.getValueAt(a, 1);
-            int totalHarga = (int) tableDetail.getValueAt(a, 5);
-            int potongan = (int) tableDetail.getValueAt(a, 4);
-            PemeriksaanSementara ps = new PemeriksaanSementara(new String[]{kodeTindakan}, new int[]{potongan}, new int[]{totalHarga});
-            detail.setModelPemeriksaan(pemeriksaan);
+            kodeTindakan.add((String) tableDetail.getValueAt(a, 1));
+            biayaTindakanFinal.add((Integer) tableDetail.getValueAt(a, 3));
+            potongan.add((Integer) tableDetail.getValueAt(a, 4));
+            totalHarga.add((Integer) tableDetail.getValueAt(a, 5));
+            
+            PemeriksaanSementara
+                    ps = new PemeriksaanSementara(kodeTindakan, biayaTindakanFinal, 
+                            potongan, totalHarga);
             serviceDetail.addData(detail, ps);
         }
         
@@ -237,7 +246,8 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         ModelDetailPemeriksaan modelDetail = new ModelDetailPemeriksaan();
         modelDetail.setModelPemeriksaan(modelPemeriksaan);
 
-        DialogDetail dialog = new DialogDetail(null, true, "Slide-1", modelDetail, null, null, null);
+        DialogDetail dialog = new DialogDetail(null, true, "Slide-1", modelDetail, 
+                null, null, null);
         dialog.setVisible(true);
     }
     

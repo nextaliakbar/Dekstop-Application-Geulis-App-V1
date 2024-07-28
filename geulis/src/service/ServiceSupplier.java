@@ -27,6 +27,8 @@ public class ServiceSupplier {
                
                 tabmodel.addRow(new Object[]{IdSupplier, NamaSupplier, TeleponSupplier, EmailSupplier, AlamatSupplier});
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }    
@@ -43,8 +45,8 @@ public class ServiceSupplier {
            pst.setString(4, modelSupplier.getEmailSupplier());
            pst.setString(5, modelSupplier.getAlamatSupplier());
            pst.executeUpdate();
-           JOptionPane.showMessageDialog(null, "Data Supplier Berhasil Ditambahkan");
            pst.close();
+           JOptionPane.showMessageDialog(null, "Data Supplier Berhasil Ditambahkan");
            
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -61,8 +63,8 @@ public class ServiceSupplier {
            pst.setString(4, modelSupplier.getAlamatSupplier());
            pst.setString(5, modelSupplier.getIdSupplier());
            pst.executeUpdate();
-           JOptionPane.showMessageDialog(null, "Data Supplier Berhasil Diperbarui");
            pst.close();
+           JOptionPane.showMessageDialog(null, "Data Supplier Berhasil Diperbarui");
            
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -76,6 +78,7 @@ public class ServiceSupplier {
         PreparedStatement pst = connection.prepareCall(query);
         pst.setString(1, modelSupplier.getIdSupplier());
         pst.executeUpdate();
+        pst.close();
          JOptionPane.showMessageDialog(null, "Data Supplier Berhasil Di Hapus");
     } catch (Exception ex) {
             ex.printStackTrace();
@@ -95,6 +98,8 @@ public class ServiceSupplier {
             } else {
                 idSupplier = "SLR-001";
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -114,6 +119,8 @@ public class ServiceSupplier {
             } else {
                 valid = true;
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

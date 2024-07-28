@@ -32,6 +32,8 @@ public class ServicePengaturan {
                 listData.add(rst.getString("Username"));
                 listData.add(rst.getString("Email"));
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -47,6 +49,7 @@ public class ServicePengaturan {
             pst.setString(3, modelPengguna.getEmail());
             pst.setString(4, modelPengguna.getIdpengguna());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Akun berhasil dirubah");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -61,6 +64,7 @@ public class ServicePengaturan {
             pst.setString(1, modelPengguna.getPassword());
             pst.setString(2, modelPengguna.getIdpengguna());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Password berhasil dirubah");
         } catch(Exception ex) {
             ex.printStackTrace();

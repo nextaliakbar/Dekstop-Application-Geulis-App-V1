@@ -12,7 +12,9 @@ import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -167,13 +169,16 @@ public class FiturPengeluaran extends javax.swing.JPanel {
         
         ModelDetailPengeluaran detail = new ModelDetailPengeluaran();
 //        tambah data detail pengeluaran
+        List<String> noJenis = new ArrayList<>();
+        List<String> detailJenis = new ArrayList<>();
+        List<Integer> subtotal = new ArrayList<>();
+        detail.setModelPengeluaran(modelPengeluaran);
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
-            String noJenis = (String) tableDetail.getValueAt(a, 0);
-            String detailJenis = (String) tableDetail.getValueAt(a, 2);
-            int subtotal = (int) tableDetail.getValueAt(a, 3);
-            PengeluaranSementara ps = new PengeluaranSementara(new String[]{noJenis}, new String[]{detailJenis}, new int[]{subtotal});
+            noJenis.add((String) tableDetail.getValueAt(a, 0));
+            detailJenis.add((String) tableDetail.getValueAt(a, 2));
+            subtotal.add((Integer)tableDetail.getValueAt(a, 3));
+            PengeluaranSementara ps = new PengeluaranSementara(noJenis, detailJenis, subtotal);
             modelPengeluaran.setNoPengeluaran(noPengeluaran);
-            detail.setModelPengeluaran(modelPengeluaran);
             servicePengeluaran.addDataDetail(detail, ps);
         }
         tabmodel2.setRowCount(0);

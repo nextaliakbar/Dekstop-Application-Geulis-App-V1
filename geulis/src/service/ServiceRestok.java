@@ -60,9 +60,11 @@ public class ServiceRestok {
                 String namaBarang = rst.getString("Nama_Barang");
                 int hargaBeli = rst.getInt("Harga_Beli");
                 int jumlah = rst.getInt("Jumlah");
-                int subtotal = rst.getInt("SubTotal");
+                double subtotal = rst.getDouble("SubTotal");
                 tabmodel.addRow(new Object[]{kodeBarang, namaBarang, hargaBeli, jumlah, subtotal});
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -78,6 +80,7 @@ public class ServiceRestok {
             pst.setString(4, "Diterima");
             pst.setString(5, modelRestok.getModelPengguna().getIdpengguna());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Berhasil Menambah Stok Baru");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -89,22 +92,20 @@ public class ServiceRestok {
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.setString(1, modelDetail.getModelRestok().getModelPemesanan().getNoPemesanan());
-            String[] kodeBarang = rs.getKodeBrg();
-            int[] jumlah = rs.getJumlah();
-            double[] subtotal = rs.getSubtotal();
             
-            for(String kode : kodeBarang) {
-                pst.setString(2, kode);
+            for(String kodeBrg : rs.getKodeBrg()) {
+                pst.setString(2, kodeBrg);
             }
             
-            for(int jml : jumlah) {
-                pst.setInt(3, jml);
+            for(int jumlah : rs.getJumlah()) {
+                pst.setInt(3, jumlah);
             }
             
-            for(double sub : subtotal) {
-                pst.setDouble(4, sub);
+            for(double subtotal : rs.getSubtotal()) {
+                pst.setDouble(4, subtotal);
             }
             pst.executeUpdate();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -145,6 +146,8 @@ public class ServiceRestok {
                 
                 model.addRow(modelDetail.toRowTable());
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -159,6 +162,8 @@ public class ServiceRestok {
             while(rst.next()) {
                 listStok.add(rst.getInt("Stok"));
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

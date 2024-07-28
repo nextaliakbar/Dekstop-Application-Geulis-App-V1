@@ -33,6 +33,8 @@ public class ServiceRiwayatPasien {
                 String idPasien = rst.getString("ID_Pasien");
                 idPasiens.add(idPasien);
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -65,6 +67,8 @@ public class ServiceRiwayatPasien {
                 }
                 model.addRow(new String[]{noPemeriksaan, idPasien, nama, lastCheckDate.format(DateTimeFormatter.ofPattern("dd - MMMM - yyyy")), status});
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -87,6 +91,8 @@ public class ServiceRiwayatPasien {
                 String estimate = nextDate.format(format);
                 model.addRow(new String[]{noPemeriksaan, strLastDate, estimate});
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

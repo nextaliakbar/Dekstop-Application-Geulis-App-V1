@@ -45,8 +45,8 @@ public class ServiceReservasi {
                 count = rst.getInt("Jumlah");
             }
             
-            pst.close();
             rst.close();
+            pst.close();
             
             pst = connection.prepareStatement(query);
             rst = pst.executeQuery();
@@ -81,8 +81,8 @@ public class ServiceReservasi {
                 jamKedatangan, type, status, modelPengguna, 
                 modelPasien).toRowTable());
             }
-            pst.close();
             rst.close();
+            pst.close();
             
             int totalPage = (int) Math.ceil((double)count / limit);
             pagination.setPagination(page, totalPage);
@@ -96,7 +96,7 @@ public class ServiceReservasi {
         + "rsv.ID_Pasien, psn.Nama, psn.Jenis_Kelamin, DATE_FORMAT(rsv.Tanggal_Kedatangan, '%d - %M - %Y') AS Tanggal_Kedatangan, "
         + "TIME_FORMAT(rsv.Jam_Kedatangan, '%H.%i WIB') AS Jam_Kedatangan, rsv.Status_Reservasi, rsv.ID_Pengguna, pgn.Nama FROM reservasi rsv "
         + "JOIN pasien psn ON rsv.ID_Pasien=psn.ID_Pasien JOIN pengguna pgn "
-        + "ON rsv.ID_Pengguna=pgn.ID_Pengguna ORDER BY No_Reservasi ASC ";
+        + "ON rsv.ID_Pengguna=pgn.ID_Pengguna ORDER BY No_Reservasi DESC ";
         ModelPengguna modelPengguna = new ModelPengguna();
         ModelPasien modelPasien = new ModelPasien();
         try {
@@ -133,6 +133,8 @@ public class ServiceReservasi {
                 jamKedatangan, type, status, modelPengguna, 
                 modelPasien).toRowTable());
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -150,6 +152,7 @@ public class ServiceReservasi {
             pst.setString(6, modelReservasi.getModelPasien().getIdPasien());
             pst.setString(7, modelReservasi.getModelPengguna().getIdpengguna());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Reservasi baru berhasil ditambahkan");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -162,6 +165,7 @@ public class ServiceReservasi {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.setString(1, modelReservasi.getNoReservasi());
             pst.executeUpdate();
+            pst.close();
             JOptionPane.showMessageDialog(null, "Reservasi berhasil dibatalkan");
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -184,6 +188,8 @@ public class ServiceReservasi {
             } else {
                 noReservasi = "RSV-" + strDate + "-001";
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -204,6 +210,8 @@ public class ServiceReservasi {
                 
                 tabmodel.addRow(new String[] {idPasien, nama, jenisKelamin, alamat, noTelp});
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }

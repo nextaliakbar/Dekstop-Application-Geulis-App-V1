@@ -550,6 +550,7 @@ public class DialogDetail extends java.awt.Dialog {
         scroll1.setViewportView(tablePemeriksaan);
         if (tablePemeriksaan.getColumnModel().getColumnCount() > 0) {
             tablePemeriksaan.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tablePemeriksaan.getColumnModel().getColumn(2).setPreferredWidth(210);
         }
 
         jSeparator1.setBackground(new java.awt.Color(185, 185, 185));

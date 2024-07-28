@@ -36,6 +36,8 @@ public class ServicePengguna {
                
                 tabmodel.addRow(new Object[]{IdPengguna, NamaPengguna, UsernamePengguna, EmailPengguna, LevelPengguna, StatusPengguna});
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }    
@@ -53,8 +55,8 @@ public class ServicePengguna {
            pst.setString(6, modelPengguna.getLevel());
            pst.setString(7, modelPengguna.getStatus());
            pst.executeUpdate();
-           JOptionPane.showMessageDialog(null, "Data Pengguna Berhasil Ditambahkan");
            pst.close();
+           JOptionPane.showMessageDialog(null, "Data Pengguna Berhasil Ditambahkan");
            
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -73,8 +75,8 @@ public class ServicePengguna {
            pst.setString(6, modelPengguna.getStatus());
            pst.setString(7, modelPengguna.getIdpengguna());
            pst.executeUpdate();
-           JOptionPane.showMessageDialog(null, "Data Pengguna Berhasil Diperbarui");
            pst.close();
+           JOptionPane.showMessageDialog(null, "Data Pengguna Berhasil Diperbarui");
            
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -86,6 +88,7 @@ public class ServicePengguna {
         PreparedStatement pst = connection.prepareCall(query);
         pst.setString(1, modelPengguna.getIdpengguna());
         pst.executeUpdate();
+        pst.close();
         JOptionPane.showMessageDialog(null, "Data Pengguna Berhasil Di Hapus");
     } catch (Exception ex) {
             ex.printStackTrace();
@@ -105,6 +108,8 @@ public class ServicePengguna {
             } else {
                 idPasien = "USR-001";
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -134,6 +139,12 @@ public class ServicePengguna {
             } else {
                 valid = true;
             }
+            rst1.close();
+            rst2.close();
+            rst3.close();
+            pst1.close();
+            pst2.close();
+            pst3.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -153,6 +164,8 @@ public class ServicePengguna {
                     break;
                 }
             }
+            rst.close();
+            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
