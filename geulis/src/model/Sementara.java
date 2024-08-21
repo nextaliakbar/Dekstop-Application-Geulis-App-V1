@@ -12,19 +12,28 @@ import java.util.List;
  */
 public class Sementara {
 
-    public Sementara(List<String> kodeBrg, List<Integer> jumlah, List<Double> subtotal) {
+    public Sementara(List<String> kodeBrg, List<Integer> jumlah, List<Integer> subtotal) {
         this.kodeBrg = kodeBrg;
         this.jumlah = jumlah;
         this.subtotal = subtotal;
     }
+
+    public Sementara(List<String> kodeBrg, List<Integer> hargaFinal, List<Integer> jumlah, List<Integer> subtotal) {
+        this.kodeBrg = kodeBrg;
+        this.hargaFinal = hargaFinal;
+        this.jumlah = jumlah;
+        this.subtotal = subtotal;
+    }
+    
 
     public Sementara() {
     
     }
     
     private List<String> kodeBrg;
+    private List<Integer> hargaFinal;
     private List<Integer> jumlah;
-    private List<Double> subtotal;
+    private List<Integer> subtotal;
 
     public List<String> getKodeBrg() {
         return kodeBrg;
@@ -34,6 +43,14 @@ public class Sementara {
         this.kodeBrg = kodeBrg;
     }
 
+    public List<Integer> getHargaFinal() {
+        return hargaFinal;
+    }
+
+    public void setHargaFinal(List<Integer> hargaBeli) {
+        this.hargaFinal = hargaBeli;
+    }
+    
     public List<Integer> getJumlah() {
         return jumlah;
     }
@@ -42,11 +59,11 @@ public class Sementara {
         this.jumlah = jumlah;
     }
 
-    public List<Double> getSubtotal() {
+    public List<Integer> getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(List<Double> subtotal) {
+    public void setSubtotal(List<Integer> subtotal) {
         this.subtotal = subtotal;
     }
 

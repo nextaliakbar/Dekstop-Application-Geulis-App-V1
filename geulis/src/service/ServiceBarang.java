@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -20,7 +21,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ServiceBarang {
     private Connection connection;
-
     public ServiceBarang() {
        connection = Koneksi.getConnection();
     }
@@ -49,7 +49,7 @@ public class ServiceBarang {
         }
     }
     
-    public void addData(ModelBarang modelBarang) {
+    public void addData(JFrame parent, ModelBarang modelBarang) {
      String query = "INSERT INTO barang (Kode_Barang, Nomor_Barcode, Kode_Jenis, Nama_Barang, Satuan, Harga_Beli, Harga_Jual, Stok) VALUES (?,?,?,?,?,?,?,?)"; 
      try {
          PreparedStatement pst = connection.prepareStatement(query);
@@ -63,13 +63,13 @@ public class ServiceBarang {
          pst.setInt(8, modelBarang.getStok());
          pst.executeUpdate();
          pst.close();
-         JOptionPane.showMessageDialog(null, "Data Barang berhasil ditambahkan");
+         JOptionPane.showMessageDialog(parent, "Data Barang berhasil ditambahkan");
      } catch(Exception ex) {
          ex.printStackTrace();
      }
     }
     
-    public void updateData(ModelBarang modelBarang) {
+    public void updateData(JFrame parent, ModelBarang modelBarang) {
      String query = "UPDATE barang SET Nomor_Barcode=?, Nama_Barang=?, Satuan=?, Harga_Beli=?, Harga_Jual=?, Stok=? WHERE Kode_Barang=?";
      try {
          PreparedStatement pst = connection.prepareStatement(query);
@@ -82,20 +82,20 @@ public class ServiceBarang {
          pst.setString(7, modelBarang.getKode_Barang());
          pst.executeUpdate();
          pst.close();
-         JOptionPane.showMessageDialog(null, "Data Barang berhasil diperbarui");
+         JOptionPane.showMessageDialog(parent, "Data Barang berhasil diperbarui");
      } catch(Exception ex) {
          ex.printStackTrace();
      }
     }
     
-    public void deleteData(ModelBarang modelBarang) {
+    public void deleteData(JFrame parent, ModelBarang modelBarang) {
      String query = "DELETE FROM barang WHERE Kode_Barang=?";
      try {
          PreparedStatement pst = connection.prepareStatement(query);
          pst.setString(1, modelBarang.getKode_Barang());
          pst.executeUpdate();
          pst.close();
-         JOptionPane.showMessageDialog(null, "Data Barang berhasil dihapus");
+         JOptionPane.showMessageDialog(parent, "Data Barang berhasil dihapus");
      } catch(Exception ex) {
          ex.printStackTrace();
      }
@@ -198,14 +198,14 @@ public class ServiceBarang {
         return listJenisBarang;
     }
     
-    public boolean validationAddJenis(ModelJenisBarang modelJenis) {
+    public boolean validationAddJenis(JFrame parent, ModelJenisBarang modelJenis) {
         boolean valid = false;
         String query = "SELECT * FROM jenis_barang WHERE nama_jenis='"+modelJenis.getNamaJenis()+"'";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
             if(rst.next()) {
-                JOptionPane.showMessageDialog(null, "Jenis Barang Sudah Tersedia");
+                JOptionPane.showMessageDialog(parent, "Jenis Barang Sudah Tersedia");
             } else {
                 valid = true;
             }
@@ -217,7 +217,7 @@ public class ServiceBarang {
         return valid;
     }
     
-    public boolean validationDelete(ModelBarang modelBarang) {
+    public boolean validationDelete(JFrame parent, ModelBarang modelBarang) {
         boolean valid = false;
         String query1 = "SELECT Kode_Barang FROM detail_penjualan WHERE Kode_Barang='"+modelBarang.getKode_Barang()+"' ";
         String query2 = "SELECT Kode_Barang FROM detail_pemesanan WHERE Kode_Barang='"+modelBarang.getKode_Barang()+"' ";
@@ -230,7 +230,7 @@ public class ServiceBarang {
             PreparedStatement pst3 = connection.prepareStatement(query3);
             ResultSet rst3 = pst3.executeQuery();
             if(rst3.next() || rst2.next() || rst1.next()) {
-                JOptionPane.showMessageDialog(null, "Tidak dapat menghapus barang ini\n"
+                JOptionPane.showMessageDialog(parent, "Tidak dapat menghapus barang ini\n"
                + "Barang ini pernah digunakan di transaksi", "Peringatan", JOptionPane.WARNING_MESSAGE);
             } else {
                 valid = true;

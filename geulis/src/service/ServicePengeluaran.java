@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelDetailPengeluaran;
@@ -94,7 +95,7 @@ public class ServicePengeluaran {
         }
     }
     
-    public void addDataPengeluaran(ModelPengeluaran modelPengeluaran) {
+    public void addDataPengeluaran(JFrame parent, ModelPengeluaran modelPengeluaran) {
         String query = "INSERT INTO pengeluaran(No_Pengeluaran, Tanggal_Pengeluaran, Total_Pengeluaran, Deskripsi, ID_Pengguna) VALUES (?,?,?,?,?)";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
@@ -105,7 +106,7 @@ public class ServicePengeluaran {
             pst.setString(5, modelPengeluaran.getModelPengguna().getIdpengguna());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Data Berhasil Ditambahkan");
+            JOptionPane.showMessageDialog(parent, "Data Berhasil Ditambahkan");
         } catch(Exception ex) {
             ex.printStackTrace();
         }

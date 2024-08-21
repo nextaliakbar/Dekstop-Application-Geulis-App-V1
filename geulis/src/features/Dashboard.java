@@ -15,12 +15,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import model.ModelCard;
+import util.ModelCard;
 import model.ModelDashboard;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelPengguna;
 import service.ServiceDashboard;
 
@@ -36,8 +37,10 @@ public class Dashboard extends javax.swing.JPanel {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private ServiceDashboard serviceDashboard = new ServiceDashboard();
     private ModelPengguna modelPengguna;
-    public Dashboard(ModelPengguna modelPengguna) {
+    private JFrame parent;
+    public Dashboard(JFrame parent, ModelPengguna modelPengguna) {
         initComponents();
+        this.parent = parent;
         this.modelPengguna = modelPengguna;
         initiationCard();
         viewChart(0);
@@ -120,21 +123,21 @@ public class Dashboard extends javax.swing.JPanel {
         this.card11.viewDetail(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                detail(new FiturPemeriksaan(modelPengguna));
+                detail(new FiturPemeriksaan(parent, modelPengguna));
             }
         });
         
         this.card12.viewDetail(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                detail(new FiturPenjualan(modelPengguna));
+                detail(new FiturPenjualan(parent, modelPengguna));
             }
         });
         
         this.card13.viewDetail(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Keuntungan penjualan merupakan keuntungan\n"
+                JOptionPane.showMessageDialog(parent, "Keuntungan penjualan merupakan keuntungan\n"
                 + "Dari selisih harga jual dengan harga beli barang\nPada transaksi penjualan", "Informasi", JOptionPane.INFORMATION_MESSAGE);
             }
         });
@@ -142,7 +145,7 @@ public class Dashboard extends javax.swing.JPanel {
         this.card14.viewDetail(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                detail(new FiturPengeluaran(modelPengguna));
+                detail(new FiturPengeluaran(parent,modelPengguna));
             }
         });
     }

@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -119,7 +120,7 @@ public class ServicePemeriksaan {
         }
     }
         
-    public void addData(ModelPemeriksaan modelPemeriksaan) {
+    public void addData(JFrame parent, ModelPemeriksaan modelPemeriksaan) {
         String query = "INSERT INTO pemeriksaan (No_Pemeriksaan, No_Reservasi, Tanggal_Pemeriksaan, "
                 + "Deskripsi, Status_Pemeriksaan, Total, Bayar, Kembalian, Jenis_Pembayaran, "
                 + "ID_Pasien, ID_Karyawan, ID_Pengguna) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -138,7 +139,7 @@ public class ServicePemeriksaan {
             pst.setString(11, modelPemeriksaan.getModelKaryawan().getIdKaryawan());
             pst.setString(12, modelPemeriksaan.getModelPengguna().getIdpengguna());
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Data Berhasil Ditambahkan");
+            JOptionPane.showMessageDialog(parent, "Data Berhasil Ditambahkan");
             pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();

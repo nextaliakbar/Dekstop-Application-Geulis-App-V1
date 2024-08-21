@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.ModelPengguna;
 /**
@@ -40,7 +41,7 @@ public class ServicePengaturan {
         return listData;
     }
     
-    public void setAccount(ModelPengguna modelPengguna) {
+    public void setAccount(JFrame parent, ModelPengguna modelPengguna) {
         String query = "UPDATE pengguna SET Nama=?, Username=?, Email=? WHERE ID_Pengguna=?";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
@@ -50,14 +51,14 @@ public class ServicePengaturan {
             pst.setString(4, modelPengguna.getIdpengguna());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Akun berhasil dirubah");
+            JOptionPane.showMessageDialog(parent, "Akun berhasil dirubah");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
     }
     
 //    Change Password
-    public void setPassword(ModelPengguna modelPengguna) {
+    public void setPassword(JFrame parent, ModelPengguna modelPengguna) {
         String query = "UPDATE pengguna SET Password=? WHERE ID_Pengguna=?";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
@@ -65,7 +66,7 @@ public class ServicePengaturan {
             pst.setString(2, modelPengguna.getIdpengguna());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Password berhasil dirubah");
+            JOptionPane.showMessageDialog(parent, "Password berhasil dirubah");
         } catch(Exception ex) {
             ex.printStackTrace();
         }

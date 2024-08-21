@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelPromo;
@@ -27,7 +28,7 @@ public class ServicePromo {
     }
     
     //    service atur promo
-    public void addPromo(ModelPromo modelPromo) {
+    public void addPromo(JFrame parent, ModelPromo modelPromo) {
         String query = "INSERT INTO promo (No_Promo, Nama_Promo, Tanggal_Awal, Tanggal_Akhir, Banyak_Promo, Jenis_Promo, Keterangan) VALUES (?,?,?,?,?,?,?)";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
@@ -40,7 +41,7 @@ public class ServicePromo {
             pst.setString(7, modelPromo.getKeterangan());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Berhasil menambahkan promo");
+            JOptionPane.showMessageDialog(parent, "Berhasil menambahkan promo");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -102,13 +103,13 @@ public class ServicePromo {
     }
     
 //    end promo
-    public void endPromo(ModelPromo promo) {
+    public void endPromo(JFrame parent, ModelPromo promo) {
         String query = "UPDATE promo SET Keterangan='Berakhir' WHERE No_Promo='"+promo.getNoPromo()+"'";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Promo berhasil di akhiri");
+            JOptionPane.showMessageDialog(parent, "Promo berhasil di akhiri");
         } catch(Exception ex) {
             ex.printStackTrace();
         }

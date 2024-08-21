@@ -33,8 +33,10 @@ public class Login extends javax.swing.JFrame {
     private PanelVerifyCode panelVerify;
     private PanelLoading panelLoading;
     private ServiceLogin serviceLogin = new ServiceLogin();
+    private JFrame parent;
     public Login() {
         initComponents();
+        this.parent = this;
         setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         initiation();
     }
@@ -126,7 +128,7 @@ public class Login extends javax.swing.JFrame {
         }
 
         if(action) {
-            serviceLogin.login(modelPengguna,panelLoading, this);
+            serviceLogin.login(this, modelPengguna,panelLoading, this);
         }
     }
     
@@ -160,8 +162,8 @@ public class Login extends javax.swing.JFrame {
         
         if(action) {
             background.setComponentZOrder(panelLoading, 1);
-            if(serviceLogin.checkEmail(modelPengguna)) {
-            serviceLogin.getVerifyEmail(modelPengguna, panelVerify, panelLoading);
+            if(serviceLogin.checkEmail(this, modelPengguna)) {
+            serviceLogin.getVerifyEmail(this, modelPengguna, panelVerify, panelLoading);
             }
         }
     }
@@ -177,8 +179,8 @@ public class Login extends javax.swing.JFrame {
                 modelPengguna.setKode_verifikasi(verifyCode);
                 modelPengguna.setPassword(password);
                 modelPengguna.setEmail(email);
-                if(serviceLogin.cekVerifyCode(modelPengguna)) {
-                    serviceLogin.doneVerify(modelPengguna);
+                if(serviceLogin.cekVerifyCode(parent,modelPengguna)) {
+                    serviceLogin.doneVerify(parent, modelPengguna);
                     panelVerify.setVisible(false);
                     login = false;
                     clearField();

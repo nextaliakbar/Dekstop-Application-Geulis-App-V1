@@ -4,6 +4,8 @@
  */
 package features;
 
+import util.ModelHeaderTable;
+import util.ModelRenderTable;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -11,6 +13,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.text.DecimalFormat;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -47,12 +50,13 @@ public class DialogDetail extends java.awt.Dialog {
     private ModelDetailPenjualan detailPenjualan;
     private ModelDetailPemesanan detailPemesanan;
     private ModelDetailPengeluaran detailPengeluaran;
-    
+    private JFrame parent;
     public DialogDetail(java.awt.Frame parent, boolean modal, String slide, 
     ModelDetailPemeriksaan detailPemeriksaan, ModelDetailPenjualan detailPenjualan, 
     ModelDetailPemesanan detailPemesanan, ModelDetailPengeluaran detailPengeluaran) {
         super(parent, modal);
         initComponents();
+        this.parent = (JFrame) parent;
         setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         this.detailPemeriksaan = detailPemeriksaan;
         this.detailPenjualan = detailPenjualan;
@@ -249,7 +253,7 @@ public class DialogDetail extends java.awt.Dialog {
                 ModelReservasi modelReservasi = new ModelReservasi();
                 String noReservasi = lbNoReservasi2.getText();
                 modelReservasi.setNoReservasi(noReservasi);
-                serviceReservasi.updateStatus(modelReservasi);
+                serviceReservasi.updateStatus(parent, modelReservasi);
                 dispose();
             }
         }
@@ -1303,6 +1307,7 @@ public class DialogDetail extends java.awt.Dialog {
         scroll4.setViewportView(tableDetailPemesanan);
         if (tableDetailPemesanan.getColumnModel().getColumnCount() > 0) {
             tableDetailPemesanan.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tableDetailPemesanan.getColumnModel().getColumn(3).setPreferredWidth(210);
         }
 
         jSeparator5.setBackground(new java.awt.Color(185, 185, 185));
@@ -1502,6 +1507,7 @@ public class DialogDetail extends java.awt.Dialog {
         scroll5.setViewportView(tableDetailPenjualan);
         if (tableDetailPenjualan.getColumnModel().getColumnCount() > 0) {
             tableDetailPenjualan.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tableDetailPenjualan.getColumnModel().getColumn(3).setPreferredWidth(210);
         }
 
         jSeparator7.setBackground(new java.awt.Color(185, 185, 185));

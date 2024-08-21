@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import model.ModelCard;
+import util.ModelCard;
 
 /**
  *

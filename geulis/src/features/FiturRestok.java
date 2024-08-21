@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,10 +23,10 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelDetailRestok;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelPemesanan;
 import model.ModelPengguna;
-import model.ModelRenderTable;
+import util.ModelRenderTable;
 import model.ModelRestok;
 import model.Sementara;
 import service.ServiceRestok;
@@ -45,10 +46,12 @@ public class FiturRestok extends javax.swing.JPanel {
     private DefaultTableModel tabmodel1;
     private DefaultTableModel tabmodel2;
     private DefaultTableModel tabmodel3;
+    private JFrame parent;
     private TableRowSorter<DefaultTableModel> rowSorter1;
     private TableRowSorter<DefaultTableModel> rowSorter2;
-    public FiturRestok(ModelPengguna modelPengguna) {
+    public FiturRestok(JFrame parent, ModelPengguna modelPengguna) {
         initComponents();
+        this.parent = parent;
         this.modelPengguna = modelPengguna;
         pagination1.setVisible(false);
         styleTable(scrollPane, table, 5);
@@ -124,18 +127,18 @@ public class FiturRestok extends javax.swing.JPanel {
         ModelPengguna modelPengguna = new ModelPengguna();
         modelPengguna.setIdpengguna(idPengguna);
         ModelRestok modelRestok = new ModelRestok(modelPemesanan, tglTiba, totalBiaya, modelPengguna);
-        serviceRestok.addData(modelRestok);
+        serviceRestok.addData(parent, modelRestok);
         
         // Tambah Detail
         List<String> kodeBrg = new ArrayList<>();
         List<Integer> jumlah = new ArrayList<>();
-        List<Double> subtotal = new ArrayList<>(); 
+        List<Integer> subtotal = new ArrayList<>(); 
         ModelDetailRestok modelDetail = new ModelDetailRestok();
         modelDetail.setModelRestok(modelRestok);
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
             kodeBrg.add((String) tableDetail.getValueAt(a, 0));
             jumlah.add((Integer)tableDetail.getValueAt(a, 3));
-            subtotal.add((Double)tableDetail.getValueAt(a, 4));
+            subtotal.add((Integer)tableDetail.getValueAt(a, 4));
             Sementara rs = new Sementara(kodeBrg, jumlah, subtotal);
             serviceRestok.addDataDetail(modelDetail, rs);
         }
@@ -144,7 +147,7 @@ public class FiturRestok extends javax.swing.JPanel {
     private int getTotal() {
         int total = 0;
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
-            double subtotal = (double) tableDetail.getValueAt(a, 4);
+            int subtotal = (int) tableDetail.getValueAt(a, 4);
             total += subtotal;
         }
         
@@ -959,8 +962,9 @@ public class FiturRestok extends javax.swing.JPanel {
 
     private void btnKirimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKirimActionPerformed
         if(lbNoPemesanan.getText().length() == 0 || lbNoPemesanan.getText().equals("0")) {
-            JOptionPane.showMessageDialog(null, "Silahkan Masukkan No Pemesanan");
+            JOptionPane.showMessageDialog(parent, "Silahkan Masukkan No Pemesanan");
         } else {
+            tabmodel2.setRowCount(0);
             kirimDataPemesanan();        
         }
     }//GEN-LAST:event_btnKirimActionPerformed
@@ -1021,11 +1025,10 @@ public class FiturRestok extends javax.swing.JPanel {
     
     private boolean validationSave() {
         boolean valid = false;
-        
         if(lbNoPemesanan.getText().length() == 0 || lbNoPemesanan.getText().equals("0")) {
-            JOptionPane.showMessageDialog(null, "Silahkan Masukkan No Pemesanan");
+            JOptionPane.showMessageDialog(parent, "Silahkan Masukkan No Pemesanan");
         } else if(tableDetail.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(null, "Silahkan Kirim Data Barang Pemesanan");
+            JOptionPane.showMessageDialog(parent, "Silahkan Kirim Data Barang Pemesanan");
         } else {
             valid = true;
         }

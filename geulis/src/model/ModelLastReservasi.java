@@ -4,6 +4,7 @@
  */
 package model;
 
+import util.ModelProfile;
 import javax.swing.Icon;
 import swing.StatusType;
 

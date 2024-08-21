@@ -6,6 +6,7 @@ package service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelKaryawan;
@@ -42,7 +43,7 @@ public class ServiceKaryawan {
             ex.printStackTrace();
         }
     }
-    public void addData(ModelKaryawan modelKaryawan) {
+    public void addData(JFrame parent, ModelKaryawan modelKaryawan) {
         String query = "INSERT INTO karyawan (ID_Karyawan, Nama, No_Telp, Email, Alamat, Jabatan, Status_Karyawan) VALUES (?,?,?,?,?,?,?)";
         try {
            PreparedStatement pst = connection.prepareStatement(query);
@@ -55,13 +56,13 @@ public class ServiceKaryawan {
            pst.setString(7, modelKaryawan.getStatus());
            pst.executeUpdate();
            pst.close();
-           JOptionPane.showMessageDialog(null, "Data Karyawan Berhasil Ditambahkan");
+           JOptionPane.showMessageDialog(parent, "Data Karyawan Berhasil Ditambahkan");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
     
     }
-    public void updateData(ModelKaryawan modelKaryawan){
+    public void updateData(JFrame parent, ModelKaryawan modelKaryawan){
      String query = "UPDATE karyawan SET Nama=?, No_Telp=?, Email=?, Jabatan=?, Alamat=?, Status_Karyawan=? WHERE ID_Karyawan=?";
      try {
           PreparedStatement pst = connection.prepareStatement(query);
@@ -73,20 +74,20 @@ public class ServiceKaryawan {
            pst.setString(6, modelKaryawan.getStatus());
            pst.setString(7, modelKaryawan.getIdKaryawan());
            pst.executeUpdate();
-           JOptionPane.showMessageDialog(null, "Data Karyawan  Berhasil Diperbarui");
+           JOptionPane.showMessageDialog(parent, "Data Karyawan  Berhasil Diperbarui");
            pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
         }
      }
-    public void deleteData(ModelKaryawan modelKaryawan){
+    public void deleteData(JFrame parent, ModelKaryawan modelKaryawan){
     String query = "DELETE FROM karyawan WHERE ID_Karyawan=?";
     try{
         PreparedStatement pst = connection.prepareCall(query);
         pst.setString(1, modelKaryawan.getIdKaryawan());
         pst.executeUpdate();
         pst.close();
-        JOptionPane.showMessageDialog(null, "Data Karyawan Berhasil Di Hapus");
+        JOptionPane.showMessageDialog(parent, "Data Karyawan Berhasil Di Hapus");
     } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -113,14 +114,14 @@ public class ServiceKaryawan {
         return idPasien;
     }
     
-    public boolean validationDelete(ModelKaryawan modelKaryawan) {
+    public boolean validationDelete(JFrame parent, ModelKaryawan modelKaryawan) {
         boolean valid = false;
         String query = "SELECT ID_Karyawan FROM pemeriksaan WHERE ID_Karyawan='"+modelKaryawan.getIdKaryawan()+"' ";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
             if(rst.next()) {
-                JOptionPane.showMessageDialog(null, "Tidak dapat menghapus karyawan ini\n"
+                JOptionPane.showMessageDialog(parent, "Tidak dapat menghapus karyawan ini\n"
                + "Karyawan ini pernah melakukan\n"
                + "Transaksi silahkan ubah status\n"
                + "Karyawan ini menjadi nonaktif", "Peringatan", JOptionPane.WARNING_MESSAGE);

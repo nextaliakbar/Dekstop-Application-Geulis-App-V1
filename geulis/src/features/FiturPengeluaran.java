@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,11 +27,11 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelDetailPengeluaran;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelJenisPengeluaran;
 import model.ModelPengeluaran;
 import model.ModelPengguna;
-import model.ModelRenderTable;
+import util.ModelRenderTable;
 import model.PengeluaranSementara;
 import service.ServicePengeluaran;
 import swing.TableCellActionRender;
@@ -51,9 +52,10 @@ public class FiturPengeluaran extends javax.swing.JPanel {
     private TableAction action;
     private ModelPengguna modelPengguna;
     private TableRowSorter<DefaultTableModel> rowSorter;
-    
-    public FiturPengeluaran(ModelPengguna modelPengguna) {
+    private JFrame parent;
+    public FiturPengeluaran(JFrame parent,ModelPengguna modelPengguna) {
         initComponents();
+        this.parent = parent;
         this.modelPengguna = modelPengguna;
         styleTable(scrollPane, table,6);
         tabmodel1 = (DefaultTableModel) table.getModel();
@@ -165,7 +167,7 @@ public class FiturPengeluaran extends javax.swing.JPanel {
         
 //        tambah data pengeluaran
         ModelPengeluaran modelPengeluaran = new ModelPengeluaran(noPengeluaran, tgl, String.valueOf(total()), deskripsi, modelPengguna);
-        servicePengeluaran.addDataPengeluaran(modelPengeluaran);
+        servicePengeluaran.addDataPengeluaran(parent, modelPengeluaran);
         
         ModelDetailPengeluaran detail = new ModelDetailPengeluaran();
 //        tambah data detail pengeluaran
@@ -209,7 +211,7 @@ public class FiturPengeluaran extends javax.swing.JPanel {
         pengeluaran.setTotal((String) table.getValueAt(row, 4));
         pengeluaran.setDeskripsi((String) table.getValueAt(row, 5));
         detailPengeluaran.setModelPengeluaran(pengeluaran);
-        DialogDetail dialog = new DialogDetail(null, true, "Slide-3", null, null,null, detailPengeluaran);
+        DialogDetail dialog = new DialogDetail(parent, true, "Slide-3", null, null,null, detailPengeluaran);
         dialog.setVisible(true);
     }
     
@@ -854,7 +856,7 @@ public class FiturPengeluaran extends javax.swing.JPanel {
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         if(tableDetail.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(null, "Tambahkan data terlebih dahulu");
+            JOptionPane.showMessageDialog(parent, "Tambahkan data terlebih dahulu");
         } else {
             tambahData();
             clearField();
@@ -874,7 +876,7 @@ public class FiturPengeluaran extends javax.swing.JPanel {
     }//GEN-LAST:event_txtDescFocusGained
 
     private void btnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihActionPerformed
-        PilihPemesanan pemesanan = new PilihPemesanan(null, true, "Pengeluaran");
+        PilihPemesanan pemesanan = new PilihPemesanan(parent, true, "Pengeluaran");
         pemesanan.setVisible(true);
         txtDetailJenis.setText(pemesanan.modelPemesanan.getNoPemesanan());
         txtSubtotal.setText(pemesanan.modelPemesanan.getTotalPemesanan());
@@ -930,9 +932,9 @@ public class FiturPengeluaran extends javax.swing.JPanel {
     private boolean validation() {
         boolean valid = false;
         if(txtDetailJenis.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Silahkan isi detail jenis");
+            JOptionPane.showMessageDialog(parent, "Silahkan isi detail jenis");
         } else if(txtSubtotal.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Silahkan isi subtotal");
+            JOptionPane.showMessageDialog(parent, "Silahkan isi subtotal");
         } else {
             valid = true;
         }

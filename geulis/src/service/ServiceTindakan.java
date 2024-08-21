@@ -7,6 +7,7 @@ import java.sql.Connection;
 import model.ModelTindakan;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -39,7 +40,7 @@ public class ServiceTindakan {
         }
     }
     
-    public void addData(ModelTindakan modelTindakan) {
+    public void addData(JFrame parent, ModelTindakan modelTindakan) {
         String query = "INSERT INTO tindakan (Kode_Tindakan, Nama_Tindakan, Biaya_Tindakan) VALUES (?,?,?)";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
@@ -48,13 +49,13 @@ public class ServiceTindakan {
             pst.setInt(3, modelTindakan.getBiaya());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Data Tindakan berhasil ditambahkan");
+            JOptionPane.showMessageDialog(parent, "Data Tindakan berhasil ditambahkan");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
     }
     
-    public void updateData(ModelTindakan modelTindakan) {
+    public void updateData(JFrame parent, ModelTindakan modelTindakan) {
         String query = "UPDATE tindakan SET Nama_Tindakan=?, Biaya_Tindakan=? WHERE Kode_Tindakan=?";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
@@ -63,20 +64,20 @@ public class ServiceTindakan {
             pst.setString(3, modelTindakan.getKodeTindakan());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Data Tindakan berhasil diperbarui");
+            JOptionPane.showMessageDialog(parent, "Data Tindakan berhasil diperbarui");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
     }
     
-    public void deletaData(ModelTindakan modelTindakan) {
+    public void deletaData(JFrame parent, ModelTindakan modelTindakan) {
         String query = "DELETE FROM tindakan WHERE Kode_Tindakan=?";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.setString(1, modelTindakan.getKodeTindakan());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Data Tindakan berhasil dihapus");
+            JOptionPane.showMessageDialog(parent, "Data Tindakan berhasil dihapus");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -103,14 +104,14 @@ public class ServiceTindakan {
         return kodeTindakan;
     }
     
-    public boolean validationDelete(ModelTindakan modelTindakan) {
+    public boolean validationDelete(JFrame parent, ModelTindakan modelTindakan) {
         boolean valid = false;
         String query = "SELECT Kode_Tindakan FROM detail_pemeriksaan WHERE Kode_Tindakan='"+modelTindakan.getKodeTindakan()+"' ";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
             if(rst.next()) {
-                JOptionPane.showMessageDialog(null, "Tidak dapat menghapus tindakan ini\n"
+                JOptionPane.showMessageDialog(parent, "Tidak dapat menghapus tindakan ini\n"
                + "Tindakan ini pernah digunakan di transaksi", "Peringatan", JOptionPane.WARNING_MESSAGE);
             } else {
                 valid = true;

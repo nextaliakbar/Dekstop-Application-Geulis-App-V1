@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -22,11 +23,11 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelDetailPemeriksaan;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelPasien;
 import model.ModelPemeriksaan;
 import model.ModelPengguna;
-import model.ModelRenderTable;
+import util.ModelRenderTable;
 import model.ModelReservasi;
 import service.ServiceReservasi;
 import swing.TableCellActionRender;
@@ -48,8 +49,10 @@ public class FiturReservasi extends javax.swing.JPanel {
     private ServiceReservasi serviceReservasi = new ServiceReservasi();
     private TableRowSorter<DefaultTableModel> rowSorter1;
     private TableRowSorter<DefaultTableModel> rowSorter2;
-    public FiturReservasi(ModelPengguna modelPengguna) {
+    private JFrame parent;
+    public FiturReservasi(JFrame parent, ModelPengguna modelPengguna) {
         initComponents();
+        this.parent = parent;
         this.modelPengguna = modelPengguna;
         table.scrollPane(scrollPane);
         table.getTableHeader().setDefaultRenderer(new ModelHeaderTable());
@@ -145,7 +148,7 @@ public class FiturReservasi extends javax.swing.JPanel {
         modelPasien.setIdPasien(idPasien);
         
         ModelReservasi modelReservasi = new ModelReservasi(noReservasi, tglReservasi, tglKedatangan, jamKedatangan, null, null, modelPengguna, modelPasien);
-        serviceReservasi.addData(modelReservasi);
+        serviceReservasi.addData(parent, modelReservasi);
         
     }
     
@@ -161,7 +164,7 @@ public class FiturReservasi extends javax.swing.JPanel {
             txtIdPasien.setText(idPasien);
             txtNamaPasien.setText(namaPasien);
         } else {
-            JOptionPane.showMessageDialog(null, "Silahkan pilih pasien");
+            JOptionPane.showMessageDialog(parent, "Silahkan pilih pasien");
         }
     }
     
@@ -188,7 +191,7 @@ public class FiturReservasi extends javax.swing.JPanel {
         ModelDetailPemeriksaan modelDetail = new ModelDetailPemeriksaan();
         modelDetail.setModelPemeriksaan(modelPemeriksaan);
         
-        DialogDetail dialog = new DialogDetail(null, true, "Slide-4", modelDetail, null, null,null);
+        DialogDetail dialog = new DialogDetail(parent, true, "Slide-4", modelDetail, null, null,null);
         dialog.setVisible(true);
         
     }
@@ -828,7 +831,7 @@ public class FiturReservasi extends javax.swing.JPanel {
             tabmodel1.setRowCount(0);
             tampilData();
         } else {
-            JOptionPane.showMessageDialog(null, "Silahkan pilih pasien");
+            JOptionPane.showMessageDialog(parent, "Silahkan pilih pasien");
         }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
@@ -861,7 +864,7 @@ public class FiturReservasi extends javax.swing.JPanel {
     }//GEN-LAST:event_txtCariFocusLost
 
     private void btnRegistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistActionPerformed
-        Dialog dialog = new Dialog(null, true, "Slide-1", tabmodel2);
+        Dialog dialog = new Dialog(parent, true, "Slide-1", tabmodel2);
         dialog.setVisible(true);
     }//GEN-LAST:event_btnRegistActionPerformed
 

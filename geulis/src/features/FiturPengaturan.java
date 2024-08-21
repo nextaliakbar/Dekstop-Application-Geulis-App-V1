@@ -14,12 +14,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import model.ModelPengguna;
 import model.ModelPromo;
 import service.ServicePengaturan;
-import service.ServicePengguna;
 import service.ServicePromo;
 
 
@@ -36,8 +36,10 @@ public class FiturPengaturan extends javax.swing.JPanel {
     private ServicePengaturan servicePengaturan = new ServicePengaturan();
     private ServicePromo servicePromo = new ServicePromo();
     private ModelPengguna modelPengguna;
-    public FiturPengaturan(String slide, ModelPengguna modelPengguna) {
+    private JFrame parent;
+    public FiturPengaturan(String slide, JFrame parent, ModelPengguna modelPengguna) {
         initComponents();
+        this.parent = parent;
         this.modelPengguna = modelPengguna;
         dataAkun();
         dateChooser = new DateChooser();
@@ -93,7 +95,7 @@ public class FiturPengaturan extends javax.swing.JPanel {
     }
     
     
-        
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -111,7 +113,7 @@ public class FiturPengaturan extends javax.swing.JPanel {
         txtEmail = new javax.swing.JTextField();
         txtNama = new javax.swing.JTextField();
         txtUsername = new javax.swing.JTextField();
-        btnSimpan1 = new swing.Button();
+        btnPerbarui = new swing.Button();
         jPanel1 = new javax.swing.JPanel();
         label1 = new javax.swing.JLabel();
         btnBack1 = new swing.Button();
@@ -185,12 +187,12 @@ public class FiturPengaturan extends javax.swing.JPanel {
         txtUsername.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         txtUsername.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
 
-        btnSimpan1.setBackground(new java.awt.Color(135, 15, 50));
-        btnSimpan1.setForeground(new java.awt.Color(255, 255, 255));
-        btnSimpan1.setText("PERBARUI");
-        btnSimpan1.addActionListener(new java.awt.event.ActionListener() {
+        btnPerbarui.setBackground(new java.awt.Color(135, 15, 50));
+        btnPerbarui.setForeground(new java.awt.Color(255, 255, 255));
+        btnPerbarui.setText("PERBARUI");
+        btnPerbarui.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSimpan1ActionPerformed(evt);
+                btnPerbaruiActionPerformed(evt);
             }
         });
 
@@ -202,7 +204,7 @@ public class FiturPengaturan extends javax.swing.JPanel {
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panel2Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSimpan1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnPerbarui, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panel2Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,7 +234,7 @@ public class FiturPengaturan extends javax.swing.JPanel {
                     .addComponent(lb_email, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSimpan1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnPerbarui, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
@@ -736,9 +738,9 @@ public class FiturPengaturan extends javax.swing.JPanel {
         add(panelInfo, "card2");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSimpan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpan1ActionPerformed
+    private void btnPerbaruiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerbaruiActionPerformed
         aturAkun();
-    }//GEN-LAST:event_btnSimpan1ActionPerformed
+    }//GEN-LAST:event_btnPerbaruiActionPerformed
 
     private void btnSimpan2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpan2ActionPerformed
         ubahPassword();
@@ -751,10 +753,10 @@ public class FiturPengaturan extends javax.swing.JPanel {
         boolean valid;
         if(txtNamaPromo.getText().length() == 0) {
             valid = false;
-            JOptionPane.showMessageDialog(null, "Silahkan Isi Nama Promo");
+            JOptionPane.showMessageDialog(parent, "Silahkan Isi Nama Promo");
         } else if(strDate.equals(dateNow)) {
             valid = false;
-            JOptionPane.showMessageDialog(null, "Silahkan Tentukan Rentang Promo");
+            JOptionPane.showMessageDialog(parent, "Silahkan Tentukan Rentang Promo");
         } else {
             valid = true;
         }
@@ -765,12 +767,12 @@ public class FiturPengaturan extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSimpan3ActionPerformed
 
     private void btnViewPromoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewPromoActionPerformed
-        LihatPromo promo = new LihatPromo(null, true);
+        LihatPromo promo = new LihatPromo(parent, true);
         promo.setVisible(true);
     }//GEN-LAST:event_btnViewPromoActionPerformed
 
     private void btnBack1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack1ActionPerformed
-        back(new Dashboard(modelPengguna));
+        back(new Dashboard(parent,modelPengguna));
     }//GEN-LAST:event_btnBack1ActionPerformed
 
     private void cbxJenisPromoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxJenisPromoActionPerformed
@@ -808,15 +810,15 @@ public class FiturPengaturan extends javax.swing.JPanel {
     }//GEN-LAST:event_txtPromoKeyTyped
 
     private void btnBack3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack3ActionPerformed
-        back(new Dashboard(modelPengguna));
+        back(new Dashboard(parent,modelPengguna));
     }//GEN-LAST:event_btnBack3ActionPerformed
 
     private void btnBack2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack2ActionPerformed
-        back(new Dashboard(modelPengguna));
+        back(new Dashboard(parent,modelPengguna));
     }//GEN-LAST:event_btnBack2ActionPerformed
 
     private void btnBack4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack4ActionPerformed
-        back(new Dashboard(modelPengguna));
+        back(new Dashboard(parent,modelPengguna));
     }//GEN-LAST:event_btnBack4ActionPerformed
 
     
@@ -827,7 +829,7 @@ public class FiturPengaturan extends javax.swing.JPanel {
     private swing.Button btnBack2;
     private swing.Button btnBack3;
     private swing.Button btnBack4;
-    private swing.Button btnSimpan1;
+    private swing.Button btnPerbarui;
     private swing.Button btnSimpan2;
     private swing.Button btnSimpan3;
     private swing.Button btnViewPromo;
@@ -890,10 +892,8 @@ public class FiturPengaturan extends javax.swing.JPanel {
         modelPengguna.setNama(txtNama.getText());
         modelPengguna.setUsername(txtUsername.getText());
         modelPengguna.setEmail(txtEmail.getText());
-        ServicePengguna servicePengguna = new ServicePengguna();
-        if(servicePengguna.validationAddEmail(modelPengguna)) {
-            servicePengaturan.setAccount(modelPengguna);    
-        }
+        servicePengaturan.setAccount(parent, modelPengguna);
+        back(new Dashboard(parent,modelPengguna));
     }
     
 //    Ubah Password
@@ -908,12 +908,13 @@ public class FiturPengaturan extends javax.swing.JPanel {
                 
         if(oldPassword.equals(this.modelPengguna.getPassword())) {
             if(confirPass.equals(newPassword)) {
-            servicePengaturan.setPassword(modelPengguna);
+            servicePengaturan.setPassword(parent, modelPengguna);
+            back(new Dashboard(parent,modelPengguna));
             } else {
-            JOptionPane.showMessageDialog(null, "Konfirmasi password salah");   
+            JOptionPane.showMessageDialog(parent, "Konfirmasi password salah");   
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Password lama salah");
+            JOptionPane.showMessageDialog(parent, "Password lama salah");
         } 
     }
 
@@ -953,11 +954,11 @@ public class FiturPengaturan extends javax.swing.JPanel {
         int banyak = Integer.parseInt(txtPromo.getText());
         ModelPromo promo = new ModelPromo(noPromosi, namaPromo, tglAwal, tglAkhir, banyak, jenis, keterangan);
         if(validation(promo)) {
-            servicePromo.addPromo(promo);   
+            servicePromo.addPromo(parent, promo);   
             txtNamaPromo.setText(null);
             txtPromo.setText(null);
         } else {
-            JOptionPane.showMessageDialog(null, "Terdapat Promo yang Sedang Berjalan");
+            JOptionPane.showMessageDialog(parent, "Terdapat Promo yang Sedang Berjalan");
         }
     }
     

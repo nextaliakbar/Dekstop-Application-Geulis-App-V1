@@ -9,15 +9,16 @@ import java.awt.Font;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelPromo;
-import model.ModelRenderTable;
+import util.ModelRenderTable;
 import service.ServicePromo;
 
 /**
@@ -30,10 +31,12 @@ public class LihatPromo extends java.awt.Dialog {
      * Creates new form LihatPromo
      */
     private DefaultTableModel tabmodel;
+    private JFrame parent;
     private ServicePromo servicePromo = new ServicePromo();
     public LihatPromo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.parent = (JFrame) parent;
         setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         styleTable(scrollPane, table, 6);
         tabmodel = (DefaultTableModel) table.getModel();
@@ -65,15 +68,15 @@ public class LihatPromo extends java.awt.Dialog {
             
             if(!thisDate.equals(lastDate)) {
                 if(keterangan.equals("Berakhir")) {
-                    JOptionPane.showMessageDialog(null, "Promo sudah berakhir");
-                } else if(JOptionPane.showConfirmDialog(null, "Promo masih dalam batas rentang\nyang ditentukan, Yakin ingin\nmengakhiri?", "Konfirmasi",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
-                    servicePromo.endPromo(promo);
+                    JOptionPane.showMessageDialog(parent, "Promo sudah berakhir");
+                } else if(JOptionPane.showConfirmDialog(parent, "Promo masih dalam batas rentang\nyang ditentukan, Yakin ingin\nmengakhiri?", "Konfirmasi",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
+                    servicePromo.endPromo(parent, promo);
                     tabmodel.setRowCount(0);
                     servicePromo.loadPromo(tabmodel, "SELECT * FROM promo");
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Silahkan pilih promo");
+            JOptionPane.showMessageDialog(parent, "Silahkan pilih promo");
         }
     }
     

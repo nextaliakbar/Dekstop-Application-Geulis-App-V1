@@ -8,6 +8,7 @@ import action.TableAction;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,9 +19,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelDetailPemeriksaan;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelPemeriksaan;
-import model.ModelRenderTable;
+import util.ModelRenderTable;
 import model.ModelPasien;
 import swing.TableCellActionRender;
 import swing.TableCellEditor;
@@ -39,8 +40,10 @@ public class FiturRiwayatPasien extends javax.swing.JPanel {
     private TableAction action;
     private TableRowSorter<DefaultTableModel> rowSorter;
     private ServiceRiwayatPasien serviceRiwayat = new ServiceRiwayatPasien();
-    public FiturRiwayatPasien() {
+    private JFrame parent;
+    public FiturRiwayatPasien(JFrame parent) {
         initComponents();
+        this.parent = parent;
         styleTable(scrollPane, table, 5);
         tabmodel = (DefaultTableModel) table.getModel();
         rowSorter = new TableRowSorter<>(tabmodel);
@@ -115,7 +118,7 @@ public class FiturRiwayatPasien extends javax.swing.JPanel {
         modelPemeriksaan.setModelPasien(modelPasien);
         detailPemeriksaan.setModelPemeriksaan(modelPemeriksaan);
         
-        DialogDetail detail = new DialogDetail(null, true, "Slide-2", detailPemeriksaan, null, null, null);
+        DialogDetail detail = new DialogDetail(parent, true, "Slide-2", detailPemeriksaan, null, null, null);
         detail.setVisible(true);
     }
     

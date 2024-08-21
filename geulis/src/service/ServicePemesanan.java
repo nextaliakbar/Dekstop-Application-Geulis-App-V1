@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelBarang;
@@ -136,7 +137,7 @@ public class ServicePemesanan {
         }
     }
     
-    public void addData(ModelPemesanan modelPemesanan) {
+    public void addData(JFrame parent, ModelPemesanan modelPemesanan) {
         String query = "INSERT INTO pemesanan (No_Pemesanan, Tanggal_Pemesanan, Status_Pemesanan, Total_Pemesanan, Bayar, Kembali, Jenis_Pembayaran, ID_Supplier, ID_Pengguna) "
                 + "VALUES (?,?,?,?,?,?,?,?,?)";
         try {
@@ -152,7 +153,7 @@ public class ServicePemesanan {
             pst.setString(9, modelPemesanan.getModelPengguna().getIdpengguna());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Pesanan baru telah ditambahkan");
+            JOptionPane.showMessageDialog(parent, "Pesanan baru telah ditambahkan");
         } catch(Exception ex) {
             ex.printStackTrace();
         }

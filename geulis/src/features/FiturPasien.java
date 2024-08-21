@@ -7,6 +7,7 @@ import action.TableAction;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,9 +17,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelPasien;
-import model.ModelRenderTable;
+import util.ModelRenderTable;
 import service.ServicePasien;
 import swing.TableCellActionRender;
 import swing.TableCellEditor;
@@ -36,9 +37,10 @@ public class FiturPasien extends javax.swing.JPanel {
     private DefaultTableModel tabmodel;
     private TableAction action;
     private ServicePasien servicePasien = new ServicePasien();
-    public FiturPasien() {
+    private JFrame parent;
+    public FiturPasien(JFrame parent) {
         initComponents();
-        
+        this.parent = parent;
         scrollPane.getViewport().setBackground(new Color(255,255,255));
         JPanel panel = new JPanel();
         panel.setBackground(new Color(255,255,255));
@@ -508,7 +510,7 @@ public class FiturPasien extends javax.swing.JPanel {
         modelPasien.setNoTelp(t_no_Telp.getText());
         modelPasien.setEmail(t_email.getText());
         if(btnSimpan.getText().equals("SIMPAN")) {
-            if(servicePasien.validationAddEmaiTelpl(modelPasien)) {
+            if(servicePasien.validationAddEmaiTelpl(parent, modelPasien)) {
                 tambahData();  
                 clearField();
                 changePanel(panelData);
@@ -516,13 +518,11 @@ public class FiturPasien extends javax.swing.JPanel {
                 servicePasien.loadData(tabmodel);
             }
         } else {
-            if(servicePasien.validationAddEmaiTelpl(modelPasien)) {
                 perbaruiData();
                 clearField();
                 changePanel(panelData);
                 tabmodel.setRowCount(0);
                 servicePasien.loadData(tabmodel);
-            }
         }
         }
     }//GEN-LAST:event_btnSimpanActionPerformed
@@ -601,9 +601,8 @@ public class FiturPasien extends javax.swing.JPanel {
         String alamat = t_alamat.getText();
         String email = t_email.getText();
         String level = (String) cbx_level.getSelectedItem();
-        
         ModelPasien modelPasien = new ModelPasien(idPasien, nama, jenisKelamin, no_Telp, alamat, email, level);
-        servicePasien.addData(modelPasien);
+        servicePasien.addData(parent, modelPasien);
     }
     
     private void perbaruiData() {
@@ -615,21 +614,21 @@ public class FiturPasien extends javax.swing.JPanel {
         String email = t_email.getText();
         String level = (String) cbx_level.getSelectedItem();
         ModelPasien modelPasien = new ModelPasien(idPasien, nama, jenisKelamin, no_Telp, alamat, email, level);
-        servicePasien.updateData(modelPasien);
+        servicePasien.updateData(parent, modelPasien);
     }
     
     private void hapusData(int row) {
         String idPasien = (String) table.getValueAt(row, 0);
         ModelPasien modelPasien = new ModelPasien();
         modelPasien.setIdPasien(idPasien);
-        if(servicePasien.validationDelete(modelPasien)) {
+        if(servicePasien.validationDelete(parent, modelPasien)) {
             int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus pasien ini?", 
         "Konfirmasi", JOptionPane.YES_NO_OPTION);
                 if(confirm == JOptionPane.YES_OPTION) {
                 if(table.isEditing()) {
                     table.getCellEditor().stopCellEditing();
                 }
-                servicePasien.deleteData(modelPasien);
+                servicePasien.deleteData(parent, modelPasien);
                 tabmodel.removeRow(row);   
                 }
         }
@@ -676,15 +675,15 @@ public class FiturPasien extends javax.swing.JPanel {
     private boolean validation() {
         boolean valid = false;
         if(t_idPasien.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "ID Pasien tidak boleh kosong");
+            JOptionPane.showMessageDialog(parent, "ID Pasien tidak boleh kosong");
         } else if(t_nama.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nama Pasien tidak boleh kosong");
+            JOptionPane.showMessageDialog(parent, "Nama Pasien tidak boleh kosong");
         } else if(t_no_Telp.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No Telepon tidak boleh kosong");
+            JOptionPane.showMessageDialog(parent, "No Telepon tidak boleh kosong");
         } else if(t_alamat.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Alamat tidak boleh kosong");
+            JOptionPane.showMessageDialog(parent, "Alamat tidak boleh kosong");
         } else if(t_email.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Email tidak boleh kosong");
+            JOptionPane.showMessageDialog(parent, "Email tidak boleh kosong");
         } else {
             valid = true;
         }

@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,10 +34,10 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelDetailPemeriksaan;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelKaryawan;
 import model.ModelPemeriksaan;
-import model.ModelRenderTable;
+import util.ModelRenderTable;
 import model.ModelPasien;
 import model.ModelPengguna;
 import model.ModelReservasi;
@@ -64,8 +65,10 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
     private ServicePemeriksaan servicPemeriksaan = new ServicePemeriksaan();
     private ServiceDetailPemeriksaan serviceDetail = new ServiceDetailPemeriksaan();
     private final DecimalFormat df = new DecimalFormat("#,##0.##");
-    public FiturPemeriksaan(ModelPengguna modelPengguna) {
+    private JFrame parent;
+    public FiturPemeriksaan(JFrame parent, ModelPengguna modelPengguna) {
         initComponents();
+        this.parent = parent;
         this.modelPengguna = modelPengguna;
         styleTable(scrollPane, table, 13);
         tabmodel1 = (DefaultTableModel) table.getModel();
@@ -141,7 +144,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         noPemeriksaan, modelReservasi, tgl, deskripsi, 
         String.valueOf(total()), bayar, kembalian, jenisPembayaran, pasien, 
         karyawan, modelPengguna);
-        servicPemeriksaan.addData(pemeriksaan);
+        servicPemeriksaan.addData(parent, pemeriksaan);
         
 //      Tambah Detail
         List<String> kodeTindakan = new ArrayList<>();
@@ -246,7 +249,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         ModelDetailPemeriksaan modelDetail = new ModelDetailPemeriksaan();
         modelDetail.setModelPemeriksaan(modelPemeriksaan);
 
-        DialogDetail dialog = new DialogDetail(null, true, "Slide-1", modelDetail, 
+        DialogDetail dialog = new DialogDetail(parent, true, "Slide-1", modelDetail, 
                 null, null, null);
         dialog.setVisible(true);
     }

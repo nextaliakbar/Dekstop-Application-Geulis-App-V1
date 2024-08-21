@@ -4,7 +4,7 @@
  */
 package swing;
 
-import model.ModelLegend;
+import util.ModelLegend;
 
 /**
  *

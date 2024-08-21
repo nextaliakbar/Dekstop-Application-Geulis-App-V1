@@ -25,9 +25,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelKaryawan;
-import model.ModelRenderTable;
+import util.ModelRenderTable;
 import model.ModelTindakan;
 import service.Koneksi;
 

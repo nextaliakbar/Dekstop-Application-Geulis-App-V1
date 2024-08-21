@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.border.MatteBorder;
 
@@ -41,8 +42,10 @@ public class FiturCetakKartu extends javax.swing.JPanel {
     /**
      * Creates new form FiturBarang
      */
-    public FiturCetakKartu() {
+    private JFrame parent;
+    public FiturCetakKartu(JFrame parent) {
         initComponents();
+        this.parent = parent;
         style();
         changeType();
         instance("Kartu Karyawan");
@@ -119,7 +122,7 @@ public class FiturCetakKartu extends javax.swing.JPanel {
         Report.getInstance().printCard(dataPrint);
         } catch(Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(parent, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
@@ -157,11 +160,11 @@ public class FiturCetakKartu extends javax.swing.JPanel {
             String index = (String) cbxJenisKartu.getSelectedItem();
             switch(index) {
                 case "Kartu Karyawan": 
-                    JOptionPane.showMessageDialog(null, "Silahkan pilih karyawan");
+                    JOptionPane.showMessageDialog(parent, "Silahkan pilih karyawan");
                 break;
                 
                 case "Kartu Membership":
-                    JOptionPane.showMessageDialog(null, "Silahkan pilih pasien");
+                    JOptionPane.showMessageDialog(parent, "Silahkan pilih pasien");
                 break;
             }
         } else {

@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -32,7 +33,7 @@ import model.ModelDetailPemeriksaan;
 import model.ModelDetailPemesanan;
 import model.ModelDetailPengeluaran;
 import model.ModelDetailPenjualan;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelKaryawan;
 import model.ModelPasien;
 import model.ModelPemeriksaan;
@@ -40,7 +41,7 @@ import model.ModelPemesanan;
 import model.ModelPengeluaran;
 import model.ModelPengguna;
 import model.ModelPenjualan;
-import model.ModelRenderTable;
+import util.ModelRenderTable;
 import model.ModelReservasi;
 import model.ModelSupplier;
 import net.sf.jasperreports.engine.JRException;
@@ -67,9 +68,10 @@ public class FiturLaporan extends javax.swing.JPanel {
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
     private final DecimalFormat df = new DecimalFormat("#,##0.##");
     private ServiceLaporan serviceLaporan = new ServiceLaporan();
-    
-    public FiturLaporan() {
+    private JFrame parent;
+    public FiturLaporan(JFrame parent) {
         initComponents();
+        this.parent = parent;
         initation();
         txtTgl.setText(dateNow.format(formatter));
         styleTable(scrollPemeriksaan, tablePemeriksaan, 14);
@@ -174,7 +176,7 @@ public class FiturLaporan extends javax.swing.JPanel {
         ModelDetailPemeriksaan modelDetail = new ModelDetailPemeriksaan();
         modelDetail.setModelPemeriksaan(modelPemeriksaan);
 
-        DialogDetail dialog = new DialogDetail(null, true, "Slide-1", modelDetail, null, null, null);
+        DialogDetail dialog = new DialogDetail(parent, true, "Slide-1", modelDetail, null, null, null);
         dialog.setVisible(true);
     }
     
@@ -194,7 +196,7 @@ public class FiturLaporan extends javax.swing.JPanel {
         ModelPenjualan modelPenjualan = new ModelPenjualan(noPenjualan, tglPenjualan, totalPenjualan, bayar, kembali, jenisPembayaran, modelPengguna);
         ModelDetailPenjualan modelDetail = new ModelDetailPenjualan();
         modelDetail.setModelPenjualan(modelPenjualan);
-        DialogDetail detail = new DialogDetail(null, true, "Slide-6", null, modelDetail, null, null);
+        DialogDetail detail = new DialogDetail(parent, true, "Slide-6", null, modelDetail, null, null);
         detail.setVisible(true);
     }
     
@@ -220,7 +222,7 @@ public class FiturLaporan extends javax.swing.JPanel {
         modelPemesanan.setModelPengguna(modelPengguna);
         modelDetail.setModelPemesanan(modelPemesanan);
 
-        DialogDetail dialog = new DialogDetail(null, true, "Slide-5", null, null, modelDetail, null);
+        DialogDetail dialog = new DialogDetail(parent, true, "Slide-5", null, null, modelDetail, null);
         dialog.setVisible(true);
     }
     
@@ -237,7 +239,7 @@ public class FiturLaporan extends javax.swing.JPanel {
         pengeluaran.setTotal((String) tablePengeluaran.getValueAt(row, 5));
         pengeluaran.setDeskripsi((String) tablePengeluaran.getValueAt(row, 6));
         detailPengeluaran.setModelPengeluaran(pengeluaran);
-        DialogDetail dialog = new DialogDetail(null, true, "Slide-3", null, null, null,detailPengeluaran);
+        DialogDetail dialog = new DialogDetail(parent, true, "Slide-3", null, null, null,detailPengeluaran);
         dialog.setVisible(true);
     }
     
@@ -933,19 +935,19 @@ public class FiturLaporan extends javax.swing.JPanel {
         if(tabmodel.getRowCount() != 0 || model.getRowCount() != 0) {
             switch (cbxJenisLaporan.getSelectedIndex()) {
                 case 0:
-                    serviceLaporan.printReportPemeriksaan(tablePemeriksaan, txtTgl, lbTotal);
+                    serviceLaporan.printReportPemeriksaan(parent, tablePemeriksaan, txtTgl, lbTotal);
                     break;
                 case 1:
-                    serviceLaporan.printReportPenjualan(tablePenjualan, txtTgl, lbTotal);
+                    serviceLaporan.printReportPenjualan(parent, tablePenjualan, txtTgl, lbTotal);
                     break;
                 case 2:
-                    serviceLaporan.printReportPemesanan(tablePemesanan, txtTgl, lbTotal);
+                    serviceLaporan.printReportPemesanan(parent, tablePemesanan, txtTgl, lbTotal);
                     break;
                 default:
-                    serviceLaporan.printReportPengeluaran(tablePengeluaran, txtTgl, lbTotal);                    
+                    serviceLaporan.printReportPengeluaran(parent, tablePengeluaran, txtTgl, lbTotal);                    
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Tidak Ada Transaksi Di Rentang\n Ini Silahkan Pilih Rentang Lain");
+            JOptionPane.showMessageDialog(parent, "Tidak Ada Transaksi Di Rentang\n Ini Silahkan Pilih Rentang Lain");
         }
     }//GEN-LAST:event_btnPrintActionPerformed
     

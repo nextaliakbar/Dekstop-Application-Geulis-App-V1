@@ -4,6 +4,7 @@ import model.ModelSupplier;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 public class ServiceSupplier {
@@ -35,7 +36,7 @@ public class ServiceSupplier {
     }
                 
                 
-    public void addData(ModelSupplier modelSupplier) {
+    public void addData(JFrame parent, ModelSupplier modelSupplier) {
         String query = "INSERT INTO supplier (ID_Supplier, Nama, No_Telp, Email, Alamat) VALUES (?,?,?,?,?)";
         try {
            PreparedStatement pst = connection.prepareStatement(query);
@@ -46,14 +47,14 @@ public class ServiceSupplier {
            pst.setString(5, modelSupplier.getAlamatSupplier());
            pst.executeUpdate();
            pst.close();
-           JOptionPane.showMessageDialog(null, "Data Supplier Berhasil Ditambahkan");
+           JOptionPane.showMessageDialog(parent, "Data Supplier Berhasil Ditambahkan");
            
         } catch(Exception ex) {
             ex.printStackTrace();
         }
     }
     
-    public void updateData(ModelSupplier modelSupplier){
+    public void updateData(JFrame parent, ModelSupplier modelSupplier){
      String query = "UPDATE supplier SET Nama=?, No_Telp=?, Email=?, Alamat=? WHERE ID_Supplier=?";
      try {
           PreparedStatement pst = connection.prepareStatement(query);
@@ -64,7 +65,7 @@ public class ServiceSupplier {
            pst.setString(5, modelSupplier.getIdSupplier());
            pst.executeUpdate();
            pst.close();
-           JOptionPane.showMessageDialog(null, "Data Supplier Berhasil Diperbarui");
+           JOptionPane.showMessageDialog(parent, "Data Supplier Berhasil Diperbarui");
            
         } catch(Exception ex) {
             ex.printStackTrace();
@@ -72,14 +73,14 @@ public class ServiceSupplier {
      }
     
     
-    public void deleteData(ModelSupplier modelSupplier){
+    public void deleteData(JFrame parent, ModelSupplier modelSupplier){
     String query = "DELETE FROM supplier WHERE ID_Supplier=?";
     try{
         PreparedStatement pst = connection.prepareCall(query);
         pst.setString(1, modelSupplier.getIdSupplier());
         pst.executeUpdate();
         pst.close();
-         JOptionPane.showMessageDialog(null, "Data Supplier Berhasil Di Hapus");
+         JOptionPane.showMessageDialog(parent, "Data Supplier Berhasil Di Hapus");
     } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -106,14 +107,14 @@ public class ServiceSupplier {
         return idSupplier;
     }
     
-    public boolean validationDelete(ModelSupplier modelSupplier) {
+    public boolean validationDelete(JFrame parent, ModelSupplier modelSupplier) {
         boolean valid = false;
         String query = "SELECT ID_Supplier FROM pemesanan WHERE ID_Supplier='"+modelSupplier.getIdSupplier()+"' ";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
             if(rst.next()) {
-                JOptionPane.showMessageDialog(null, "Tidak dapat menghapus supplier ini\n"
+                JOptionPane.showMessageDialog(parent, "Tidak dapat menghapus supplier ini\n"
                + "Toko pernah melakukan transaksi\n"
                + "Pemesanan dengan supplier ini", "Peringatan", JOptionPane.WARNING_MESSAGE);
             } else {

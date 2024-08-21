@@ -24,7 +24,7 @@ public class ServiceDetailPemesanan {
     }
     
     public void loadData(ModelDetailPemesanan modelDetail, DefaultTableModel tabmodel) {
-        String query = "SELECT dtl.Kode_Barang, brg.Nama_Barang, " +
+        String query = "SELECT dtl.Kode_Barang, dtl.Harga_Beli_Final, brg.Nama_Barang, " +
                 "brg.Satuan, brg.Harga_Beli, dtl.Jumlah, dtl.Subtotal FROM detail_pemesanan dtl " +
                 "INNER JOIN barang brg ON dtl.Kode_Barang=brg.Kode_Barang " +
                 "WHERE No_Pemesanan='"+modelDetail.getModelPemesanan().getNoPemesanan()+"'";
@@ -33,12 +33,24 @@ public class ServiceDetailPemesanan {
             ResultSet rst = pst.executeQuery();
             while(rst.next()) {
                 String kodeBarang = rst.getString("Kode_Barang");
+                int hrgBeliFinal = rst.getInt("Harga_Beli_Final");
                 String namaBarang = rst.getString("Nama_Barang");
                 String satuan = rst.getString("Satuan");
                 int hrgBeli = rst.getInt("Harga_Beli");
                 int jumlah = rst.getInt("Jumlah");
                 int subtotal = rst.getInt("Subtotal");
-                tabmodel.addRow(new Object[]{kodeBarang, namaBarang, satuan, df.format(hrgBeli), jumlah, df.format(subtotal)});
+                
+                StringBuilder builder = new StringBuilder();  
+                
+                if(hrgBeliFinal != hrgBeli) {
+                    builder.append(" (Harga Sebelum = ")
+                            .append(df.format(hrgBeliFinal))
+                            .append(")");
+                }
+                
+                String info = builder.toString();
+                
+                tabmodel.addRow(new Object[]{kodeBarang, namaBarang, satuan, df.format(hrgBeli).concat(info), jumlah, df.format(subtotal)});
             }
             rst.close();
             pst.close();
@@ -48,7 +60,7 @@ public class ServiceDetailPemesanan {
     }
     
     public void addData(ModelDetailPemesanan modelDetail, Sementara ps) {
-        String query = "INSERT INTO detail_pemesanan (No_Pemesanan, Kode_Barang, Jumlah, Subtotal) VALUES (?,?,?,?) ";
+        String query = "INSERT INTO detail_pemesanan (No_Pemesanan, Kode_Barang, Harga_Beli_Final, Jumlah, Subtotal) VALUES (?,?,?,?,?) ";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.setString(1, modelDetail.getModelPemesanan().getNoPemesanan());
@@ -57,12 +69,16 @@ public class ServiceDetailPemesanan {
                 pst.setString(2, kodeBrg);
             }
             
-            for(int jumlah : ps.getJumlah()) {
-                pst.setInt(3, jumlah);
+            for(int hargaBeli : ps.getHargaFinal()) {
+                pst.setInt(3, hargaBeli);
             }
             
-            for(double subtotal : ps.getSubtotal()) {
-                pst.setDouble(4, subtotal);
+            for(int jumlah : ps.getJumlah()) {
+                pst.setInt(4, jumlah);
+            }
+            
+            for(int subtotal : ps.getSubtotal()) {
+                pst.setInt(5, subtotal);
             }
             
             pst.executeUpdate();

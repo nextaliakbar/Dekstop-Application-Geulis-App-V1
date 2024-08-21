@@ -8,6 +8,7 @@ import action.TableAction;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,8 +18,8 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import model.ModelHeaderTable;
-import model.ModelRenderTable;
+import util.ModelHeaderTable;
+import util.ModelRenderTable;
 import model.ModelSupplier;
 import service.ServiceSupplier;
 import swing.TableCellActionRender;
@@ -37,9 +38,10 @@ public class FiturSupplier extends javax.swing.JPanel {
     private DefaultTableModel tabmodel;
     private TableAction action;
     private ServiceSupplier serviceSupplier = new ServiceSupplier();
-    public FiturSupplier() {
+    private JFrame parent;
+    public FiturSupplier(JFrame parent) {
         initComponents();
-        
+        this.parent = parent;
         scrollPane.getViewport().setBackground(new Color(255,255,255));
         JPanel panel = new JPanel();
         panel.setBackground(new Color(255,255,255));
@@ -88,7 +90,7 @@ public class FiturSupplier extends javax.swing.JPanel {
     String EmailSupplier = TFEmail.getText();
     String AlamatSupplier = TFAlamat.getText();
     ModelSupplier modelSupplier = new ModelSupplier(IdSupplier, NamaSupplier, TeleponSupplier, EmailSupplier, AlamatSupplier);
-    serviceSupplier.addData(modelSupplier);
+    serviceSupplier.addData(parent, modelSupplier);
     }
     
     private void setComponentUpdate(int row){
@@ -107,7 +109,7 @@ public class FiturSupplier extends javax.swing.JPanel {
         String EmailSupplier = TFEmail.getText();
         String AlamatSupplier = TFAlamat.getText();
         ModelSupplier modelSupplier = new ModelSupplier(IdSupplier, NamaSupplier, TeleponSupplier, EmailSupplier, AlamatSupplier);
-        serviceSupplier.updateData(modelSupplier);
+        serviceSupplier.updateData(parent, modelSupplier);
     }
     
     //hapusData    
@@ -115,14 +117,14 @@ public class FiturSupplier extends javax.swing.JPanel {
         String IdSupplier = (String) table.getValueAt(row, 0);
         ModelSupplier modelSupplier = new ModelSupplier();
         modelSupplier.setIdSupplier(IdSupplier);
-        if(serviceSupplier.validationDelete(modelSupplier)) {
+        if(serviceSupplier.validationDelete(parent, modelSupplier)) {
             int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus pasien ini?", 
         "Konfirmasi", JOptionPane.YES_NO_OPTION);
                 if(confirm == JOptionPane.YES_OPTION) {
                 if(table.isEditing()) {
                     table.getCellEditor().stopCellEditing();
                 }
-                serviceSupplier.deleteData(modelSupplier);
+                serviceSupplier.deleteData(parent, modelSupplier);
                 tabmodel.removeRow(row);   
                 }
         }
@@ -163,15 +165,15 @@ public class FiturSupplier extends javax.swing.JPanel {
         boolean valid = false;
         
         if(TFIdSupplier.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "ID Supplier Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "ID Supplier Tidak Boleh Kosong");
         }else if (TFNama.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nama Supplier Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "Nama Supplier Tidak Boleh Kosong");
         }else if (TFNoTelepon.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "No Telepon Supplier Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "No Telepon Supplier Tidak Boleh Kosong");
         }else if (TFEmail.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Email Supplier Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "Email Supplier Tidak Boleh Kosong");
         }else if (TFAlamat.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Alamat Supplier Tidak Boleh Kosong");   
+            JOptionPane.showMessageDialog(parent, "Alamat Supplier Tidak Boleh Kosong");   
         }else{
             valid = true;
         }

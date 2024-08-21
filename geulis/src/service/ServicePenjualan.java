@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelBarang;
@@ -96,7 +97,7 @@ public class ServicePenjualan {
         }
     }
     
-    public void addData(ModelPenjualan modelPenjualan) {
+    public void addData(JFrame parent, ModelPenjualan modelPenjualan) {
         String query = "INSERT INTO penjualan (No_Penjualan, Tanggal, Total_Penjualan, Bayar, Kembali, Jenis_Pembayaran, ID_Pengguna) "
                 + "VALUES (?,?,?,?,?,?,?)";
         try {
@@ -110,7 +111,7 @@ public class ServicePenjualan {
             pst.setString(7, modelPenjualan.getModelPengguna().getIdpengguna());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Berhasil");
+            JOptionPane.showMessageDialog(parent, "Berhasil");
         } catch(Exception ex) {
             ex.printStackTrace();
         }

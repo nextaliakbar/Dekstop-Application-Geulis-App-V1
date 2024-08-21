@@ -7,6 +7,7 @@ import action.TableAction;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,8 +18,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelTindakan;
-import model.ModelHeaderTable;
-import model.ModelRenderTable;
+import util.ModelHeaderTable;
+import util.ModelRenderTable;
 import service.ServiceTindakan;
 import swing.TableCellActionRender;
 import swing.TableCellEditor;
@@ -36,9 +37,10 @@ public class FiturTindakan extends javax.swing.JPanel {
     private DefaultTableModel tabmodel;
     private TableAction action;
     private ServiceTindakan serviceTindakan = new ServiceTindakan();
-    public FiturTindakan() {
+    private JFrame parent;
+    public FiturTindakan(JFrame parent) {
         initComponents();
-        
+        this.parent = parent;
         scrollPane.getViewport().setBackground(new Color(255,255,255));
         JPanel panel = new JPanel();
         panel.setBackground(new Color(255,255,255));
@@ -486,7 +488,7 @@ public class FiturTindakan extends javax.swing.JPanel {
         int biaya = Integer.parseInt(t_biaya.getText());
         
         ModelTindakan modelTindakan = new ModelTindakan(kodeTindakan, namaTindakan, biaya);
-        serviceTindakan.addData(modelTindakan);
+        serviceTindakan.addData(parent, modelTindakan);
     }
     
     private void perbaruiData() {
@@ -494,21 +496,21 @@ public class FiturTindakan extends javax.swing.JPanel {
         String namaTindakan = t_namaTindakan.getText();
         int biaya = Integer.parseInt(t_biaya.getText());
         ModelTindakan modelTindakan = new ModelTindakan(kodeTindakan, namaTindakan, biaya);
-        serviceTindakan.updateData(modelTindakan);
+        serviceTindakan.updateData(parent, modelTindakan);
     }
     
     private void hapusData(int row) {
         String kodeTindakan = (String) table.getValueAt(row, 0);
         ModelTindakan modelTindakan = new ModelTindakan();
         modelTindakan.setKodeTindakan(kodeTindakan);
-        if(serviceTindakan.validationDelete(modelTindakan)) {
-        int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus tindakan ini?", 
+        if(serviceTindakan.validationDelete(parent, modelTindakan)) {
+        int confirm = JOptionPane.showConfirmDialog(parent, "Yakin ingin menghapus tindakan ini?", 
         "Konfirmasi", JOptionPane.YES_NO_OPTION);
             if(confirm == JOptionPane.YES_OPTION) {
             if(table.isEditing()) {
                 table.getCellEditor().stopCellEditing();
             }
-            serviceTindakan.deletaData(modelTindakan);
+            serviceTindakan.deletaData(parent, modelTindakan);
             tabmodel.removeRow(row);   
             }
         }
@@ -546,11 +548,11 @@ public class FiturTindakan extends javax.swing.JPanel {
     private boolean validation() {
         boolean valid = false;
         if(t_kodeTindakan.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Kode Tindakan tidak boleh kosong");
+            JOptionPane.showMessageDialog(parent, "Kode Tindakan tidak boleh kosong");
         } else if(t_namaTindakan.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nama Tindakan tidak boleh kosong");
+            JOptionPane.showMessageDialog(parent, "Nama Tindakan tidak boleh kosong");
         } else if(t_biaya.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Biaya tidak boleh kosong");
+            JOptionPane.showMessageDialog(parent, "Biaya tidak boleh kosong");
         } else {
             valid = true;
         }

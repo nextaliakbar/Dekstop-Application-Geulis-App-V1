@@ -26,8 +26,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelBarang;
-import model.ModelHeaderTable;
-import model.ModelRenderTable;
+import util.ModelHeaderTable;
+import util.ModelRenderTable;
 import model.ModelSupplier;
 import service.Koneksi;
 

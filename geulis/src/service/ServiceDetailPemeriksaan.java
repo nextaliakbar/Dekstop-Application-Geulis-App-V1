@@ -34,7 +34,7 @@ public class ServiceDetailPemeriksaan {
                 String nama = rst.getString("Nama_Tindakan");
                 int hargaFinal = rst.getInt("Biaya_Tindakan_Final");
                 int harga = rst.getInt("Biaya_Tindakan");
-                StringBuilder stringBuilder = new StringBuilder();
+                StringBuilder stringBuilder = new StringBuilder();  
                 
                 if(hargaFinal != harga) {
                     stringBuilder.append("  ( Harga Sebelum = ")

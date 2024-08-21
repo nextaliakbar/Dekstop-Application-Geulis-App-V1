@@ -23,7 +23,7 @@ public class ServiceDetailPenjualan {
     }
     
     public void loadData(ModelDetailPenjualan modelDetail, DefaultTableModel tabmodel) {
-        String query = "SELECT dtl.Kode_Barang, brg.Nama_Barang, brg.Satuan, brg.Harga_Jual, "
+        String query = "SELECT dtl.Kode_Barang, dtl.Harga_Jual_Final, brg.Nama_Barang, brg.Satuan, brg.Harga_Jual, "
                 + "dtl.Jumlah, dtl.Subtotal FROM detail_penjualan dtl JOIN barang brg "
                 + "ON dtl.Kode_Barang=brg.Kode_Barang WHERE No_Penjualan='"+modelDetail.getModelPenjualan().getNoPenjualan()+"' ";
         try {
@@ -33,10 +33,19 @@ public class ServiceDetailPenjualan {
                 String kodeBrg = rst.getString("Kode_Barang");
                 String namaBrg = rst.getString("Nama_Barang");
                 String satuan = rst.getString("Satuan");
+                int hrgJualFinal = rst.getInt("Harga_Jual_Final");
                 int hrgJual = rst.getInt("Harga_Jual");
                 int jumlah = rst.getInt("Jumlah");
                 int subtotal = rst.getInt("Subtotal");
-                tabmodel.addRow(new Object[]{kodeBrg, namaBrg, satuan, df.format(hrgJual), jumlah, df.format(subtotal)});
+                
+                StringBuilder builder = new StringBuilder();
+                if(hrgJualFinal != hrgJual) {
+                    builder.append(" (Harga Sebelum = ")
+                            .append(hrgJualFinal)
+                            .append(")");
+                }
+                
+                tabmodel.addRow(new Object[]{kodeBrg, namaBrg, satuan, df.format(hrgJual).concat(builder.toString()), jumlah, df.format(subtotal)});
             }
             rst.close();
             pst.close();
@@ -46,7 +55,7 @@ public class ServiceDetailPenjualan {
     }
     
     public void addData(ModelDetailPenjualan modelDetail, Sementara ps) {
-        String query = "INSERT INTO detail_penjualan (No_Penjualan, Kode_Barang, Jumlah, Subtotal) VALUES (?,?,?,?) ";
+        String query = "INSERT INTO detail_penjualan (No_Penjualan, Kode_Barang, Harga_Jual_Final, Jumlah, Subtotal) VALUES (?,?,?,?,?) ";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.setString(1, modelDetail.getModelPenjualan().getNoPenjualan());
@@ -55,12 +64,17 @@ public class ServiceDetailPenjualan {
                 pst.setString(2, kodeBrg);
             }
             
-            for(int jumlah : ps.getJumlah()) {
-                pst.setInt(3, jumlah);
+            for(int hargaJual : ps.getHargaFinal()) {
+                pst.setInt(3, hargaJual);
             }
             
-            for(double subtotal : ps.getSubtotal()) {
-                pst.setDouble(4, subtotal);
+            
+            for(int jumlah : ps.getJumlah()) {
+                pst.setInt(4, jumlah);
+            }
+            
+            for(int subtotal : ps.getSubtotal()) {
+                pst.setInt(5, subtotal);
             }
             
             pst.executeUpdate();

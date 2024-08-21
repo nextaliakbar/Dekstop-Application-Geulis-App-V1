@@ -10,13 +10,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.time.Duration;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import main.Main;
-import model.ModelMessage;
+import util.ModelMessage;
 import model.ModelPengguna;
 /**
  *
@@ -29,15 +30,15 @@ public class ServiceLogin {
     }
     
 //    Login
-    public void login(ModelPengguna modelPengguna, PanelLoading panelLoading, JFrame frameLogin) {
-        String query = "SELECT * FROM pengguna WHERE (Username='"+modelPengguna.getUsername()+"' OR Email='"+modelPengguna.getEmail()+"') "
-                + "AND Password='"+modelPengguna.getPassword()+"'";
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    panelLoading.setVisible(true);
+    public void login(JFrame parent, ModelPengguna modelPengguna, PanelLoading panelLoading, JFrame frameLogin) {
+        String query = "SELECT * FROM pengguna WHERE (Username=? OR Email=?) AND Password=?";
+            new Thread(()-> {
+                panelLoading.setVisible(true);
                     try {
                         PreparedStatement pst = connection.prepareStatement(query);
+                        pst.setString(1, modelPengguna.getUsername());
+                        pst.setString(2, modelPengguna.getEmail());
+                        pst.setString(3, modelPengguna.getPassword());
                         ResultSet rst = pst.executeQuery();
                         if(rst.next()) {
                             String idPenguna = rst.getString("ID_Pengguna");
@@ -55,18 +56,23 @@ public class ServiceLogin {
                                 frameLogin.dispose();   
                             } else {
                                 panelLoading.setVisible(false);
-                                JOptionPane.showMessageDialog(null, "Pengguna ini sudah tidak aktif");
+                                JOptionPane.showMessageDialog(parent, "Pengguna ini sudah tidak aktif");
                             }
                         } else {
-                            panelLoading.setVisible(false);
-                            JOptionPane.showMessageDialog(null, "Username atau Email\ndan Password Salah");
+                            try {
+                                panelLoading.setVisible(true);
+                                Thread.sleep(Duration.ofSeconds(2));
+                                panelLoading.setVisible(false);
+                                JOptionPane.showMessageDialog(parent, "Username atau Email\ndan Password Salah");
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(ServiceLogin.class.getName()).log(Level.SEVERE, null, ex);
+                            }
                         }
                         rst.close();
                         pst.close();
                     } catch (SQLException ex) {
                         Logger.getLogger(ServiceLogin.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
             }).start();
         
     }
@@ -95,7 +101,7 @@ public class ServiceLogin {
     }
     
 //    Forgot Password
-    public boolean checkEmail(ModelPengguna modelPengguna) {
+    public boolean checkEmail(JFrame parent, ModelPengguna modelPengguna) {
         boolean check = false;
         String query = "SELECT Email FROM pengguna WHERE Email='"+modelPengguna.getEmail()+"'";
         try {
@@ -104,7 +110,7 @@ public class ServiceLogin {
             if(rst.next()) {
                 check = true;
             } else {
-                JOptionPane.showMessageDialog(null, "Email tidak tedaftar");
+                JOptionPane.showMessageDialog(parent, "Email tidak tedaftar");
             }
             rst.close();
             pst.close();
@@ -115,7 +121,7 @@ public class ServiceLogin {
         return check;
     }
     
-    public boolean cekVerifyCode(ModelPengguna modelPengguna) {
+    public boolean cekVerifyCode(JFrame parent, ModelPengguna modelPengguna) {
         boolean check = false;
         String query = "SELECT Kode_Verifikasi FROM pengguna WHERE Email='"+modelPengguna.getEmail()+"' AND "
                 + "Kode_Verifikasi='"+modelPengguna.getKode_verifikasi()+"'";
@@ -125,7 +131,7 @@ public class ServiceLogin {
             if(rst.next()) {
                 check = true;
             } else {
-                JOptionPane.showMessageDialog(null, "Kode Verifikasi Salah");
+                JOptionPane.showMessageDialog(parent, "Kode Verifikasi Salah");
             }
             rst.close();
             pst.close();
@@ -135,14 +141,14 @@ public class ServiceLogin {
         return check;
     }
     
-    public void doneVerify(ModelPengguna modelPengguna) {
+    public void doneVerify(JFrame parent, ModelPengguna modelPengguna) {
         String query = "UPDATE pengguna SET Password='"+modelPengguna.getPassword()+"', Kode_Verifikasi='' "
                 + "WHERE Email='"+modelPengguna.getEmail()+"' ";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Password berhasil diubah");
+            JOptionPane.showMessageDialog(parent, "Password berhasil diubah");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -159,7 +165,7 @@ public class ServiceLogin {
         }
     }
     
-    public void getVerifyEmail(ModelPengguna modelPengguna, PanelVerifyCode verifyCode, PanelLoading panelLoading) {
+    public void getVerifyEmail(JFrame parent, ModelPengguna modelPengguna, PanelVerifyCode verifyCode, PanelLoading panelLoading) {
         String query = "UPDATE pengguna SET Kode_Verifikasi=? WHERE Email=?";
         try {
             modelPengguna.setKode_verifikasi(generateVerifyCode());
@@ -170,7 +176,7 @@ public class ServiceLogin {
                 pst.executeUpdate();
                 sendEmail(modelPengguna, verifyCode, panelLoading);
             } else {
-                JOptionPane.showMessageDialog(null, "Konfirmasi Password Salah");
+                JOptionPane.showMessageDialog(parent, "Konfirmasi Password Salah");
             }
             pst.close();
         } catch(Exception ex) {
@@ -179,17 +185,14 @@ public class ServiceLogin {
     }
     
     private void sendEmail(ModelPengguna modelPengguna, PanelVerifyCode verifyCode, PanelLoading panelLoading) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                panelLoading.setVisible(true);
-                ModelMessage modelMessage = new ServiceMail().sendMail(modelPengguna.getEmail(), modelPengguna.getKode_verifikasi());
-                if(modelMessage.isSucces()) {
-                    panelLoading.setVisible(false);
-                    verifyCode.setVisible(true);
-                } else{
-                    panelLoading.setVisible(false);
-                }
+        new Thread(()-> {
+            panelLoading.setVisible(true);
+            ModelMessage modelMessage = new ServiceMail().sendMail(modelPengguna.getEmail(), modelPengguna.getKode_verifikasi());
+            if(modelMessage.isSucces()) {
+                panelLoading.setVisible(false);
+                verifyCode.setVisible(true);
+            } else{
+                panelLoading.setVisible(false);
             }
         }).start();
     }

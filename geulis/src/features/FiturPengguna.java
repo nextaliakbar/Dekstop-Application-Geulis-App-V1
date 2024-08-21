@@ -8,6 +8,7 @@ import action.TableAction;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,9 +18,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelPengguna;
-import model.ModelRenderTable;
+import util.ModelRenderTable;
 import service.ServicePengguna;
 import swing.TableCellActionRender;
 import swing.TableCellEditor;
@@ -36,10 +37,11 @@ public class FiturPengguna extends javax.swing.JPanel {
     private TableRowSorter<DefaultTableModel> rowSorter;
     private DefaultTableModel tabmodel;
     private TableAction action;
-    private ServicePengguna servicePengguna = new ServicePengguna(); 
-    public FiturPengguna() {
+    private ServicePengguna servicePengguna = new ServicePengguna();
+    private JFrame parent;
+    public FiturPengguna(JFrame parent) {
         initComponents();
-        
+        this.parent = parent;
         scrollPane.getViewport().setBackground(new Color(255,255,255));
         JPanel panel = new JPanel();
         panel.setBackground(new Color(255,255,255));
@@ -92,7 +94,7 @@ public class FiturPengguna extends javax.swing.JPanel {
         String StatusPengguna = (String) cbxStatusPengguna.getSelectedItem();
         ModelPengguna modelPengguna = new ModelPengguna(IdPengguna, NamaPengguna, UsernamePengguna, 
         PasswordPengguna, EmailPengguna, LevelPengguna, StatusPengguna);
-        servicePengguna.addData(modelPengguna);
+        servicePengguna.addData(parent, modelPengguna);
     }
      
     private void setComponentUpdate(int row){
@@ -116,7 +118,7 @@ public class FiturPengguna extends javax.swing.JPanel {
         String StatusPengguna = (String) cbxStatusPengguna.getSelectedItem();
         ModelPengguna modelPengguna =new ModelPengguna(IdPengguna, NamaPengguna, UsernamePengguna, 
         PasswordPengguna, EmailPengguna, LevelPengguna, StatusPengguna);
-        servicePengguna.updateData(modelPengguna);
+        servicePengguna.updateData(parent, modelPengguna);
       } 
     
       
@@ -124,14 +126,14 @@ public class FiturPengguna extends javax.swing.JPanel {
           String IdPengguna = (String) table.getValueAt(row, 0);
           ModelPengguna modelPengguna = new ModelPengguna ();
           modelPengguna.setIdpengguna(IdPengguna);
-          if(servicePengguna.validationDelete(modelPengguna)) {
-            int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus pengguna ini?", 
+          if(servicePengguna.validationDelete(parent, modelPengguna)) {
+            int confirm = JOptionPane.showConfirmDialog(parent, "Yakin ingin menghapus pengguna ini?", 
         "Konfirmasi", JOptionPane.YES_NO_OPTION);
                 if(confirm == JOptionPane.YES_OPTION) {
                 if(table.isEditing()) {
                     table.getCellEditor().stopCellEditing();
                 }
-                servicePengguna.deleteData(modelPengguna);
+                servicePengguna.deleteData(parent, modelPengguna);
                 tabmodel.removeRow(row);   
                 }
         }    
@@ -140,15 +142,15 @@ public class FiturPengguna extends javax.swing.JPanel {
       private boolean validationAddData(){
         boolean valid = false;
         if(TFIdPengguna.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "ID Pengguna Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "ID Pengguna Tidak Boleh Kosong");
         }else if (TFNamaPengguna.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nama Pengguna Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "Nama Pengguna Tidak Boleh Kosong");
         }else if (TFUsernamePengguna.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Username Pengguna Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "Username Pengguna Tidak Boleh Kosong");
         }else if (TFPasswordPengguna.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Password Pengguna Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "Password Pengguna Tidak Boleh Kosong");
         }else if (TFEmailPengguna.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Email Pengguna Tidak Boleh Kosong");   
+            JOptionPane.showMessageDialog(parent, "Email Pengguna Tidak Boleh Kosong");   
         }else{
             valid = true;
         }
@@ -159,13 +161,13 @@ public class FiturPengguna extends javax.swing.JPanel {
       private boolean validationUpdateData(){
         boolean valid = false;
         if(TFIdPengguna.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "ID Pengguna Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "ID Pengguna Tidak Boleh Kosong");
         }else if (TFNamaPengguna.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nama Pengguna Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "Nama Pengguna Tidak Boleh Kosong");
         }else if (TFUsernamePengguna.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Username Pengguna Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "Username Pengguna Tidak Boleh Kosong");
         }else if (TFEmailPengguna.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Email Pengguna Tidak Boleh Kosong");   
+            JOptionPane.showMessageDialog(parent, "Email Pengguna Tidak Boleh Kosong");   
         }else{
             valid = true;
         }
@@ -618,17 +620,15 @@ public class FiturPengguna extends javax.swing.JPanel {
         modelPengguna.setEmail(TFEmailPengguna.getText());
         if(btnSimpan.getText().equals("SIMPAN")) {
             if(validationAddData()) {
-                if(servicePengguna.validationAddEmail(modelPengguna)) {
+                if(servicePengguna.validationAddEmail(parent, modelPengguna)) {
                     tambahData();          
                     changePanel(panelData);    
                 }
             }   
         } else {
             if(validationUpdateData()) {
-                if(servicePengguna.validationAddEmail(modelPengguna)) {
                 perbaruiData();
                 changePanel(panelData);                     
-                }
             }
         }
         tabmodel.setRowCount(0);

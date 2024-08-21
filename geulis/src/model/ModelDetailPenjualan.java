@@ -10,7 +10,7 @@ package model;
  */
 public class ModelDetailPenjualan {
 
-    public ModelDetailPenjualan(ModelPenjualan modelPenjualan, ModelBarang modelBarang, int jumlah, double subtotal) {
+    public ModelDetailPenjualan(ModelPenjualan modelPenjualan, ModelBarang modelBarang, int jumlah, int subtotal) {
         this.modelPenjualan = modelPenjualan;
         this.modelBarang = modelBarang;
         this.jumlah = jumlah;
@@ -24,7 +24,7 @@ public class ModelDetailPenjualan {
     private ModelPenjualan modelPenjualan;
     private ModelBarang modelBarang;
     private int jumlah;
-    private double subtotal;
+    private int subtotal;
 
     public ModelPenjualan getModelPenjualan() {
         return modelPenjualan;
@@ -50,11 +50,11 @@ public class ModelDetailPenjualan {
         this.jumlah = jumlah;
     }
 
-    public double getSubtotal() {
+    public int getSubtotal() {
         return subtotal;
     }
 
-    public void setSubtotal(double subtotal) {
+    public void setSubtotal(int subtotal) {
         this.subtotal = subtotal;
     }
     

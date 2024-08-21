@@ -20,14 +20,15 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelPasien;
-import model.ModelRenderTable;
+import util.ModelRenderTable;
 import service.Koneksi;
 import service.ServicePasien;
 import service.ServiceReservasi;
@@ -47,9 +48,11 @@ public class Dialog extends java.awt.Dialog {
     private ServicePasien servicePasien = new ServicePasien();
     private ServiceReservasi serviceReservasi = new ServiceReservasi();
     private DefaultTableModel model;
+    private JFrame parent;
     public Dialog(java.awt.Frame parent, boolean modal, String slide, DefaultTableModel model) {
         super(parent, modal);
         initComponents();
+        this.parent = (JFrame) parent;
         setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         connection = Koneksi.getConnection();
         changePanel(slide);
@@ -108,7 +111,7 @@ public class Dialog extends java.awt.Dialog {
         String level = "Umum";
         
         ModelPasien modelPasien = new ModelPasien(idPasien, nama, jenisKelamin, no_Telp, alamat, email, level);
-        servicePasien.addData(modelPasien);
+        if(servicePasien.validationAddEmaiTelpl(parent, modelPasien)) servicePasien.addData(parent, modelPasien);
     }
     
     private void selectDate() {
@@ -154,11 +157,11 @@ public class Dialog extends java.awt.Dialog {
     private boolean validation() {
         boolean valid = false;
         if(t_nama.getText().length() == 0) {
-            JOptionPane.showMessageDialog(null, "Nama Pasien tidak boleh kosong");
+            JOptionPane.showMessageDialog(parent, "Nama Pasien tidak boleh kosong");
         } else if(t_no_Telp.getText().length() == 0) {
-            JOptionPane.showMessageDialog(null, "No Telepon tidak boleh kosong");
+            JOptionPane.showMessageDialog(parent, "No Telepon tidak boleh kosong");
         } else if(t_alamat.getText().length() == 0) {
-            JOptionPane.showMessageDialog(null, "Alamat tidak boleh kosong");
+            JOptionPane.showMessageDialog(parent, "Alamat tidak boleh kosong");
         } else {
             valid = true;
         }
@@ -511,7 +514,7 @@ public class Dialog extends java.awt.Dialog {
             ModelPasien modelPasien = new ModelPasien();
             modelPasien.setNoTelp(t_no_Telp.getText());
             modelPasien.setEmail(t_email.getText());
-            if(servicePasien.validationAddEmaiTelpl(modelPasien)) {
+            if(servicePasien.validationAddEmaiTelpl(parent, modelPasien)) {
                 tambahData();
                 dispose();
                 model.setRowCount(0);

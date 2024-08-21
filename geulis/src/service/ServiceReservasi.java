@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelPasien;
@@ -140,7 +141,7 @@ public class ServiceReservasi {
         }
     }
     
-    public void addData(ModelReservasi modelReservasi) {
+    public void addData(JFrame parent, ModelReservasi modelReservasi) {
         String query = "INSERT INTO reservasi (No_Reservasi, Tanggal_Reservasi, Tanggal_Kedatangan, Jam_Kedatangan, Status_Reservasi, ID_Pasien, ID_Pengguna) VALUES (?,?,?,?,?,?,?)";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
@@ -153,20 +154,20 @@ public class ServiceReservasi {
             pst.setString(7, modelReservasi.getModelPengguna().getIdpengguna());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Reservasi baru berhasil ditambahkan");
+            JOptionPane.showMessageDialog(parent, "Reservasi baru berhasil ditambahkan");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
     }
     
-    public void updateStatus(ModelReservasi modelReservasi) {
+    public void updateStatus(JFrame parent, ModelReservasi modelReservasi) {
         String query = "UPDATE reservasi SET Status_Reservasi='Batal' WHERE No_Reservasi=?";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.setString(1, modelReservasi.getNoReservasi());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Reservasi berhasil dibatalkan");
+            JOptionPane.showMessageDialog(parent, "Reservasi berhasil dibatalkan");
         } catch(Exception ex) {
             ex.printStackTrace();
         }

@@ -13,8 +13,8 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import model.ModelDefaultPaginationItemRender;
-import model.ModelPage;
+import util.ModelDefaultPaginationItemRender;
+import util.ModelPage;
 
 /**
  *

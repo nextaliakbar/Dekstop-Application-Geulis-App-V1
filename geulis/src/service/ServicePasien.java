@@ -7,6 +7,7 @@ import java.sql.Connection;
 import model.ModelPasien;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -45,7 +46,7 @@ public class ServicePasien {
         }
     }
     
-    public void addData(ModelPasien modelPasien) {
+    public void addData(JFrame parent, ModelPasien modelPasien) {
         String query = "INSERT INTO pasien (Id_Pasien, Nama, Jenis_Kelamin, No_Telp, Alamat, Email, Level) VALUES (?,?,?,?,?,?,?)";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
@@ -58,13 +59,13 @@ public class ServicePasien {
             pst.setString(7, modelPasien.getLevel());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Data Pasien berhasil ditambahkan");
+            JOptionPane.showMessageDialog(parent, "Data Pasien berhasil ditambahkan");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
     }
     
-    public void updateData(ModelPasien modelPasien) {
+    public void updateData(JFrame parent, ModelPasien modelPasien) {
         String query = "UPDATE pasien SET Nama=?, Jenis_Kelamin=?, No_Telp=?, Alamat=?, Email=?, Level=? WHERE Id_Pasien=?";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
@@ -77,20 +78,20 @@ public class ServicePasien {
             pst.setString(7, modelPasien.getIdPasien());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Data Pasien berhasil diperbarui");
+            JOptionPane.showMessageDialog(parent, "Data Pasien berhasil diperbarui");
         } catch(Exception ex) {
             ex.printStackTrace();
         }
     }
     
-    public void deleteData(ModelPasien modelPasien) {
+    public void deleteData(JFrame parent, ModelPasien modelPasien) {
         String query = "DELETE FROM pasien WHERE Id_Pasien=?";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.setString(1, modelPasien.getIdPasien());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Data Pasien berhasil dihapus");
+            JOptionPane.showMessageDialog(parent, "Data Pasien berhasil dihapus");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -117,7 +118,7 @@ public class ServicePasien {
         return idPasien;
     }
     
-    public boolean validationDelete(ModelPasien modelPasien) {
+    public boolean validationDelete(JFrame parent, ModelPasien modelPasien) {
         boolean valid = false;
         String query1 = "SELECT ID_Pasien FROM reservasi WHERE ID_Pasien='"+modelPasien.getIdPasien()+"' ";
         String query2 = "SELECT ID_Pasien FROM pemeriksaan WHERE ID_Pasien='"+modelPasien.getIdPasien()+"' ";
@@ -127,7 +128,7 @@ public class ServicePasien {
             PreparedStatement pst2 = connection.prepareStatement(query2);
             ResultSet rst2 = pst2.executeQuery();
             if(rst1.next() || rst2.next()) {
-                JOptionPane.showMessageDialog(null, "Tidak dapat menghapus pasien ini\n"
+                JOptionPane.showMessageDialog(parent, "Tidak dapat menghapus pasien ini\n"
                + "Pasien ini pernah melakukan transaksi", "Peringatan", JOptionPane.WARNING_MESSAGE);
             } else {
                 valid = true;
@@ -142,7 +143,7 @@ public class ServicePasien {
         return valid;
     }
     
-    public boolean validationAddEmaiTelpl(ModelPasien modelPasien) {
+    public boolean validationAddEmaiTelpl(JFrame parent, ModelPasien modelPasien) {
         boolean valid = true;
         String query = "SELECT No_Telp, Email FROM pasien";
         try {
@@ -150,11 +151,11 @@ public class ServicePasien {
             ResultSet rst = pst.executeQuery();
             while(rst.next()) {
                 if(modelPasien.getNoTelp().equals(rst.getString("No_Telp"))) {
-                    JOptionPane.showMessageDialog(null, "No Telepon Telah Terdaftar");
+                    JOptionPane.showMessageDialog(parent, "No Telepon Telah Terdaftar");
                     valid = false;
                     break;
                 } else if(modelPasien.getEmail().equalsIgnoreCase(rst.getString("Email"))) {
-                    JOptionPane.showMessageDialog(null, "Email Telah Terdaftar");
+                    JOptionPane.showMessageDialog(parent, "Email Telah Terdaftar");
                     valid = false;
                     break;
                 }

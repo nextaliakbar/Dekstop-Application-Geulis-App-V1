@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelBarang;
@@ -60,7 +61,7 @@ public class ServiceRestok {
                 String namaBarang = rst.getString("Nama_Barang");
                 int hargaBeli = rst.getInt("Harga_Beli");
                 int jumlah = rst.getInt("Jumlah");
-                double subtotal = rst.getDouble("SubTotal");
+                int subtotal = rst.getInt("SubTotal");
                 tabmodel.addRow(new Object[]{kodeBarang, namaBarang, hargaBeli, jumlah, subtotal});
             }
             rst.close();
@@ -70,7 +71,7 @@ public class ServiceRestok {
         }
     }
     
-    public void addData(ModelRestok modelRestok) {
+    public void addData(JFrame parent, ModelRestok modelRestok) {
         String query = "INSERT INTO restok (No_Restok, Tanggal, Total_Biaya, Status_Restok, ID_Pengguna) VALUES(?,?,?,?,?)";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
@@ -81,7 +82,7 @@ public class ServiceRestok {
             pst.setString(5, modelRestok.getModelPengguna().getIdpengguna());
             pst.executeUpdate();
             pst.close();
-            JOptionPane.showMessageDialog(null, "Berhasil Menambah Stok Baru");
+            JOptionPane.showMessageDialog(parent, "Berhasil Menambah Stok Baru");
         } catch(Exception ex) {
             ex.printStackTrace();
         }

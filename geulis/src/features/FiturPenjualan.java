@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -31,10 +32,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelBarang;
 import model.ModelDetailPenjualan;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelPengguna;
 import model.ModelPenjualan;
-import model.ModelRenderTable;
+import util.ModelRenderTable;
 import model.Sementara;
 import net.sf.jasperreports.engine.JRException;
 import service.ServiceDetailPenjualan;
@@ -59,8 +60,10 @@ public class FiturPenjualan extends javax.swing.JPanel {
     private ServicePenjualan servicePenjualan = new ServicePenjualan();
     private ServiceDetailPenjualan serviceDetail = new ServiceDetailPenjualan();
     private final DecimalFormat df = new DecimalFormat("#,##0.##");
-    public FiturPenjualan(ModelPengguna modelPengguna) {
+    private JFrame parent;
+    public FiturPenjualan(JFrame parent, ModelPengguna modelPengguna) {
         initComponents();
+        this.parent = parent;
         this.modelPengguna = modelPengguna;
         styleTable(scrollPane, table, 8);
         tabmodel1 = (DefaultTableModel) table.getModel();
@@ -238,7 +241,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
         ModelPenjualan modelPenjualan = new ModelPenjualan(noPenjualan, tglPenjualan, totalPenjualan, bayar, kembali, jenisPembayaran, modelPengguna);
         ModelDetailPenjualan modelDetail = new ModelDetailPenjualan();
         modelDetail.setModelPenjualan(modelPenjualan);
-        DialogDetail detail = new DialogDetail(null, true, "Slide-6", null, modelDetail, null, null);
+        DialogDetail detail = new DialogDetail(parent, true, "Slide-6", null, modelDetail, null, null);
         detail.setVisible(true);
     }
     
@@ -260,18 +263,20 @@ public class FiturPenjualan extends javax.swing.JPanel {
             ex.printStackTrace();
         }
         ModelPenjualan modelPenjualan = new ModelPenjualan(noPenjualan, tglPenjualan, totalPenjualan, bayar, kembalian, jenisPembayaran, modelPengguna);
-        servicePenjualan.addData(modelPenjualan);
+        servicePenjualan.addData(parent, modelPenjualan);
         
 //        Tambah Detail Penjualan
         List<String> kodeBrg = new ArrayList<>();
+        List<Integer> hargaFinal = new ArrayList<>();
         List<Integer> jumlah = new ArrayList<>();
-        List<Double> subtotal = new ArrayList<>();      
+        List<Integer> subtotal = new ArrayList<>();      
         detail.setModelPenjualan(modelPenjualan);
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
             kodeBrg.add((String) tableDetail.getValueAt(a, 1));
+            hargaFinal.add((Integer) tableDetail.getValueAt(a, 4));
             jumlah.add((Integer)tableDetail.getValueAt(a, 5));
-            subtotal.add((Double)tableDetail.getValueAt(a, 6));
-            Sementara ps = new Sementara(kodeBrg, jumlah, subtotal);
+            subtotal.add((Integer)tableDetail.getValueAt(a, 6));
+            Sementara ps = new Sementara(kodeBrg, hargaFinal, jumlah, subtotal);
             serviceDetail.addData(detail, ps);
         }
     }
@@ -281,21 +286,21 @@ public class FiturPenjualan extends javax.swing.JPanel {
         String kodeBrg = lbKodeBrg.getText();
         String namaBrg = lbNamaBrg.getText();
         String satuan = lbSatuan.getText();
-        int hrgJual = Integer.parseInt(lbHrgJual.getText());
+        int hrgJual = Integer.valueOf(lbHrgJual.getText());
         modelBarang.setKode_Barang(kodeBrg);
         modelBarang.setNama_Barang(namaBrg);
         modelBarang.setSatuan(satuan);
         modelBarang.setHarga_Jual(hrgJual);
         int jumlah = (int) spnJumlah.getValue();
-        double subtotal = Double.parseDouble(lbSubtotal.getText());
+        int subtotal = Integer.valueOf(lbSubtotal.getText());
         tabmodel2.addRow(new ModelDetailPenjualan(null, modelBarang, jumlah, subtotal).toRowTable());
         lbTotal.setText(df.format(total()));
     }
     
-    private double total() {
-        double total = 0;
+    private int total() {
+        int total = 0;
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
-            double subtotal = (double) tableDetail.getValueAt(a, 6);
+            int subtotal = (int) tableDetail.getValueAt(a, 6);
             total += subtotal;
         }
         return total;
@@ -1175,8 +1180,8 @@ public class FiturPenjualan extends javax.swing.JPanel {
         lbStok.setText(String.valueOf(pilihBrg.modelBarang.getStok()));
         spnJumlah.setValue((int) 1);
         int jumlah = (int) spnJumlah.getValue();
-        double hargaJual = Double.parseDouble(lbHrgJual.getText());
-        double subtotal = hargaJual * jumlah;
+        int hargaJual = Integer.valueOf(lbHrgJual.getText());
+        int subtotal = hargaJual * jumlah;
         lbNoBarcode.setFont(new Font("sansserif", 0, 20));
         lbNoBarcode.setForeground(new Color(0, 0, 0));
         lbSubtotal.setText(String.valueOf(subtotal));

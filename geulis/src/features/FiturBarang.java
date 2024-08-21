@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -18,9 +19,10 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelBarang;
-import model.ModelHeaderTable;
-import model.ModelRenderTable;
+import util.ModelHeaderTable;
+import util.ModelRenderTable;
 import model.ModelJenisBarang;
+import model.ModelNotifikasi;
 import service.ServiceBarang;
 import swing.TableCellActionRender;
 import swing.TableCellEditor;
@@ -38,9 +40,10 @@ public class FiturBarang extends javax.swing.JPanel {
     private DefaultTableModel tabmodel;
     private TableAction action;
     private ServiceBarang serviceBarang = new ServiceBarang();
-    public FiturBarang() {
+    private JFrame parent;
+    public FiturBarang(JFrame parent) {
         initComponents();
-        
+        this.parent = parent;
         scrollPane.getViewport().setBackground(new Color(255,255,255));
         JPanel panel = new JPanel();
         panel.setBackground(new Color(255,255,255));
@@ -201,9 +204,12 @@ public class FiturBarang extends javax.swing.JPanel {
             table.getColumnModel().getColumn(3).setMinWidth(125);
             table.getColumnModel().getColumn(3).setPreferredWidth(125);
             table.getColumnModel().getColumn(3).setMaxWidth(125);
-            table.getColumnModel().getColumn(5).setMinWidth(125);
-            table.getColumnModel().getColumn(5).setPreferredWidth(125);
-            table.getColumnModel().getColumn(5).setMaxWidth(125);
+            table.getColumnModel().getColumn(4).setMinWidth(300);
+            table.getColumnModel().getColumn(4).setPreferredWidth(300);
+            table.getColumnModel().getColumn(4).setMaxWidth(300);
+            table.getColumnModel().getColumn(5).setMinWidth(100);
+            table.getColumnModel().getColumn(5).setPreferredWidth(100);
+            table.getColumnModel().getColumn(5).setMaxWidth(100);
             table.getColumnModel().getColumn(8).setMinWidth(100);
             table.getColumnModel().getColumn(8).setPreferredWidth(100);
             table.getColumnModel().getColumn(8).setMaxWidth(100);
@@ -704,7 +710,7 @@ public class FiturBarang extends javax.swing.JPanel {
             String newJenisBarang = t_tambahJenisBarang.getText();
             ModelJenisBarang modelJenisBarang = new ModelJenisBarang();
             modelJenisBarang.setNamaJenis(newJenisBarang);
-            if(serviceBarang.validationAddJenis(modelJenisBarang)) {
+            if(serviceBarang.validationAddJenis(parent, modelJenisBarang)) {
                 tambahJenisBarang();
                 tampilJenisBarang();
                 setShowFieldAddJenis(false, false, false);      
@@ -794,7 +800,7 @@ public class FiturBarang extends javax.swing.JPanel {
         int hargaJual = Integer.parseInt(t_hargaJual.getText());
         int stok = (int) spn_stok.getValue();
         ModelBarang modelBarang = new ModelBarang(kodeBarang, nomorBarcode, kodeJenis, namaBarang, satuan, hargaBeli, hargaJual, stok);
-        serviceBarang.addData(modelBarang);
+        serviceBarang.addData(parent, modelBarang);
     }
     
     private void perbaruiData() {
@@ -807,14 +813,17 @@ public class FiturBarang extends javax.swing.JPanel {
         int hargaJual = Integer.parseInt(t_hargaJual.getText());
         int stok = (int) spn_stok.getValue();
         ModelBarang modelBarang = new ModelBarang(kodeBarang, nomorBarcode, kodeJenis, namaBarang, satuan, hargaBeli, hargaJual, stok);
-        serviceBarang.updateData(modelBarang);
+        serviceBarang.updateData(parent, modelBarang);
+        ModelNotifikasi modelNotifikasi = new ModelNotifikasi();
+        modelNotifikasi.setKodeBrg(kodeBarang);
+        
     }
     
     private void hapusData(int row) {
         String kodeBarang = (String) table.getValueAt(row, 0);
         ModelBarang modelBarang = new ModelBarang();
         modelBarang.setKode_Barang(kodeBarang);
-        if(serviceBarang.validationDelete(modelBarang)) {
+        if(serviceBarang.validationDelete(parent, modelBarang)) {
             int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus barang ini?", 
             "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if(confirm == JOptionPane.YES_OPTION) {
@@ -822,7 +831,7 @@ public class FiturBarang extends javax.swing.JPanel {
                     if(table.isEditing()) {
                         table.getCellEditor().stopCellEditing();
                     }
-                    serviceBarang.deleteData(modelBarang);   
+                    serviceBarang.deleteData(parent, modelBarang);   
                     tabmodel.removeRow(row);   
             }
         }
@@ -885,15 +894,15 @@ public class FiturBarang extends javax.swing.JPanel {
         boolean valid = false;
         int stok = (int) spn_stok.getValue();
         if(t_kodeBarang.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Kode Barang tidak boleh kosong");
+            JOptionPane.showMessageDialog(parent, "Kode Barang tidak boleh kosong");
         } else if(t_namaBarang.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Nama Barang tidak boleh kosong");   
+            JOptionPane.showMessageDialog(parent, "Nama Barang tidak boleh kosong");   
         } else if(t_hargaBeli.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Harga Beli tidak boleh kosong");             
+            JOptionPane.showMessageDialog(parent, "Harga Beli tidak boleh kosong");             
         } else if(t_hargaJual.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Harga Jual tidak boleh kosong");   
+            JOptionPane.showMessageDialog(parent, "Harga Jual tidak boleh kosong");   
         } else if(stok == 0) {
-            JOptionPane.showMessageDialog(null, "Stok harus di isi");   
+            JOptionPane.showMessageDialog(parent, "Stok harus di isi");   
         } else {
             valid = true;
         }

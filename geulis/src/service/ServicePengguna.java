@@ -6,6 +6,7 @@ package service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.ModelPengguna;
@@ -43,7 +44,7 @@ public class ServicePengguna {
         }    
     }
                 
-    public void addData(ModelPengguna modelPengguna) {
+    public void addData(JFrame parent, ModelPengguna modelPengguna) {
         String query = "INSERT INTO pengguna (ID_Pengguna, Nama, Username, Password, Email, Level, Status_Pengguna ) VALUES (?,?,?,?,?,?,?)";
         try {
            PreparedStatement pst = connection.prepareStatement(query);
@@ -56,14 +57,14 @@ public class ServicePengguna {
            pst.setString(7, modelPengguna.getStatus());
            pst.executeUpdate();
            pst.close();
-           JOptionPane.showMessageDialog(null, "Data Pengguna Berhasil Ditambahkan");
+           JOptionPane.showMessageDialog(parent, "Data Pengguna Berhasil Ditambahkan");
            
         } catch(Exception ex) {
             ex.printStackTrace();
         }
     
 }
-    public void updateData(ModelPengguna modelPengguna){
+    public void updateData(JFrame parent, ModelPengguna modelPengguna){
      String query = "UPDATE pengguna SET Nama=?, Username=?, Password=?, Email=?, Level=?, Status_Pengguna=? WHERE ID_Pengguna=?"; 
      try {
           PreparedStatement pst = connection.prepareStatement(query);
@@ -76,20 +77,20 @@ public class ServicePengguna {
            pst.setString(7, modelPengguna.getIdpengguna());
            pst.executeUpdate();
            pst.close();
-           JOptionPane.showMessageDialog(null, "Data Pengguna Berhasil Diperbarui");
+           JOptionPane.showMessageDialog(parent, "Data Pengguna Berhasil Diperbarui");
            
         } catch(Exception ex) {
             ex.printStackTrace();
         }
      }
-    public void deleteData(ModelPengguna modelPengguna){
+    public void deleteData(JFrame parent, ModelPengguna modelPengguna){
     String query = "DELETE FROM pengguna WHERE ID_Pengguna=?";
     try{
         PreparedStatement pst = connection.prepareCall(query);
         pst.setString(1, modelPengguna.getIdpengguna());
         pst.executeUpdate();
         pst.close();
-        JOptionPane.showMessageDialog(null, "Data Pengguna Berhasil Di Hapus");
+        JOptionPane.showMessageDialog(parent, "Data Pengguna Berhasil Di Hapus");
     } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -116,7 +117,7 @@ public class ServicePengguna {
         return idPasien;
     }
     
-    public boolean validationDelete(ModelPengguna modelPengguna) {
+    public boolean validationDelete(JFrame parent, ModelPengguna modelPengguna) {
         boolean valid = false;
         String query1 = "SELECT ID_Pengguna FROM pemeriksaan WHERE ID_Pengguna='"+modelPengguna.getIdpengguna()+"' ";
         String query2 = "SELECT ID_Pengguna FROM pemesanan WHERE ID_Pengguna='"+modelPengguna.getIdpengguna()+"' ";
@@ -132,7 +133,7 @@ public class ServicePengguna {
             PreparedStatement pst4 = connection.prepareStatement(query4);
             ResultSet rst4 = pst4.executeQuery();
             if(rst1.next() || rst2.next() || rst3.next() || rst4.next()) {
-                JOptionPane.showMessageDialog(null, "Tidak dapat menghapus pengguna ini\n"
+                JOptionPane.showMessageDialog(parent, "Tidak dapat menghapus pengguna ini\n"
                + "Pengguna ini pernah melakukan\n"
                + "Transaksi silahkan ubah status\n"
                + "Pengguna ini menjadi nonaktif", "Peringatan", JOptionPane.WARNING_MESSAGE);
@@ -151,7 +152,7 @@ public class ServicePengguna {
         return valid;
     }
     
-    public boolean validationAddEmail(ModelPengguna modelPengguna) {
+    public boolean validationAddEmail(JFrame parent, ModelPengguna modelPengguna) {
         boolean valid = true;
         String query = "SELECT Email FROM pengguna";
         try {
@@ -159,7 +160,7 @@ public class ServicePengguna {
             ResultSet rst = pst.executeQuery();
             while(rst.next()) {
                 if(modelPengguna.getEmail().equalsIgnoreCase(rst.getString("Email"))) {
-                    JOptionPane.showMessageDialog(null, "Email telah terdaftar");
+                    JOptionPane.showMessageDialog(parent, "Email telah terdaftar");
                     valid = false;
                     break;
                 }
@@ -170,6 +171,19 @@ public class ServicePengguna {
             ex.printStackTrace();
         }
         return valid;
+    }
+    
+    public String getNameById(ModelPengguna modelPengguna) {
+        String query = "SELECT Nama From Pengguna WHERE ID_Pengguna='"+modelPengguna.getIdpengguna()+"' ";
+        
+        try(PreparedStatement pst = connection.prepareStatement(query);
+        ResultSet rst = pst.executeQuery()) {
+            if(rst.next()) return rst.getString("Nama");
+        } catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        return null;
     }
     
 }

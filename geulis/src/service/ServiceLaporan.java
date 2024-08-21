@@ -19,6 +19,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -236,7 +237,7 @@ public class ServiceLaporan {
         }
     }
     
-    public void printReportPemeriksaan(JTable table, JTextField txtTgl, JLabel lbTotal) {
+    public void printReportPemeriksaan(JFrame parent, JTable table, JTextField txtTgl, JLabel lbTotal) {
         try {
             List<FieldsLaporanPemeriksaan> fields = new ArrayList<>();
             String query = "SELECT tdk.Nama_Tindakan, tdk.Biaya_Tindakan, "
@@ -269,11 +270,11 @@ public class ServiceLaporan {
             Report.getInstance().printLaporanPemeriksaan(paramater);
         } catch(Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(parent, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
-    public void printReportPenjualan(JTable table, JTextField txtTgl, JLabel lbTotal) {
+    public void printReportPenjualan(JFrame parent, JTable table, JTextField txtTgl, JLabel lbTotal) {
         try {
             List<FieldsLaporanPenjualan> fields = new ArrayList<>();
             String query = "SELECT brg.Nama_Barang, brg.Harga_Jual, "
@@ -320,11 +321,11 @@ public class ServiceLaporan {
             Report.getInstance().printLaporanPenjualan(paramater);
         } catch(Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(parent, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
-    public void printReportPemesanan(Table table, JTextField txtTgl, JLabel lbTotal) {
+    public void printReportPemesanan(JFrame parent, Table table, JTextField txtTgl, JLabel lbTotal) {
         try {
             List<FieldsLaporanPemesanan> fields = new ArrayList<>();
             String query = "SELECT brg.Nama_Barang, brg.Satuan, brg.Harga_Beli, dtl.Jumlah, dtl.Subtotal "
@@ -370,11 +371,11 @@ public class ServiceLaporan {
                 Report.getInstance().printLaporanPemesanan(paramater);
         } catch(Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(parent, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
-    public void printReportPengeluaran(JTable table, JTextField txtTgl, JLabel lbTotal) {
+    public void printReportPengeluaran(JFrame parent, JTable table, JTextField txtTgl, JLabel lbTotal) {
         try {
             List<FieldsLaporanganPengeluaran> fields = new ArrayList<>();
             String query = "SELECT jns.Nama_Jenis, "
@@ -405,7 +406,7 @@ public class ServiceLaporan {
             Report.getInstance().printLaporanPengeluaran(paramater);
         } catch(Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(parent, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     

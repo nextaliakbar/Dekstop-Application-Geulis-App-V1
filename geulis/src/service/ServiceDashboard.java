@@ -11,7 +11,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
-import model.ModelChart;
+import util.ModelChart;
 import model.ModelDashboard;
 import model.ModelLastReservasi;
 import swing.StatusType;

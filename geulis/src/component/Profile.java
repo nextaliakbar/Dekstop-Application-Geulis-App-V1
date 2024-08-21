@@ -4,7 +4,7 @@
  */
 package component;
 
-import model.ModelProfile;
+import util.ModelProfile;
 
 /**
  *

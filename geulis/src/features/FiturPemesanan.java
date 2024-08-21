@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,10 +27,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelBarang;
 import model.ModelDetailPemesanan;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelPemesanan;
 import model.ModelPengguna;
-import model.ModelRenderTable;
+import util.ModelRenderTable;
 import model.ModelSupplier;
 import model.Sementara;
 import service.ServiceDetailPemesanan;
@@ -53,8 +54,10 @@ public class FiturPemesanan extends javax.swing.JPanel {
     private TableRowSorter<DefaultTableModel> rowSorter;
     private ServicePemesanan servicePemesanan = new ServicePemesanan();
     private ServiceDetailPemesanan serviceDetail = new ServiceDetailPemesanan();
-    public FiturPemesanan(ModelPengguna modelPengguna) {
+    private JFrame parent;
+    public FiturPemesanan(JFrame parent, ModelPengguna modelPengguna) {
         initComponents();
+        this.parent = parent;
         this.modelPengguna = modelPengguna;
         table.scrollPane(scrollPane);
         table.getTableHeader().setDefaultRenderer(new ModelHeaderTable());
@@ -170,7 +173,7 @@ public class FiturPemesanan extends javax.swing.JPanel {
         modelPemesanan.setModelPengguna(modelPengguna);
         modelDetail.setModelPemesanan(modelPemesanan);
 
-        DialogDetail dialog = new DialogDetail(null, true, "Slide-5", null, null, modelDetail, null);
+        DialogDetail dialog = new DialogDetail(parent, true, "Slide-5", null, null, modelDetail, null);
         dialog.setVisible(true);
     }
     
@@ -181,7 +184,7 @@ public class FiturPemesanan extends javax.swing.JPanel {
         String noPemesanan = lbNoPemesanan.getText();
         Date date = new Date();
         String tglPemesanan = new SimpleDateFormat("yyyy-MM-dd").format(date);
-        String totalPemesanan =String.valueOf(total());
+        String totalPemesanan = String.valueOf(total());
         double bayar = Double.parseDouble(txtBayar.getText());
         double kembalian = 0;
         String jenisPembayaran = (String) cbx_jenisPembayaran.getSelectedItem();
@@ -200,18 +203,20 @@ public class FiturPemesanan extends javax.swing.JPanel {
         noPemesanan, tglPemesanan, null, null, totalPemesanan,
         bayar, kembalian, jenisPembayaran, modelSupplier, modelPengguna);
         
-        servicePemesanan.addData(modelPemesanan);
+        servicePemesanan.addData(parent, modelPemesanan);
         
     //        Tambah Detail
         List<String> kodeBrg = new ArrayList<>();
+        List<Integer> hargaBeli = new ArrayList<>();
         List<Integer> jumlah = new ArrayList<>();
-        List<Double> subtotal = new ArrayList<>();
+        List<Integer> subtotal = new ArrayList<>();
         detail.setModelPemesanan(modelPemesanan);
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
             kodeBrg.add((String) tableDetail.getValueAt(a, 0));
+            hargaBeli.add((Integer)tableDetail.getValueAt(a, 3));
             jumlah.add((Integer) tableDetail.getValueAt(a, 5));
-            subtotal.add((Double)tableDetail.getValueAt(a, 6));
-            Sementara ps = new Sementara(kodeBrg, jumlah, subtotal);
+            subtotal.add((Integer)tableDetail.getValueAt(a, 6));
+            Sementara ps = new Sementara(kodeBrg, hargaBeli,jumlah, subtotal);
             serviceDetail.addData(detail, ps);
         }
     }
@@ -221,19 +226,19 @@ public class FiturPemesanan extends javax.swing.JPanel {
         String kodeBrg = lbKodeBrg.getText();
         String namaBrg = lbNamaBrg.getText();
         String satuan = (String) cbxSatuan.getSelectedItem();
-        double hargaSkrg = Double.parseDouble(txtHrgBeliSkrg.getText());
-        double hargaSblm = Double.parseDouble(lbHrgBeliSblm.getText());
+        int hargaSkrg = Integer.valueOf(txtHrgBeliSkrg.getText());
+        int hargaSblm = Integer.valueOf(lbHrgBeliSblm.getText());
         int jumlah = (int) spnJumlah.getValue();
-        double subtotal = Double.parseDouble(lbSubtotal.getText());
+        int subtotal = Integer.valueOf(lbSubtotal.getText());
         tabmodel2.addRow(new Object[]{kodeBrg, namaBrg, hargaSblm, hargaSkrg, satuan, jumlah, subtotal});
         DecimalFormat df = new DecimalFormat("#,##0.##");
         lbTotal.setText(df.format(total()));
     }
        
-    private double total() {
-        double total = 0;
+    private int total() {
+        int total = 0;
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
-            double subtotal = (double) tableDetail.getValueAt(a, 6);
+            int subtotal = (int) tableDetail.getValueAt(a, 6);
             total += subtotal;
         }
         return total;
@@ -331,8 +336,8 @@ public class FiturPemesanan extends javax.swing.JPanel {
     private boolean validationUpdatePrice() {
         boolean valid = false;
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
-            double hrgSblm = (double) tableDetail.getValueAt(a, 2);
-            double hrgSkrg = (double) tableDetail.getValueAt(a, 3);
+            int hrgSblm = (int) tableDetail.getValueAt(a, 2);
+            int hrgSkrg = (int) tableDetail.getValueAt(a, 3);
             if(hrgSblm != hrgSkrg) {
                 valid = true;
                 break;
@@ -344,12 +349,12 @@ public class FiturPemesanan extends javax.swing.JPanel {
     private void perbaruiHargaBeli() {
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
             String kodeBrg = tableDetail.getValueAt(a, 0).toString();
-            double hrgSblm = (double) tableDetail.getValueAt(a, 2);
-            double hrgSkrg = (double) tableDetail.getValueAt(a, 3);
+            int hrgSblm = (int) tableDetail.getValueAt(a, 2);
+            int hrgSkrg = (int) tableDetail.getValueAt(a, 3);
             if(hrgSblm != hrgSkrg) {
                 ModelBarang modelBarang = new ModelBarang();
                 modelBarang.setKode_Barang(kodeBrg);
-                modelBarang.setHarga_Beli((int)(hrgSkrg));
+                modelBarang.setHarga_Beli(hrgSkrg);
                 servicePemesanan.updatePriceBuy(modelBarang);
             }
         }
@@ -1196,8 +1201,8 @@ public class FiturPemesanan extends javax.swing.JPanel {
         lbHrgBeliSblm.setText(String.valueOf(pilihBarang.modelBarang.getHarga_Beli()));
         spnJumlah.setValue((int) 1);
         int jumlah = (int) spnJumlah.getValue();
-        double hargaBeli = Double.parseDouble(txtHrgBeliSkrg.getText());
-        double subtotal = hargaBeli * jumlah;
+        int hargaBeli = Integer.valueOf(txtHrgBeliSkrg.getText());
+        int subtotal = hargaBeli * jumlah;
         lbSubtotal.setText(String.valueOf(subtotal));
     }//GEN-LAST:event_btnPilihBrgActionPerformed
 
@@ -1266,14 +1271,14 @@ public class FiturPemesanan extends javax.swing.JPanel {
     private void txtHrgBeliSkrgKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHrgBeliSkrgKeyReleased
         int jumlah = (int) spnJumlah.getValue();
         String hargaBeli = txtHrgBeliSkrg.getText();
-        double subtotal;
+        int subtotal;
         try {
             if(jumlah > 0) {
-                subtotal = Double.parseDouble(hargaBeli) * jumlah;
+                subtotal = Integer.valueOf(hargaBeli) * jumlah;
             } else if(jumlah == 0) {
-                subtotal = Double.parseDouble(hargaBeli) + jumlah;
+                subtotal = Integer.valueOf(hargaBeli) + jumlah;
             } else {
-                subtotal = Double.parseDouble(hargaBeli) + 0;
+                subtotal = Integer.valueOf(hargaBeli) + 0;
             }   
         } catch(NumberFormatException ex) {
            subtotal = 0; 

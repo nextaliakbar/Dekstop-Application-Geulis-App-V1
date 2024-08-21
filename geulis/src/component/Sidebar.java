@@ -13,7 +13,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import javax.swing.ImageIcon;
-import model.ModelMenu;
+import util.ModelMenu;
 import model.ModelPengguna;
 import net.miginfocom.swing.MigLayout;
 import swing.MenuAnimation;

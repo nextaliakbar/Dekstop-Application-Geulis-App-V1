@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import model.ModelAbsensi;
@@ -23,12 +24,13 @@ public class FiturAbsensi extends javax.swing.JPanel {
     /**
      * Creates new form FiturBarang
      */
+    private JFrame parent;
     private ServiceAbsensi serviceAbsensi = new ServiceAbsensi();
-    public FiturAbsensi() {
+    public FiturAbsensi(JFrame parent) {
         initComponents();
+        this.parent = parent;
         attendence();
     }
-    
     
     private void simpanAbsen() {
         String idKaryawan = txtIdKaryawan.getText();
@@ -367,13 +369,13 @@ public class FiturAbsensi extends javax.swing.JPanel {
 
     private void btnSimpan1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpan1ActionPerformed
         if(txtKeterangan.getText().equals("Sudah Absen")) {
-            JOptionPane.showMessageDialog(null, "Karyawan Sudah Melakukan Absen");
+            JOptionPane.showMessageDialog(parent, "Karyawan Sudah Melakukan Absen");
         } else if(txtNamaKaryawan.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Karyawan Tidak Terdaftar");
+            JOptionPane.showMessageDialog(parent, "Karyawan Tidak Terdaftar");
         } else {
             simpanAbsen();
             clearField();
-            JOptionPane.showMessageDialog(null, "Berhasil Melakukan Absensi");
+            JOptionPane.showMessageDialog(parent, "Berhasil Melakukan Absensi");
         }
     }//GEN-LAST:event_btnSimpan1ActionPerformed
 
@@ -388,7 +390,7 @@ public class FiturAbsensi extends javax.swing.JPanel {
     }//GEN-LAST:event_txtIdKaryawanFocusGained
 
     private void btnCekActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCekActionPerformed
-        Dialog ra = new Dialog(null, true, "Slide-2", null);
+        Dialog ra = new Dialog(parent, true, "Slide-2", null);
         ra.setVisible(true);
     }//GEN-LAST:event_btnCekActionPerformed
 

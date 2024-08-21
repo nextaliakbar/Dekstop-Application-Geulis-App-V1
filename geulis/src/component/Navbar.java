@@ -7,8 +7,9 @@ package component;
 import features.Pengaturan;
 import java.awt.Point;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import javax.swing.JFrame;
 import model.ModelPengguna;
-
 /**
  *
  * @author usER
@@ -19,9 +20,9 @@ public class Navbar extends javax.swing.JPanel {
      * Creates new form Navbar
      */
     public Pengaturan settings;
-    public Navbar(ModelPengguna modelPengguna) {
+    public Navbar(JFrame parent, ModelPengguna modelPengguna) {
         initComponents();
-        settings = new Pengaturan(null, true, modelPengguna);
+        settings = new Pengaturan(parent, true, modelPengguna);
         lbName.setText(modelPengguna.getNama());
         lbId1.setText(modelPengguna.getIdpengguna());
         lbId.setText(modelPengguna.getLevel());
@@ -30,7 +31,11 @@ public class Navbar extends javax.swing.JPanel {
     public void addAction(ActionListener action) {
         btn.addActionListener(action);
     }
-
+    
+    public void clickNotification(MouseAdapter mouseAdapter) {
+        lbNotif.addMouseListener(mouseAdapter);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,11 +58,6 @@ public class Navbar extends javax.swing.JPanel {
         lbNotif.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbNotif.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bell.png"))); // NOI18N
         lbNotif.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lbNotif.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbNotifMouseClicked(evt);
-            }
-        });
 
         lbName.setBackground(new java.awt.Color(255, 255, 255));
         lbName.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
@@ -126,16 +126,12 @@ public class Navbar extends javax.swing.JPanel {
         settings.setVisible(true);
     }//GEN-LAST:event_settingActionPerformed
 
-    private void lbNotifMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbNotifMouseClicked
-        System.out.println("Click");
-    }//GEN-LAST:event_lbNotifMouseClicked
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.Button btn;
     private javax.swing.JLabel lbId;
     private javax.swing.JLabel lbId1;
-    private javax.swing.JLabel lbName;
+    public javax.swing.JLabel lbName;
     private javax.swing.JLabel lbNotif;
     private swing.Button setting;
     // End of variables declaration//GEN-END:variables

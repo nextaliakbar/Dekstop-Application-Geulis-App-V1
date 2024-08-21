@@ -8,6 +8,7 @@ import action.TableAction;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,9 +18,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import model.ModelHeaderTable;
+import util.ModelHeaderTable;
 import model.ModelKaryawan;
-import model.ModelRenderTable;
+import util.ModelRenderTable;
 import service.ServiceKaryawan;
 import swing.TableCellActionRender;
 import swing.TableCellEditor;
@@ -37,10 +38,10 @@ public class FiturKaryawan extends javax.swing.JPanel {
     private DefaultTableModel tabmodel;
     private TableAction action;
     private ServiceKaryawan serviceKaryawan = new ServiceKaryawan();
-    
-    public FiturKaryawan() {
+    private JFrame parent;
+    public FiturKaryawan(JFrame parent) {
         initComponents();
-        
+        this.parent = parent;
         scrollPane.getViewport().setBackground(new Color(255,255,255));
         JPanel panel = new JPanel();
         panel.setBackground(new Color(255,255,255));
@@ -93,7 +94,7 @@ public class FiturKaryawan extends javax.swing.JPanel {
     String StatusKaryawan = (String) cbxStatusKaryawan.getSelectedItem();
     ModelKaryawan modelKaryawan = new ModelKaryawan(IdKaryawan, NamaKaryawan, TeleponKaryawan, 
     EmailKaryawan, AlamatKaryawan, JabatanKaryawan, StatusKaryawan);
-    serviceKaryawan.addData(modelKaryawan);
+    serviceKaryawan.addData(parent, modelKaryawan);
     
     }
     
@@ -118,21 +119,21 @@ public class FiturKaryawan extends javax.swing.JPanel {
         String StatusKaryawan = (String) cbxStatusKaryawan.getSelectedItem();
         ModelKaryawan modelKaryawan = new ModelKaryawan(IdKaryawan, NamaKaryawan, TeleponKaryawan, 
         EmailKaryawan, AlamatKaryawan, JabatanKaryawan, StatusKaryawan);
-        serviceKaryawan.updateData(modelKaryawan);
+        serviceKaryawan.updateData(parent, modelKaryawan);
         
     }
      private void hapusData(int row){
         String IdKaryawan = (String) table.getValueAt(row, 0);
         ModelKaryawan modelKaryawan = new ModelKaryawan();
         modelKaryawan.setIdKaryawan(IdKaryawan);
-        if(serviceKaryawan.validationDelete(modelKaryawan)) {
-            int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus karyawan ini?", 
+        if(serviceKaryawan.validationDelete(parent, modelKaryawan)) {
+            int confirm = JOptionPane.showConfirmDialog(parent, "Yakin ingin menghapus karyawan ini?", 
         "Konfirmasi", JOptionPane.YES_NO_OPTION);
                 if(confirm == JOptionPane.YES_OPTION) {
                 if(table.isEditing()) {
                     table.getCellEditor().stopCellEditing();
                 }
-                serviceKaryawan.deleteData(modelKaryawan);
+                serviceKaryawan.deleteData(parent, modelKaryawan);
                 tabmodel.removeRow(row);   
                 }
         } 
@@ -142,15 +143,15 @@ public class FiturKaryawan extends javax.swing.JPanel {
         
         
         if(TFIdKaryawan.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "ID Karyawan Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "ID Karyawan Tidak Boleh Kosong");
         }else if (TFNamaKaryawan.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Nama Karyawan Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "Nama Karyawan Tidak Boleh Kosong");
         }else if (TFTeleponKaryawan.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "No Telepon Karyawan Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "No Telepon Karyawan Tidak Boleh Kosong");
         }else if (TFEmailKaryawan.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Email Karyawan Tidak Boleh Kosong");
+            JOptionPane.showMessageDialog(parent, "Email Karyawan Tidak Boleh Kosong");
         }else if (TFAlamatKaryawan.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Alamat Karyawan Tiddak Boleh Kosong");   
+            JOptionPane.showMessageDialog(parent, "Alamat Karyawan Tiddak Boleh Kosong");   
         }else{
             valid = true;
         }
