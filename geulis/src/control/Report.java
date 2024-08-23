@@ -152,9 +152,8 @@ public class Report {
     
     private void viewReport(JasperPrint print) throws JRException {
         JasperViewer viewer = new JasperViewer(print, false);
-        viewer.setTitle("Geulis App");
+        viewer.setTitle("Print Preview");
         viewer.setIconImage(null);
-        viewer.setAlwaysOnTop(true);
         viewer.setVisible(true);
     }
 }

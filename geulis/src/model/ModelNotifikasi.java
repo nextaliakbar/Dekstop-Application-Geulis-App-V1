@@ -11,14 +11,22 @@ import java.time.LocalDateTime;
  */
 public class ModelNotifikasi {
 
+    public ModelNotifikasi(String idNotifkasi, String namaNotifikasi, String deskripsi, String jenisNotifikasi, boolean statusSudahDibaca) {
+        this.idNotifkasi = idNotifkasi;
+        this.namaNotifikasi = namaNotifikasi;
+        this.deskripsi = deskripsi;
+        this.jenisNotifikasi = jenisNotifikasi;
+        this.statusSudahDibaca = statusSudahDibaca;
+    }    
+    
     public ModelNotifikasi() {
     }
     
     private String idNotifkasi;
-    private final LocalDateTime tanggalNotifikasi = LocalDateTime.now();
+    private LocalDateTime tanggalNotifikasi = LocalDateTime.now();
     private String namaNotifikasi;
     private String deskripsi;
-    private String kodeBrg;
+    private String jenisNotifikasi = null;
     private boolean statusSudahDibaca;
 
     public String getIdNotifkasi() {
@@ -31,6 +39,10 @@ public class ModelNotifikasi {
 
     public LocalDateTime getTanggalNotifikasi() {
         return tanggalNotifikasi;
+    }
+
+    public void setTanggalNotifikasi(LocalDateTime tanggalNotifikasi) {
+        this.tanggalNotifikasi = tanggalNotifikasi;
     }
     
     public String getNamaNotifikasi() {
@@ -49,14 +61,14 @@ public class ModelNotifikasi {
         this.deskripsi = deskripsi;
     }
 
-    public String getKodeBrg() {
-        return kodeBrg;
+    public String getJenisNotifikasi() {
+        return jenisNotifikasi;
     }
 
-    public void setKodeBrg(String kodeBrg) {
-        this.kodeBrg = kodeBrg;
+    public void setJenisNotifikasi(String jenisNotifikasi) {
+        this.jenisNotifikasi = jenisNotifikasi;
     }
-
+    
     public boolean isStatusSudahDibaca() {
         return statusSudahDibaca;
     }
@@ -64,5 +76,5 @@ public class ModelNotifikasi {
     public void setStatusSudahDibaca(boolean statusSudahDibaca) {
         this.statusSudahDibaca = statusSudahDibaca;
     }
-       
+
 }

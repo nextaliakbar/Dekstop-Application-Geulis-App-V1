@@ -7,9 +7,9 @@ package component;
 import features.Pengaturan;
 import java.awt.Point;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import javax.swing.JFrame;
 import model.ModelPengguna;
+import service.ServiceNotifikasi;
 /**
  *
  * @author usER
@@ -20,20 +20,22 @@ public class Navbar extends javax.swing.JPanel {
      * Creates new form Navbar
      */
     public Pengaturan settings;
+    private ServiceNotifikasi serviceNotifikasi = new ServiceNotifikasi();
     public Navbar(JFrame parent, ModelPengguna modelPengguna) {
         initComponents();
         settings = new Pengaturan(parent, true, modelPengguna);
         lbName.setText(modelPengguna.getNama());
         lbId1.setText(modelPengguna.getIdpengguna());
         lbId.setText(modelPengguna.getLevel());
+        btnNotif.setText(serviceNotifikasi.getCountNotification() + "");
     }
     
     public void addAction(ActionListener action) {
         btn.addActionListener(action);
     }
     
-    public void clickNotification(MouseAdapter mouseAdapter) {
-        lbNotif.addMouseListener(mouseAdapter);
+    public void clickNotification(ActionListener action) {
+        btnNotif.addActionListener(action);
     }
     
     /**
@@ -45,19 +47,15 @@ public class Navbar extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lbNotif = new javax.swing.JLabel();
         lbName = new javax.swing.JLabel();
         lbId = new javax.swing.JLabel();
         lbId1 = new javax.swing.JLabel();
         btn = new swing.Button();
         setting = new swing.Button();
+        btnNotif = new swing.BadgeButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 255, 255));
-
-        lbNotif.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbNotif.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bell.png"))); // NOI18N
-        lbNotif.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         lbName.setBackground(new java.awt.Color(255, 255, 255));
         lbName.setFont(new java.awt.Font("SansSerif", 3, 14)); // NOI18N
@@ -85,13 +83,19 @@ public class Navbar extends javax.swing.JPanel {
             }
         });
 
+        btnNotif.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bell.png"))); // NOI18N
+        btnNotif.setText("0");
+        btnNotif.setBadgeColor(new java.awt.Color(220, 48, 48));
+        btnNotif.setContentAreaFilled(false);
+        btnNotif.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 304, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(lbName)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -99,22 +103,22 @@ public class Navbar extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbId, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbNotif, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
+                .addComponent(btnNotif, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(setting, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbNotif, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 16, Short.MAX_VALUE)
+            .addComponent(btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(setting, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(lbName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbId)
                     .addComponent(lbId1)))
-            .addComponent(btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(setting, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnNotif, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -129,10 +133,10 @@ public class Navbar extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.Button btn;
+    public swing.BadgeButton btnNotif;
     private javax.swing.JLabel lbId;
     private javax.swing.JLabel lbId1;
     public javax.swing.JLabel lbName;
-    private javax.swing.JLabel lbNotif;
     private swing.Button setting;
     // End of variables declaration//GEN-END:variables
 }

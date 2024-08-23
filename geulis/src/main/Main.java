@@ -10,6 +10,7 @@ import component.Content;
 import component.Navbar;
 import component.Sidebar;
 import features.Dashboard;
+import features.DialogNotifikasi;
 import features.FiturAbsensi;
 import features.FiturBarang;
 import features.FiturCetakKartu;
@@ -27,10 +28,9 @@ import features.FiturRestok;
 import features.FiturRiwayatPasien;
 import features.FiturSupplier;
 import features.FiturTindakan;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -39,6 +39,7 @@ import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
+import service.ServiceNotifikasi;
 import service.ServicePromo;
 
 /**
@@ -55,6 +56,8 @@ public class Main extends javax.swing.JFrame {
     private Content content;
     private Sidebar menu;
     private Animator animator;
+    private DialogNotifikasi dialogNotifikasi;
+    private ServiceNotifikasi serviceNotifikasi = new ServiceNotifikasi();
     public Main(ModelPengguna modelPengguna) {
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
@@ -89,10 +92,10 @@ public class Main extends javax.swing.JFrame {
 //              fitur master                
 
                     if (subMenuIndex == 0) {
-                        content.showContent(new FiturBarang(parent));
+                        content.showContent(new FiturBarang(parent, navbar.btnNotif));
                     } else if (subMenuIndex == 1) {
 //                        fitur tindakan
-                        content.showContent(new FiturTindakan(parent));
+                        content.showContent(new FiturTindakan(parent, navbar.btnNotif));
 
                     } else if (subMenuIndex == 2) {
 //                        fitur pasien
@@ -125,7 +128,7 @@ public class Main extends javax.swing.JFrame {
                         content.showContent(new FiturPenjualan(parent,modelPengguna));
                     } else if (subMenuIndex == 2) {
 //                        fitur pemesanan
-                        content.showContent(new FiturPemesanan(parent,modelPengguna));
+                        content.showContent(new FiturPemesanan(parent,modelPengguna, navbar.btnNotif));
                     }
                 } else if (menuIndex == 4 && subMenuIndex == -1) {
 //              fitur riwayat pasien 
@@ -164,7 +167,7 @@ public class Main extends javax.swing.JFrame {
                             content.showContent(new FiturPenjualan(parent,modelPengguna));
                         } else if (subMenuIndex == 2) {
     //                        fitur pemesanan
-                            content.showContent(new FiturPemesanan(parent,modelPengguna));
+                            content.showContent(new FiturPemesanan(parent,modelPengguna, navbar.btnNotif));
                         }
                     }  else if(menuIndex == 2 && subMenuIndex == -1) {
 //                     Fitur Riwayat Pasien
@@ -243,12 +246,8 @@ public class Main extends javax.swing.JFrame {
             }
         });
         
-        navbar.clickNotification(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Notifikasi
-            }
-            
+        navbar.clickNotification((e) -> {
+           checkNotifikasi();
         });
     }
         
@@ -258,7 +257,7 @@ public class Main extends javax.swing.JFrame {
         navbar.settings.info(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                content.showContent(new FiturPengaturan("Slide-Info", parent, modelPengguna));
+                content.showContent(new FiturPengaturan("Slide-Info", parent, modelPengguna, navbar.lbName));
                 navbar.settings.dispose();
             }
         });
@@ -266,7 +265,7 @@ public class Main extends javax.swing.JFrame {
         navbar.settings.account(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                content.showContent(new FiturPengaturan("Slide-Akun", parent, modelPengguna));
+                content.showContent(new FiturPengaturan("Slide-Akun", parent, modelPengguna, navbar.lbName));
                 navbar.settings.dispose();
             }
         });
@@ -274,7 +273,7 @@ public class Main extends javax.swing.JFrame {
         navbar.settings.changePassword(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                content.showContent(new FiturPengaturan("Slide-Password", parent, modelPengguna));
+                content.showContent(new FiturPengaturan("Slide-Password", parent, modelPengguna, navbar.lbName));
                 navbar.settings.dispose();
             }
         });
@@ -282,7 +281,7 @@ public class Main extends javax.swing.JFrame {
         navbar.settings.promo(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                content.showContent(new FiturPengaturan("Slide-Promo", parent, modelPengguna));
+                content.showContent(new FiturPengaturan("Slide-Promo", parent, modelPengguna, navbar.lbName));
                 navbar.settings.dispose();
             }
         });
@@ -305,8 +304,19 @@ public class Main extends javax.swing.JFrame {
     private void endPromoAuto() {
         ServicePromo servicePromo = new ServicePromo();
         servicePromo.autoChangeKeteranganPromo();
-    }  
-        
+    }
+    
+    private void checkNotifikasi() {
+        dialogNotifikasi = new DialogNotifikasi(this, true);
+        Point point = navbar.btnNotif.getLocationOnScreen();
+        int x = point.x + navbar.btnNotif.getWidth() - dialogNotifikasi.getWidth();
+        int y = point.y + navbar.btnNotif.getHeight();
+        dialogNotifikasi.setLocation(x, y);
+        dialogNotifikasi.setVisible(true);
+        serviceNotifikasi.updateStatusNotification();
+        navbar.btnNotif.setText(serviceNotifikasi.getCountNotification() + "");
+    }
+            
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

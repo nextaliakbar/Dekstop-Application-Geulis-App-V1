@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import model.ModelPengguna;
@@ -32,13 +33,16 @@ public class FiturPengaturan extends javax.swing.JPanel {
     /**
      * Creates new form FiturBarang
      */
+    private JFrame parent;
+    private JLabel lbNama;
     private DateChooser dateChooser;
     private ServicePengaturan servicePengaturan = new ServicePengaturan();
     private ServicePromo servicePromo = new ServicePromo();
     private ModelPengguna modelPengguna;
-    private JFrame parent;
-    public FiturPengaturan(String slide, JFrame parent, ModelPengguna modelPengguna) {
+    public FiturPengaturan(String slide, JFrame parent, ModelPengguna modelPengguna, 
+            JLabel lbNama) {
         initComponents();
+        this.lbNama = lbNama;
         this.parent = parent;
         this.modelPengguna = modelPengguna;
         dataAkun();
@@ -661,7 +665,7 @@ public class FiturPengaturan extends javax.swing.JPanel {
         txtPaneInfo.setBorder(null);
         txtPaneInfo.setFont(new java.awt.Font("SansSerif", 0, 16)); // NOI18N
         txtPaneInfo.setForeground(new java.awt.Color(0, 0, 0));
-        txtPaneInfo.setText("\t                                              Released Version 1.0\n   Geulis merupakan aplikasi yang membantu memudahkan pelaku usaha dalam mengelola\n   unit usahanya di bidang layanan kecantikan (Beauty Center) dan juga penjualan produk \n   atau barang. Dilengkapi berbagi fitur yang mampu dalam melakukan mulai dari pehitungan\n   (pendapatan, keuntungan, pengeluaran) sampai dengan pembuatan laporan serta juga\n   memudahkan pelaku usaha dalam mengambil keputusan untuk mengembangkan usahanya\n   agar dapat bersaing di pasar global.\n\n   Kelebihan\n   1.Hak Akses User (Owner dan Admin)\n   2.Sistem Keamanan (Security) aplikasi dengan fitur verifikasi melalui G-Mail\n   3.Dilengkapi dengan Chart Bar yang dapat digunakan dalam menganalisis perkembangan usaha\n   4.Informasi pendapatan serta keuntungan dari transaksi dan juga pengeluaran biaya \n      operasioal atau non operasional secara akurat\n   5.Pemberian potongan atau diskon pada pelanggan dengan sistem Membership\n   6.Pembaharuan status pada layanan reservasi dan pemesanan barang\n   7.Penggunaan Scan Barcode dalam penjualan barang\n   8.Pemberitahuan untuk menindaklanjuti atau Follow Up kepada pelanggan\n   9.Pembuatan ID Card untuk karyawan dan Membership Card untuk pelanggan\n   10.Pengelolaan stok barang secara otomatis\n   11.Pemberitahuan pada stok barang dalam keadaan tertentu\n   12.Cetak struk atau bukti pembayaran\n   13.Absensi terhadap karyawan dengan scan ID Card\n   14.Pembuatan laporan secara otomatis                                                                                  @2024 Tim Geulis");
+        txtPaneInfo.setText("\t                                              Released Version 1.0\n\n   Geulis merupakan aplikasi 4in1 untuk kebutuhan usaha kecantikan atau sejenis yang\n   dapat digunakan untuk management inventory, analisis perkembangan usaha, \n   membantu aktivitas usaha, dan absensi terhadap karyawan.\n\n   Kelebihan\n   1.Hak Akses User (Owner dan Admin)\n   2.Sistem Keamanan (Security) aplikasi dengan fitur verifikasi melalui G-Mail\n   3.Dilengkapi dengan Chart Bar yang dapat digunakan dalam menganalisis perkembangan usaha\n   4.Informasi pendapatan serta keuntungan dari transaksi dan juga pengeluaran biaya \n      operasioal atau non operasional secara akurat\n   5.Pemberian potongan atau diskon pada pelanggan dengan sistem Membership\n   6.Pembaharuan status pada layanan reservasi dan pemesanan barang\n   7.Penggunaan Scan Barcode dalam penjualan barang\n   8.Pemberitahuan untuk menindaklanjuti atau Follow Up kepada pelanggan\n   9.Pembuatan ID Card untuk karyawan dan Membership Card untuk pelanggan\n   10.Pengelolaan stok barang secara otomatis\n   11.Pemberitahuan pada stok barang dalam keadaan tertentu\n   12.Cetak struk atau bukti pembayaran\n   13.Absensi terhadap karyawan dengan scan ID Card\n   14.Pembuatan laporan secara otomatis\n   15.Notifikasi perubahan harga barang (harga beli & harga jual) dan biaya tindakan\n        secara real-time                                                    \t\t\t\t@2024 Master Tech ");
         scrollInfo.setViewportView(txtPaneInfo);
 
         javax.swing.GroupLayout panel5Layout = new javax.swing.GroupLayout(panel5);
@@ -893,6 +897,7 @@ public class FiturPengaturan extends javax.swing.JPanel {
         modelPengguna.setUsername(txtUsername.getText());
         modelPengguna.setEmail(txtEmail.getText());
         servicePengaturan.setAccount(parent, modelPengguna);
+        lbNama.setText(txtNama.getText());
         back(new Dashboard(parent,modelPengguna));
     }
     

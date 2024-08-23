@@ -19,6 +19,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -162,6 +164,16 @@ public class Dialog extends java.awt.Dialog {
             JOptionPane.showMessageDialog(parent, "No Telepon tidak boleh kosong");
         } else if(t_alamat.getText().length() == 0) {
             JOptionPane.showMessageDialog(parent, "Alamat tidak boleh kosong");
+        } else if(!t_email.getText().isEmpty()) {
+            String REGEX_EMAIL = "[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
+            Pattern pattern = Pattern.compile(REGEX_EMAIL);
+            Matcher matcher = pattern.matcher(t_email.getText());
+            if(matcher.matches()) {
+                valid = true;
+            } else {
+            JOptionPane.showMessageDialog(parent, "Format email harus dalam bentuk email\n"
+                    + "Contoh : email@gmail.com");  
+            }
         } else {
             valid = true;
         }

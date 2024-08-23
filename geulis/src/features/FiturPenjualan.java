@@ -222,7 +222,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
             Report.getInstance().printReportPenjualan(paramater);
         } catch(JRException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(parent, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
@@ -314,16 +314,16 @@ public class FiturPenjualan extends javax.swing.JPanel {
         try {
             if(lbNoBarcode.getText().trim().length() == 0 ) {
                 valid = false;
-                JOptionPane.showMessageDialog(null, "Silahkan Pilih Barang");
+                JOptionPane.showMessageDialog(parent, "Silahkan Pilih Barang");
             } else if(jumlah <= 0) {
                 valid = false;
-                JOptionPane.showMessageDialog(null, "Silahkan Masukkan Jumlah Penjualan");
+                JOptionPane.showMessageDialog(parent, "Silahkan Masukkan Jumlah Penjualan");
             } else {
              for(int a = 0; a < rowCount; a++) {
                 String kodeBrgInTable = (String) tableDetail.getValueAt(a, 1);
                     if(kodeBrg.equals(kodeBrgInTable)) {
                         valid = false;
-                        JOptionPane.showMessageDialog(null, "Barang ini sudah ditambahkan");
+                        JOptionPane.showMessageDialog(parent, "Barang ini sudah ditambahkan");
                         break;
                     } else {
                         valid = true;
@@ -332,7 +332,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
             }
         } catch(NullPointerException ex) {
             valid = false;
-            JOptionPane.showMessageDialog(null, "Silahkan Pilih Barang");
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Barang");
         }
         return valid;
     }
@@ -341,16 +341,16 @@ public class FiturPenjualan extends javax.swing.JPanel {
         boolean valid = false;
         try {
             if(tableDetail.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(null, "Silahkan Pilih Barang");       
+                JOptionPane.showMessageDialog(parent, "Silahkan Pilih Barang");       
             } else if(txtBayar.getText().trim().length() == 0) {
-                JOptionPane.showMessageDialog(null, "Silahkan masukkan jumlah pembayaran");
+                JOptionPane.showMessageDialog(parent, "Silahkan masukkan jumlah pembayaran");
             } else if(Double.parseDouble(txtBayar.getText()) < total()) {
-                JOptionPane.showMessageDialog(null, "Jumlah Pembayaran Kurang dari Total Penjualan");    
+                JOptionPane.showMessageDialog(parent, "Jumlah Pembayaran Kurang dari Total Penjualan");    
             } else {
                 valid = true;
             }
         } catch(NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Silahkan Pilih Barang");    
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Barang");    
         }
         
         return valid;
@@ -1158,7 +1158,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
         if(tableDetail.getRowCount() != 0) {
-            int confirm = JOptionPane.showConfirmDialog(null, "Data yang telah diinput akan dihapus", "Konfirmasi", JOptionPane.OK_OPTION);
+            int confirm = JOptionPane.showConfirmDialog(parent, "Data yang telah diinput akan dihapus", "Konfirmasi", JOptionPane.OK_OPTION);
             if(confirm == 0) {
             clearFieldAll();
             changePanel(panelData);
@@ -1170,7 +1170,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void btnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihActionPerformed
-        TambahPemesanan pilihBrg = new TambahPemesanan(null, true, "Slide-2");
+        TambahPemesanan pilihBrg = new TambahPemesanan(parent, true, "Slide-2");
         pilihBrg.setVisible(true);
         lbNoBarcode.setText(pilihBrg.modelBarang.getKode_Barang());
         lbKodeBrg.setText(pilihBrg.modelBarang.getKode_Barang());

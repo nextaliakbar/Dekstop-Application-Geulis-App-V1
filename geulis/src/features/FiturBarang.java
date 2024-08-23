@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import java.util.Random;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,6 +26,7 @@ import util.ModelRenderTable;
 import model.ModelJenisBarang;
 import model.ModelNotifikasi;
 import service.ServiceBarang;
+import service.ServiceNotifikasi;
 import swing.TableCellActionRender;
 import swing.TableCellEditor;
 
@@ -39,11 +42,14 @@ public class FiturBarang extends javax.swing.JPanel {
     private TableRowSorter<DefaultTableModel> rowSorter;
     private DefaultTableModel tabmodel;
     private TableAction action;
-    private ServiceBarang serviceBarang = new ServiceBarang();
     private JFrame parent;
-    public FiturBarang(JFrame parent) {
+    private JButton btnNotif;
+    private ServiceBarang serviceBarang = new ServiceBarang();
+    private ServiceNotifikasi serviceNotifikasi = new ServiceNotifikasi();
+    public FiturBarang(JFrame parent, JButton btnNotif) {
         initComponents();
         this.parent = parent;
+        this.btnNotif = btnNotif;
         scrollPane.getViewport().setBackground(new Color(255,255,255));
         JPanel panel = new JPanel();
         panel.setBackground(new Color(255,255,255));
@@ -58,11 +64,14 @@ public class FiturBarang extends javax.swing.JPanel {
         t_Dir.setVisible(false);
         lbKodeJenis.setVisible(false);
         pagination.setVisible(false);
+        lbHrgBeliSblm.setVisible(false);
+        lbHrgJualSebelum.setVisible(false);
         serviceBarang.loadData(tabmodel);
         tampilJenisBarang();
         tampilJenisSatuan();
         cariData();
         actionRenderTable();
+        
     }
         
 //  Update,Delete,Detail
@@ -91,7 +100,9 @@ public class FiturBarang extends javax.swing.JPanel {
             t_namaBarang.setText(namaBarang);
             cbx_satuan.setSelectedItem(satuan);
             t_hargaBeli.setText(String.valueOf(hargaBeli));
+            lbHrgBeliSblm.setText(String.valueOf(hargaBeli));
             t_hargaJual.setText(String.valueOf(hargaJual));
+            lbHrgJualSebelum.setText(String.valueOf(hargaJual));
             spn_stok.setValue(stok);
         }
 
@@ -155,6 +166,8 @@ public class FiturBarang extends javax.swing.JPanel {
         btnTambahJenis = new swing.Button();
         btnBatalJenis = new swing.Button();
         lbKodeJenis = new javax.swing.JLabel();
+        lbHrgBeliSblm = new javax.swing.JLabel();
+        lbHrgJualSebelum = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         label1 = new javax.swing.JLabel();
 
@@ -489,6 +502,14 @@ public class FiturBarang extends javax.swing.JPanel {
         lbKodeJenis.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
         lbKodeJenis.setForeground(new java.awt.Color(0, 0, 0));
 
+        lbHrgBeliSblm.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lbHrgBeliSblm.setForeground(new java.awt.Color(255, 255, 255));
+        lbHrgBeliSblm.setText("Harga Beli Sebelum");
+
+        lbHrgJualSebelum.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lbHrgJualSebelum.setForeground(new java.awt.Color(255, 255, 255));
+        lbHrgJualSebelum.setText("Harga Jual Sebelum");
+
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
         panel2Layout.setHorizontalGroup(
@@ -524,7 +545,10 @@ public class FiturBarang extends javax.swing.JPanel {
                         .addComponent(btnBatalJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panel2Layout.createSequentialGroup()
                         .addComponent(cbx_satuan, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbHrgBeliSblm)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbHrgJualSebelum))
                     .addGroup(panel2Layout.createSequentialGroup()
                         .addComponent(t_noBarcode, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
                         .addGap(6, 6, 6)
@@ -557,9 +581,13 @@ public class FiturBarang extends javax.swing.JPanel {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(t_namaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbx_satuan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbx_satuan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbHrgBeliSblm)
+                        .addComponent(lbHrgJualSebelum)))
                 .addGap(18, 18, 18)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -650,6 +678,7 @@ public class FiturBarang extends javax.swing.JPanel {
             tambahData();  
         } else {
             perbaruiData();
+            btnNotif.setText(serviceNotifikasi.getCountNotification() + "");
         }
         clearField();
         changePanel(panelData);
@@ -769,6 +798,8 @@ public class FiturBarang extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel label;
     private javax.swing.JLabel label1;
+    private javax.swing.JLabel lbHrgBeliSblm;
+    private javax.swing.JLabel lbHrgJualSebelum;
     private javax.swing.JLabel lbKodeJenis;
     private swing.Pagination pagination;
     private javax.swing.JPanel panel1;
@@ -814,9 +845,9 @@ public class FiturBarang extends javax.swing.JPanel {
         int stok = (int) spn_stok.getValue();
         ModelBarang modelBarang = new ModelBarang(kodeBarang, nomorBarcode, kodeJenis, namaBarang, satuan, hargaBeli, hargaJual, stok);
         serviceBarang.updateData(parent, modelBarang);
-        ModelNotifikasi modelNotifikasi = new ModelNotifikasi();
-        modelNotifikasi.setKodeBrg(kodeBarang);
-        
+        int hrgBeliSebelum = Integer.valueOf(lbHrgBeliSblm.getText());
+        int hrgJualSebelum = Integer.valueOf(lbHrgJualSebelum.getText());
+        cekPerubahanHarga(kodeBarang, namaBarang, hrgJualSebelum, hargaJual, hrgBeliSebelum, hargaBeli);
     }
     
     private void hapusData(int row) {
@@ -824,7 +855,7 @@ public class FiturBarang extends javax.swing.JPanel {
         ModelBarang modelBarang = new ModelBarang();
         modelBarang.setKode_Barang(kodeBarang);
         if(serviceBarang.validationDelete(parent, modelBarang)) {
-            int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus barang ini?", 
+            int confirm = JOptionPane.showConfirmDialog(parent, "Yakin ingin menghapus barang ini?", 
             "Konfirmasi", JOptionPane.YES_NO_OPTION);
                     if(confirm == JOptionPane.YES_OPTION) {
                     
@@ -835,6 +866,52 @@ public class FiturBarang extends javax.swing.JPanel {
                     tabmodel.removeRow(row);   
             }
         }
+    }
+    
+    private void cekPerubahanHarga(String kodeBarang, String namaBarang, 
+    int hrgJualSebelum, int hargaJual, int hrgBeliSebelum, int hargaBeli) {
+        String idNotifikasi1 = String.valueOf(new Random().nextInt(10000));
+        String idNotifikasi2 = String.valueOf(new Random().nextInt(10000));
+        StringBuilder deskripsi1 = new StringBuilder();
+        StringBuilder deskripsi2 = new StringBuilder();
+        
+        if(!t_hargaBeli.getText().equals(lbHrgBeliSblm.getText()) && 
+            !t_hargaJual.getText().equals(lbHrgJualSebelum.getText())) {
+            
+            tambahPerubahanHargaBeli(idNotifikasi1, kodeBarang, deskripsi1, namaBarang, hrgBeliSebelum, hargaBeli);
+            
+            tambahPerubahanHargaJual(idNotifikasi2, kodeBarang, deskripsi2, namaBarang, hrgJualSebelum, hargaJual);
+            
+            return;
+        }
+        
+        if(!t_hargaBeli.getText().equals(lbHrgBeliSblm.getText())) {
+            tambahPerubahanHargaBeli(idNotifikasi1, kodeBarang, deskripsi1, namaBarang, hrgBeliSebelum, hargaBeli);
+         } 
+
+        if(!t_hargaJual.getText().equals(lbHrgJualSebelum.getText())) {
+            tambahPerubahanHargaJual(idNotifikasi2, kodeBarang, deskripsi2, namaBarang, hrgJualSebelum, hargaJual);
+         } 
+        
+    }
+    
+    private void tambahPerubahanHargaBeli(String idNotifikasi, String kodeBarang, StringBuilder deskripsi, 
+            String namaBarang, int hrgBeliSebelum, int hargaBeli) {
+        
+        String namaNotifikasi = "Perubahan Harga Beli Barang";
+         deskripsi.append("Harga Beli " + namaBarang + " berhasil dirubah dari "+hrgBeliSebelum+" menjadi " + hargaBeli);
+         ModelNotifikasi modelNotifikasi1 = new ModelNotifikasi(idNotifikasi, namaNotifikasi.toString(), 
+             deskripsi.toString(), kodeBarang, false);
+         serviceNotifikasi.addNotification(modelNotifikasi1);
+    }
+    
+    private void tambahPerubahanHargaJual(String idNotifikasi, String kodeBarang, StringBuilder deskripsi, 
+            String namaBarang, int hrgJualSebelum, int hargaJual) {
+        String namaNotifikasi = "Perubahan Harga Jual Barang";
+         deskripsi.append("Harga Jual " + namaBarang + " berhasil dirubah dari "+hrgJualSebelum+" menjadi " + hargaJual);
+         ModelNotifikasi modelNotifikasi = new ModelNotifikasi(idNotifikasi, namaNotifikasi.toString(), 
+             deskripsi.toString(), kodeBarang, false);
+         serviceNotifikasi.addNotification(modelNotifikasi);
     }
     
     private void tambahJenisBarang() {

@@ -8,6 +8,8 @@ import action.TableAction;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -138,6 +140,18 @@ public class FiturPengguna extends javax.swing.JPanel {
                 }
         }    
     }
+      
+      private boolean validationFormatEmail() {
+          String REGEX_EMAIL = "[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
+          Pattern pattern = Pattern.compile(REGEX_EMAIL);
+          Matcher matcher = pattern.matcher(TFEmailPengguna.getText());
+          if(matcher.matches()) {
+              return true;
+          }
+          JOptionPane.showMessageDialog(parent, "Format email harus dalam bentuk email\n"
+                  + "Contoh : email@gmail.com");
+          return false;
+      }
       
       private boolean validationAddData(){
         boolean valid = false;
@@ -620,15 +634,19 @@ public class FiturPengguna extends javax.swing.JPanel {
         modelPengguna.setEmail(TFEmailPengguna.getText());
         if(btnSimpan.getText().equals("SIMPAN")) {
             if(validationAddData()) {
-                if(servicePengguna.validationAddEmail(parent, modelPengguna)) {
-                    tambahData();          
-                    changePanel(panelData);    
+                if(validationFormatEmail()) {
+                    if(servicePengguna.validationAddEmail(parent, modelPengguna)) {
+                        tambahData();          
+                        changePanel(panelData);    
+                    }
                 }
             }   
         } else {
             if(validationUpdateData()) {
-                perbaruiData();
-                changePanel(panelData);                     
+                if(validationFormatEmail()) {
+                    perbaruiData();
+                    changePanel(panelData);                         
+                }
             }
         }
         tabmodel.setRowCount(0);
@@ -653,15 +671,7 @@ public class FiturPengguna extends javax.swing.JPanel {
         add(panel);
         repaint();
         revalidate();
-    }
-    
-    private void characterDigit(KeyEvent evt) {
-        char typed = evt.getKeyChar();
-        if(!Character.isDigit(typed)) {
-            evt.consume();
-        }
-    }
-    
+    }    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

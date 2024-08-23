@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -46,9 +47,11 @@ public class TambahPemesanan extends java.awt.Dialog {
     private DefaultTableModel tabemodel2;
     public  ModelSupplier modelSupplier;
     public  ModelBarang modelBarang;
+    private JFrame parent;
     public TambahPemesanan(java.awt.Frame parent, boolean modal, String slide) {
         super(parent, modal);
         initComponents();
+        this.parent = (JFrame) parent;
         setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         connection = Koneksi.getConnection();
         
@@ -153,7 +156,7 @@ public class TambahPemesanan extends java.awt.Dialog {
             modelSupplier.setAlamatSupplier(alamat);
             dispose();
         } else {
-            JOptionPane.showMessageDialog(panelSupplier, "Silahkan Pilih Supplier Terlebih Dahulu");
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Supplier Terlebih Dahulu");
         }
     }
     
@@ -176,7 +179,7 @@ public class TambahPemesanan extends java.awt.Dialog {
         modelBarang.setStok(stok);
         dispose();
         } else {
-            JOptionPane.showMessageDialog(panel, "Silahkan Pilih Barang Terlebih Dahulu");
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Barang Terlebih Dahulu");
         }
     }
     

@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -46,12 +47,14 @@ public class PilihPemesanan extends java.awt.Dialog {
     private Connection connection;
     private DefaultTableModel tabemodel2;
     public ModelPemesanan modelPemesanan;
+    private JFrame parent;
     private final String query = "SELECT pmsn.No_Pemesanan, DATE_FORMAT(pmsn.Tanggal_Pemesanan, '%d - %M - %Y') AS Tanggal, "
             + "pmsn.ID_Supplier, spl.Nama, pgn.ID_Pengguna, pgn.Nama, pmsn.Total_Pemesanan FROM pemesanan pmsn JOIN supplier spl "
             + "ON pmsn.ID_Supplier=spl.ID_Supplier JOIN pengguna pgn ON pmsn.ID_Pengguna=pgn.ID_Pengguna ";
     public PilihPemesanan(java.awt.Frame parent, boolean modal, String slide) {
         super(parent, modal);
         initComponents();
+        this.parent = (JFrame) parent;
         setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         connection = Koneksi.getConnection();
                 
@@ -167,7 +170,7 @@ public class PilihPemesanan extends java.awt.Dialog {
             modelPemesanan.setTotalPemesanan(String.valueOf(Integer.parseInt(table2.getValueAt(selectRow, 6).toString())));
             dispose();
         } else {
-            JOptionPane.showMessageDialog(panel2, "Silahkan Pilih Pemesanan Terlebih Dahulu");
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Pemesanan Terlebih Dahulu");
         }
     }
     

@@ -7,6 +7,8 @@ import action.TableAction;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.util.Random;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,7 +19,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import model.ModelNotifikasi;
 import model.ModelTindakan;
+import service.ServiceNotifikasi;
 import util.ModelHeaderTable;
 import util.ModelRenderTable;
 import service.ServiceTindakan;
@@ -36,11 +40,14 @@ public class FiturTindakan extends javax.swing.JPanel {
     private TableRowSorter<DefaultTableModel> rowSorter;
     private DefaultTableModel tabmodel;
     private TableAction action;
-    private ServiceTindakan serviceTindakan = new ServiceTindakan();
     private JFrame parent;
-    public FiturTindakan(JFrame parent) {
+    private JButton btnNotif;
+    private ServiceTindakan serviceTindakan = new ServiceTindakan();
+    private ServiceNotifikasi serviceNotifikasi = new ServiceNotifikasi();
+    public FiturTindakan(JFrame parent, JButton btnNotif) {
         initComponents();
         this.parent = parent;
+        this.btnNotif = btnNotif;
         scrollPane.getViewport().setBackground(new Color(255,255,255));
         JPanel panel = new JPanel();
         panel.setBackground(new Color(255,255,255));
@@ -53,6 +60,7 @@ public class FiturTindakan extends javax.swing.JPanel {
         rowSorter = new TableRowSorter<>(tabmodel);
         table.setRowSorter(rowSorter);
         pagination.setVisible(false);
+        lbBiayaSebelum.setVisible(false);
         serviceTindakan.loadData(tabmodel);
         actionRenderTable();
         cariData();
@@ -73,6 +81,7 @@ public class FiturTindakan extends javax.swing.JPanel {
             t_kodeTindakan.setText(kodeTindakan);
             t_namaTindakan.setText(namaTindakan);
             t_biaya.setText(String.valueOf(biaya));
+            lbBiayaSebelum.setText(String.valueOf(biaya));
         } 
         @Override
         public void delete(int row) {
@@ -115,6 +124,7 @@ public class FiturTindakan extends javax.swing.JPanel {
         t_kodeTindakan = new javax.swing.JTextField();
         t_biaya = new javax.swing.JTextField();
         t_namaTindakan = new javax.swing.JTextField();
+        lbBiayaSebelum = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         label1 = new javax.swing.JLabel();
 
@@ -307,28 +317,32 @@ public class FiturTindakan extends javax.swing.JPanel {
         t_namaTindakan.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
         t_namaTindakan.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
 
+        lbBiayaSebelum.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        lbBiayaSebelum.setForeground(new java.awt.Color(255, 255, 255));
+        lbBiayaSebelum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbBiayaSebelum.setText("Biaya Sebelum");
+
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
         panel2Layout.setHorizontalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panel2Layout.createSequentialGroup()
-                        .addGap(0, 372, Short.MAX_VALUE)
+                        .addComponent(lbBiayaSebelum, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel2Layout.createSequentialGroup()
-                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(t_kodeTindakan)
-                            .addComponent(t_biaya)
-                            .addComponent(t_namaTindakan))))
+                    .addComponent(t_kodeTindakan, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(t_biaya, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(t_namaTindakan, javax.swing.GroupLayout.Alignment.LEADING))
                 .addContainerGap())
         );
         panel2Layout.setVerticalGroup(
@@ -347,9 +361,11 @@ public class FiturTindakan extends javax.swing.JPanel {
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(t_biaya, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbBiayaSebelum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -427,6 +443,7 @@ public class FiturTindakan extends javax.swing.JPanel {
             tambahData();
         }  else {
             perbaruiData();
+            btnNotif.setText(serviceNotifikasi.getCountNotification() + "");
         } 
         clearField();
         changePanel(panelData);
@@ -469,6 +486,7 @@ public class FiturTindakan extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel label;
     private javax.swing.JLabel label1;
+    private javax.swing.JLabel lbBiayaSebelum;
     private swing.Pagination pagination;
     private javax.swing.JPanel panel1;
     private javax.swing.JPanel panel2;
@@ -495,8 +513,30 @@ public class FiturTindakan extends javax.swing.JPanel {
         String kodeTindakan = t_kodeTindakan.getText();
         String namaTindakan = t_namaTindakan.getText();
         int biaya = Integer.parseInt(t_biaya.getText());
+        int biayaSebelum = Integer.valueOf(lbBiayaSebelum.getText());
         ModelTindakan modelTindakan = new ModelTindakan(kodeTindakan, namaTindakan, biaya);
         serviceTindakan.updateData(parent, modelTindakan);
+        cekPerubahanHarga(kodeTindakan, namaTindakan, biayaSebelum, biaya);
+    }
+    
+    private void cekPerubahanHarga(String kodeBarang, String namaTindakan, int biayaSebelum, int biaya) {
+        String idNotifikasi = String.valueOf(new Random().nextInt(10000));
+        StringBuilder deskripsi = new StringBuilder();
+        
+        if(!t_biaya.getText().equals(lbBiayaSebelum.getText())) {
+            tambahPerubahanHargaBeli(idNotifikasi, kodeBarang, deskripsi, namaTindakan, biayaSebelum, biaya);
+         } 
+        
+    }
+    
+    private void tambahPerubahanHargaBeli(String idNotifikasi, String namaTindakan, StringBuilder deskripsi, 
+            String namaBarang, int biayaSebelum, int biaya) {
+        
+        String namaNotifikasi = "Perubahan Biaya Tindakan";
+         deskripsi.append("Biaya tindakan " + namaBarang + " berhasil dirubah dari "+biayaSebelum+" menjadi " + biaya);
+         ModelNotifikasi modelNotifikasi1 = new ModelNotifikasi(idNotifikasi, namaNotifikasi.toString(), 
+             deskripsi.toString(), namaTindakan, false);
+         serviceNotifikasi.addNotification(modelNotifikasi1);
     }
     
     private void hapusData(int row) {

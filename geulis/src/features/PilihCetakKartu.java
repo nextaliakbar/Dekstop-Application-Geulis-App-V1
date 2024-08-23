@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -46,9 +47,11 @@ public class PilihCetakKartu extends java.awt.Dialog {
     private DefaultTableModel tabemodel2;
     public ModelKaryawan modelKaryawan;
     public ModelPasien modelPasien;
+    private JFrame parent;
     public PilihCetakKartu(java.awt.Frame parent, boolean modal, String slide) {
         super(parent, modal);
         initComponents();
+        this.parent = (JFrame) parent;
         setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         connection = Koneksi.getConnection();
         
@@ -153,7 +156,7 @@ public class PilihCetakKartu extends java.awt.Dialog {
         modelKaryawan.setJabatan(jabatan);
         dispose();
         } else {
-            JOptionPane.showMessageDialog(panel, "Silahkan Pilih Karyawan Terlebih Dahulu");
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Karyawan Terlebih Dahulu");
         }
     }
     
@@ -170,7 +173,7 @@ public class PilihCetakKartu extends java.awt.Dialog {
             modelPasien.setLevel(level);
             dispose();
         } else {
-            JOptionPane.showMessageDialog(panel2, "Silahkan Pilih Pasien Terlebih Dahulu");
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Pasien Terlebih Dahulu");
         }
     }
     

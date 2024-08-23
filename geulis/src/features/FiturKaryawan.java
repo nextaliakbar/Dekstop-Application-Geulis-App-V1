@@ -8,6 +8,8 @@ import action.TableAction;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -138,10 +140,21 @@ public class FiturKaryawan extends javax.swing.JPanel {
                 }
         } 
     }
+     
+     private boolean validationFormatEmail() {
+          String REGEX_EMAIL = "[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
+          Pattern pattern = Pattern.compile(REGEX_EMAIL);
+          Matcher matcher = pattern.matcher(TFEmailKaryawan.getText());
+          if(matcher.matches()) {
+              return true;
+          }
+          JOptionPane.showMessageDialog(parent, "Format email harus dalam bentuk email\n"
+                  + "Contoh : email@gmail.com");
+          return false;
+      }
+     
      private boolean validation(){
         boolean valid = false;
-        
-        
         if(TFIdKaryawan.getText().isEmpty()){
             JOptionPane.showMessageDialog(parent, "ID Karyawan Tidak Boleh Kosong");
         }else if (TFNamaKaryawan.getText().isEmpty()){
@@ -620,13 +633,17 @@ public class FiturKaryawan extends javax.swing.JPanel {
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         if(btnSimpan.getText().equals("SIMPAN")) {
         if(validation()) {
-            addData();          
-            changePanel(panelData);
+            if(validationFormatEmail()) {
+                addData();          
+                changePanel(panelData);   
+            }
         }   
         } else {
         if(validation()) {
-            perbaruiData();    
-            changePanel(panelData);
+            if(validationFormatEmail()) {
+                perbaruiData();    
+                changePanel(panelData);  
+            }
         }
         }
         tabmodel.setRowCount(0);

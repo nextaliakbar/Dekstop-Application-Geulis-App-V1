@@ -8,6 +8,8 @@ import action.TableAction;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -170,8 +172,16 @@ public class FiturSupplier extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(parent, "Nama Supplier Tidak Boleh Kosong");
         }else if (TFNoTelepon.getText().isEmpty()){
             JOptionPane.showMessageDialog(parent, "No Telepon Supplier Tidak Boleh Kosong");
-        }else if (TFEmail.getText().isEmpty()){
-            JOptionPane.showMessageDialog(parent, "Email Supplier Tidak Boleh Kosong");
+        }else if (!TFEmail.getText().isEmpty()){
+            String REGEX_EMAIL = "[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
+            Pattern pattern = Pattern.compile(REGEX_EMAIL);
+            Matcher matcher = pattern.matcher(TFEmail.getText());
+            if(matcher.matches()) {
+                valid = true;
+            } else {
+            JOptionPane.showMessageDialog(parent, "Format email harus dalam bentuk email\n"
+                    + "Contoh : email@gmail.com");  
+            }
         }else if (TFAlamat.getText().isEmpty()){
             JOptionPane.showMessageDialog(parent, "Alamat Supplier Tidak Boleh Kosong");   
         }else{

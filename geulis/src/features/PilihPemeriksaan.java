@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -46,9 +47,11 @@ public class PilihPemeriksaan extends java.awt.Dialog {
     private DefaultTableModel tabemodel2;
     public ModelKaryawan modelKaryawan;
     public ModelTindakan modelTindakan;
+    private JFrame parent;
     public PilihPemeriksaan(java.awt.Frame parent, boolean modal, String slide) {
         super(parent, modal);
         initComponents();
+        this.parent = (JFrame) parent;
         setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         connection = Koneksi.getConnection();
         
@@ -149,7 +152,7 @@ public class PilihPemeriksaan extends java.awt.Dialog {
         modelKaryawan.setNama(nama);
         dispose();
         } else {
-            JOptionPane.showMessageDialog(panel, "Silahkan Pilih Karyawan Terlebih Dahulu");
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Karyawan Terlebih Dahulu");
         }
     }
     
@@ -166,7 +169,7 @@ public class PilihPemeriksaan extends java.awt.Dialog {
             modelTindakan.setBiaya(biaya);
             dispose();
         } else {
-            JOptionPane.showMessageDialog(panel2, "Silahkan Pilih Tindakan Terlebih Dahulu");
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Tindakan Terlebih Dahulu");
         }
     }
     

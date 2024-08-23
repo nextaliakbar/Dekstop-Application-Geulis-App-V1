@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,6 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.ModelBarang;
 import model.ModelDetailPemesanan;
+import model.ModelNotifikasi;
 import util.ModelHeaderTable;
 import model.ModelPemesanan;
 import model.ModelPengguna;
@@ -34,6 +37,7 @@ import util.ModelRenderTable;
 import model.ModelSupplier;
 import model.Sementara;
 import service.ServiceDetailPemesanan;
+import service.ServiceNotifikasi;
 import service.ServicePemesanan;
 import swing.TableCellActionRender;
 import swing.TableCellEditor;
@@ -50,15 +54,18 @@ public class FiturPemesanan extends javax.swing.JPanel {
     private DefaultTableModel tabmodel1;
     private DefaultTableModel tabmodel2;
     private TableAction action;
+    private JFrame parent;
+    private JButton btnNotif;
     private ModelPengguna modelPengguna;
     private TableRowSorter<DefaultTableModel> rowSorter;
     private ServicePemesanan servicePemesanan = new ServicePemesanan();
     private ServiceDetailPemesanan serviceDetail = new ServiceDetailPemesanan();
-    private JFrame parent;
-    public FiturPemesanan(JFrame parent, ModelPengguna modelPengguna) {
+    private ServiceNotifikasi serviceNotifikasi = new ServiceNotifikasi();
+    public FiturPemesanan(JFrame parent, ModelPengguna modelPengguna, JButton btnNotif) {
         initComponents();
         this.parent = parent;
         this.modelPengguna = modelPengguna;
+        this.btnNotif = btnNotif;
         table.scrollPane(scrollPane);
         table.getTableHeader().setDefaultRenderer(new ModelHeaderTable());
         tabmodel1 = (DefaultTableModel) table.getModel();
@@ -284,20 +291,20 @@ public class FiturPemesanan extends javax.swing.JPanel {
         try {
             if(lbKodeBrg.getText().trim().length() == 0 ) {
                 valid = false;
-                JOptionPane.showMessageDialog(null, "Silahkan Pilih Barang");
+                JOptionPane.showMessageDialog(parent, "Silahkan Pilih Barang");
             } else if(txtHrgBeliSkrg.getText().trim().length() == 0) {
                 valid = false;
-                JOptionPane.showMessageDialog(null, "Silahkan Masukkan Harga Beli");
+                JOptionPane.showMessageDialog(parent, "Silahkan Masukkan Harga Beli");
             } else if(jumlah <= 0) {
                 valid = false;
-                JOptionPane.showMessageDialog(null, "Silahkan Masukkan Jumlah Pemesanan");
+                JOptionPane.showMessageDialog(parent, "Silahkan Masukkan Jumlah Pemesanan");
             } else {
              for(int a = 0; a < rowCount; a++) {
                 String kodeBrgInTable = (String) tableDetail.getValueAt(a, 0);
                 String kodeBrg = lbKodeBrg.getText();            
                     if(kodeBrg.equals(kodeBrgInTable)) {
                         valid = false;
-                        JOptionPane.showMessageDialog(null, "Barang ini sudah ditambahkan");
+                        JOptionPane.showMessageDialog(parent, "Barang ini sudah ditambahkan");
                         break;
                     } else {
                         valid = true;
@@ -306,7 +313,7 @@ public class FiturPemesanan extends javax.swing.JPanel {
             }
         } catch(NullPointerException ex) {
             valid = false;
-            JOptionPane.showMessageDialog(null, "Silahkan Pilih Barang");
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Barang");
         }
         
         return valid;
@@ -316,18 +323,18 @@ public class FiturPemesanan extends javax.swing.JPanel {
         boolean valid = false;
         try {
             if(lbIdSupplier.getText().trim().length() == 0) {
-                JOptionPane.showMessageDialog(null, "Silahkan Pilih Supplier");
+                JOptionPane.showMessageDialog(parent, "Silahkan Pilih Supplier");
             } else if(tableDetail.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(null, "Silahkan Pilih Barang");       
+                JOptionPane.showMessageDialog(parent, "Silahkan Pilih Barang");       
             } else if(txtBayar.getText().trim().length() == 0) {
-                JOptionPane.showMessageDialog(null, "Silahkan masukkan jumlah pembayaran");
+                JOptionPane.showMessageDialog(parent, "Silahkan masukkan jumlah pembayaran");
             } else if(Double.parseDouble(txtBayar.getText()) < total()) {
-                JOptionPane.showMessageDialog(null, "Jumlah Pembayaran Kurang dari Total Pemesanan");    
+                JOptionPane.showMessageDialog(parent, "Jumlah Pembayaran Kurang dari Total Pemesanan");    
             } else {
                 valid = true;
             }
         } catch(NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Silahkan Pilih Supplier");    
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Supplier");    
         }
         
         return valid;
@@ -349,6 +356,7 @@ public class FiturPemesanan extends javax.swing.JPanel {
     private void perbaruiHargaBeli() {
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
             String kodeBrg = tableDetail.getValueAt(a, 0).toString();
+            String namaBrg = tableDetail.getValueAt(a, 1).toString();
             int hrgSblm = (int) tableDetail.getValueAt(a, 2);
             int hrgSkrg = (int) tableDetail.getValueAt(a, 3);
             if(hrgSblm != hrgSkrg) {
@@ -356,8 +364,26 @@ public class FiturPemesanan extends javax.swing.JPanel {
                 modelBarang.setKode_Barang(kodeBrg);
                 modelBarang.setHarga_Beli(hrgSkrg);
                 servicePemesanan.updatePriceBuy(modelBarang);
+                cekPerubahanHarga(kodeBrg, namaBrg, hrgSblm, hrgSkrg); 
             }
         }
+        
+    }
+    
+    private void cekPerubahanHarga(String kodeBarang, String namaBarang, int hrgBeliSebelum, int hargaBeli) {
+        String idNotifikasi = String.valueOf(new Random().nextInt(10000));
+        StringBuilder deskripsi = new StringBuilder();
+        tambahPerubahanHargaBeli(idNotifikasi, kodeBarang, deskripsi, namaBarang, hrgBeliSebelum, hargaBeli);        
+    }
+    
+     private void tambahPerubahanHargaBeli(String idNotifikasi, String kodeBarang, StringBuilder deskripsi, 
+            String namaBarang, int hrgBeliSebelum, int hargaBeli) {
+        
+        String namaNotifikasi1 = "Perubahan Harga Beli Barang";
+         deskripsi.append("Harga Beli " + namaBarang + " berhasil dirubah dari "+hrgBeliSebelum+" menjadi " + hargaBeli);
+         ModelNotifikasi modelNotifikasi1 = new ModelNotifikasi(idNotifikasi, namaNotifikasi1.toString(), 
+             deskripsi.toString(), kodeBarang, false);
+         serviceNotifikasi.addNotification(modelNotifikasi1);
     }
     
     private void clearAllField() {
@@ -1184,14 +1210,14 @@ public class FiturPemesanan extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTambahSementaraActionPerformed
 
     private void btnPilihSuplrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihSuplrActionPerformed
-        TambahPemesanan pilihSupplier = new TambahPemesanan(null, true, "Slide-1");
+        TambahPemesanan pilihSupplier = new TambahPemesanan(parent, true, "Slide-1");
         pilihSupplier.setVisible(true);
         lbIdSupplier.setText(pilihSupplier.modelSupplier.getIdSupplier());
         lbNamaSupplier.setText(pilihSupplier.modelSupplier.getNamaSupplier());
     }//GEN-LAST:event_btnPilihSuplrActionPerformed
 
     private void btnPilihBrgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihBrgActionPerformed
-        TambahPemesanan pilihBarang = new TambahPemesanan(null, true, "Slide-2");
+        TambahPemesanan pilihBarang = new TambahPemesanan(parent, true, "Slide-2");
         pilihBarang.setVisible(true);
         lbKodeBrg.setText(pilihBarang.modelBarang.getKode_Barang());
         lbNamaBrg.setText(pilihBarang.modelBarang.getNama_Barang());
@@ -1226,8 +1252,9 @@ public class FiturPemesanan extends javax.swing.JPanel {
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         if(validation()) {
             if(validationUpdatePrice()) {
-                JOptionPane.showMessageDialog(null, "Harga beli beberapa barang telah dirubah", "Informasi", JOptionPane.INFORMATION_MESSAGE);
-                perbaruiHargaBeli();    
+                JOptionPane.showMessageDialog(parent, "Harga beli beberapa barang telah dirubah", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+                perbaruiHargaBeli();
+                btnNotif.setText(serviceNotifikasi.getCountNotification() + "");
             }
                 tambahData();
                 clearAllField();
@@ -1239,7 +1266,7 @@ public class FiturPemesanan extends javax.swing.JPanel {
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
         if(tableDetail.getRowCount() != 0) {
-            int confirm = JOptionPane.showConfirmDialog(null, "Data yang telah diinput akan dihapus", "Konfirmasi", JOptionPane.OK_OPTION);
+            int confirm = JOptionPane.showConfirmDialog(parent, "Data yang telah diinput akan dihapus", "Konfirmasi", JOptionPane.OK_OPTION);
             if(confirm == 0) {
             clearAllField();
             changePanel(panelData);

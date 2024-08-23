@@ -58,18 +58,18 @@ public class Sidebar extends javax.swing.JPanel {
     public void initiationMenu(ModelPengguna modelPengguna) {
         String level = modelPengguna.getLevel();
         if(level.equals("Owner")) {
-            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/dashboard.png")), "Dashboard"));
-            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/briefcase.png")), "Master", "Barang","Tindakan","Pasien","Supplier","Karyawan","Pengguna"));    
-            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/clock.png")), "Reservasi"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/data-analytics.png")), "Dashboard"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/folder.png")), "Master", "Barang","Tindakan","Pasien","Supplier","Karyawan","Pengguna"));    
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/time.png")), "Reservasi"));
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/money-exchange.png")), "Transaksi","Pemeriksaan","Penjualan","Pemesanan"));
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/expenditure.png")), "Pengeluaran"));
-            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/medical-records.png")), "Riwayat Pasien"));
-            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/menu.png")), "Lain lain","Restok","Absensi","Cetak Kartu","Laporan"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/history.png")), "Riwayat Pasien"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/more.png")), "Lain lain","Restok","Absensi","Cetak Kartu","Laporan"));
         } else {
-            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/clock.png")), "Reservasi"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/time.png")), "Reservasi"));
             addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/money-exchange.png")), "Transaksi","Pemeriksaan","Penjualan","Pemesanan"));
-            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/medical-records.png")), "Riwayat Pasien"));
-            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/menu.png")), "Lain lain","Restok","Absensi","Cetak Kartu","Laporan"));  
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/history.png")), "Riwayat Pasien"));
+            addMenu(new ModelMenu(new ImageIcon(getClass().getResource("/image/more.png")), "Lain lain","Restok","Absensi","Cetak Kartu","Laporan"));  
         }
     }
     

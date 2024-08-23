@@ -7,6 +7,8 @@ import action.TableAction;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -516,14 +518,14 @@ public class FiturPasien extends javax.swing.JPanel {
                 changePanel(panelData);
                 tabmodel.setRowCount(0);
                 servicePasien.loadData(tabmodel);
-            }
+            }   
         } else {
                 perbaruiData();
                 clearField();
                 changePanel(panelData);
                 tabmodel.setRowCount(0);
-                servicePasien.loadData(tabmodel);
-        }
+                servicePasien.loadData(tabmodel);   
+            }
         }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
@@ -622,7 +624,7 @@ public class FiturPasien extends javax.swing.JPanel {
         ModelPasien modelPasien = new ModelPasien();
         modelPasien.setIdPasien(idPasien);
         if(servicePasien.validationDelete(parent, modelPasien)) {
-            int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus pasien ini?", 
+            int confirm = JOptionPane.showConfirmDialog(parent, "Yakin ingin menghapus pasien ini?", 
         "Konfirmasi", JOptionPane.YES_NO_OPTION);
                 if(confirm == JOptionPane.YES_OPTION) {
                 if(table.isEditing()) {
@@ -682,8 +684,16 @@ public class FiturPasien extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(parent, "No Telepon tidak boleh kosong");
         } else if(t_alamat.getText().isEmpty()) {
             JOptionPane.showMessageDialog(parent, "Alamat tidak boleh kosong");
-        } else if(t_email.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(parent, "Email tidak boleh kosong");
+        } else if(!t_email.getText().isEmpty()) {
+            String REGEX_EMAIL = "[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
+            Pattern pattern = Pattern.compile(REGEX_EMAIL);
+            Matcher matcher = pattern.matcher(t_email.getText());
+            if(matcher.matches()) {
+                valid = true;
+            } else {
+            JOptionPane.showMessageDialog(parent, "Format email harus dalam bentuk email\n"
+                    + "Contoh : email@gmail.com");  
+            }
         } else {
             valid = true;
         }

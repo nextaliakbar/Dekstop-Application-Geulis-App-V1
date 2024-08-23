@@ -244,11 +244,11 @@ public class DialogDetail extends java.awt.Dialog {
     private void perbaruiStatus() {
         String status = lbStatus.getText();
         if(status.equals("Selesai")) {
-            JOptionPane.showMessageDialog(null, "Reservasi ini sudah selesai");
+            JOptionPane.showMessageDialog(parent, "Reservasi ini sudah selesai");
         } else if(status.equals("Batal")){
-            JOptionPane.showMessageDialog(null, "Reservasi ini sudah dibatalkan");
+            JOptionPane.showMessageDialog(parent, "Reservasi ini sudah dibatalkan");
         } else {
-            int confirm = JOptionPane.showConfirmDialog(null, "Yakin ingin membatalkan reservasi?", "Konfirmasi", JOptionPane.OK_OPTION);
+            int confirm = JOptionPane.showConfirmDialog(parent, "Yakin ingin membatalkan reservasi?", "Konfirmasi", JOptionPane.OK_OPTION);
             if(confirm == 0) {
                 ModelReservasi modelReservasi = new ModelReservasi();
                 String noReservasi = lbNoReservasi2.getText();

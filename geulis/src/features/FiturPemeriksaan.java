@@ -288,13 +288,13 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             String bayar = df.format(Double.parseDouble(txtBayar.getText()));
             String kembalian = lbKembalian.getText();
             String jenisPembayaran = (String) cbx_jenisPembayaran.getSelectedItem();
-            ParamPemeriksaan payment = new ParamPemeriksaan(noPemeriksaan, tglPemeriksaan, jamPemeriksaan, pasien, karyawan, admin, 
+            ParamPemeriksaan parameter = new ParamPemeriksaan(noPemeriksaan, tglPemeriksaan, jamPemeriksaan, pasien, karyawan, admin, 
             total, totalPotongan, bayar, kembalian, jenisPembayaran, fields);
-            Report.getInstance().printReportPemeriksaan(payment);
+            Report.getInstance().printReportPemeriksaan(parameter);
 
         } catch(Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(parent, ex.getMessage(), "Peringatan", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
@@ -380,7 +380,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
                 tabEnter.setText("Scan Ulang");
                 txtPotongan.setEnabled(false);
         } else {
-            JOptionPane.showMessageDialog(null, "Silahkan scan kartu member");
+            JOptionPane.showMessageDialog(parent, "Silahkan scan kartu member");
         }
     }
     
@@ -391,7 +391,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         } else {
             txtPotongan.setHorizontalAlignment(JTextField.CENTER);
             viewCheck("Klik disini dan Scan Kartu Member", txtPotongan, 14);
-            JOptionPane.showMessageDialog(null, "Pasien tidak terdaftar"); 
+            JOptionPane.showMessageDialog(parent, "Pasien tidak terdaftar"); 
         }
     }
         
@@ -1306,7 +1306,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
         if(tableDetail.getRowCount() != 0) {
-            int confirm = JOptionPane.showConfirmDialog(null, "Data yang telah diinput akan dihapus", "Konfirmasi", JOptionPane.OK_OPTION);
+            int confirm = JOptionPane.showConfirmDialog(parent, "Data yang telah diinput akan dihapus", "Konfirmasi", JOptionPane.OK_OPTION);
             if(confirm == 0) {
             clearField();
             changePanel(panelData);
@@ -1318,14 +1318,14 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void btnPilih1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilih1ActionPerformed
-        PilihPemeriksaan pilih = new PilihPemeriksaan(null, true, "Slide-1");
+        PilihPemeriksaan pilih = new PilihPemeriksaan(parent, true, "Slide-1");
         pilih.setVisible(true);
         lbIdKaryawan.setText(pilih.modelKaryawan.getIdKaryawan());
         lbNamaKaryawan.setText(pilih.modelKaryawan.getNama());   
     }//GEN-LAST:event_btnPilih1ActionPerformed
 
     private void btnPilih2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilih2ActionPerformed
-        PilihPemeriksaan pilih = new PilihPemeriksaan(null, true, "Slide-2");
+        PilihPemeriksaan pilih = new PilihPemeriksaan(parent, true, "Slide-2");
         pilih.setVisible(true);
         lbKodeTindakan.setText(pilih.modelTindakan.getKodeTindakan());
         lbNamaTindakan.setText(pilih.modelTindakan.getNamaTindakan());
@@ -1441,15 +1441,15 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         boolean valid = false;
         
         if(lbTgl.getText().trim().length() == 0) {
-            JOptionPane.showMessageDialog(null, "Silahkan Pilih Nomor Reservasi");
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Nomor Reservasi");
         } else if(lbIdKaryawan.getText().trim().length() == 0) {
-            JOptionPane.showMessageDialog(null, "Silahkan Pilih Karyawan");  
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Karyawan");  
         } else if(txtBayar.getText().trim().length() == 0) {
-            JOptionPane.showMessageDialog(null, "Silahkan Masukkan Jumlah Pembayaran");
+            JOptionPane.showMessageDialog(parent, "Silahkan Masukkan Jumlah Pembayaran");
         } else if(tableDetail.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(null, "Silahkan Pilih Tindakan");    
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Tindakan");    
         } else if(Double.parseDouble(txtBayar.getText()) < total()) {
-            JOptionPane.showMessageDialog(null, "Jumlah Pembayaran Kurang dari Total Pemeriksaan");    
+            JOptionPane.showMessageDialog(parent, "Jumlah Pembayaran Kurang dari Total Pemeriksaan");    
         } else {
             valid = true;
         }
@@ -1467,23 +1467,23 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         try {
             if(kodeTdkn.length() == 0) {
                 valid = false;
-                JOptionPane.showMessageDialog(null, "Silahkan Pilih Tindakan");
+                JOptionPane.showMessageDialog(parent, "Silahkan Pilih Tindakan");
             } else if(servicPemeriksaan.validastionAddData(modelPasien) && lbIdPasien2.getText().length() != 0) {
                 valid = false;
-                JOptionPane.showMessageDialog(null, "Pasien tidak terdaftar");
+                JOptionPane.showMessageDialog(parent, "Pasien tidak terdaftar");
             } else if(!disc.equals("Klik disini dan Scan Kartu Member")) {
                 if(potongan() == 0 || totalPotongan() == 0) {
                     valid = true;
                 } else if(potongan() <= totalPotongan() || potongan() >= totalPotongan()) {
                     valid = false;
-                    JOptionPane.showMessageDialog(null, "Potongan hanya berlaku 1x");
+                    JOptionPane.showMessageDialog(parent, "Potongan hanya berlaku 1x");
                 }
             } else {
                 for(int a = 0; a < rowCount; a++) {
                     String kodeTdknSmntr = (String) tableDetail.getValueAt(a, 1);
                     if(kodeTdkn.equals(kodeTdknSmntr)) {
                         valid = false;
-                        JOptionPane.showMessageDialog(null, "Tindakan ini sudah di tambahkan");
+                        JOptionPane.showMessageDialog(parent, "Tindakan ini sudah di tambahkan");
                         break;
                     } else {
                         valid = true;
@@ -1493,7 +1493,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             }
         } catch(NullPointerException ex) {
             valid = false;
-            JOptionPane.showMessageDialog(null, "Silahkan Pilih Tindakan");
+            JOptionPane.showMessageDialog(parent, "Silahkan Pilih Tindakan");
         }
         
         return valid;
