@@ -1177,7 +1177,7 @@ public class FiturPemesanan extends javax.swing.JPanel {
         clearAllField();
         changePanel(panelTambah);
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd - MMMM - yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy - MM - dd");
         String dateNow = sdf.format(date);
         lbNoPemesanan.setText(servicePemesanan.createNo());
         lbTgl.setText(dateNow);
@@ -1280,14 +1280,14 @@ public class FiturPemesanan extends javax.swing.JPanel {
     private void spnJumlahStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spnJumlahStateChanged
         int jumlah = (int) spnJumlah.getValue();
         String hargaBeli = txtHrgBeliSkrg.getText();
-        double subtotal;
+        int subtotal;
         if(hargaBeli.length() != 0) {
             if(jumlah > 0) {
-                subtotal = Double.parseDouble(hargaBeli) * jumlah;    
+                subtotal = Integer.valueOf(hargaBeli) * jumlah;    
             } else if(jumlah == 0) {
-                subtotal = Double.parseDouble(hargaBeli) + jumlah;         
+                subtotal = Integer.valueOf(hargaBeli) + jumlah;         
             } else {
-                subtotal = Double.parseDouble(hargaBeli) + 0;             
+                subtotal = Integer.valueOf(hargaBeli) + 0;             
             }
         } else {
             subtotal = 0;

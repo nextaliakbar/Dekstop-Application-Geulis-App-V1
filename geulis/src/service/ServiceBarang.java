@@ -4,10 +4,11 @@
  */
 package service;
 import model.ModelJenisBarang;
-import java.sql.Connection;
 import model.ModelBarang;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -198,7 +199,7 @@ public class ServiceBarang {
         return listJenisBarang;
     }
     
-    public boolean validationAddJenis(JFrame parent, ModelJenisBarang modelJenis) {
+    public boolean validationAddJenisBarang(JFrame parent, ModelJenisBarang modelJenis) {
         boolean valid = false;
         String query = "SELECT * FROM jenis_barang WHERE nama_jenis='"+modelJenis.getNamaJenis()+"'";
         try {
@@ -216,6 +217,42 @@ public class ServiceBarang {
         }
         return valid;
     }
+    
+    public void deleteJenisBarang(ModelJenisBarang modelJenis) {
+        String query = "DELETE FROM jenis_barang WHERE Nama_Jenis='"+modelJenis.getNamaJenis()+"' ";
+        try(PreparedStatement pst = connection.prepareStatement(query)) {
+            pst.executeUpdate();
+        } catch(SQLException exception) {
+            throw new IllegalArgumentException(exception);
+        }
+        
+    }
+    
+    public boolean validationDeleteJenisBarang(ModelJenisBarang modelJenisBarang) {
+        String query = "SELECT Kode_Jenis FROM jenis_barang WHERE Nama_Jenis='"+modelJenisBarang.getNamaJenis()+"' ";
+        try {
+            PreparedStatement pst = connection.prepareStatement(query);
+            ResultSet rst = pst.executeQuery();
+            if(rst.next()) {
+                String sql = "SELECT Kode_Jenis FROM barang WHERE Kode_Jenis='"+rst.getString("Kode_Jenis")+"' ";
+                PreparedStatement statment = connection.prepareStatement(sql);
+                ResultSet resultSet = statment.executeQuery();
+                if(resultSet.next()) {
+                    statment.close();
+                    resultSet.close();
+                    return false;
+                }
+            }
+            
+            pst.close();
+            rst.close();
+            return true;
+            
+        } catch(SQLException exception) {
+            throw new IllegalArgumentException(exception);
+        }
+    }
+    
     
     public boolean validationDelete(JFrame parent, ModelBarang modelBarang) {
         boolean valid = false;
@@ -245,5 +282,23 @@ public class ServiceBarang {
             ex.printStackTrace();
         }
         return valid;
+    }
+    
+    public boolean cekNomorBarcode(ModelBarang modelBarang) {
+        String query = "SELECT Nomor_Barcode FROM barang WHERE Nomor_Barcode='"+modelBarang.getNomor_Barcode()+"'";
+        try(PreparedStatement pst = connection.prepareStatement(query);
+        ResultSet rst = pst.executeQuery()) {
+            if(rst.next()) {
+                
+                if(rst.getString("Nomor_Barcode").equals("")) {
+                    return true;
+                }
+                                
+                return false;
+            }            
+            return true;
+        } catch(SQLException exception) {
+            throw new IllegalArgumentException(exception);
+        }
     }
 }

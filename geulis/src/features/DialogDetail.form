@@ -632,29 +632,25 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="scroll2" pref="972" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="lb11" min="-2" pref="192" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="lbNoPemeriksaan2" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="lb11" min="-2" pref="192" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lbNoPemeriksaan2" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="lb8" max="32767" attributes="0"/>
+                                      <Component id="lb10" max="32767" attributes="0"/>
+                                      <Component id="lb13" max="32767" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="lb8" max="32767" attributes="0"/>
-                                          <Component id="lb10" max="32767" attributes="0"/>
-                                          <Component id="lb13" max="32767" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lbTerakhirPemeriksaan" max="32767" attributes="0"/>
-                                          <Component id="lbNamaPasien" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="lbIdPasien2" max="32767" attributes="0"/>
-                                      </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="lbTerakhirPemeriksaan" max="32767" attributes="0"/>
+                                      <Component id="lbNamaPasien" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="lbIdPasien2" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="jScrollPane1" min="-2" pref="415" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -667,28 +663,23 @@
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lbIdPasien2" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="lb13" min="-2" pref="35" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lbNamaPasien" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="lb8" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lb10" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="lbTerakhirPemeriksaan" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lbNoPemeriksaan2" min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="lb11" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Component id="jScrollPane1" min="-2" pref="176" max="-2" attributes="0"/>
+                          <Component id="lbIdPasien2" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="lb13" min="-2" pref="35" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lbNamaPasien" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="lb8" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lb10" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="lbTerakhirPemeriksaan" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lbNoPemeriksaan2" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="lb11" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                       <Component id="scroll2" pref="579" max="32767" attributes="0"/>
@@ -710,15 +701,13 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="jLabel2" pref="896" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="btnKirim" min="-2" pref="88" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="100" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
-                      <Component id="btnKirim" alignment="1" pref="58" max="32767" attributes="0"/>
+                      <Component id="jLabel2" alignment="0" pref="58" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -736,20 +725,6 @@
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="text" type="java.lang.String" value="DETAIL RIWAYAT"/>
-                  </Properties>
-                </Component>
-                <Component class="swing.Button" name="btnKirim">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="32" green="f" red="87" type="rgb"/>
-                    </Property>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                    </Property>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/image/send.png"/>
-                    </Property>
-                    <Property name="text" type="java.lang.String" value="Kirim"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -911,42 +886,6 @@
                 <Property name="text" type="java.lang.String" value="ID Pasien"/>
               </Properties>
             </Component>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-              <Properties>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="null"/>
-                </Property>
-              </Properties>
-              <AuxValues>
-                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-              </AuxValues>
-
-              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-              <SubComponents>
-                <Component class="javax.swing.JTextArea" name="txtMessage">
-                  <Properties>
-                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                    </Property>
-                    <Property name="columns" type="int" value="20"/>
-                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="SansSerif" size="18" style="0"/>
-                    </Property>
-                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="0" green="0" red="0" type="rgb"/>
-                    </Property>
-                    <Property name="rows" type="int" value="5"/>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                      <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
-                        <MatteColorBorder>
-                          <Color PropertyName="color" blue="b9" green="b9" red="b9" type="rgb"/>
-                        </MatteColorBorder>
-                      </Border>
-                    </Property>
-                  </Properties>
-                </Component>
-              </SubComponents>
-            </Container>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="panel3">

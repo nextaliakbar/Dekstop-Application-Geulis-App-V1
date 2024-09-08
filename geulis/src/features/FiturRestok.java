@@ -950,7 +950,7 @@ public class FiturRestok extends javax.swing.JPanel {
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         changePanel(panelTambah);
         pemesanan = new PilihPemesanan(parent, true, "Restok");
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd - MMMM - yyyy");
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy - MM - dd");
         LocalDate dateNow = LocalDate.now();
         String strDateNow = dateNow.format(format);
         lbTglTiba.setText(strDateNow);

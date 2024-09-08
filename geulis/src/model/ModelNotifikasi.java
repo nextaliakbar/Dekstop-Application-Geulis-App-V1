@@ -40,7 +40,7 @@ public class ModelNotifikasi {
     public LocalDateTime getTanggalNotifikasi() {
         return tanggalNotifikasi;
     }
-
+    
     public void setTanggalNotifikasi(LocalDateTime tanggalNotifikasi) {
         this.tanggalNotifikasi = tanggalNotifikasi;
     }

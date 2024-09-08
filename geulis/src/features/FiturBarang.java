@@ -81,11 +81,20 @@ public class FiturBarang extends javax.swing.JPanel {
         public void edit(int row) {
             changePanel(panelTambah);
             cbx_jenisBarang.setEnabled(false);
+            t_noBarcode.setEnabled(false);
             t_kodeBarang.setEnabled(false);
             setShowFieldAddJenis(false, false, false);
             btnSimpan.setText("PERBARUI");
             String kodeBarang = (String) table.getValueAt(row, 0);
             String nomorBarcode = (String) table.getValueAt(row, 1);
+            if(nomorBarcode.equals("")) {
+                nomorBarcode = "Klik disini untuk scan nomor barcode barang (Opsional)";
+                t_noBarcode.setFont(new Font("sansserif", Font.ITALIC, 20));
+                t_noBarcode.setForeground(new Color(185,185,185));                
+            } else {
+                t_noBarcode.setFont(new Font("sansserif", 0, 20));
+                t_noBarcode.setForeground(new Color(0,0,0));
+            }
             String kodeJenis = (String) table.getValueAt(row, 2);
             String namaBarang = (String) table.getValueAt(row, 4);
             String satuan = (String) table.getValueAt(row, 5);
@@ -168,6 +177,7 @@ public class FiturBarang extends javax.swing.JPanel {
         lbKodeJenis = new javax.swing.JLabel();
         lbHrgBeliSblm = new javax.swing.JLabel();
         lbHrgJualSebelum = new javax.swing.JLabel();
+        btnHapusJenis = new swing.Button();
         jPanel1 = new javax.swing.JPanel();
         label1 = new javax.swing.JLabel();
 
@@ -469,8 +479,16 @@ public class FiturBarang extends javax.swing.JPanel {
             }
         });
 
-        t_noBarcode.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        t_noBarcode.setFont(new java.awt.Font("SansSerif", 2, 20)); // NOI18N
+        t_noBarcode.setForeground(new java.awt.Color(185, 185, 185));
+        t_noBarcode.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        t_noBarcode.setText("Klik disini untuk scan nomor barcode barang (Opsional)");
         t_noBarcode.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
+        t_noBarcode.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                t_noBarcodeFocusGained(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -510,6 +528,13 @@ public class FiturBarang extends javax.swing.JPanel {
         lbHrgJualSebelum.setForeground(new java.awt.Color(255, 255, 255));
         lbHrgJualSebelum.setText("Harga Jual Sebelum");
 
+        btnHapusJenis.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/close.png"))); // NOI18N
+        btnHapusJenis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusJenisActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
         panel2Layout.setHorizontalGroup(
@@ -538,34 +563,38 @@ public class FiturBarang extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panel2Layout.createSequentialGroup()
+                        .addComponent(cbx_satuan, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 344, Short.MAX_VALUE)
+                        .addComponent(lbHrgBeliSblm)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbHrgJualSebelum))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
                         .addComponent(t_tambahJenisBarang)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnTambahJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBatalJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panel2Layout.createSequentialGroup()
-                        .addComponent(cbx_satuan, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lbHrgBeliSblm)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
+                        .addComponent(t_noBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbHrgJualSebelum))
-                    .addGroup(panel2Layout.createSequentialGroup()
-                        .addComponent(t_noBarcode, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
-                        .addGap(6, 6, 6)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbx_jenisBarang, 0, 207, Short.MAX_VALUE)))
+                        .addComponent(cbx_jenisBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnHapusJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(64, 64, 64))
         );
         panel2Layout.setVerticalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cbx_jenisBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(t_noBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(cbx_jenisBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(t_noBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnHapusJenis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(t_tambahJenisBarang, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
@@ -663,6 +692,9 @@ public class FiturBarang extends javax.swing.JPanel {
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         changePanel(panelTambah);
         clearField();
+        t_noBarcode.setText("Klik disini untuk scan nomor barcode barang (Opsional)");
+        t_noBarcode.setFont(new Font("sansserif", Font.ITALIC, 20));
+        t_noBarcode.setForeground(new Color(185,185,185));
         cbx_jenisBarang.setVisible(true);
         cbx_jenisBarang.setEnabled(true);
         cbx_satuan.setSelectedItem("Paket");
@@ -674,23 +706,20 @@ public class FiturBarang extends javax.swing.JPanel {
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
         if(validation()) {
-        if(btnSimpan.getText().equals("SIMPAN")) {
-            tambahData();  
-        } else {
-            perbaruiData();
-            btnNotif.setText(serviceNotifikasi.getCountNotification() + "");
-        }
-        clearField();
-        changePanel(panelData);
-        tabmodel.setRowCount(0);
-        serviceBarang.loadData(tabmodel);
+            if(btnSimpan.getText().equals("SIMPAN")) {
+                tambahData();
+            } else {
+                perbaruiData();
+                btnNotif.setText(serviceNotifikasi.getCountNotification() + "");
+            }
+        
         }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void txtCariFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCariFocusGained
         txtCari.setText(null);
         txtCari.setForeground(new Color(0,0,0));
-        txtCari.setFont(new Font("sansserif",0,14));
+        txtCari.setFont(new Font("sansserif",0,20));
     }//GEN-LAST:event_txtCariFocusGained
 
     private void t_hargaBeliKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_t_hargaBeliKeyTyped
@@ -727,6 +756,12 @@ public class FiturBarang extends javax.swing.JPanel {
     }//GEN-LAST:event_cbx_jenisBarangActionPerformed
 
     private void btnTambahJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahJenisActionPerformed
+        if(t_tambahJenisBarang.getText().equals("Tambah Jenis Barang")) {
+            JOptionPane.showMessageDialog(parent, "Silahkan masukkan jenis barang baru");
+            return;
+        }
+        
+        
         if(serviceBarang.loadDataJenisBarang().size() == 0) {
             tambahJenisBarang();
             setShowFieldAddJenis(false, false, false);
@@ -739,7 +774,7 @@ public class FiturBarang extends javax.swing.JPanel {
             String newJenisBarang = t_tambahJenisBarang.getText();
             ModelJenisBarang modelJenisBarang = new ModelJenisBarang();
             modelJenisBarang.setNamaJenis(newJenisBarang);
-            if(serviceBarang.validationAddJenis(parent, modelJenisBarang)) {
+            if(serviceBarang.validationAddJenisBarang(parent, modelJenisBarang)) {
                 tambahJenisBarang();
                 tampilJenisBarang();
                 setShowFieldAddJenis(false, false, false);      
@@ -758,6 +793,18 @@ public class FiturBarang extends javax.swing.JPanel {
         t_tambahJenisBarang.setText("");
         t_tambahJenisBarang.setForeground(new Color(0, 0, 0));
     }//GEN-LAST:event_t_tambahJenisBarangFocusGained
+
+    private void t_noBarcodeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_t_noBarcodeFocusGained
+        if(t_noBarcode.getText().equals("Klik disini untuk scan nomor barcode barang (Opsional)")) {
+            t_noBarcode.setText("");
+            t_noBarcode.setForeground(new Color(0, 0, 0));
+            t_noBarcode.setFont(new Font("sansserif", 0, 20));
+        }
+    }//GEN-LAST:event_t_noBarcodeFocusGained
+
+    private void btnHapusJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusJenisActionPerformed
+        hapusJenisBarang();
+    }//GEN-LAST:event_btnHapusJenisActionPerformed
 
     private void changePanel(JPanel panel) {
         removeAll();
@@ -779,6 +826,7 @@ public class FiturBarang extends javax.swing.JPanel {
     private swing.Button btnBatal;
     private swing.Button btnBatalJenis;
     private swing.Button btnHapus;
+    private swing.Button btnHapusJenis;
     private swing.Button btnPilih;
     private swing.Button btnSimpan;
     private swing.Button btnTambah;
@@ -824,6 +872,9 @@ public class FiturBarang extends javax.swing.JPanel {
     private void tambahData() {
         String kodeBarang = t_kodeBarang.getText();
         String nomorBarcode = t_noBarcode.getText();
+        if(nomorBarcode.equals("Klik disini untuk scan nomor barcode barang (Opsional)")) {
+            nomorBarcode = "";
+        }
         String kodeJenis = lbKodeJenis.getText();
         String namaBarang = t_namaBarang.getText();
         String satuan = (String) cbx_satuan.getSelectedItem();
@@ -831,12 +882,23 @@ public class FiturBarang extends javax.swing.JPanel {
         int hargaJual = Integer.parseInt(t_hargaJual.getText());
         int stok = (int) spn_stok.getValue();
         ModelBarang modelBarang = new ModelBarang(kodeBarang, nomorBarcode, kodeJenis, namaBarang, satuan, hargaBeli, hargaJual, stok);
-        serviceBarang.addData(parent, modelBarang);
+        if(!serviceBarang.cekNomorBarcode(modelBarang)) {
+            JOptionPane.showMessageDialog(parent, "Nomor barcode sudah tersedia\nMohon cek kembali nomor\nbarcode barang");
+            return;
+        }
+        serviceBarang.addData(parent, modelBarang);                
+        clearField();
+        changePanel(panelData);
+        tabmodel.setRowCount(0);
+        serviceBarang.loadData(tabmodel);
     }
     
     private void perbaruiData() {
         String kodeBarang = t_kodeBarang.getText();
         String nomorBarcode = t_noBarcode.getText();
+        if(nomorBarcode.equals("Klik disini untuk scan nomor barcode barang (Opsional)")) {
+            nomorBarcode = "";
+        }
         String kodeJenis = lbKodeJenis.getText();
         String namaBarang = t_namaBarang.getText();
         String satuan = (String) cbx_satuan.getSelectedItem();
@@ -848,6 +910,10 @@ public class FiturBarang extends javax.swing.JPanel {
         int hrgBeliSebelum = Integer.valueOf(lbHrgBeliSblm.getText());
         int hrgJualSebelum = Integer.valueOf(lbHrgJualSebelum.getText());
         cekPerubahanHarga(kodeBarang, namaBarang, hrgJualSebelum, hargaJual, hrgBeliSebelum, hargaBeli);
+        clearField();
+        changePanel(panelData);
+        tabmodel.setRowCount(0);
+        serviceBarang.loadData(tabmodel);
     }
     
     private void hapusData(int row) {
@@ -931,8 +997,34 @@ public class FiturBarang extends javax.swing.JPanel {
         }
     }
     
+    private void hapusJenisBarang() {
+        if(cbx_jenisBarang.getSelectedItem().equals("Tambah Jenis Barang")) {
+            JOptionPane.showMessageDialog(parent, "Silahkan pilih jenis barang yang ingin dihapus");
+            return;
+        }
+        
+        int confirm = JOptionPane.showConfirmDialog(parent, "Yakin ingin menghapus jenis barang ini?", 
+        "Konfirmasi",JOptionPane.YES_OPTION);
+        
+        ModelJenisBarang modelJenis = new ModelJenisBarang();
+        modelJenis.setNamaJenis(cbx_jenisBarang.getSelectedItem().toString());
+        
+        if(confirm == JOptionPane.YES_OPTION) {
+            if(!serviceBarang.validationDeleteJenisBarang(modelJenis)) {
+                JOptionPane.showMessageDialog(parent, "Tidak dapat menghapus jenis barang ini\n"
+                + "Jenis barang ini sedang digunakan pada\nmenu barang", "Peringatan", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            serviceBarang.deleteJenisBarang(modelJenis);
+            cbx_jenisBarang.removeItem(cbx_jenisBarang.getSelectedItem());
+            cbx_jenisBarang.setSelectedItem("Tambah Jenis Barang");
+            t_kodeBarang.setText("");
+        }
+    }
+    
     private void tampilJenisSatuan() {
-        String[] jenisSatuan = new String[]{"Paket","Pcs"};
+        String[] jenisSatuan = new String[]{"Pcs","Paket"};
         for(String satuan : jenisSatuan) {
             cbx_satuan.addItem(satuan);
         }

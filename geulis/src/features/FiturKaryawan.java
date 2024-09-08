@@ -86,7 +86,7 @@ public class FiturKaryawan extends javax.swing.JPanel {
         table.getColumnModel().getColumn(7).setCellEditor(new TableCellEditor(action, true, true, false));
     }
     
-    private void addData(){
+    private void tambahData(){
     String IdKaryawan = TFIdKaryawan.getText();   
     String NamaKaryawan = TFNamaKaryawan.getText();   
     String TeleponKaryawan = TFTeleponKaryawan.getText();   
@@ -634,7 +634,7 @@ public class FiturKaryawan extends javax.swing.JPanel {
         if(btnSimpan.getText().equals("SIMPAN")) {
         if(validation()) {
             if(validationFormatEmail()) {
-                addData();          
+                tambahData();          
                 changePanel(panelData);   
             }
         }   

@@ -483,26 +483,28 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnBatal" min="-2" pref="119" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="cbx_satuan" min="-2" pref="110" max="-2" attributes="0"/>
+                              <EmptySpace pref="344" max="32767" attributes="0"/>
+                              <Component id="lbHrgBeliSblm" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="lbHrgJualSebelum" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
                               <Component id="t_tambahJenisBarang" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnTambahJenis" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnBatalJenis" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="cbx_satuan" min="-2" pref="110" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="lbHrgBeliSblm" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="t_noBarcode" pref="0" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lbHrgJualSebelum" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="t_noBarcode" pref="445" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
                               <Component id="jLabel8" min="-2" pref="40" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" max="-2" attributes="0"/>
-                              <Component id="cbx_jenisBarang" pref="207" max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="cbx_jenisBarang" min="-2" pref="280" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnHapusJenis" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
@@ -513,11 +515,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="cbx_jenisBarang" alignment="1" min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="t_noBarcode" alignment="1" min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="jLabel10" alignment="1" min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="jLabel8" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="cbx_jenisBarang" alignment="1" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="t_noBarcode" alignment="1" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="jLabel10" alignment="1" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="jLabel8" min="-2" pref="40" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="btnHapusJenis" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -787,8 +792,13 @@
             <Component class="javax.swing.JTextField" name="t_noBarcode">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="SansSerif" size="20" style="0"/>
+                  <Font name="SansSerif" size="20" style="2"/>
                 </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="b9" green="b9" red="b9" type="rgb"/>
+                </Property>
+                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="text" type="java.lang.String" value="Klik disini untuk scan nomor barcode barang (Opsional)"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.MatteColorBorderInfo">
                     <MatteColorBorder>
@@ -797,6 +807,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="t_noBarcodeFocusGained"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel10">
               <Properties>
@@ -878,6 +891,16 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Harga Jual Sebelum"/>
               </Properties>
+            </Component>
+            <Component class="swing.Button" name="btnHapusJenis">
+              <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/image/close.png"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHapusJenisActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

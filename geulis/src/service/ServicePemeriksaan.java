@@ -8,7 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +27,7 @@ import swing.Pagination;
 public class ServicePemeriksaan {
     private Connection connection;
     private final DecimalFormat df = new DecimalFormat("#,##0.##");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd - MMMM - yyyy", new Locale("id", "ID"));
     public ServicePemeriksaan() {
         connection = Koneksi.getConnection();
     }
@@ -33,7 +37,7 @@ public class ServicePemeriksaan {
         int limit = 16;
         int count = 0;
         
-        String query = "SELECT pmn.No_Pemeriksaan,pmn.No_Reservasi ,DATE_FORMAT(pmn.Tanggal_Pemeriksaan, '%d - %M - %Y') AS Tanggal_Pemeriksaan, "
+        String query = "SELECT pmn.No_Pemeriksaan,pmn.No_Reservasi, pmn.Tanggal_Pemeriksaan, "
                 + "pmn.Deskripsi, pmn.Total, pmn.Bayar, pmn.Kembalian, pmn.Jenis_Pembayaran, pmn.ID_Pasien, "
                 + "psn.Nama, pmn.ID_Karyawan, krn.Nama, pmn.ID_Pengguna, pgn.Nama FROM pemeriksaan pmn "
                 + "INNER JOIN pasien psn ON pmn.ID_Pasien=psn.ID_Pasien "
@@ -59,7 +63,9 @@ public class ServicePemeriksaan {
                 String idPasien = rst.getString("ID_Pasien");
                 String namaPasien = rst.getString("psn.Nama");
                 String idKaryawan = rst.getString("ID_Karyawan");
-                String tgl = rst.getString("Tanggal_Pemeriksaan");
+                LocalDate dateTglPemeriksaan = LocalDate.parse(rst.getString("Tanggal_Pemeriksaan"), 
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String tgl = formatter.format(dateTglPemeriksaan);
                 int total = rst.getInt("Total");
                 String deskripsi = rst.getString("Deskripsi");
                 double bayar = rst.getDouble("Bayar");
@@ -83,7 +89,7 @@ public class ServicePemeriksaan {
     }
     
     public void loadAll(DefaultTableModel tabmodel) {
-        String query = "SELECT pmn.No_Pemeriksaan,pmn.No_Reservasi ,DATE_FORMAT(pmn.Tanggal_Pemeriksaan, '%d - %M - %Y') AS Tanggal_Pemeriksaan, "
+        String query = "SELECT pmn.No_Pemeriksaan,pmn.No_Reservasi, pmn.Tanggal_Pemeriksaan, "
         + "pmn.Deskripsi, pmn.Total, pmn.Bayar, pmn.Kembalian, pmn.Jenis_Pembayaran, pmn.ID_Pasien, "
         + "psn.Nama, pmn.ID_Karyawan, krn.Nama, pmn.ID_Pengguna, pgn.Nama FROM pemeriksaan pmn "
         + "INNER JOIN pasien psn ON pmn.ID_Pasien=psn.ID_Pasien "
@@ -100,7 +106,9 @@ public class ServicePemeriksaan {
                 String idPasien = rst.getString("ID_Pasien");
                 String namaPasien = rst.getString("psn.Nama");
                 String idKaryawan = rst.getString("ID_Karyawan");
-                String tgl = rst.getString("Tanggal_Pemeriksaan");
+                LocalDate dateTglPemeriksaan = LocalDate.parse(rst.getString("Tanggal_Pemeriksaan"), 
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String tgl = formatter.format(dateTglPemeriksaan);
                 int total = rst.getInt("Total");
                 String deskripsi = rst.getString("Deskripsi");
                 double bayar = rst.getDouble("Bayar");

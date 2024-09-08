@@ -106,7 +106,5 @@ public class ServiceNotifikasi {
             throw new IllegalArgumentException(exception);
         }
     }
-    
-    
         
 }

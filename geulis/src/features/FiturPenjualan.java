@@ -1107,7 +1107,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
         actionTableDetail();
         lbNoPenjualan.setText(servicePenjualan.createNo());
         Date date = new Date();
-        lbTgl.setText(new SimpleDateFormat("dd - MMMM - yyyy").format(date));
+        lbTgl.setText(new SimpleDateFormat("yyyy - MM - dd").format(date));
         lbKodeBrg.setVisible(false);
         lbStok.setVisible(false);
         lbNotif.setVisible(false);
@@ -1189,6 +1189,11 @@ public class FiturPenjualan extends javax.swing.JPanel {
 
     private void lbNoBarcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lbNoBarcodeActionPerformed
         String noBarcode = lbNoBarcode.getText();
+        if(noBarcode.length() == 0) {
+            JOptionPane.showMessageDialog(parent, "Silahkan masukkan scan nomor barcode");
+            return;
+        }
+        
         ModelBarang modelBarang = new ModelBarang();
         modelBarang.setNomor_Barcode(noBarcode);
         for(ModelBarang barang : servicePenjualan.setFieldBrg(modelBarang)) {
@@ -1228,14 +1233,14 @@ public class FiturPenjualan extends javax.swing.JPanel {
             lbNotif.setVisible(true);
         } else {
             String hrgJual = lbHrgJual.getText();
-            double subtotal = 0;
+            int subtotal = 0;
             if(hrgJual.length() != 0) {
                 if(jumlah > 0) {
-                    subtotal = Double.parseDouble(hrgJual) * jumlah;    
+                    subtotal = Integer.valueOf(hrgJual) * jumlah;    
                 } else if(jumlah == 0) {
-                    subtotal = Double.parseDouble(hrgJual) + jumlah;         
+                    subtotal = Integer.valueOf(hrgJual) + jumlah;         
                 } else {
-                    subtotal = Double.parseDouble(hrgJual) + 0;             
+                    subtotal = Integer.valueOf(hrgJual) + 0;             
                 }
             }
             lbNotif.setVisible(false);

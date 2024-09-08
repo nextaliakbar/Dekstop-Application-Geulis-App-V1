@@ -7,8 +7,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -24,13 +27,13 @@ import swing.StatusType;
 public class ServiceRestok {
     private Connection connection;
     private final DecimalFormat df = new DecimalFormat("#,##0.##");
-    
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd - MMMM - yyyy", new Locale("id", "ID"));
     public ServiceRestok() {
         connection = Koneksi.getConnection();
     }
     
     public void loadData(DefaultTableModel tabmodel) {
-        String query = "SELECT rst.No_Restok, DATE_FORMAT(rst.Tanggal, '%d - %M - %Y') AS Tanggal_Tiba, "
+        String query = "SELECT rst.No_Restok, rst.Tanggal, "
                 + "rst.ID_Pengguna, pgn.Nama, rst.Total_Biaya FROM restok rst JOIN pengguna pgn "
                 + "ON rst.ID_Pengguna=pgn.ID_Pengguna ORDER BY No_Restok DESC";
         try {
@@ -38,7 +41,9 @@ public class ServiceRestok {
             ResultSet rst = pst.executeQuery();
             while(rst.next()) {
                 String noRestok = rst.getString("No_Restok");
-                String tglTiba = rst.getString("Tanggal_Tiba");
+                LocalDate dateTglTiba = LocalDate.parse(rst.getString("Tanggal"), 
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String tglTiba = formatter.format(dateTglTiba);
                 String idPengguna = rst.getString("ID_Pengguna");
                 String nama = rst.getString("Nama");
                 int total = rst.getInt("Total_Biaya");

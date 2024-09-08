@@ -98,7 +98,7 @@ public class FiturRiwayatPasien extends javax.swing.JPanel {
             String idPasien = idPasiens.get(a);
             modelPasien.setIdPasien(idPasien);
             modelPemeriksaan.setModelPasien(modelPasien);
-            serviceRiwayat.loadData(modelPemeriksaan, tabmodel);
+            serviceRiwayat.loadData(modelPemeriksaan, tabmodel, null);
         }
     }
     

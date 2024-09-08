@@ -72,7 +72,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnTambah" min="-2" pref="119" max="-2" attributes="0"/>
-                      <EmptySpace pref="604" max="32767" attributes="0"/>
+                      <EmptySpace pref="607" max="32767" attributes="0"/>
                       <Component id="jLabel9" min="-2" pref="34" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtCari" min="-2" pref="383" max="-2" attributes="0"/>
@@ -290,12 +290,8 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="panel2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="jPanel1" max="32767" attributes="0"/>
+                      <Component id="panel2" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -334,7 +330,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="lbBiayaSebelum" pref="212" max="32767" attributes="0"/>
+                              <Component id="lbBiayaSebelum" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnSimpan" min="-2" pref="119" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -507,9 +503,9 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="491" max="32767" attributes="0"/>
+                      <EmptySpace pref="485" max="32767" attributes="0"/>
                       <Component id="label1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="490" max="32767" attributes="0"/>
+                      <EmptySpace pref="484" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

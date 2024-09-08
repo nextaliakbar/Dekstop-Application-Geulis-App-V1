@@ -7,10 +7,15 @@ import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Random;
+import javax.swing.JButton;
+import model.ModelNotifikasi;
 import model.ModelPemeriksaan;
 /**
  *
@@ -18,7 +23,7 @@ import model.ModelPemeriksaan;
  */
 public class ServiceRiwayatPasien {
     private Connection connection;
-    
+    private ServiceNotifikasi serviceNotifikasi = new ServiceNotifikasi();
     public ServiceRiwayatPasien() {
         connection = Koneksi.getConnection();
     }
@@ -42,11 +47,11 @@ public class ServiceRiwayatPasien {
         return idPasiens;
     }
     
-    public void loadData(ModelPemeriksaan modelPemeriksaan, DefaultTableModel model) {
+    public void loadData(ModelPemeriksaan modelPemeriksaan, DefaultTableModel model, JButton btnNotif) {
         String query = "SELECT pmrn.No_Pemeriksaan, pmrn.ID_Pasien, psn.Nama, pmrn.Tanggal_Pemeriksaan FROM pemeriksaan pmrn "
                 + "INNER JOIN pasien psn ON psn.ID_Pasien=pmrn.ID_Pasien WHERE pmrn.ID_Pasien='"+modelPemeriksaan.getModelPasien().getIdPasien()+"' "
                 + "ORDER BY Tanggal_Pemeriksaan DESC LIMIT 1";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");        
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
@@ -63,9 +68,27 @@ public class ServiceRiwayatPasien {
                 
                 String status = "";
                 if(tglSekarang.equals(estimasiPemeriksaan)) {
+                    ModelNotifikasi modelNotifikasi = new ModelNotifikasi();
+                    modelNotifikasi.setIdNotifkasi(String.valueOf(new Random().nextInt(10000)));
+                    modelNotifikasi.setNamaNotifikasi("Follow Up Pasien");
+                    modelNotifikasi.setDeskripsi("pemberitahuan untuk menindak lanjuti pasien kepada ".concat(nama));
+                    modelNotifikasi.setJenisNotifikasi(noPemeriksaan);
+                    modelNotifikasi.setStatusSudahDibaca(false);
+                    
+                    if(validationAddNotificationFollowUp(modelNotifikasi)) {
+                        serviceNotifikasi.addNotification(modelNotifikasi);
+                        if(btnNotif != null) {
+                            btnNotif.setText(serviceNotifikasi.getCountNotification() + "");
+                        }
+                    }
+                    
                     status = "Tindak Lanjuti";
                 }
-                model.addRow(new String[]{noPemeriksaan, idPasien, nama, lastCheckDate.format(DateTimeFormatter.ofPattern("dd - MMMM - yyyy")), status});
+                if(model != null) {
+                    model.addRow(new String[]{noPemeriksaan, idPasien, nama, lastCheckDate.format(DateTimeFormatter.ofPattern("dd - MMMM - yyyy", 
+                        new Locale("id", "ID"))), status});
+                }
+                
             }
             rst.close();
             pst.close();
@@ -78,7 +101,7 @@ public class ServiceRiwayatPasien {
     public void loadDataDetail(ModelPemeriksaan modelPemeriksaan, DefaultTableModel model) {
         String query = "SELECT No_Pemeriksaan, Tanggal_Pemeriksaan FROM pemeriksaan WHERE ID_Pasien='"+modelPemeriksaan.getModelPasien().getIdPasien()+"' ORDER BY Tanggal_Pemeriksaan DESC";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd - MMMM - yyyy");
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd - MMMM - yyyy", new Locale("id", "ID"));
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
@@ -95,6 +118,22 @@ public class ServiceRiwayatPasien {
             pst.close();
         } catch(Exception ex) {
             ex.printStackTrace();
+        }
+    }
+    
+    private boolean validationAddNotificationFollowUp(ModelNotifikasi modelNotifikasi) {
+        String query = "SELECT Jenis_Notifikasi FROM notifikasi WHERE Jenis_Notifikasi='"+modelNotifikasi.getJenisNotifikasi()+"' ";
+        try(PreparedStatement pst = connection.prepareStatement(query);
+        ResultSet rst = pst.executeQuery()) {
+            
+            if(rst.next()) {
+                return false;
+            }
+            
+            return true;
+            
+        } catch(SQLException exception) {
+            throw new IllegalArgumentException(exception);
         }
     }
 }

@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import model.ModelNotifikasi;
 
 /**
@@ -33,16 +35,29 @@ public class Notifications extends javax.swing.JPanel {
         lbNama.setText(modelNotifikasi.getNamaNotifikasi());
         
         StringBuilder row1 = new StringBuilder();
-        String description = modelNotifikasi.getDeskripsi();
-        int index = description.indexOf("berhasil");
-        row1.append(description.substring(0, index).trim());
-        lbRow1.setText(row1.toString());
-        
         StringBuilder row2 = new StringBuilder();
-        int startIndex = description.indexOf("berhasil");
-        row2.append(description.substring(startIndex));
-        lbRow2.setText(row2.toString());
+        String description = modelNotifikasi.getDeskripsi();
+        Pattern pattern = Pattern.compile("berhasil");
+        Matcher matcher = pattern.matcher(description);
         
+        
+        if(matcher.find()) {
+            int index = description.indexOf("berhasil");
+            row1.append(description.substring(0, index).trim());
+            lbRow1.setText(row1.toString());
+            
+            int startIndex = description.indexOf("berhasil");
+            row2.append(description.substring(startIndex));
+            lbRow2.setText(row2.toString());
+        } else {
+            int index = description.indexOf("pasien");
+            row1.append(description.substring(0, index).trim());
+            lbRow1.setText(row1.toString());
+            
+            int startIndex = description.indexOf("pasien");
+            row2.append(description.substring(startIndex));
+            lbRow2.setText(row2.toString());
+        }
         
         LocalTime time = modelNotifikasi.getTanggalNotifikasi().toLocalTime();
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm", Locale.of("id", "ID"));

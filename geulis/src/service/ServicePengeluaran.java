@@ -8,7 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +27,7 @@ import swing.Pagination;
 public class ServicePengeluaran {
     private Connection connection;
     private final DecimalFormat df = new DecimalFormat("#,##0.##");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd - MMMM - yyyy", new Locale("id", "ID"));
     public ServicePengeluaran() {
         connection = Koneksi.getConnection();
     }
@@ -33,8 +37,7 @@ public class ServicePengeluaran {
         int limit = 16;
         int count = 0;
         
-        String query = "SELECT plrn.No_Pengeluaran, plrn.ID_Pengguna, pg.Nama, "
-                + "DATE_FORMAT(plrn.Tanggal_Pengeluaran, '%d - %M - %Y') AS Tanggal_Pengeluaran, "
+        String query = "SELECT plrn.No_Pengeluaran, plrn.ID_Pengguna, pg.Nama, plrn.Tanggal_Pengeluaran, "
                 + "plrn.Total_Pengeluaran, plrn.Deskripsi FROM pengeluaran plrn INNER JOIN pengguna pg "
                 + "ON plrn.ID_Pengguna=pg.ID_Pengguna "
                 + "ORDER BY No_Pengeluaran DESC LIMIT "+(page-1) * limit+","+limit+"";
@@ -55,7 +58,9 @@ public class ServicePengeluaran {
                 String noPengeluaran = rst.getString("No_Pengeluaran");
                 String idPengguna = rst.getString("ID_Pengguna");
                 String namaPengguna = rst.getString("Nama");
-                String tgl = rst.getString("Tanggal_Pengeluaran");
+                LocalDate dateTglPengeluaran = LocalDate.parse(rst.getString("Tanggal_Pengeluaran"), 
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String tgl = formatter.format(dateTglPengeluaran);
                 int total = rst.getInt("Total_Pengeluaran");
                 String deskripsi = rst.getString("Deskripsi");
                 tabmodel.addRow(new Object[]{noPengeluaran, idPengguna, namaPengguna, tgl, df.format(total), deskripsi});
@@ -71,8 +76,7 @@ public class ServicePengeluaran {
     }
         
     public void loadAll(DefaultTableModel tabmodel) {
-        String query = "SELECT plrn.No_Pengeluaran, plrn.ID_Pengguna, pg.Nama, "
-                + "DATE_FORMAT(plrn.Tanggal_Pengeluaran, '%d - %M - %Y') AS Tanggal_Pengeluaran, "
+        String query = "SELECT plrn.No_Pengeluaran, plrn.ID_Pengguna, pg.Nama, plrn.Tanggal_Pengeluaran, "
                 + "plrn.Total_Pengeluaran, plrn.Deskripsi FROM pengeluaran plrn INNER JOIN pengguna pg "
                 + "ON plrn.ID_Pengguna=pg.ID_Pengguna "
                 + "ORDER BY No_Pengeluaran DESC";
@@ -83,7 +87,9 @@ public class ServicePengeluaran {
                 String noPengeluaran = rst.getString("No_Pengeluaran");
                 String idPengguna = rst.getString("ID_Pengguna");
                 String namaPengguna = rst.getString("Nama");
-                String tgl = rst.getString("Tanggal_Pengeluaran");
+                LocalDate dateTglPengeluaran = LocalDate.parse(rst.getString("Tanggal_Pengeluaran"), 
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String tgl = formatter.format(dateTglPengeluaran);
                 int total = rst.getInt("Total_Pengeluaran");
                 String deskripsi = rst.getString("Deskripsi");
                 tabmodel.addRow(new Object[]{noPengeluaran, idPengguna, namaPengguna, tgl, df.format(total), deskripsi});

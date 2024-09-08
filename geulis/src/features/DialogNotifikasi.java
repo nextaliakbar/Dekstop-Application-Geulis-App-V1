@@ -8,7 +8,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import model.ModelNotifikasi;
 import service.ServiceNotifikasi;
-import util.ModelHeaderTable;
 
 /**
  *
@@ -56,6 +55,10 @@ public class DialogNotifikasi extends java.awt.Dialog {
                 modelNotifikasi.setNamaNotifikasi("Perubahan Biaya Tindakan");
                 loadAll(modelNotifikasi);
                 break;
+            case 4:
+                modelNotifikasi.setNamaNotifikasi("Follow Up Pasien");
+                loadAll(modelNotifikasi);
+                break;
         }
     }
     
@@ -96,7 +99,7 @@ public class DialogNotifikasi extends java.awt.Dialog {
         mainPanel.setForeground(new java.awt.Color(255, 255, 255));
 
         cbxFilter.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
-        cbxFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua", "Perubahan Harga Beli Barang", "Perubahan Harga Jual Barang", "Perubahan Biaya Tindakan" }));
+        cbxFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Semua", "Perubahan Harga Beli Barang", "Perubahan Harga Jual Barang", "Perubahan Biaya Tindakan", "Pemberitahuan Follow Up Pasien" }));
         cbxFilter.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
         cbxFilter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

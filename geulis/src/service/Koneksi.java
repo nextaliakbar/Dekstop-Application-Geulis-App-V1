@@ -27,4 +27,19 @@ public class Koneksi {
         
         return connection;
     }
+    
+    /**
+    public static Connection getConnection() {
+        String jdbcUrl = "jdbc:mariadb://localhost:3305/geulis";
+        String username = "root";
+        String password = "12345678";
+        try {
+            Class.forName("org.mariadb.jdbc.Driver");
+            connection = DriverManager.getConnection(jdbcUrl, username, password);
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+        return connection;
+    }
+    */
 }

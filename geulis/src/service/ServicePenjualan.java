@@ -8,9 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -24,6 +27,7 @@ import swing.Pagination;
 public class ServicePenjualan {
     private Connection connection;
     private final DecimalFormat df = new DecimalFormat("#,##0.##");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd - MMMM - yyyy", new Locale("id", "ID"));
     public ServicePenjualan() {
         connection = Koneksi.getConnection();
     }
@@ -33,7 +37,7 @@ public class ServicePenjualan {
         int limit = 16;
         int count = 0;
         
-        String query = "SELECT pjl.No_Penjualan, DATE_FORMAT(pjl.Tanggal, '%d - %M - %Y') AS Tanggal_Penjualan, "
+        String query = "SELECT pjl.No_Penjualan, pjl.Tanggal, "
                 + "pjl.Total_Penjualan, pjl.Bayar, pjl.Kembali, pjl.Jenis_Pembayaran, pjl.ID_Pengguna, "
                 + "pgn.Nama FROM penjualan pjl INNER JOIN pengguna pgn ON pjl.ID_Pengguna=pgn.ID_Pengguna "
                 + "ORDER BY No_Penjualan DESC LIMIT "+(page-1) * limit+","+limit+"";
@@ -54,7 +58,9 @@ public class ServicePenjualan {
                 String noPenjualan = rst.getString("No_Penjualan");
                 String idPengguna = rst.getString("ID_Pengguna");
                 String namaPengguna = rst.getString("pgn.Nama");
-                String tglPenjualan = rst.getString("Tanggal_Penjualan");
+                LocalDate dateTglPenjualan = LocalDate.parse(rst.getString("Tanggal"), 
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String tglPenjualan = formatter.format(dateTglPenjualan);
                 int total = rst.getInt("Total_Penjualan");
                 double bayar = rst.getDouble("Bayar");
                 double kembali = rst.getDouble("Kembali");
@@ -72,7 +78,7 @@ public class ServicePenjualan {
     }
         
     public void loadAll(DefaultTableModel tabmodel) {
-        String query = "SELECT pjl.No_Penjualan, DATE_FORMAT(pjl.Tanggal, '%d - %M - %Y') AS Tanggal_Penjualan, "
+        String query = "SELECT pjl.No_Penjualan,pjl.Tanggal, "
                 + "pjl.Total_Penjualan, pjl.Bayar, pjl.Kembali, pjl.Jenis_Pembayaran, pjl.ID_Pengguna, "
                 + "pgn.Nama FROM penjualan pjl INNER JOIN pengguna pgn ON pjl.ID_Pengguna=pgn.ID_Pengguna "
                 + "ORDER BY No_Penjualan DESC";
@@ -83,7 +89,9 @@ public class ServicePenjualan {
                 String noPenjualan = rst.getString("No_Penjualan");
                 String idPengguna = rst.getString("ID_Pengguna");
                 String namaPengguna = rst.getString("pgn.Nama");
-                String tglPenjualan = rst.getString("Tanggal_Penjualan");
+                LocalDate dateTglPenjualan = LocalDate.parse(rst.getString("Tanggal"), 
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String tglPenjualan = formatter.format(dateTglPenjualan);
                 int total = rst.getInt("Total_Penjualan");
                 double bayar = rst.getDouble("Bayar");
                 double kembali = rst.getDouble("Kembali");

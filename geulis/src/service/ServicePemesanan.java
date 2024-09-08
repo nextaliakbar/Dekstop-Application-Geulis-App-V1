@@ -8,7 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -25,6 +28,7 @@ import swing.StatusType;
 public class ServicePemesanan {
     private Connection connection;
     private final DecimalFormat df = new DecimalFormat("#,##0.##");
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd - MMMM - yyyy", new Locale("id", "ID"));
     public ServicePemesanan() {
         connection = Koneksi.getConnection();
     }
@@ -34,7 +38,7 @@ public class ServicePemesanan {
         int limit = 16;
         int count = 0;
         
-        String query = "SELECT pmsn.No_Pemesanan, DATE_FORMAT(pmsn.Tanggal_Pemesanan, '%d - %M - %Y') AS Tanggal_Pemesanan, "
+        String query = "SELECT pmsn.No_Pemesanan, pmsn.Tanggal_Pemesanan, "
                 + "pmsn.Status_Pemesanan, pmsn.Total_Pemesanan, pmsn.Bayar, pmsn.Kembali, pmsn.ID_Supplier, "
                 + "slr.Nama, pmsn.ID_Pengguna, pgn.Nama, pmsn.Jenis_Pembayaran FROM pemesanan pmsn "
                 + "INNER JOIN supplier slr ON pmsn.ID_Supplier=slr.ID_Supplier "
@@ -61,7 +65,9 @@ public class ServicePemesanan {
                 String namaSupplier = rst.getString("slr.Nama");
                 modelSupplier.setIdSupplier(idSupplier);
                 modelSupplier.setNamaSupplier(namaSupplier);
-                String tgl = rst.getString("Tanggal_Pemesanan");
+                LocalDate dateTglPemesanan = LocalDate.parse(rst.getString("Tanggal_Pemesanan"), 
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String tgl = formatter.format(dateTglPemesanan);
                 int total = rst.getInt("Total_Pemesanan");
                 double bayar = rst.getDouble("Bayar");
                 double kembali = rst.getDouble("Kembali");
@@ -93,7 +99,7 @@ public class ServicePemesanan {
     }
     
     public void loadAll(DefaultTableModel tabmodel) {
-        String query = "SELECT pmsn.No_Pemesanan, DATE_FORMAT(pmsn.Tanggal_Pemesanan, '%d - %M - %Y') AS Tanggal_Pemesanan, "
+        String query = "SELECT pmsn.No_Pemesanan, pmsn.Tanggal_Pemesanan, "
                 + "pmsn.Status_Pemesanan, pmsn.Total_Pemesanan, pmsn.Bayar, pmsn.Kembali, pmsn.Jenis_Pembayaran, "
                 + "pmsn.ID_Supplier, slr.Nama, pmsn.ID_Pengguna, pgn.Nama FROM pemesanan pmsn "
                 + "INNER JOIN supplier slr ON pmsn.ID_Supplier=slr.ID_Supplier "
@@ -109,7 +115,9 @@ public class ServicePemesanan {
                 String namaSupplier = rst.getString("slr.Nama");
                 modelSupplier.setIdSupplier(idSupplier);
                 modelSupplier.setNamaSupplier(namaSupplier);
-                String tgl = rst.getString("Tanggal_Pemesanan");
+                LocalDate dateTglPemesanan = LocalDate.parse(rst.getString("Tanggal_Pemesanan"), 
+                DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String tgl = formatter.format(dateTglPemesanan);
                 int total = rst.getInt("Total_Pemesanan");
                 double bayar = rst.getDouble("Bayar");
                 double kembali = rst.getDouble("Kembali");

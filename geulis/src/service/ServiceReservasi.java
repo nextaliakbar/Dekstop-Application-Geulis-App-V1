@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,7 +23,7 @@ import swing.StatusType;
  */
 public class ServiceReservasi {
     private Connection connection;
-    
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd - MMMM - yyyy", new Locale("id", "ID"));
     public ServiceReservasi() {
         connection = Koneksi.getConnection();
     }
@@ -32,8 +33,8 @@ public class ServiceReservasi {
         int limit = 16;
         int count = 0;
         
-        String query = "SELECT rsv.No_Reservasi, DATE_FORMAT(rsv.Tanggal_Reservasi, '%d - %M - %Y') AS Tanggal_Reservasi, "
-                + "rsv.ID_Pasien, psn.Nama, psn.Jenis_Kelamin, DATE_FORMAT(rsv.Tanggal_Kedatangan, '%d - %M - %Y') AS Tanggal_Kedatangan, "
+        String query = "SELECT rsv.No_Reservasi, rsv.Tanggal_Reservasi, "
+                + "rsv.ID_Pasien, psn.Nama, psn.Jenis_Kelamin, rsv.Tanggal_Kedatangan, "
                 + "TIME_FORMAT(rsv.Jam_Kedatangan, '%H.%i WIB') AS Jam_Kedatangan, rsv.Status_Reservasi, rsv.ID_Pengguna, pgn.Nama FROM reservasi rsv "
                 + "JOIN pasien psn ON rsv.ID_Pasien=psn.ID_Pasien JOIN pengguna pgn "
                 + "ON rsv.ID_Pengguna=pgn.ID_Pengguna ORDER BY No_Reservasi DESC LIMIT "+(page-1) * limit+","+limit+"";
@@ -53,11 +54,15 @@ public class ServiceReservasi {
             rst = pst.executeQuery();
             while(rst.next()) {
                 String noReservasi = rst.getString("No_Reservasi");
-                String tglReservasi = rst.getString("Tanggal_Reservasi");
+                LocalDate dateTglReservasi = LocalDate.parse(rst.getString("Tanggal_Reservasi"), 
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String tglReservasi = formatter.format(dateTglReservasi);
                 String idPasien = rst.getString("ID_Pasien");
                 String namaPasien = rst.getString("psn.Nama");
                 String jenisKelamin = rst.getString("Jenis_Kelamin");
-                String tglKedatangan = rst.getString("Tanggal_Kedatangan");
+                LocalDate dateTglKedatangan = LocalDate.parse(rst.getString("Tanggal_Kedatangan"), 
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String tglKedatangan = formatter.format(dateTglKedatangan);
                 String jamKedatangan = rst.getString("Jam_Kedatangan");
                 String status = rst.getString("Status_Reservasi");
                 String idPengguna = rst.getString("ID_Pengguna");
@@ -93,8 +98,8 @@ public class ServiceReservasi {
     }
     
     public void loadAll(DefaultTableModel tabmodel) {
-        String query = "SELECT rsv.No_Reservasi, DATE_FORMAT(rsv.Tanggal_Reservasi, '%d - %M - %Y') AS Tanggal_Reservasi, "
-        + "rsv.ID_Pasien, psn.Nama, psn.Jenis_Kelamin, DATE_FORMAT(rsv.Tanggal_Kedatangan, '%d - %M - %Y') AS Tanggal_Kedatangan, "
+        String query = "SELECT rsv.No_Reservasi, rsv.Tanggal_Reservasi, "
+        + "rsv.ID_Pasien, psn.Nama, psn.Jenis_Kelamin, rsv.Tanggal_Kedatangan, "
         + "TIME_FORMAT(rsv.Jam_Kedatangan, '%H.%i WIB') AS Jam_Kedatangan, rsv.Status_Reservasi, rsv.ID_Pengguna, pgn.Nama FROM reservasi rsv "
         + "JOIN pasien psn ON rsv.ID_Pasien=psn.ID_Pasien JOIN pengguna pgn "
         + "ON rsv.ID_Pengguna=pgn.ID_Pengguna ORDER BY No_Reservasi DESC ";
@@ -105,11 +110,15 @@ public class ServiceReservasi {
             ResultSet rst = pst.executeQuery();
             while(rst.next()){
                 String noReservasi = rst.getString("No_Reservasi");
-                String tglReservasi = rst.getString("Tanggal_Reservasi");
+                LocalDate dateTglReservasi = LocalDate.parse(rst.getString("Tanggal_Reservasi"), 
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String tglReservasi = formatter.format(dateTglReservasi);
                 String idPasien = rst.getString("ID_Pasien");
                 String namaPasien = rst.getString("psn.Nama");
                 String jenisKelamin = rst.getString("Jenis_Kelamin");
-                String tglKedatangan = rst.getString("Tanggal_Kedatangan");
+                LocalDate dateTglKedatangan = LocalDate.parse(rst.getString("Tanggal_Kedatangan"), 
+                        DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                String tglKedatangan = formatter.format(dateTglKedatangan);
                 String jamKedatangan = rst.getString("Jam_Kedatangan");
                 String status = rst.getString("Status_Reservasi");
                 String idPengguna = rst.getString("ID_Pengguna");

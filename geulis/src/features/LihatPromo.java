@@ -40,7 +40,7 @@ public class LihatPromo extends java.awt.Dialog {
         setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         styleTable(scrollPane, table, 6);
         tabmodel = (DefaultTableModel) table.getModel();
-        servicePromo.loadPromo(tabmodel,"SELECT * FROM promo");
+        servicePromo.loadPromo(tabmodel,"SELECT * FROM promo ORDER BY No_Promo DESC");
     }
     
     //  Style Table
@@ -72,7 +72,7 @@ public class LihatPromo extends java.awt.Dialog {
                 } else if(JOptionPane.showConfirmDialog(parent, "Promo masih dalam batas rentang\nyang ditentukan, Yakin ingin\nmengakhiri?", "Konfirmasi",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) {
                     servicePromo.endPromo(parent, promo);
                     tabmodel.setRowCount(0);
-                    servicePromo.loadPromo(tabmodel, "SELECT * FROM promo");
+                    servicePromo.loadPromo(tabmodel, "SELECT * FROM promo ORDER BY No_Promo DESC");
                 }
             }
         } else {

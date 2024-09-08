@@ -31,9 +31,12 @@ import features.FiturTindakan;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import model.ModelPasien;
+import model.ModelPemeriksaan;
 import model.ModelPengguna;
 import net.miginfocom.swing.MigLayout;
 import org.jdesktop.animation.timing.Animator;
@@ -41,6 +44,7 @@ import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
 import service.ServiceNotifikasi;
 import service.ServicePromo;
+import service.ServiceRiwayatPasien;
 
 /**
  *
@@ -58,11 +62,13 @@ public class Main extends javax.swing.JFrame {
     private Animator animator;
     private DialogNotifikasi dialogNotifikasi;
     private ServiceNotifikasi serviceNotifikasi = new ServiceNotifikasi();
+    ServiceRiwayatPasien serviceRiwayat = new ServiceRiwayatPasien();
     public Main(ModelPengguna modelPengguna) {
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         initiation(this,modelPengguna);
         endPromoAuto();
+        checkNotifikasiFollowUp();
     }
     
     public void initiation(JFrame parent, ModelPengguna modelPengguna) {
@@ -315,6 +321,21 @@ public class Main extends javax.swing.JFrame {
         dialogNotifikasi.setVisible(true);
         serviceNotifikasi.updateStatusNotification();
         navbar.btnNotif.setText(serviceNotifikasi.getCountNotification() + "");
+    }
+    
+    private void checkNotifikasiFollowUp() {
+        
+        
+        
+        List<String> idPasiens = serviceRiwayat.getIdPasien();
+        ModelPemeriksaan modelPemeriksaan = new ModelPemeriksaan();
+        ModelPasien modelPasien = new ModelPasien();
+        for(int a = 0; a < idPasiens.size(); a++) {
+            String idPasien = idPasiens.get(a);
+            modelPasien.setIdPasien(idPasien);
+            modelPemeriksaan.setModelPasien(modelPasien);
+            serviceRiwayat.loadData(modelPemeriksaan, null, navbar.btnNotif);
+        }
     }
             
     /**
