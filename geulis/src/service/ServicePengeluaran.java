@@ -145,7 +145,7 @@ public class ServicePengeluaran {
     
     public String getNoJenis(ModelJenisPengeluaran modelJenis) {
         String noJenis = null;
-        String query = "SELECT No_Jenis FROM jenis_pengeluaran WHERE Nama_Jenis='"+modelJenis.getJenis()+"'";
+        String query = "SELECT No_Jenis FROM jenis_pengeluaran WHERE Nama_Jenis='"+modelJenis.getJenis()+"' ";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();

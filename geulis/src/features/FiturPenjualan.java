@@ -1128,6 +1128,12 @@ public class FiturPenjualan extends javax.swing.JPanel {
 
     private void btnTambahSementaraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahSementaraActionPerformed
         if(validationAddDataTemporary()) {
+            int jumlah = (int) spnJumlah.getValue();
+            int stok = Integer.parseInt(lbStok.getText());
+            if(jumlah > stok) {
+                JOptionPane.showMessageDialog(parent, "Jumlah penjualan melebihi\nStok yang tersedia");
+                return;
+            }
             tambahSementara();
             clearField();
             lbNoBarcode.requestFocus();
@@ -1205,8 +1211,8 @@ public class FiturPenjualan extends javax.swing.JPanel {
         }
         spnJumlah.setValue((int) 1);
         int jumlah = (int) spnJumlah.getValue();
-        double hargaJual = Double.parseDouble(lbHrgJual.getText());
-        double subtotal = hargaJual * jumlah;
+        int hargaJual = Integer.valueOf(lbHrgJual.getText());
+        int subtotal = hargaJual * jumlah;
         lbSubtotal.setText(String.valueOf(subtotal));
     }//GEN-LAST:event_lbNoBarcodeActionPerformed
 

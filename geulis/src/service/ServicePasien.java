@@ -143,28 +143,4 @@ public class ServicePasien {
         return valid;
     }
     
-    public boolean validationAddEmaiTelpl(JFrame parent, ModelPasien modelPasien) {
-        boolean valid = true;
-        String query = "SELECT No_Telp, Email FROM pasien";
-        try {
-            PreparedStatement pst = connection.prepareStatement(query);
-            ResultSet rst = pst.executeQuery();
-            while(rst.next()) {
-                if(modelPasien.getNoTelp().equals(rst.getString("No_Telp"))) {
-                    JOptionPane.showMessageDialog(parent, "No Telepon Telah Terdaftar");
-                    valid = false;
-                    break;
-                } else if(modelPasien.getEmail().equalsIgnoreCase(rst.getString("Email"))) {
-                    JOptionPane.showMessageDialog(parent, "Email Telah Terdaftar");
-                    valid = false;
-                    break;
-                }
-            }
-            rst.close();
-            pst.close();
-        } catch(Exception ex) {
-            ex.printStackTrace();
-        }
-        return valid;
-    }
 }

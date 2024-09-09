@@ -14,6 +14,7 @@ public class Koneksi {
     
     private static Connection connection;
     
+    /** 
     public static Connection getConnection() {
     String database = "geulis";
     String username = "root";
@@ -27,8 +28,8 @@ public class Koneksi {
         
         return connection;
     }
+    */
     
-    /**
     public static Connection getConnection() {
         String jdbcUrl = "jdbc:mariadb://localhost:3305/geulis";
         String username = "root";
@@ -41,5 +42,4 @@ public class Koneksi {
         }
         return connection;
     }
-    */
 }

@@ -151,28 +151,7 @@ public class ServicePengguna {
         }
         return valid;
     }
-    
-    public boolean validationAddEmail(JFrame parent, ModelPengguna modelPengguna) {
-        boolean valid = true;
-        String query = "SELECT Email FROM pengguna";
-        try {
-            PreparedStatement pst = connection.prepareStatement(query);
-            ResultSet rst = pst.executeQuery();
-            while(rst.next()) {
-                if(modelPengguna.getEmail().equalsIgnoreCase(rst.getString("Email"))) {
-                    JOptionPane.showMessageDialog(parent, "Email telah terdaftar");
-                    valid = false;
-                    break;
-                }
-            }
-            rst.close();
-            pst.close();
-        } catch(Exception ex) {
-            ex.printStackTrace();
-        }
-        return valid;
-    }
-    
+        
     public String getNameById(ModelPengguna modelPengguna) {
         String query = "SELECT Nama From Pengguna WHERE ID_Pengguna='"+modelPengguna.getIdpengguna()+"' ";
         

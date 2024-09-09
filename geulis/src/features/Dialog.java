@@ -113,7 +113,7 @@ public class Dialog extends java.awt.Dialog {
         String level = "Umum";
         
         ModelPasien modelPasien = new ModelPasien(idPasien, nama, jenisKelamin, no_Telp, alamat, email, level);
-        if(servicePasien.validationAddEmaiTelpl(parent, modelPasien)) servicePasien.addData(parent, modelPasien);
+        servicePasien.addData(parent, modelPasien);
     }
     
     private void selectDate() {
@@ -523,15 +523,10 @@ public class Dialog extends java.awt.Dialog {
 
     private void btnDaftarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDaftarActionPerformed
         if(validation()) {
-            ModelPasien modelPasien = new ModelPasien();
-            modelPasien.setNoTelp(t_no_Telp.getText());
-            modelPasien.setEmail(t_email.getText());
-            if(servicePasien.validationAddEmaiTelpl(parent, modelPasien)) {
-                tambahData();
-                dispose();
-                model.setRowCount(0);
-                serviceReservasi.loadDataPasien(model);
-            }
+            tambahData();
+            dispose();
+            model.setRowCount(0);
+            serviceReservasi.loadDataPasien(model);
         }
     }//GEN-LAST:event_btnDaftarActionPerformed
 

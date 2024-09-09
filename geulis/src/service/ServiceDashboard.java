@@ -222,8 +222,11 @@ public class ServiceDashboard {
             try {
                 PreparedStatement pst = connection.prepareStatement(query);
                 ResultSet rst = pst.executeQuery();
-                while(rst.next()) {
+                boolean isNext = rst.next();
+                if(isNext) {
                     profits.add(rst.getDouble("Keuntungan"));
+                } else {
+                    profits.add((double)0);
                 }
                 rst.close();
                 pst.close();

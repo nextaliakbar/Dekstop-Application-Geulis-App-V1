@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import model.ModelNotifikasi;
 /**
  *
@@ -27,7 +28,11 @@ public class ServiceNotifikasi {
         String query = "INSERT INTO notifikasi (ID_Notifikasi, Tanggal_Notifikasi, Nama_Notifikasi, Deskripsi, Jenis_Notifikasi, Status_Sudah_Dibaca) "
                 + "VALUES (?,?,?,?,?,?)";
         try(PreparedStatement pst = connection.prepareStatement(query)) {
-           pst.setString(1, modelNotifikasi.getIdNotifkasi());
+           if(checkIdNotification(modelNotifikasi)) {
+               pst.setString(1, String.valueOf(new Random().nextInt(10000)));
+           } else {
+              pst.setString(1, modelNotifikasi.getIdNotifkasi());   
+           }
            pst.setTimestamp(2, Timestamp.valueOf(modelNotifikasi.getTanggalNotifikasi()));
            pst.setString(3, modelNotifikasi.getNamaNotifikasi());
            pst.setString(4, modelNotifikasi.getDeskripsi());
@@ -102,6 +107,21 @@ public class ServiceNotifikasi {
                 notifications.add(modelNotifikasi);
             }
             return notifications;
+        } catch(SQLException exception) {
+            throw new IllegalArgumentException(exception);
+        }
+    }
+    
+    private boolean checkIdNotification(ModelNotifikasi modelNotifikasi) {
+        String query = "SELECT ID_Notifikasi FROM notifikasi WHERE ID_Notifikasi='"+modelNotifikasi.getIdNotifkasi()+"' ";
+        try(PreparedStatement pst = connection.prepareStatement(query);
+        ResultSet rst = pst.executeQuery()) {
+            if(rst.next()) {
+                return true;
+            }
+            
+            return false;
+            
         } catch(SQLException exception) {
             throw new IllegalArgumentException(exception);
         }

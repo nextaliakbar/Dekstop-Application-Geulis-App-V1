@@ -67,8 +67,6 @@ public class FiturBarang extends javax.swing.JPanel {
         lbHrgBeliSblm.setVisible(false);
         lbHrgJualSebelum.setVisible(false);
         serviceBarang.loadData(tabmodel);
-        tampilJenisBarang();
-        tampilJenisSatuan();
         cariData();
         actionRenderTable();
         
@@ -80,7 +78,8 @@ public class FiturBarang extends javax.swing.JPanel {
         @Override
         public void edit(int row) {
             changePanel(panelTambah);
-            cbx_jenisBarang.setEnabled(false);
+            cbx_jenisBarang.setVisible(false);
+            btnHapusJenis.setVisible(false);
             t_noBarcode.setEnabled(false);
             t_kodeBarang.setEnabled(false);
             setShowFieldAddJenis(false, false, false);
@@ -104,7 +103,6 @@ public class FiturBarang extends javax.swing.JPanel {
             
             t_kodeBarang.setText(kodeBarang);
             t_noBarcode.setText(nomorBarcode);
-            cbx_jenisBarang.setVisible(false);
             lbKodeJenis.setText(kodeJenis);
             t_namaBarang.setText(namaBarang);
             cbx_satuan.setSelectedItem(satuan);
@@ -349,6 +347,11 @@ public class FiturBarang extends javax.swing.JPanel {
         btnPilih.setForeground(new java.awt.Color(255, 255, 255));
         btnPilih.setText("PILIH");
         btnPilih.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnPilih.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPilihActionPerformed(evt);
+            }
+        });
 
         btnHapus.setBackground(new java.awt.Color(0, 153, 0));
         btnHapus.setForeground(new java.awt.Color(255, 255, 255));
@@ -466,6 +469,7 @@ public class FiturBarang extends javax.swing.JPanel {
         t_namaBarang.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
 
         cbx_satuan.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        cbx_satuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pcs", "Paket" }));
         cbx_satuan.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
 
         spn_stok.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
@@ -695,9 +699,9 @@ public class FiturBarang extends javax.swing.JPanel {
         t_noBarcode.setText("Klik disini untuk scan nomor barcode barang (Opsional)");
         t_noBarcode.setFont(new Font("sansserif", Font.ITALIC, 20));
         t_noBarcode.setForeground(new Color(185,185,185));
+        t_noBarcode.setEnabled(true);
         cbx_jenisBarang.setVisible(true);
-        cbx_jenisBarang.setEnabled(true);
-        cbx_satuan.setSelectedItem("Paket");
+        btnHapusJenis.setVisible(true);
         t_kodeBarang.setEnabled(false);
         tampilJenisBarang();
         setShowFieldAddJenis(false, false, false);
@@ -805,6 +809,10 @@ public class FiturBarang extends javax.swing.JPanel {
     private void btnHapusJenisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusJenisActionPerformed
         hapusJenisBarang();
     }//GEN-LAST:event_btnHapusJenisActionPerformed
+
+    private void btnPilihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPilihActionPerformed
+        JOptionPane.showMessageDialog(parent, "Fitur ini masih belum bisa digunakan");
+    }//GEN-LAST:event_btnPilihActionPerformed
 
     private void changePanel(JPanel panel) {
         removeAll();
@@ -1022,14 +1030,7 @@ public class FiturBarang extends javax.swing.JPanel {
             t_kodeBarang.setText("");
         }
     }
-    
-    private void tampilJenisSatuan() {
-        String[] jenisSatuan = new String[]{"Pcs","Paket"};
-        for(String satuan : jenisSatuan) {
-            cbx_satuan.addItem(satuan);
-        }
-    }
-    
+        
     private void cariData() {
         txtCari.getDocument().addDocumentListener(new DocumentListener() {
             @Override

@@ -630,15 +630,11 @@ public class FiturPengguna extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-        ModelPengguna modelPengguna = new ModelPengguna();
-        modelPengguna.setEmail(TFEmailPengguna.getText());
         if(btnSimpan.getText().equals("SIMPAN")) {
             if(validationAddData()) {
                 if(validationFormatEmail()) {
-                    if(servicePengguna.validationAddEmail(parent, modelPengguna)) {
-                        tambahData();          
-                        changePanel(panelData);    
-                    }
+                    tambahData();          
+                    changePanel(panelData);    
                 }
             }   
         } else {

@@ -109,8 +109,7 @@ public class TambahPemesanan extends java.awt.Dialog {
     
 //  Tampil Data Barang
     private void tampilData2() {
-        String query = "SELECT Kode_Barang, Nama_Barang, Satuan, Harga_Beli, Harga_Jual, Stok FROM barang "
-                + "WHERE Stok > 0";
+        String query = "SELECT Kode_Barang, Nama_Barang, Satuan, Harga_Beli, Harga_Jual, Stok FROM barang ";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
