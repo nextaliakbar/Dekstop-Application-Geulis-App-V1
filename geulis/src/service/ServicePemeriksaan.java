@@ -38,7 +38,7 @@ public class ServicePemeriksaan {
         int count = 0;
         
         String query = "SELECT pmn.No_Pemeriksaan,pmn.No_Reservasi, pmn.Tanggal_Pemeriksaan, "
-                + "pmn.Deskripsi, pmn.Total, pmn.Bayar, pmn.Kembalian, pmn.Jenis_Pembayaran, pmn.ID_Pasien, "
+                + "pmn.Deskripsi, pmn.Total, pmn.Bayar, pmn.Kembali, pmn.Jenis_Pembayaran, pmn.ID_Pasien, "
                 + "psn.Nama, pmn.ID_Karyawan, krn.Nama, pmn.ID_Pengguna, pgn.Nama FROM pemeriksaan pmn "
                 + "INNER JOIN pasien psn ON pmn.ID_Pasien=psn.ID_Pasien "
                 + "INNER JOIN karyawan krn ON pmn.ID_Karyawan=krn.ID_Karyawan "
@@ -69,7 +69,7 @@ public class ServicePemeriksaan {
                 int total = rst.getInt("Total");
                 String deskripsi = rst.getString("Deskripsi");
                 double bayar = rst.getDouble("Bayar");
-                double kembalian = rst.getDouble("Kembalian");
+                double kembalian = rst.getDouble("Kembali");
                 String jenisPembayaran = rst.getString("Jenis_Pembayaran");
                 String idPengguna = rst.getString("ID_Pengguna");
                 String namaPengguna = rst.getString("pgn.Nama");
@@ -90,7 +90,7 @@ public class ServicePemeriksaan {
     
     public void loadAll(DefaultTableModel tabmodel) {
         String query = "SELECT pmn.No_Pemeriksaan,pmn.No_Reservasi, pmn.Tanggal_Pemeriksaan, "
-        + "pmn.Deskripsi, pmn.Total, pmn.Bayar, pmn.Kembalian, pmn.Jenis_Pembayaran, pmn.ID_Pasien, "
+        + "pmn.Deskripsi, pmn.Total, pmn.Bayar, pmn.Kembali, pmn.Jenis_Pembayaran, pmn.ID_Pasien, "
         + "psn.Nama, pmn.ID_Karyawan, krn.Nama, pmn.ID_Pengguna, pgn.Nama FROM pemeriksaan pmn "
         + "INNER JOIN pasien psn ON pmn.ID_Pasien=psn.ID_Pasien "
         + "INNER JOIN karyawan krn ON pmn.ID_Karyawan=krn.ID_Karyawan "
@@ -112,7 +112,7 @@ public class ServicePemeriksaan {
                 int total = rst.getInt("Total");
                 String deskripsi = rst.getString("Deskripsi");
                 double bayar = rst.getDouble("Bayar");
-                double kembalian = rst.getDouble("Kembalian");
+                double kembalian = rst.getDouble("Kembali");
                 String jenisPembayaran = rst.getString("Jenis_Pembayaran");
                 String idPengguna = rst.getString("ID_Pengguna");
                 String namaPengguna = rst.getString("pgn.Nama");
@@ -130,7 +130,7 @@ public class ServicePemeriksaan {
         
     public void addData(JFrame parent, ModelPemeriksaan modelPemeriksaan) {
         String query = "INSERT INTO pemeriksaan (No_Pemeriksaan, No_Reservasi, Tanggal_Pemeriksaan, "
-                + "Deskripsi, Status_Pemeriksaan, Total, Bayar, Kembalian, Jenis_Pembayaran, "
+                + "Deskripsi, Status_Pemeriksaan, Total, Bayar, Kembali, Jenis_Pembayaran, "
                 + "ID_Pasien, ID_Karyawan, ID_Pengguna) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
@@ -141,7 +141,7 @@ public class ServicePemeriksaan {
             pst.setString(5, "Selesai");
             pst.setString(6, modelPemeriksaan.getTotal());
             pst.setDouble(7, modelPemeriksaan.getBayar());
-            pst.setDouble(8, modelPemeriksaan.getKembalian());
+            pst.setDouble(8, modelPemeriksaan.getKembali());
             pst.setString(9, modelPemeriksaan.getJenisPembayaran());
             pst.setString(10, modelPemeriksaan.getModelPasien().getIdPasien());
             pst.setString(11, modelPemeriksaan.getModelKaryawan().getIdKaryawan());

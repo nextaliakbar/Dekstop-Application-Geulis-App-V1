@@ -84,18 +84,12 @@ public class ServiceDashboard {
     
     public double keuntunganPenjualan(ModelDashboard modelDashboard) {
         double keuntungan = 0;
-        String query = "SELECT bg.Harga_Beli, bg.Harga_Jual, dtl.Jumlah FROM detail_penjualan dtl \n" +
-        "INNER JOIN barang bg ON dtl.Kode_Barang=bg.Kode_Barang \n" +
-        "INNER JOIN penjualan pjn ON dtl.No_Penjualan=pjn.No_Penjualan \n" +
-        "WHERE Tanggal BETWEEN '"+modelDashboard.getFromDate()+"' AND '"+modelDashboard.getToDate()+"'";
+        String query = "SELECT SUM(Total_Keuntungan) AS Total FROM penjualan WHERE Tanggal BETWEEN '"+modelDashboard.getFromDate()+"' AND '"+modelDashboard.getToDate()+"'";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
-            while(rst.next()) {
-                double hargaBeli = rst.getDouble("Harga_Beli");
-                double hargaJual = rst.getDouble("Harga_Jual");
-                int jumlah = rst.getInt("Jumlah");
-                keuntungan += (jumlah * hargaJual) - (jumlah * hargaBeli);
+            if(rst.next()) {
+                keuntungan = rst.getDouble("Total");
             }
             rst.close();
             pst.close();

@@ -70,11 +70,12 @@ public class FiturPenjualan extends javax.swing.JPanel {
         rowSorter = new TableRowSorter<>(tabmodel1);
         table.setRowSorter(rowSorter);
         tampilData();
-        styleTable(scrollPanePasien, tableDetail, 7);
+        styleTable(scrollPanePasien, tableDetail, 9);
         tabmodel2 = (DefaultTableModel) tableDetail.getModel();
         cariData();
         instanceReport();
-        actionTableMain();    
+        actionTableMain();
+        lbSubtotalHrgBeli.setVisible(false);
     }
     
 //  Style Table
@@ -145,7 +146,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
             tabmodel2.removeRow(row);
             lbTotal.setText(df.format(total()));
             double kembali = Double.parseDouble(txtBayar.getText()) - total();
-            lbKembalian.setText(df.format(kembali));
+            lbKembali.setText(df.format(kembali));
         }
 
         @Override
@@ -153,8 +154,8 @@ public class FiturPenjualan extends javax.swing.JPanel {
             
         }
     };        
-        tableDetail.getColumnModel().getColumn(7).setCellRenderer(new TableCellActionRender(false, true, false));
-        tableDetail.getColumnModel().getColumn(7).setCellEditor(new TableCellEditor(action, false, true, false));
+        tableDetail.getColumnModel().getColumn(9).setCellRenderer(new TableCellActionRender(false, true, false));
+        tableDetail.getColumnModel().getColumn(9).setCellEditor(new TableCellEditor(action, false, true, false));
     }
     
     private void cariData() {
@@ -216,7 +217,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
             String admin = modelPengguna.getIdpengguna();
             String total = lbTotal.getText();
             String bayar = df.format(Double.parseDouble(txtBayar.getText()));
-            String kembali = lbKembalian.getText();
+            String kembali = lbKembali.getText();
             String jenisPembayaran = (String) cbx_jenisPembayaran.getSelectedItem();
             ParamPenjualan paramater = new ParamPenjualan(tglPenjualan+","+jamPenjualan, noPenjualan, admin, total, bayar, kembali, jenisPembayaran, fields);
             Report.getInstance().printReportPenjualan(paramater);
@@ -241,7 +242,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
         ModelPenjualan modelPenjualan = new ModelPenjualan(noPenjualan, tglPenjualan, totalPenjualan, bayar, kembali, jenisPembayaran, modelPengguna);
         ModelDetailPenjualan modelDetail = new ModelDetailPenjualan();
         modelDetail.setModelPenjualan(modelPenjualan);
-        DialogDetail detail = new DialogDetail(parent, true, "Slide-6", null, modelDetail, null, null);
+        DialogDetail detail = new DialogDetail(parent, true, "Slide-6",  null, modelDetail, null, null);
         detail.setVisible(true);
     }
     
@@ -253,16 +254,17 @@ public class FiturPenjualan extends javax.swing.JPanel {
         String tglPenjualan = dateNow.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String totalPenjualan = String.valueOf(total());
         double bayar = Double.parseDouble(txtBayar.getText());
-        double kembalian = 0;
+        double kembali = 0;
         String jenisPembayaran = (String) cbx_jenisPembayaran.getSelectedItem();
-        String strKembalian = lbKembalian.getText();
+        String strKembali = lbKembali.getText();
         try {
-            Number formatNumber = df.parse(strKembalian);
-            kembalian = Double.parseDouble(formatNumber.toString());
+            Number formatNumber = df.parse(strKembali);
+            kembali = Double.parseDouble(formatNumber.toString());
         } catch(Exception ex) {
             ex.printStackTrace();
         }
-        ModelPenjualan modelPenjualan = new ModelPenjualan(noPenjualan, tglPenjualan, totalPenjualan, bayar, kembalian, jenisPembayaran, modelPengguna);
+        ModelPenjualan modelPenjualan = new ModelPenjualan(noPenjualan, tglPenjualan, totalPenjualan, bayar, kembali, jenisPembayaran, modelPengguna);
+        modelPenjualan.setTotalKeuntungan(total() - totalHrgBeli());
         servicePenjualan.addData(parent, modelPenjualan);
         
 //        Tambah Detail Penjualan
@@ -273,9 +275,9 @@ public class FiturPenjualan extends javax.swing.JPanel {
         detail.setModelPenjualan(modelPenjualan);
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
             kodeBrg.add((String) tableDetail.getValueAt(a, 1));
-            hargaFinal.add((Integer) tableDetail.getValueAt(a, 4));
-            jumlah.add((Integer)tableDetail.getValueAt(a, 5));
-            subtotal.add((Integer)tableDetail.getValueAt(a, 6));
+            hargaFinal.add((Integer) tableDetail.getValueAt(a, 5));
+            jumlah.add((Integer)tableDetail.getValueAt(a, 6));
+            subtotal.add((Integer)tableDetail.getValueAt(a, 7));
             Sementara ps = new Sementara(kodeBrg, hargaFinal, jumlah, subtotal);
             serviceDetail.addData(detail, ps);
         }
@@ -286,21 +288,37 @@ public class FiturPenjualan extends javax.swing.JPanel {
         String kodeBrg = lbKodeBrg.getText();
         String namaBrg = lbNamaBrg.getText();
         String satuan = lbSatuan.getText();
+        int hrgBeli = Integer.valueOf(lbHrgBeli.getText());
         int hrgJual = Integer.valueOf(lbHrgJual.getText());
         modelBarang.setKode_Barang(kodeBrg);
         modelBarang.setNama_Barang(namaBrg);
         modelBarang.setSatuan(satuan);
+        modelBarang.setHarga_Beli(hrgBeli);
         modelBarang.setHarga_Jual(hrgJual);
         int jumlah = (int) spnJumlah.getValue();
         int subtotal = Integer.valueOf(lbSubtotal.getText());
-        tabmodel2.addRow(new ModelDetailPenjualan(null, modelBarang, jumlah, subtotal).toRowTable());
+        int subtotalHrgBeli = Integer.valueOf(lbSubtotalHrgBeli.getText());
+        tabmodel2.addRow(new ModelDetailPenjualan(null, modelBarang, jumlah, 
+                subtotal, subtotalHrgBeli).toRowTable());
+        
         lbTotal.setText(df.format(total()));
+        lbSubtotalHrgBeli.setText(String.valueOf(total() - totalHrgBeli()));
+    }
+    
+    private int totalHrgBeli() {
+        int total = 0;
+        for(int a = 0; a < tableDetail.getRowCount(); a++) {
+            int subtotal = (int) tableDetail.getValueAt(a, 8);
+            total += subtotal;
+        }
+        
+        return total;
     }
     
     private int total() {
         int total = 0;
         for(int a = 0; a < tableDetail.getRowCount(); a++) {
-            int subtotal = (int) tableDetail.getValueAt(a, 6);
+            int subtotal = (int) tableDetail.getValueAt(a, 7);
             total += subtotal;
         }
         return total;
@@ -360,7 +378,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
         spnJumlah.setValue((int) 0);
         lbTotal.setText("0");
         txtBayar.setText("");
-        lbKembalian.setText("0");
+        lbKembali.setText("0");
         tabmodel2.setRowCount(0);
         clearField();
     }
@@ -372,9 +390,11 @@ public class FiturPenjualan extends javax.swing.JPanel {
         lbKodeBrg.setText("");
         lbNamaBrg.setText("");
         lbSatuan.setText("");
+        lbHrgBeli.setText("");
         lbHrgJual.setText("");
         spnJumlah.setValue((int) 0);
         lbSubtotal.setText("");
+        lbSubtotalHrgBeli.setText("");
     }
 
     /**
@@ -410,7 +430,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
         jLabel26 = new javax.swing.JLabel();
         txtBayar = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
-        lbKembalian = new javax.swing.JLabel();
+        lbKembali = new javax.swing.JLabel();
         cbx_jenisPembayaran = new javax.swing.JComboBox<>();
         panel2 = new javax.swing.JPanel();
         btnTambahSementara = new swing.Button();
@@ -434,6 +454,9 @@ public class FiturPenjualan extends javax.swing.JPanel {
         lbKodeBrg = new javax.swing.JLabel();
         lbStok = new javax.swing.JLabel();
         lbNotif = new javax.swing.JLabel();
+        lbHrgBeli = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        lbSubtotalHrgBeli = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         label1 = new javax.swing.JLabel();
         btnBatal = new swing.Button();
@@ -610,11 +633,11 @@ public class FiturPenjualan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Data", "Kode Barang", "Nama Barang", "Satuan", "Harga Jual", "Jumlah", "Subtotal", "         Aksi"
+                "Data", "Kode Barang", "Nama Barang", "Satuan", "Harga Beli", "Harga Jual", "Jumlah", "Subtotal", "Subtotal Harga Beli", "         Aksi"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, false, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -622,6 +645,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
             }
         });
         tableDetail.setOpaque(false);
+        tableDetail.setSelectionBackground(new java.awt.Color(255, 255, 255));
         scrollPanePasien.setViewportView(tableDetail);
         if (tableDetail.getColumnModel().getColumnCount() > 0) {
             tableDetail.getColumnModel().getColumn(0).setMinWidth(0);
@@ -630,12 +654,15 @@ public class FiturPenjualan extends javax.swing.JPanel {
             tableDetail.getColumnModel().getColumn(2).setMinWidth(300);
             tableDetail.getColumnModel().getColumn(2).setPreferredWidth(300);
             tableDetail.getColumnModel().getColumn(2).setMaxWidth(300);
-            tableDetail.getColumnModel().getColumn(4).setMinWidth(100);
-            tableDetail.getColumnModel().getColumn(4).setPreferredWidth(100);
-            tableDetail.getColumnModel().getColumn(4).setMaxWidth(100);
-            tableDetail.getColumnModel().getColumn(7).setMinWidth(100);
-            tableDetail.getColumnModel().getColumn(7).setPreferredWidth(100);
-            tableDetail.getColumnModel().getColumn(7).setMaxWidth(100);
+            tableDetail.getColumnModel().getColumn(5).setMinWidth(100);
+            tableDetail.getColumnModel().getColumn(5).setPreferredWidth(100);
+            tableDetail.getColumnModel().getColumn(5).setMaxWidth(100);
+            tableDetail.getColumnModel().getColumn(8).setMinWidth(0);
+            tableDetail.getColumnModel().getColumn(8).setPreferredWidth(0);
+            tableDetail.getColumnModel().getColumn(8).setMaxWidth(0);
+            tableDetail.getColumnModel().getColumn(9).setMinWidth(100);
+            tableDetail.getColumnModel().getColumn(9).setPreferredWidth(100);
+            tableDetail.getColumnModel().getColumn(9).setMaxWidth(100);
         }
 
         jPanel2.setBackground(new java.awt.Color(135, 15, 50));
@@ -727,21 +754,21 @@ public class FiturPenjualan extends javax.swing.JPanel {
         jPanel6.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(185, 185, 185)));
         jPanel6.setOpaque(false);
 
-        lbKembalian.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        lbKembalian.setForeground(new java.awt.Color(0, 0, 0));
-        lbKembalian.setText("0");
+        lbKembali.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lbKembali.setForeground(new java.awt.Color(0, 0, 0));
+        lbKembali.setText("0");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(lbKembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbKembali, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbKembalian, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+            .addComponent(lbKembali, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
         cbx_jenisPembayaran.setBackground(new java.awt.Color(255, 255, 255));
@@ -757,7 +784,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
             .addGroup(panel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollPanePasien, javax.swing.GroupLayout.DEFAULT_SIZE, 807, Short.MAX_VALUE)
+                    .addComponent(scrollPanePasien, javax.swing.GroupLayout.DEFAULT_SIZE, 798, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panel3Layout.createSequentialGroup()
                         .addGroup(panel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -926,6 +953,17 @@ public class FiturPenjualan extends javax.swing.JPanel {
         lbNotif.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbNotif.setText("Jumlah penjualan melebihi stok yang tersedia");
 
+        lbHrgBeli.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
+        lbHrgBeli.setForeground(new java.awt.Color(0, 0, 0));
+        lbHrgBeli.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
+
+        jLabel11.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel11.setText("Harga Beli");
+
+        lbSubtotalHrgBeli.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
+
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
         panel2Layout.setHorizontalGroup(
@@ -938,44 +976,54 @@ public class FiturPenjualan extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPilih, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnTambahSementara, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbHrgBeli, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panel2Layout.createSequentialGroup()
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbSubtotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(panel2Layout.createSequentialGroup()
+                                .addComponent(lbNotif, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(panel2Layout.createSequentialGroup()
+                        .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)
+                        .addComponent(spnJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbStok, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panel2Layout.createSequentialGroup()
+                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbTgl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbNoPenjualan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(panel2Layout.createSequentialGroup()
                         .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbKodeBrg, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panel2Layout.createSequentialGroup()
-                                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(6, 6, 6)
-                                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(panel2Layout.createSequentialGroup()
-                                        .addComponent(spnJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lbStok, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(lbSatuan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lbHrgJual, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)))
-                            .addGroup(panel2Layout.createSequentialGroup()
-                                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13)
-                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lbSubtotal, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
-                                    .addComponent(lbNamaBrg, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lbNotif, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(panel2Layout.createSequentialGroup()
-                                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lbTgl, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                                    .addComponent(lbNoPenjualan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(lbHrgJual, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panel2Layout.createSequentialGroup()
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lbSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panel2Layout.createSequentialGroup()
+                            .addComponent(jLabel13)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lbNamaBrg, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
+                        .addComponent(lbSubtotalHrgBeli, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnTambahSementara, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(21, 21, 21))
         );
         panel2Layout.setVerticalGroup(
             panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -994,9 +1042,9 @@ public class FiturPenjualan extends javax.swing.JPanel {
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnPilih, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                     .addComponent(lbNoBarcode))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(lbKodeBrg, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbNamaBrg, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1005,12 +1053,16 @@ public class FiturPenjualan extends javax.swing.JPanel {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lbHrgBeli, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbHrgJual, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(spnJumlah, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                     .addComponent(lbStok, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1020,8 +1072,10 @@ public class FiturPenjualan extends javax.swing.JPanel {
                     .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbSubtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(btnTambahSementara, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnTambahSementara, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbSubtotalHrgBeli, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(135, 15, 50));
@@ -1144,12 +1198,12 @@ public class FiturPenjualan extends javax.swing.JPanel {
         String strBayar = txtBayar.getText();
         double total = (double) total();
         double bayar = 0;
-        double kembalian = 0;
+        double kembali = 0;
         if(strBayar.length() > 0) {
             bayar = Double.parseDouble(strBayar);
         }
-        kembalian = bayar - total;
-        lbKembalian.setText(df.format(kembalian));
+        kembali = bayar - total;
+        lbKembali.setText(df.format(kembali));
     }//GEN-LAST:event_txtBayarKeyReleased
 
     private void txtBayarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBayarKeyTyped
@@ -1183,6 +1237,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
         lbNamaBrg.setText(pilihBrg.modelBarang.getNama_Barang());
         lbSatuan.setText(pilihBrg.modelBarang.getSatuan());
         lbHrgJual.setText(String.valueOf(pilihBrg.modelBarang.getHarga_Jual()));
+        lbHrgBeli.setText(String.valueOf(pilihBrg.modelBarang.getHarga_Beli()));
         lbStok.setText(String.valueOf(pilihBrg.modelBarang.getStok()));
         spnJumlah.setValue((int) 1);
         int jumlah = (int) spnJumlah.getValue();
@@ -1206,13 +1261,17 @@ public class FiturPenjualan extends javax.swing.JPanel {
             lbKodeBrg.setText(barang.getKode_Barang());
             lbNamaBrg.setText(barang.getNama_Barang());
             lbSatuan.setText(barang.getSatuan());
+            lbHrgBeli.setText(String.valueOf(barang.getHarga_Beli()));
             lbHrgJual.setText(String.valueOf(barang.getHarga_Jual()));
             lbStok.setText(String.valueOf(barang.getStok()));
         }
         spnJumlah.setValue((int) 1);
         int jumlah = (int) spnJumlah.getValue();
+        int hargaBeli = Integer.valueOf(lbHrgBeli.getText());
         int hargaJual = Integer.valueOf(lbHrgJual.getText());
         int subtotal = hargaJual * jumlah;
+        int subtotalHrgBeli = hargaBeli * jumlah;
+        lbHrgBeli.setText(String.valueOf(subtotalHrgBeli));
         lbSubtotal.setText(String.valueOf(subtotal));
     }//GEN-LAST:event_lbNoBarcodeActionPerformed
 
@@ -1238,19 +1297,25 @@ public class FiturPenjualan extends javax.swing.JPanel {
         if(jumlah > stok) {
             lbNotif.setVisible(true);
         } else {
+            String hrgBeli = lbHrgBeli.getText();
             String hrgJual = lbHrgJual.getText();
-            int subtotal = 0;
+            int subtotalHrgBeli = 0;
+            int subtotalHrgJual = 0;
             if(hrgJual.length() != 0) {
                 if(jumlah > 0) {
-                    subtotal = Integer.valueOf(hrgJual) * jumlah;    
+                    subtotalHrgBeli = Integer.valueOf(hrgBeli) * jumlah;
+                    subtotalHrgJual = Integer.valueOf(hrgJual) * jumlah;    
                 } else if(jumlah == 0) {
-                    subtotal = Integer.valueOf(hrgJual) + jumlah;         
+                    subtotalHrgBeli = Integer.valueOf(hrgBeli) + jumlah;
+                    subtotalHrgJual = Integer.valueOf(hrgJual) + jumlah;         
                 } else {
-                    subtotal = Integer.valueOf(hrgJual) + 0;             
+                    subtotalHrgBeli = Integer.valueOf(hrgBeli) + 0;
+                    subtotalHrgJual = Integer.valueOf(hrgJual) + 0;             
                 }
             }
             lbNotif.setVisible(false);
-            lbSubtotal.setText(String.valueOf(subtotal));    
+            lbSubtotal.setText(String.valueOf(subtotalHrgJual));
+            lbSubtotalHrgBeli.setText(String.valueOf(subtotalHrgBeli));
         }
     }//GEN-LAST:event_spnJumlahStateChanged
 
@@ -1280,6 +1345,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cbx_jenisPembayaran;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel16;
@@ -1298,8 +1364,9 @@ public class FiturPenjualan extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JLabel label;
     private javax.swing.JLabel label1;
+    private javax.swing.JLabel lbHrgBeli;
     private javax.swing.JLabel lbHrgJual;
-    private javax.swing.JLabel lbKembalian;
+    private javax.swing.JLabel lbKembali;
     private javax.swing.JLabel lbKodeBrg;
     private javax.swing.JLabel lbNamaBrg;
     private javax.swing.JTextField lbNoBarcode;
@@ -1308,6 +1375,7 @@ public class FiturPenjualan extends javax.swing.JPanel {
     private javax.swing.JLabel lbSatuan;
     private javax.swing.JLabel lbStok;
     private javax.swing.JLabel lbSubtotal;
+    private javax.swing.JLabel lbSubtotalHrgBeli;
     private javax.swing.JLabel lbTgl;
     private javax.swing.JLabel lbTotal;
     private swing.Pagination pagination;

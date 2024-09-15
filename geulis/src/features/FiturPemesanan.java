@@ -232,13 +232,14 @@ public class FiturPemesanan extends javax.swing.JPanel {
     private void tambahDataSementara() {
         String kodeBrg = lbKodeBrg.getText();
         String namaBrg = lbNamaBrg.getText();
-        String satuan = (String) cbxSatuan.getSelectedItem();
+        String satuan = lbSatuan.getText();
         int hargaSkrg = Integer.valueOf(txtHrgBeliSkrg.getText());
         int hargaSblm = Integer.valueOf(lbHrgBeliSblm.getText());
         int jumlah = (int) spnJumlah.getValue();
         int subtotal = Integer.valueOf(lbSubtotal.getText());
         tabmodel2.addRow(new Object[]{kodeBrg, namaBrg, hargaSblm, hargaSkrg, satuan, jumlah, subtotal});
         DecimalFormat df = new DecimalFormat("#,##0.##");
+        
         lbTotal.setText(df.format(total()));
     }
        
@@ -403,8 +404,7 @@ public class FiturPemesanan extends javax.swing.JPanel {
     private void clearFieldBrg() {
         lbKodeBrg.setText(null);
         lbNamaBrg.setText(null);
-        cbxSatuan.setSelectedIndex(1);
-        cbxSatuan.setEnabled(true);
+        lbSatuan.setText(null);
         txtHrgBeliSkrg.setText(null);
         lbHrgBeliSblm.setText(null);
         spnJumlah.setValue((int) 0);
@@ -467,11 +467,11 @@ public class FiturPemesanan extends javax.swing.JPanel {
         lbSubtotal = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         btnPilihBrg = new swing.Button();
-        cbxSatuan = new javax.swing.JComboBox<>();
         txtHrgBeliSkrg = new javax.swing.JTextField();
         lbKodeBrg = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         lbHrgBeliSblm = new javax.swing.JLabel();
+        lbSatuan = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         label1 = new javax.swing.JLabel();
         btnBatal = new swing.Button();
@@ -949,10 +949,6 @@ public class FiturPemesanan extends javax.swing.JPanel {
             }
         });
 
-        cbxSatuan.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        cbxSatuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Paket", "Pcs" }));
-        cbxSatuan.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
-
         txtHrgBeliSkrg.setBackground(new java.awt.Color(255, 255, 255));
         txtHrgBeliSkrg.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         txtHrgBeliSkrg.setForeground(new java.awt.Color(0, 0, 0));
@@ -976,6 +972,9 @@ public class FiturPemesanan extends javax.swing.JPanel {
 
         lbHrgBeliSblm.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         lbHrgBeliSblm.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
+
+        lbSatuan.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
+        lbSatuan.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
 
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
@@ -1014,26 +1013,30 @@ public class FiturPemesanan extends javax.swing.JPanel {
                             .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
                         .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbSubtotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(panel2Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
                                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(spnJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbxSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtHrgBeliSkrg)))
+                                    .addComponent(lbSubtotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(panel2Layout.createSequentialGroup()
+                                        .addComponent(spnJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(txtHrgBeliSkrg)))
+                            .addGroup(panel2Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(lbSatuan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(panel2Layout.createSequentialGroup()
                         .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
-                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
-                                .addComponent(lbKodeBrg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel2Layout.createSequentialGroup()
+                                .addComponent(lbKodeBrg, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnPilihBrg, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lbNamaBrg, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnPilihBrg, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(lbNamaBrg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(lbHrgBeliSblm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -1072,9 +1075,9 @@ public class FiturPemesanan extends javax.swing.JPanel {
                     .addComponent(lbNamaBrg, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbxSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbSatuan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1181,8 +1184,7 @@ public class FiturPemesanan extends javax.swing.JPanel {
         String dateNow = sdf.format(date);
         lbNoPemesanan.setText(servicePemesanan.createNo());
         lbTgl.setText(dateNow);
-        cbxSatuan.setEnabled(true);
-        cbxSatuan.setSelectedIndex(1);
+        lbSatuan.setText("");
         lbHrgBeliSblm.setVisible(false);
     }//GEN-LAST:event_btnTambahActionPerformed
 
@@ -1221,8 +1223,7 @@ public class FiturPemesanan extends javax.swing.JPanel {
         pilihBarang.setVisible(true);
         lbKodeBrg.setText(pilihBarang.modelBarang.getKode_Barang());
         lbNamaBrg.setText(pilihBarang.modelBarang.getNama_Barang());
-        cbxSatuan.setSelectedItem((String) pilihBarang.modelBarang.getSatuan());
-        cbxSatuan.setEnabled(false);
+        lbSatuan.setText(pilihBarang.modelBarang.getSatuan());
         txtHrgBeliSkrg.setText(String.valueOf(pilihBarang.modelBarang.getHarga_Beli()));
         lbHrgBeliSblm.setText(String.valueOf(pilihBarang.modelBarang.getHarga_Beli()));
         spnJumlah.setValue((int) 1);
@@ -1344,7 +1345,6 @@ public class FiturPemesanan extends javax.swing.JPanel {
     private swing.Button btnSimpan;
     private swing.Button btnTambah;
     private swing.Button btnTambahSementara;
-    private javax.swing.JComboBox<String> cbxSatuan;
     private javax.swing.JComboBox<String> cbx_jenisPembayaran;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1377,6 +1377,7 @@ public class FiturPemesanan extends javax.swing.JPanel {
     private javax.swing.JLabel lbNamaBrg;
     private javax.swing.JLabel lbNamaSupplier;
     private javax.swing.JLabel lbNoPemesanan;
+    private javax.swing.JLabel lbSatuan;
     private javax.swing.JLabel lbSubtotal;
     private javax.swing.JLabel lbTgl;
     private javax.swing.JLabel lbTotal;

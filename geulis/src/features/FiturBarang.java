@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Random;
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -69,7 +70,7 @@ public class FiturBarang extends javax.swing.JPanel {
         serviceBarang.loadData(tabmodel);
         cariData();
         actionRenderTable();
-        
+//        tampilSatuan();
     }
         
 //  Update,Delete,Detail
@@ -80,7 +81,6 @@ public class FiturBarang extends javax.swing.JPanel {
             changePanel(panelTambah);
             cbx_jenisBarang.setVisible(false);
             btnHapusJenis.setVisible(false);
-            t_noBarcode.setEnabled(false);
             t_kodeBarang.setEnabled(false);
             setShowFieldAddJenis(false, false, false);
             btnSimpan.setText("PERBARUI");
@@ -89,10 +89,12 @@ public class FiturBarang extends javax.swing.JPanel {
             if(nomorBarcode.equals("")) {
                 nomorBarcode = "Klik disini untuk scan nomor barcode barang (Opsional)";
                 t_noBarcode.setFont(new Font("sansserif", Font.ITALIC, 20));
-                t_noBarcode.setForeground(new Color(185,185,185));                
+                t_noBarcode.setForeground(new Color(185,185,185));
+                t_noBarcode.setEnabled(true);
             } else {
                 t_noBarcode.setFont(new Font("sansserif", 0, 20));
                 t_noBarcode.setForeground(new Color(0,0,0));
+                t_noBarcode.setEnabled(false);
             }
             String kodeJenis = (String) table.getValueAt(row, 2);
             String namaBarang = (String) table.getValueAt(row, 4);
@@ -105,7 +107,17 @@ public class FiturBarang extends javax.swing.JPanel {
             t_noBarcode.setText(nomorBarcode);
             lbKodeJenis.setText(kodeJenis);
             t_namaBarang.setText(namaBarang);
-            cbx_satuan.setSelectedItem(satuan);
+            if(setShowFieldSatuan(satuan)) {
+               cbx_satuan.setSelectedItem(satuan);
+               cbx_satuan.setVisible(true);
+               t_satuan.setVisible(false);
+            } else {
+               t_satuan.setText(satuan);
+               cbx_satuan.setVisible(false);
+               t_satuan.setVisible(true);
+               t_satuan.setFont(new Font("sansserif", 0, 20));
+               t_satuan.setForeground(new Color(0,0,0));
+            }
             t_hargaBeli.setText(String.valueOf(hargaBeli));
             lbHrgBeliSblm.setText(String.valueOf(hargaBeli));
             t_hargaJual.setText(String.valueOf(hargaJual));
@@ -124,6 +136,17 @@ public class FiturBarang extends javax.swing.JPanel {
     };        
         table.getColumnModel().getColumn(9).setCellRenderer(new TableCellActionRender(true, true, false));
         table.getColumnModel().getColumn(9).setCellEditor(new TableCellEditor(action, true, true, false));
+    }
+    
+    private boolean setShowFieldSatuan(String satuan) {
+        for(int a = 0; a < cbx_satuan.getItemCount(); a++) {
+            String jenisSatuan = cbx_satuan.getItemAt(a);
+            if(jenisSatuan.equals(satuan)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**
@@ -176,6 +199,7 @@ public class FiturBarang extends javax.swing.JPanel {
         lbHrgBeliSblm = new javax.swing.JLabel();
         lbHrgJualSebelum = new javax.swing.JLabel();
         btnHapusJenis = new swing.Button();
+        t_satuan = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         label1 = new javax.swing.JLabel();
 
@@ -469,8 +493,13 @@ public class FiturBarang extends javax.swing.JPanel {
         t_namaBarang.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
 
         cbx_satuan.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
-        cbx_satuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pcs", "Paket" }));
+        cbx_satuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pcs", "Gram", "Butir", "Kaleng", "Isi Sendiri" }));
         cbx_satuan.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
+        cbx_satuan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbx_satuanActionPerformed(evt);
+            }
+        });
 
         spn_stok.setFont(new java.awt.Font("SansSerif", 0, 20)); // NOI18N
         spn_stok.setModel(new javax.swing.SpinnerNumberModel());
@@ -539,6 +568,18 @@ public class FiturBarang extends javax.swing.JPanel {
             }
         });
 
+        t_satuan.setBackground(new java.awt.Color(255, 255, 255));
+        t_satuan.setFont(new java.awt.Font("Dialog", 0, 20)); // NOI18N
+        t_satuan.setForeground(new java.awt.Color(0, 0, 0));
+        t_satuan.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        t_satuan.setText("Isi Satuan Sendiri");
+        t_satuan.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(185, 185, 185)));
+        t_satuan.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                t_satuanFocusGained(evt);
+            }
+        });
+
         javax.swing.GroupLayout panel2Layout = new javax.swing.GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
         panel2Layout.setHorizontalGroup(
@@ -562,16 +603,22 @@ public class FiturBarang extends javax.swing.JPanel {
                     .addComponent(t_namaBarang)
                     .addGroup(panel2Layout.createSequentialGroup()
                         .addComponent(spn_stok, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel2Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panel2Layout.createSequentialGroup()
+                                .addComponent(lbHrgBeliSblm)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbHrgJualSebelum)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(panel2Layout.createSequentialGroup()
                         .addComponent(cbx_satuan, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 344, Short.MAX_VALUE)
-                        .addComponent(lbHrgBeliSblm)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbHrgJualSebelum))
+                        .addComponent(t_satuan))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
                         .addComponent(t_tambahJenisBarang)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -579,7 +626,7 @@ public class FiturBarang extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBatalJenis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel2Layout.createSequentialGroup()
-                        .addComponent(t_noBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(t_noBarcode, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -614,13 +661,10 @@ public class FiturBarang extends javax.swing.JPanel {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(t_namaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cbx_satuan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lbHrgBeliSblm)
-                        .addComponent(lbHrgJualSebelum)))
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(cbx_satuan, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(t_satuan, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -630,9 +674,11 @@ public class FiturBarang extends javax.swing.JPanel {
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(t_hargaJual, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spn_stok, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(spn_stok, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+                    .addComponent(lbHrgBeliSblm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbHrgJualSebelum, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -687,7 +733,7 @@ public class FiturBarang extends javax.swing.JPanel {
                 .addGroup(panelTambahLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         add(panelTambah, "card2");
@@ -701,6 +747,11 @@ public class FiturBarang extends javax.swing.JPanel {
         t_noBarcode.setForeground(new Color(185,185,185));
         t_noBarcode.setEnabled(true);
         cbx_jenisBarang.setVisible(true);
+        cbx_satuan.setVisible(true);
+        cbx_satuan.setSelectedIndex(0);
+        t_satuan.setVisible(false);
+        t_satuan.setFont(new Font("sansserif", Font.ITALIC, 20));
+        t_satuan.setForeground(new Color(185,185,185));
         btnHapusJenis.setVisible(true);
         t_kodeBarang.setEnabled(false);
         tampilJenisBarang();
@@ -814,6 +865,20 @@ public class FiturBarang extends javax.swing.JPanel {
         JOptionPane.showMessageDialog(parent, "Fitur ini masih belum bisa digunakan");
     }//GEN-LAST:event_btnPilihActionPerformed
 
+    private void t_satuanFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_t_satuanFocusGained
+        t_satuan.setText("");
+        t_satuan.setFont(new Font("sansserif", 0, 20));
+        t_satuan.setForeground(new Color(0,0,0));
+    }//GEN-LAST:event_t_satuanFocusGained
+
+    private void cbx_satuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_satuanActionPerformed
+        if(cbx_satuan.getSelectedIndex() == 4) {
+            t_satuan.setText("Isi Satuan Sendiri");
+            t_satuan.setVisible(true);
+            cbx_satuan.setVisible(false);
+        }
+    }//GEN-LAST:event_cbx_satuanActionPerformed
+
     private void changePanel(JPanel panel) {
         removeAll();
         add(panel);
@@ -871,6 +936,7 @@ public class FiturBarang extends javax.swing.JPanel {
     private javax.swing.JTextField t_kodeBarang;
     private javax.swing.JTextField t_namaBarang;
     private javax.swing.JTextField t_noBarcode;
+    private javax.swing.JTextField t_satuan;
     private javax.swing.JTextField t_tambahJenisBarang;
     private javax.swing.JTable table;
     private javax.swing.JTextField txtCari;
@@ -886,6 +952,10 @@ public class FiturBarang extends javax.swing.JPanel {
         String kodeJenis = lbKodeJenis.getText();
         String namaBarang = t_namaBarang.getText();
         String satuan = (String) cbx_satuan.getSelectedItem();
+        if(t_satuan.getText().length() > 0 && !t_satuan.getText().equals("Isi Satuan Sendiri")) {
+            satuan = t_satuan.getText();
+        }
+        
         int hargaBeli = Integer.parseInt(t_hargaBeli.getText());
         int hargaJual = Integer.parseInt(t_hargaJual.getText());
         int stok = (int) spn_stok.getValue();
@@ -910,6 +980,9 @@ public class FiturBarang extends javax.swing.JPanel {
         String kodeJenis = lbKodeJenis.getText();
         String namaBarang = t_namaBarang.getText();
         String satuan = (String) cbx_satuan.getSelectedItem();
+        if(t_satuan.getText().length() > 0 && !t_satuan.getText().equals("Isi Satuan Sendiri")) {
+            satuan = t_satuan.getText();
+        }
         int hargaBeli = Integer.parseInt(t_hargaBeli.getText());
         int hargaJual = Integer.parseInt(t_hargaJual.getText());
         int stok = (int) spn_stok.getValue();
@@ -1028,6 +1101,13 @@ public class FiturBarang extends javax.swing.JPanel {
             cbx_jenisBarang.removeItem(cbx_jenisBarang.getSelectedItem());
             cbx_jenisBarang.setSelectedItem("Tambah Jenis Barang");
             t_kodeBarang.setText("");
+        }
+    }
+    
+    private void tampilSatuan() {
+        String[] jenisSatuan = {"Pcs","Gram","Butir","Kaleng"};
+        for(String satuan : jenisSatuan) {
+            cbx_satuan.addItem(satuan);
         }
     }
         

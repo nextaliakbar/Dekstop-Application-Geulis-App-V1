@@ -106,17 +106,18 @@ public class ServicePenjualan {
     }
     
     public void addData(JFrame parent, ModelPenjualan modelPenjualan) {
-        String query = "INSERT INTO penjualan (No_Penjualan, Tanggal, Total_Penjualan, Bayar, Kembali, Jenis_Pembayaran, ID_Pengguna) "
-                + "VALUES (?,?,?,?,?,?,?)";
+        String query = "INSERT INTO penjualan (No_Penjualan, Tanggal, Total_Penjualan, Total_Keuntungan, Bayar, Kembali, Jenis_Pembayaran, ID_Pengguna) "
+                + "VALUES (?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             pst.setString(1, modelPenjualan.getNoPenjualan());
             pst.setString(2, modelPenjualan.getTglPenjualan());
             pst.setString(3, modelPenjualan.getTotalPenjualan());
-            pst.setDouble(4, modelPenjualan.getBayar());
-            pst.setDouble(5, modelPenjualan.getKembali());
-            pst.setString(6, modelPenjualan.getJenisPembayaran());
-            pst.setString(7, modelPenjualan.getModelPengguna().getIdpengguna());
+            pst.setInt(4, modelPenjualan.getTotalKeuntungan());
+            pst.setDouble(5, modelPenjualan.getBayar());
+            pst.setDouble(6, modelPenjualan.getKembali());
+            pst.setString(7, modelPenjualan.getJenisPembayaran());
+            pst.setString(8, modelPenjualan.getModelPengguna().getIdpengguna());
             pst.executeUpdate();
             pst.close();
             JOptionPane.showMessageDialog(parent, "Berhasil");
@@ -150,7 +151,7 @@ public class ServicePenjualan {
     
     public List<ModelBarang> setFieldBrg(ModelBarang modelBarang) {
         List<ModelBarang> listDetail = new ArrayList<>();
-        String query = "SELECT Kode_Barang, Nama_Barang, Satuan, Harga_Jual, Stok FROM barang WHERE Nomor_Barcode='"+modelBarang.getNomor_Barcode()+"' ";
+        String query = "SELECT Kode_Barang, Nama_Barang, Satuan, Harga_Beli, Harga_Jual, Stok FROM barang WHERE Nomor_Barcode='"+modelBarang.getNomor_Barcode()+"' ";
         try {
             PreparedStatement pst = connection.prepareStatement(query);
             ResultSet rst = pst.executeQuery();
@@ -159,6 +160,7 @@ public class ServicePenjualan {
                 barang.setKode_Barang(rst.getString("Kode_Barang"));
                 barang.setNama_Barang(rst.getString("Nama_Barang"));
                 barang.setSatuan(rst.getString("Satuan"));
+                barang.setHarga_Beli(rst.getInt("Harga_Beli"));
                 barang.setHarga_Jual(rst.getInt("Harga_Jual"));
                 barang.setStok(rst.getInt("Stok"));
                 listDetail.add(barang);

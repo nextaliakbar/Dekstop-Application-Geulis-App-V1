@@ -124,12 +124,12 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             deskripsi = null;
         }
         double bayar = Double.parseDouble(txtBayar.getText());
-        double kembalian = 0;
+        double kembali = 0;
         String jenisPembayaran = (String) cbx_jenisPembayaran.getSelectedItem();
-        String strKembalian = lbKembalian.getText();
+        String strKembali = lbKembali.getText();
         try {
-            Number formatNumber = df.parse(strKembalian);
-            kembalian = Double.parseDouble(formatNumber.toString());
+            Number formatNumber = df.parse(strKembali);
+            kembali = Double.parseDouble(formatNumber.toString());
         } catch(Exception ex) {
             ex.printStackTrace();
         }
@@ -142,7 +142,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         
         ModelPemeriksaan pemeriksaan = new ModelPemeriksaan(
         noPemeriksaan, modelReservasi, tgl, deskripsi, 
-        String.valueOf(total()), bayar, kembalian, jenisPembayaran, pasien, 
+        String.valueOf(total()), bayar, kembali, jenisPembayaran, pasien, 
         karyawan, modelPengguna);
         servicPemeriksaan.addData(parent, pemeriksaan);
         
@@ -240,7 +240,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         modelPemeriksaan.setTotal((String) table.getValueAt(row, 6));
         modelPemeriksaan.setDeskripsi((String) table.getValueAt(row, 7));
         modelPemeriksaan.setBayar((double) table.getValueAt(row, 8));
-        modelPemeriksaan.setKembalian((double) table.getValueAt(row, 9));
+        modelPemeriksaan.setKembali((double) table.getValueAt(row, 9));
         modelPemeriksaan.setJenisPembayaran((String) table.getValueAt(row, 10));
         modelPengguna.setIdpengguna((String) table.getValueAt(row, 11));
         modelPengguna.setNama((String) table.getValueAt(row, 12));
@@ -286,10 +286,10 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             String total = lbTotal.getText();
             String totalPotongan = String.valueOf(totalPotongan());
             String bayar = df.format(Double.parseDouble(txtBayar.getText()));
-            String kembalian = lbKembalian.getText();
+            String kembali = lbKembali.getText();
             String jenisPembayaran = (String) cbx_jenisPembayaran.getSelectedItem();
             ParamPemeriksaan parameter = new ParamPemeriksaan(noPemeriksaan, tglPemeriksaan, jamPemeriksaan, pasien, karyawan, admin, 
-            total, totalPotongan, bayar, kembalian, jenisPembayaran, fields);
+            total, totalPotongan, bayar, kembali, jenisPembayaran, fields);
             Report.getInstance().printReportPemeriksaan(parameter);
 
         } catch(Exception ex) {
@@ -339,7 +339,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
                 tabmodel2.removeRow(row);
                 lbTotal.setText(df.format(total()));
                 double kembali = Double.parseDouble(txtBayar.getText()) - total();
-                lbKembalian.setText(df.format(kembali));
+                lbKembali.setText(df.format(kembali));
             }
 
             @Override
@@ -459,7 +459,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         jLabel17 = new javax.swing.JLabel();
         txtBayar = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
-        lbKembalian = new javax.swing.JLabel();
+        lbKembali = new javax.swing.JLabel();
         cbx_jenisPembayaran = new javax.swing.JComboBox<>();
         jLabel19 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -518,7 +518,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
 
             },
             new String [] {
-                "No Pemeriksaan", "No Reservasi", "ID Pasien", "Nama Pasien", "ID Karyawan", "Tanggal Pemeriksaan", "Total", "Deskripsi", "Bayar", "Kembalian", "Jenis Pembayaran", "ID Pengguna", "Nama Pengguna", "        Detail"
+                "No Pemeriksaan", "No Reservasi", "ID Pasien", "Nama Pasien", "ID Karyawan", "Tanggal Pemeriksaan", "Total", "Deskripsi", "Bayar", "Kembali", "Jenis Pembayaran", "ID Pengguna", "Nama Pengguna", "        Detail"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -785,21 +785,21 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         jPanel6.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(185, 185, 185)));
         jPanel6.setOpaque(false);
 
-        lbKembalian.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        lbKembalian.setForeground(new java.awt.Color(0, 0, 0));
-        lbKembalian.setText("0");
+        lbKembali.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        lbKembali.setForeground(new java.awt.Color(0, 0, 0));
+        lbKembali.setText("0");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(lbKembalian, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbKembali, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbKembalian, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+            .addComponent(lbKembali, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
         cbx_jenisPembayaran.setBackground(new java.awt.Color(255, 255, 255));
@@ -1286,11 +1286,11 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
             tambahDataSementara();
             clearFieldTindakan();
             String bayar = txtBayar.getText();
-            double kembalian = 0;
+            double kembali = 0;
             if(bayar.length() > 0) {
-                kembalian = Double.parseDouble(bayar) - total();
+                kembali = Double.parseDouble(bayar) - total();
             }
-            lbKembalian.setText(df.format(kembalian));    
+            lbKembali.setText(df.format(kembali));    
         }
     }//GEN-LAST:event_btnTambahSementaraActionPerformed
 
@@ -1381,12 +1381,12 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         String strBayar = txtBayar.getText();
         double total = (double) total();
         double bayar = 0;
-        double kembalian = 0;
+        double kembali = 0;
         if(strBayar.length() > 0) {
             bayar = Double.parseDouble(strBayar);
         }
-        kembalian = bayar - total;
-        lbKembalian.setText(df.format(kembalian));        
+        kembali = bayar - total;
+        lbKembali.setText(df.format(kembali));        
     }//GEN-LAST:event_txtBayarKeyReleased
 
     private void txtBayarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBayarKeyTyped
@@ -1420,7 +1420,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
         lbNamaKaryawan.setText(null);
         lbTotal.setText(String.valueOf(0));
         txtBayar.setText("");
-        lbKembalian.setText("0");
+        lbKembali.setText("0");
         tabmodel2.setRowCount(0);
         clearFieldTindakan();
     }
@@ -1544,7 +1544,7 @@ public class FiturPemeriksaan extends javax.swing.JPanel {
     private javax.swing.JLabel lbIdKaryawan;
     private javax.swing.JLabel lbIdPasien1;
     private javax.swing.JLabel lbIdPasien2;
-    private javax.swing.JLabel lbKembalian;
+    private javax.swing.JLabel lbKembali;
     private javax.swing.JLabel lbKodeTindakan;
     private javax.swing.JLabel lbNamaKaryawan;
     private javax.swing.JLabel lbNamaPasien;

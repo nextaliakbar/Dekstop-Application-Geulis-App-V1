@@ -25,6 +25,7 @@ import model.ModelPengguna;
  */
 public class ServiceLogin {
     private Connection connection;
+    
     public ServiceLogin() {
         connection = Koneksi.getConnection();
     }

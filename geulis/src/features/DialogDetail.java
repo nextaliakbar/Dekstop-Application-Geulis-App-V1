@@ -97,7 +97,7 @@ public class DialogDetail extends java.awt.Dialog {
         String tgl = detailPemeriksaan.getModelPemeriksaan().getTglPemeriksaan();
         String total = detailPemeriksaan.getModelPemeriksaan().getTotal();
         double bayar = detailPemeriksaan.getModelPemeriksaan().getBayar();
-        double kembalian = detailPemeriksaan.getModelPemeriksaan().getKembalian();
+        double kembalian = detailPemeriksaan.getModelPemeriksaan().getKembali();
         String jenisPembayaran = detailPemeriksaan.getModelPemeriksaan().getJenisPembayaran();
         String deskripsi = detailPemeriksaan.getModelPemeriksaan().getDeskripsi();
         String idPengguna = detailPemeriksaan.getModelPemeriksaan().getModelPengguna().getIdpengguna();

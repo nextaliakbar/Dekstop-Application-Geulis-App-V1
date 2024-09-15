@@ -47,7 +47,7 @@ public class ServiceLaporan {
     private final LocalDate date = LocalDate.now();
     private final DecimalFormat df = new DecimalFormat();
     private final String queryPemeriksaan = "SELECT pmn.No_Pemeriksaan,pmn.No_Reservasi, pmn.Tanggal_Pemeriksaan, "
-        + "pmn.Deskripsi, pmn.Total, pmn.Bayar, pmn.Kembalian, pmn.Jenis_Pembayaran, pmn.ID_Pasien, "
+        + "pmn.Deskripsi, pmn.Total, pmn.Bayar, pmn.Kembali, pmn.Jenis_Pembayaran, pmn.ID_Pasien, "
         + "psn.Nama, pmn.ID_Karyawan, krn.Nama, pmn.ID_Pengguna, pgn.Nama FROM pemeriksaan pmn "
         + "INNER JOIN pasien psn ON pmn.ID_Pasien=psn.ID_Pasien "
         + "INNER JOIN karyawan krn ON pmn.ID_Karyawan=krn.ID_Karyawan "
@@ -95,14 +95,14 @@ public class ServiceLaporan {
         int total = rst.getInt("Total");
         String deskripsi = rst.getString("Deskripsi");
         double bayar = rst.getDouble("Bayar");
-        double kembalian = rst.getDouble("Kembalian");
+        double kembali = rst.getDouble("Kembali");
         String jenisPembayaran = rst.getString("Jenis_Pembayaran");
         String idPengguna = rst.getString("ID_Pengguna");
         String namaPengguna = rst.getString("pgn.Nama");
         modelPengguna.setIdpengguna(idPengguna);
         modelPengguna.setNama(namaPengguna);
         tabmodel.addRow(new ModelPemeriksaan(noPemeriksaan, modelReservasi, tgl, 
-        deskripsi, df.format(total), bayar, kembalian, jenisPembayaran, modelPasien, modelKaryawan, modelPengguna).toRowTable());
+        deskripsi, df.format(total), bayar, kembali, jenisPembayaran, modelPasien, modelKaryawan, modelPengguna).toRowTable());
     }
     
 //  Penjualan
@@ -272,7 +272,7 @@ public class ServiceLaporan {
                 fields.add(new FieldsLaporanPemeriksaan(a+1, pemeriksaan.getNoPemeriksaan(), pemeriksaan.getModelReservasi().getNoReservasi(), 
                 pemeriksaan.getModelPasien().getNama(), pemeriksaan.getModelKaryawan().getIdKaryawan(), pemeriksaan.getTglPemeriksaan(), 
                 pemeriksaan.getTotal()+" / " +pemeriksaan.getJenisPembayaran(), df.format(pemeriksaan.getBayar()), 
-                df.format(pemeriksaan.getKembalian()), detail));
+                df.format(pemeriksaan.getKembali()), detail));
             }
             pst.close();
             ParamLaporan paramater = new ParamLaporan();

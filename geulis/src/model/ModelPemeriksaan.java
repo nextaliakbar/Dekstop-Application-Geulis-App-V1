@@ -18,7 +18,7 @@ public class ModelPemeriksaan {
 
     public ModelPemeriksaan(
     String noPemeriksaan, ModelReservasi modelReservasi, String tglPemeriksaan, String deskripsi, 
-    String total, double bayar, double kembalian, String jenisPembayaran, ModelPasien modelPasien, 
+    String total, double bayar, double kembali, String jenisPembayaran, ModelPasien modelPasien, 
     ModelKaryawan modelKaryawan, ModelPengguna modelPengguna
     ) {
         this.noPemeriksaan = noPemeriksaan;
@@ -27,7 +27,7 @@ public class ModelPemeriksaan {
         this.deskripsi = deskripsi;
         this.total = total;
         this.bayar = bayar;
-        this.kembalian = kembalian;
+        this.kembali = kembali;
         this.jenisPembayaran = jenisPembayaran;
         this.modelPasien = modelPasien;
         this.modelKaryawan = modelKaryawan;
@@ -39,7 +39,7 @@ public class ModelPemeriksaan {
     private String deskripsi;
     private String total;
     private double bayar;
-    private double kembalian;
+    private double kembali;
     private String jenisPembayaran;
     private ModelPasien modelPasien;
     private ModelKaryawan modelKaryawan;
@@ -86,12 +86,12 @@ public class ModelPemeriksaan {
         this.bayar = bayar;
     }
 
-    public double getKembalian() {
-        return kembalian;
+    public double getKembali() {
+        return kembali;
     }
 
-    public void setKembalian(double kembalian) {
-        this.kembalian = kembalian;
+    public void setKembali(double kembali) {
+        this.kembali = kembali;
     }
 
     public String getJenisPembayaran() {
@@ -137,6 +137,6 @@ public class ModelPemeriksaan {
     public Object[] toRowTable() {
         return new Object[]{this, noPemeriksaan, modelReservasi.getNoReservasi(), modelPasien.getIdPasien(),
         modelPasien.getNama(), modelKaryawan.getIdKaryawan(), tglPemeriksaan, total, deskripsi, bayar, 
-        kembalian, jenisPembayaran, modelPengguna.getIdpengguna(), modelPengguna.getNama()};
+        kembali, jenisPembayaran, modelPengguna.getIdpengguna(), modelPengguna.getNama()};
     }
 }

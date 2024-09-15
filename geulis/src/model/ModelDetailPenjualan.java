@@ -10,11 +10,12 @@ package model;
  */
 public class ModelDetailPenjualan {
 
-    public ModelDetailPenjualan(ModelPenjualan modelPenjualan, ModelBarang modelBarang, int jumlah, int subtotal) {
+    public ModelDetailPenjualan(ModelPenjualan modelPenjualan, ModelBarang modelBarang, int jumlah, int subtotal, int subtotalHrgBeli) {
         this.modelPenjualan = modelPenjualan;
         this.modelBarang = modelBarang;
         this.jumlah = jumlah;
         this.subtotal = subtotal;
+        this.subtotalHrgBeli = subtotalHrgBeli;
     }
 
     public ModelDetailPenjualan() {
@@ -25,6 +26,7 @@ public class ModelDetailPenjualan {
     private ModelBarang modelBarang;
     private int jumlah;
     private int subtotal;
+    private int subtotalHrgBeli;
 
     public ModelPenjualan getModelPenjualan() {
         return modelPenjualan;
@@ -57,9 +59,17 @@ public class ModelDetailPenjualan {
     public void setSubtotal(int subtotal) {
         this.subtotal = subtotal;
     }
+
+    public int getSubtotalHrgBeli() {
+        return subtotalHrgBeli;
+    }
+
+    public void setSubtotalHrgBeli(int subtotalHrgBeli) {
+        this.subtotalHrgBeli = subtotalHrgBeli;
+    }
     
     public Object[] toRowTable() {
         return new Object[]{this, modelBarang.getKode_Barang(), modelBarang.getNama_Barang(), 
-        modelBarang.getSatuan(), modelBarang.getHarga_Jual(), jumlah, subtotal};
+        modelBarang.getSatuan(), modelBarang.getHarga_Beli(), modelBarang.getHarga_Jual(), jumlah, subtotal, subtotalHrgBeli};
     }
 }

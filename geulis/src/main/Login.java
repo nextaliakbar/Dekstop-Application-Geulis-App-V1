@@ -16,6 +16,7 @@ import model.ModelPengguna;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
+import service.Koneksi;
 import service.ServiceLogin;
 
 /**
@@ -32,11 +33,15 @@ public class Login extends javax.swing.JFrame {
     private boolean login;
     private PanelVerifyCode panelVerify;
     private PanelLoading panelLoading;
-    private ServiceLogin serviceLogin = new ServiceLogin();
+    private Koneksi connoection;
+    private ServiceLogin serviceLogin;
     private JFrame parent;
     public Login() {
         initComponents();
         this.parent = this;
+        connoection = new Koneksi();
+        connoection.createDatabase();
+        serviceLogin = new ServiceLogin();
         setIconImage(new ImageIcon(getClass().getResource("/image/Logo-2.png")).getImage());
         initiation();
     }

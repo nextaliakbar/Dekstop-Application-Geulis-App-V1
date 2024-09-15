@@ -27,6 +27,7 @@ public class ModelPenjualan {
     private String noPenjualan;
     private String tglPenjualan;
     private String totalPenjualan;
+    private int totalKeuntungan;
     private double bayar;
     private double kembali;
     private String jenisPembayaran;
@@ -56,6 +57,14 @@ public class ModelPenjualan {
         this.totalPenjualan = totalPenjualan;
     }
 
+    public int getTotalKeuntungan() {
+        return totalKeuntungan;
+    }
+
+    public void setTotalKeuntungan(int totalKeuntungan) {
+        this.totalKeuntungan = totalKeuntungan;
+    }
+    
     public double getBayar() {
         return bayar;
     }

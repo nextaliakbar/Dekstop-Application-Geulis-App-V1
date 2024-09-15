@@ -167,7 +167,7 @@ public class FiturLaporan extends javax.swing.JPanel {
         modelPemeriksaan.setTotal((String) tablePemeriksaan.getValueAt(row, 7));
         modelPemeriksaan.setDeskripsi((String) tablePemeriksaan.getValueAt(row, 8));
         modelPemeriksaan.setBayar((double) tablePemeriksaan.getValueAt(row, 9));
-        modelPemeriksaan.setKembalian((double) tablePemeriksaan.getValueAt(row, 10));
+        modelPemeriksaan.setKembali((double) tablePemeriksaan.getValueAt(row, 10));
         modelPemeriksaan.setJenisPembayaran((String) tablePemeriksaan.getValueAt(row, 11));
         modelPengguna.setIdpengguna((String) tablePemeriksaan.getValueAt(row, 12));
         modelPengguna.setNama((String) tablePemeriksaan.getValueAt(row, 13));
@@ -932,22 +932,24 @@ public class FiturLaporan extends javax.swing.JPanel {
     }//GEN-LAST:event_cbxJenisLaporanActionPerformed
 
     private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
-        if(tabmodel.getRowCount() != 0 || model.getRowCount() != 0) {
-            switch (cbxJenisLaporan.getSelectedIndex()) {
-                case 0:
-                    serviceLaporan.printReportPemeriksaan(parent, tablePemeriksaan, txtTgl, lbTotal);
-                    break;
-                case 1:
-                    serviceLaporan.printReportPenjualan(parent, tablePenjualan, txtTgl, lbTotal);
-                    break;
-                case 2:
-                    serviceLaporan.printReportPemesanan(parent, tablePemesanan, txtTgl, lbTotal);
-                    break;
-                default:
-                    serviceLaporan.printReportPengeluaran(parent, tablePengeluaran, txtTgl, lbTotal);                    
-            }
-        } else {
+        
+        if(lbTotal.getText().equals("0")) {
             JOptionPane.showMessageDialog(parent, "Tidak Ada Transaksi Di Rentang\n Ini Silahkan Pilih Rentang Lain");
+            return;
+        }
+        
+        switch (cbxJenisLaporan.getSelectedIndex()) {
+            case 0:
+                serviceLaporan.printReportPemeriksaan(parent, tablePemeriksaan, txtTgl, lbTotal);
+                break;
+            case 1:
+                serviceLaporan.printReportPenjualan(parent, tablePenjualan, txtTgl, lbTotal);
+                break;
+            case 2:
+                serviceLaporan.printReportPemesanan(parent, tablePemesanan, txtTgl, lbTotal);
+                break;
+            default:
+                serviceLaporan.printReportPengeluaran(parent, tablePengeluaran, txtTgl, lbTotal);                    
         }
     }//GEN-LAST:event_btnPrintActionPerformed
     
